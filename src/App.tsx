@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { Col, Container, Row } from 'reactstrap';
+import { BrowserRouter as Router, Link, Routes, Route } from 'react-router-dom';
 
 import Eshopscz from './comp/Eshopscz';
 import Map from './comp/Map';
@@ -41,34 +42,44 @@ function App() {
       const listMerchants = merchSnapshot.docs.map((doc: any) => doc.data());
       setMerchants(listMerchants);
     }
-    getMerchants(db)
+    const getEschopscz = async (db: any) => {
+      const eshopsczSnapshot: any = await getDocs(collection(db, 'eshops'));
+      const listEshopscz = eshopsczSnapshot.docs.map((doc: any) => doc.data());
+      setEshopscz(listEshopscz);
+    }
+
+    getMerchants(db);
+    getEschopscz(db);
   }, []);
   return (
-    <div className="App">
-      <Container>
-        <Row>
-          <Col>
-            <div className="alignLeft">
-              <img height={64} width={200} src={LightningAcceptedHere} />
-              <span className="alignDown">&nbsp; PRAGUE, CZECH REPUBLIC</span>
-            </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <span className="alignLeft"><Menu /></span>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <div>
-              <Map pins={merchants} />
-            </div>
-          </Col>
-        </Row>
-        <Row><Col><p className="alignLeft">stepo 2022 (c)</p></Col></Row>
-      </Container>
-    </div>
+    <Router>
+      <div className="App">
+        <Container>
+          <Row>
+            <Col>
+              <div className="alignLeft">
+                <img height={64} width={200} src={LightningAcceptedHere} />
+                <span className="alignDown">&nbsp; PRAGUE, CZECH REPUBLIC</span>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <span className="alignLeft"><Menu /></span>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Routes>
+                <Route path="/" element={<Map pins={merchants} />} />
+                <Route path="/eshops" element={<Eshopscz list={eshopscz} />} />
+              </Routes>
+            </Col>
+          </Row>
+          <Row><Col><p className="alignLeft">stepo 2022 (c)</p></Col></Row>
+        </Container>
+      </div>
+    </Router>
   );
 }
 
