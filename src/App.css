@@ -43,6 +43,10 @@
   text-align: left;
 }
 
+.alignDown {
+  vertical-align: bottom;
+}
+
 .map-container {
   /*position: absolute;*/
   height: 80vh;

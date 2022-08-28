@@ -8,158 +8,38 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { Col, Container, Row } from 'reactstrap';
 
-import LN1 from './icons/light.png'
-import LN2 from './icons/yqFB5S01.svg'
 
 import Menu from './comp/Menu';
 import Map from './comp/Map'
+
+import LightningAcceptedHere from './icons/Lightning-accepted-here.png'
+
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 
 function App() {
   /*const Map = ReactMapGl({
     accessToken:
       'pk.eyJ1IjoicHduc3RlcG8iLCJhIjoiY2w3YWltaDBrMHNyMzNxbzhrbWR3cG54byJ9.VzxNCsvHqjjolwUOn1VAdQ'
   });*/
-  let geojson1 = [
-    {
-      "type": "Feature",
-      "properties": {
-        "Name": "Khoo Teck Puat Hospital",
-        "Status": "Operational"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [103.8384, 1.424034]
-      }
-    }
-    ,
-    {
-      "type": "Feature",
-      "properties": {
-        "Name": "Yishun Community Hospital",
-        "Status": "Operational"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [103.837783, 1.4237883]
-      }
-    }
-    ,
-    {
-      "type": "Feature",
-      "properties": {
-        "Name": "Woodlands Medical Centre",
-        "Status": "Operational"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [103.772335, 1.4463388]
-      }
-    }
-    ,
-    {
-      "type": "Feature",
-      "properties": {
-        "Name": "Singapore General Hospital",
-        "Status": "Operational"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [103.836171, 1.282769]
-      }
-    }
-    ,
-    {
-      "type": "Feature",
-      "properties": {
-        "Name": "KK Women's and Children's Hospital",
-        "Status": "Operational"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [103.846944, 1.310556]
-      }
-    }
-    ,
-    {
-      "type": "Feature",
-      "properties": {
-        "Name": "Tan Tock Seng Hospital",
-        "Status": "Operational"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [103.845944, 1.321611]
-      }
-    }
-    ,
-    {
-      "type": "Feature",
-      "properties": {
-        "Name": "Institute of Mental Health",
-        "Status": "Operational"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [103.881667, 1.378333]
-      }
-    }
-    ,
-    {
-      "type": "Feature",
-      "properties": {
-        "Name": "The Salvation Army Peacehaven Nursing Home",
-        "Status": "Operational"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [103.9616977, 1.3538414]
-      }
-    }
-    ,
-    {
-      "type": "Feature",
-      "properties": {
-        "Name": "National University Hospital",
-        "Status": "Operational"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [103.7828, 1.2951]
-      }
-    }];
-  let geojson2 = {
-    type: 'FeatureCollection',
-    features: [
-      {
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [-77.032, 38.913]
-        },
-        properties: {
-          title: 'Mapbox',
-          description: 'Washington, D.C.'
-        }
-      },
-      {
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [-122.414, 37.776]
-        },
-        properties: {
-          title: 'Mapbox',
-          description: 'San Francisco, California'
-        }
-      }
-    ]
+  const firebaseConfig = {
+    apiKey: "AIzaSyCYmaYxP4zOMdlL3mvLmJi7RdymWGz24Kw",
+    authDomain: "lightning-map-be.firebaseapp.com",
+    projectId: "lightning-map-be",
+    storageBucket: "lightning-map-be.appspot.com",
+    messagingSenderId: "922431666121",
+    appId: "1:922431666121:web:6ecc0cbe196857e7fb5a18",
+    measurementId: "G-4YDZGK2JYT"
   };
   return (
     <div className="App">
       <Container>
         <Row>
           <Col>
-            <span className="alignLeft"><h1>lightning_map</h1></span>
+            <div className="alignLeft">
+              <img height={64} width={200} src={LightningAcceptedHere} />
+              <span className="alignDown">&nbsp; PRAGUE, CZECH REPUBLIC</span>
+            </div>
           </Col>
         </Row>
         <Row>
