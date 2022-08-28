@@ -1,8 +1,9 @@
 import React, { useRef, useEffect } from "react";
-import mapboxgl from "mapbox-gl";
+import mapboxgl from 'mapbox-gl/dist/mapbox-gl';
 import '../App.css';
 //import geoJson from "../chicago-parks.json";
 
+//TODO https://github.com/visgl/react-map-gl/issues/1266
 import light16 from '../icons/light16.png'
 import light24 from '../icons/light24.png'
 import light32 from '../icons/light32.png'
@@ -14,6 +15,9 @@ import { collection, doc, getDoc, getDocs, getFirestore } from 'firebase/firesto
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoicHduc3RlcG8iLCJhIjoiY2w3YWltaDBrMHNyMzNxbzhrbWR3cG54byJ9.VzxNCsvHqjjolwUOn1VAdQ";
+
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
 const Map = (props: any) => {
   const mapContainerRef = useRef(null);
