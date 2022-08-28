@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom'
 import logo from './logo.svg';
 import './App.css';
@@ -16,21 +16,36 @@ import LightningAcceptedHere from './icons/Lightning-accepted-here.png'
 
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { collection, getDocs, getFirestore } from "firebase/firestore";
 
 function App() {
   /*const Map = ReactMapGl({
     accessToken:
       'pk.eyJ1IjoicHduc3RlcG8iLCJhIjoiY2w3YWltaDBrMHNyMzNxbzhrbWR3cG54byJ9.VzxNCsvHqjjolwUOn1VAdQ'
   });*/
-  const firebaseConfig = {
-    apiKey: "AIzaSyCYmaYxP4zOMdlL3mvLmJi7RdymWGz24Kw",
-    authDomain: "lightning-map-be.firebaseapp.com",
-    projectId: "lightning-map-be",
-    storageBucket: "lightning-map-be.appspot.com",
-    messagingSenderId: "922431666121",
-    appId: "1:922431666121:web:6ecc0cbe196857e7fb5a18",
-    measurementId: "G-4YDZGK2JYT"
-  };
+  const [merchants, setMerchants] = useState([]);
+  console.log("merchants");
+  console.log(merchants);
+  useEffect(() => {
+    const firebaseConfig = {
+      apiKey: "AIzaSyCYmaYxP4zOMdlL3mvLmJi7RdymWGz24Kw",
+      authDomain: "lightning-map-be.firebaseapp.com",
+      projectId: "lightning-map-be",
+      storageBucket: "lightning-map-be.appspot.com",
+      messagingSenderId: "922431666121",
+      appId: "1:922431666121:web:6ecc0cbe196857e7fb5a18",
+      measurementId: "G-4YDZGK2JYT"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const getMerchants = async (db: any) => {
+      const merchSnapshot: any = await getDocs(collection(db, 'merchants'));
+      const listMerchants = merchSnapshot.docs.map((doc: any) => doc.data());
+      setMerchants(listMerchants);
+    }
+    getMerchants(db)
+  }, []);
   return (
     <div className="App">
       <Container>
@@ -50,26 +65,7 @@ function App() {
         <Row>
           <Col>
             <div>
-              <Map />
-              {/*<Map
-                style="mapbox://styles/pwnstepo/cl7aiq2qd003g15nqmwwpyglr"
-                containerStyle={{
-                  height: '80vh',
-                  width: '80vw'
-                }}
-                center={[14.498, 50.065]}
-                zoom={[10.35]}
-              >
-                <Marker longitude={14.5} latitude={50} anchor="bottom">
-                  <img height={16} width={16} src={LN2} alt={"altprop"} />
-                </Marker>
-                <Marker longitude={"14.5"} latitude={"50"} >
-                  <img src={LN1} />
-                </Marker>
-                <Marker position={[51.505, -0.09]}>
-                  <span>ghjkl</span>
-                </Marker>
-              </Map>*/}
+              <Map pins={merchants} />
             </div>
           </Col>
         </Row>

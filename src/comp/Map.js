@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import mapboxgl from "mapbox-gl";
 import '../App.css';
-import geoJson from "../chicago-parks.json";
+//import geoJson from "../chicago-parks.json";
 
 import light16 from '../icons/light16.png'
 import light24 from '../icons/light24.png'
@@ -9,15 +9,18 @@ import light32 from '../icons/light32.png'
 import light64 from '../icons/light64.png'
 import light128 from '../icons/light128.png'
 
+import { initializeApp } from "firebase/app";
+import { collection, doc, getDoc, getDocs, getFirestore } from 'firebase/firestore';
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoicHduc3RlcG8iLCJhIjoiY2w3YWltaDBrMHNyMzNxbzhrbWR3cG54byJ9.VzxNCsvHqjjolwUOn1VAdQ";
 
-const Map = () => {
+const Map = (props: any) => {
   const mapContainerRef = useRef(null);
 
   // Initialize map when component mounts
   useEffect(() => {
+
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: "mapbox://styles/pwnstepo/cl7aiq2qd003g15nqmwwpyglr",
@@ -38,7 +41,8 @@ const Map = () => {
             type: "geojson",
             data: {
               type: "FeatureCollection",
-              features: geoJson.features,
+              //features: geoJson.features,
+              features: props.pins,
             },
           });
           // Add a symbol layer
@@ -58,13 +62,17 @@ const Map = () => {
         }
       );
     });
+    //console.log("props pins")
+    //console.log(props.pins)
+    //console.log("geoJSON pins")
+    //console.log(geoJson.features)
 
     // Add navigation control (the +/- zoom buttons)
     map.addControl(new mapboxgl.NavigationControl(), "top-right");
 
     // Clean up on unmount
     return () => map.remove();
-  }, []);
+  }, [props.pins]);
 
   return <div className="map-container" ref={mapContainerRef} />;
 };
