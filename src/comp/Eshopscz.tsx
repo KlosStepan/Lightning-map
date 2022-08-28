@@ -1,11 +1,16 @@
 import React from 'react'
 import Eshop from './Eshop'
-function Eshopscz(props: any) {
-    console.log("eshopscz props")
-    console.log(props)
+import { useSelector } from 'react-redux';
+function Eshopscz() {
+    const eshopscz = useSelector((state: any) => state.allReducers.eshopscz);
+    console.log("eshops cz")
+    console.log(eshopscz)
     return (<div>
-        <span>Eshops</span>
-        {props.list.map((shop: any) => { <Eshop shop={shop} /> })}
+        <h1>Eshops</h1>
+        <div className="alignLeft">
+            {eshopscz.map((eshop: any) => <Eshop eshop={eshop} />)}
+        </div>
+        <div><p>&nbsp;</p></div>
     </div>)
 }
 export default Eshopscz

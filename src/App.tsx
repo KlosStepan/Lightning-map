@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom'
 import logo from './logo.svg';
 import './App.css';
@@ -8,20 +8,26 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { Col, Container, Row } from 'reactstrap';
 import { BrowserRouter as Router, Link, Routes, Route } from 'react-router-dom';
+//import { useDispatch, useSelector } from 'react-redux'
+import { setMerchants, setEshopscz } from './redux/actions/lightningMapActions';
 
 import Eshopscz from './comp/Eshopscz';
 import Map from './comp/Map';
 import Menu from './comp/Menu';
+import About from './comp/About';
 
 import LightningAcceptedHere from './icons/Lightning-accepted-here.png'
 
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { collection, getDocs, getFirestore } from "firebase/firestore";
+import { useDispatch, useSelector } from 'react-redux';
 
 function App() {
-  const [merchants, setMerchants] = useState([]);
-  const [eshopscz, setEshopscz] = useState([]);
+  //const [merchants, setMerchants] = useState([]);
+  //const [eshopscz, setEshopscz] = useState([]);
+  const merchants = useSelector((state: any) => state.allReducers.merchants);
+  const dispatch = useDispatch();
   //console.log("merchants");
   //console.log(merchants);
   useEffect(() => {
@@ -40,12 +46,12 @@ function App() {
     const getMerchants = async (db: any) => {
       const merchSnapshot: any = await getDocs(collection(db, 'merchants'));
       const listMerchants = merchSnapshot.docs.map((doc: any) => doc.data());
-      setMerchants(listMerchants);
+      dispatch(setMerchants(listMerchants));
     }
     const getEschopscz = async (db: any) => {
       const eshopsczSnapshot: any = await getDocs(collection(db, 'eshops'));
       const listEshopscz = eshopsczSnapshot.docs.map((doc: any) => doc.data());
-      setEshopscz(listEshopscz);
+      dispatch(setEshopscz(listEshopscz));
     }
 
     getMerchants(db);
@@ -72,7 +78,8 @@ function App() {
             <Col>
               <Routes>
                 <Route path="/" element={<Map pins={merchants} />} />
-                <Route path="/eshops" element={<Eshopscz list={eshopscz} />} />
+                <Route path="/eshops" element={<Eshopscz />} />
+                <Route path="/about" element={<About />} />
               </Routes>
             </Col>
           </Row>

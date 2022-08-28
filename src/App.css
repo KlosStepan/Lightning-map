@@ -47,6 +47,11 @@
   vertical-align: bottom;
 }
 
+.navbarLink {
+  /* hmpf just supress underscore in nested navbarLink in bottom most node of menu nav */
+  text-decoration: none !important;
+}
+
 .map-container {
   /*position: absolute;*/
   height: 80vh;
