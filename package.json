@@ -17,10 +17,12 @@
     "react-dom": "^18.2.0",
     "react-map-gl": "^7.0.19",
     "react-mapbox-gl": "^5.1.1",
+    "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "reactstrap": "^9.1.4",
     "typescript": "^4.8.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "worker-loader": "^3.0.8"
   },
   "scripts": {
     "start": "react-scripts start",

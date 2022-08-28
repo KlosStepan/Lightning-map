@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom'
 import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import ReactMapGl, { Layer, Feature, Marker } from 'react-mapbox-gl';
+//import ReactMapGl, { Layer, Feature, Marker } from 'react-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { Col, Container, Row } from 'reactstrap';
 
-
+import Eshopscz from './comp/Eshopscz';
+import Map from './comp/Map';
 import Menu from './comp/Menu';
-import Map from './comp/Map'
 
 import LightningAcceptedHere from './icons/Lightning-accepted-here.png'
 
@@ -19,13 +19,10 @@ import { getAnalytics } from "firebase/analytics";
 import { collection, getDocs, getFirestore } from "firebase/firestore";
 
 function App() {
-  /*const Map = ReactMapGl({
-    accessToken:
-      'pk.eyJ1IjoicHduc3RlcG8iLCJhIjoiY2w3YWltaDBrMHNyMzNxbzhrbWR3cG54byJ9.VzxNCsvHqjjolwUOn1VAdQ'
-  });*/
   const [merchants, setMerchants] = useState([]);
-  console.log("merchants");
-  console.log(merchants);
+  const [eshopscz, setEshopscz] = useState([]);
+  //console.log("merchants");
+  //console.log(merchants);
   useEffect(() => {
     const firebaseConfig = {
       apiKey: "AIzaSyCYmaYxP4zOMdlL3mvLmJi7RdymWGz24Kw",
