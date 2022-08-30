@@ -2,10 +2,11 @@
 This project is a frontend website for displaying merchants and e-shops that are accepting Lightning Network in the Czech Republic.  
 
 ## map
-For map we use service called Mapbox wrapped for ReactJS installed as npm package.  
-`// eslint-disable-next-line import/no-webpack-loader-syntax`  
-`mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;`  
-
+For map we use service called Mapbox wrapped for ReactJS installed as npm package. 
+```jsx 
+// eslint-disable-next-line import/no-webpack-loader-syntax   
+mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;  
+```
 ## e-shops
 Simple list of places  
 
