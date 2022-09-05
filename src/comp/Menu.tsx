@@ -12,8 +12,8 @@ import {
 function Menu() {
     const [isOpen, setIsOpen] = React.useState(false);
     //<b>LN PRAGUE CZ</b> | ESHOPS CZ | ABOUT
+    //TODO rewrite to Redux selections
     return (<div>
-
         <Navbar color="white" light expand="md">
             <NavbarBrand className="navbarHomeBtn" href="/">HOME</NavbarBrand>
             <NavbarToggler onClick={() => { setIsOpen(!isOpen) }} />

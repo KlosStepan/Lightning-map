@@ -1,7 +1,9 @@
-import React from 'react'
+import React from 'react';
 function Eshop(props: any) {
     return (
-        <div ><b>{props.eshop.name}</b> - <span>{props.eshop.description}</span> <a href={props.eshop.url} target="_blank">{props.eshop.url}</a></div>
+        <tr >
+            <td>{props.eshop.name}</td><td>{props.eshop.description}</td><td><a href={props.eshop.url} target="_blank">{props.eshop.url}</a></td>
+        </tr>
     )
 }
 export default Eshop
