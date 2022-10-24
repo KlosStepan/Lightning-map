@@ -31,6 +31,7 @@ function Menu() {
                     </NavItem>
                 </Nav>
             </Collapse>
+            <div className="alignRight">|LOGIN|</div>
         </Navbar>
     </div>)
 };

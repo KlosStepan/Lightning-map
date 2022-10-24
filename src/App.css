@@ -43,6 +43,11 @@
   text-align: left;
 }
 
+.alignRight {
+  float: right;
+  text-align: right;
+}
+
 .alignDown {
   vertical-align: bottom;
 }

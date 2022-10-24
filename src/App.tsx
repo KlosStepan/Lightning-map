@@ -71,7 +71,7 @@ function App() {
           </Row>
           <Row>
             <Col>
-              <span className="alignLeft"><Menu /></span>
+              <span className=""><Menu /></span>
             </Col>
           </Row>
           <Row>
