@@ -11,10 +11,10 @@ import { BrowserRouter as Router, Link, Routes, Route } from 'react-router-dom';
 //import { useDispatch, useSelector } from 'react-redux'
 import { setMerchants, setEshopscz } from './redux/actions/lightningMapActions';
 
-import Eshopscz from './comp/Eshopscz';
-import Map from './comp/Map';
-import Menu from './comp/Menu';
-import About from './comp/About';
+import Eshopscz from './pages/Eshopscz';
+import Map from './components/Map';
+import Menu from './components/Menu';
+import About from './pages/About';
 
 import LightningAcceptedHere from './icons/Lightning-accepted-here.png'
 
@@ -64,7 +64,7 @@ function App() {
           <Row>
             <Col>
               <div className="alignLeft">
-                <img height={64} width={200} src={LightningAcceptedHere} />
+                <img height={64} width={200} src={LightningAcceptedHere} alt="Lightning accepted here!" />
                 <span className="alignDown">&nbsp; PRAGUE, CZECH REPUBLIC</span>
               </div>
             </Col>
