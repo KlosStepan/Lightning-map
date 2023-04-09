@@ -15,13 +15,17 @@ import Eshopscz from './pages/Eshopscz';
 import Map from './components/Map';
 import Menu from './components/Menu';
 import About from './pages/About';
+import Login from './pages/Login';
 
 import LightningAcceptedHere from './icons/Lightning-accepted-here.png'
 
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { collection, getDocs, getFirestore } from "firebase/firestore";
+//import { initializeApp } from "firebase/app";
+//import { getAnalytics } from "firebase/analytics";
+//import { getAuth } from "firebase/auth";
+//import { collection, getDocs, getFirestore } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { useDispatch, useSelector } from 'react-redux';
+import { db, auth } from "./components/Firebase";
 
 function App() {
   //const [merchants, setMerchants] = useState([]);
@@ -31,7 +35,7 @@ function App() {
   //console.log("merchants");
   //console.log(merchants);
   useEffect(() => {
-    const firebaseConfig = {
+    /*const firebaseConfig = {
       apiKey: "AIzaSyCYmaYxP4zOMdlL3mvLmJi7RdymWGz24Kw",
       authDomain: "lightning-map-be.firebaseapp.com",
       projectId: "lightning-map-be",
@@ -42,6 +46,7 @@ function App() {
     };
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    const auth = getAuth(app);*/
 
     const getMerchants = async (db: any) => {
       const merchSnapshot: any = await getDocs(collection(db, 'merchants'));
@@ -80,6 +85,7 @@ function App() {
                 <Route path="/" element={<Map pins={merchants} />} />
                 <Route path="/eshops" element={<Eshopscz />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/login" element={<Login />} />
               </Routes>
             </Col>
           </Row>
