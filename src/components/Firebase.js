@@ -1,8 +1,9 @@
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+//import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-
+//TODO Prepare Login/Reg here and export it
+//https://blog.logrocket.com/user-authentication-firebase-react-apps/
 const firebaseConfig = {
     apiKey: "AIzaSyCYmaYxP4zOMdlL3mvLmJi7RdymWGz24Kw",
     authDomain: "lightning-map-be.firebaseapp.com",

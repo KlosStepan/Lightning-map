@@ -31,7 +31,13 @@ function Menu() {
                     </NavItem>
                 </Nav>
             </Collapse>
-            <div className="alignRight">|LOGIN|</div>
+            <div className="alignRight">
+                <NavItem className="navbarItem">
+                    <Link className="navbarLink" to="/login">
+                        <NavLink /*href="/doplnky"*/>LOGIN</NavLink>
+                    </Link>
+                </NavItem>
+            </div>
         </Navbar>
     </div>)
 };
