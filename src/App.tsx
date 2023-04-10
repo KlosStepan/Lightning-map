@@ -26,6 +26,7 @@ import LightningAcceptedHere from './icons/Lightning-accepted-here.png'
 import { collection, getDocs } from "firebase/firestore";
 import { useDispatch, useSelector } from 'react-redux';
 import { db, auth } from "./components/Firebase";
+import Dashboard from './components/Dashboard';
 
 function App() {
   //const [merchants, setMerchants] = useState([]);
@@ -86,6 +87,7 @@ function App() {
                 <Route path="/eshops" element={<Eshopscz />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/dashboard" element={<Dashboard />} />
               </Routes>
             </Col>
           </Row>
