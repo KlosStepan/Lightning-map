@@ -21,39 +21,78 @@ function Login() {
         if (user) navigate("/dashboard");
     }, [user, loading]);
     return (
-        <div className="login">
-            <div className="login__container">
-                <input
-                    type="text"
-                    className="login__textBox"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="E-mail Address"
-                />
-                <input
-                    type="password"
-                    className="login__textBox"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Password"
-                />
-                <button
-                    className="login__btn"
-                    onClick={() => logInWithEmailAndPassword(email, password)}
-                >
-                    Login
-                </button>
-                <button className="login__btn login__google" onClick={signInWithGoogle}>
-                    Login with Google
-                </button>
-                <div>
-                    <Link to="/reset">Forgot Password</Link>
-                </div>
-                <div>
-                    Don't have an account? <Link to="/register">Register</Link> now.
+        <>
+            <style type="text/css">
+                {`
+                .login {
+                    height: 100vh;
+                    width: 100vw;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  }
+                  .login__container {
+                    display: flex;
+                    flex-direction: column;
+                    text-align: center;
+                    background-color: #dcdcdc;
+                    padding: 30px;
+                  }
+                  .login__textBox {
+                    padding: 10px;
+                    font-size: 18px;
+                    margin-bottom: 10px;
+                  }
+                  .login__btn {
+                    padding: 10px;
+                    font-size: 18px;
+                    margin-bottom: 10px;
+                    border: none;
+                    color: white;
+                    background-color: black;
+                  }
+                  .login__google {
+                    background-color: #4285f4;
+                  }
+                  .login div {
+                    margin-top: 7px;
+                  }
+                `}
+            </style>
+            <div className="login">
+                <div className="login__container">
+                    <input
+                        type="text"
+                        className="login__textBox"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="E-mail Address"
+                    />
+                    <input
+                        type="password"
+                        className="login__textBox"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Password"
+                    />
+                    <button
+                        className="login__btn"
+                        onClick={() => logInWithEmailAndPassword(email, password)}
+                    >
+                        Login
+                    </button>
+                    <button className="login__btn login__google" onClick={signInWithGoogle}>
+                        Login with Google
+                    </button>
+                    <div>
+                        <Link to="/reset">Forgot Password</Link>
+                    </div>
+                    <div>
+                        Don't have an account? <Link to="/register">Register</Link> now.
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 export default Login;

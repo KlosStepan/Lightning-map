@@ -27,6 +27,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { useDispatch, useSelector } from 'react-redux';
 import { db, auth } from "./components/Firebase";
 import Dashboard from './components/Dashboard';
+import Register from './pages/Register';
 
 function App() {
   //const [merchants, setMerchants] = useState([]);
@@ -87,6 +88,7 @@ function App() {
                 <Route path="/eshops" element={<Eshopscz />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
                 <Route path="/dashboard" element={<Dashboard />} />
               </Routes>
             </Col>
