@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 //import "./Dashboard.css";
 import { auth, db, logout } from "./Firebase"
 import { query, collection, getDocs, where } from "firebase/firestore";
+//https://blog.logrocket.com/user-authentication-firebase-react-apps/
 function Dashboard() {
     const [user, loading, error] = useAuthState(auth);
     const [name, setName] = useState("");

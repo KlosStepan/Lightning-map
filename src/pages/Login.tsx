@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from "../components/Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-
 //TODO import functions from Firebase.js that has to be done as well
 //Move imports and stuff out into Firebase.js
+//https://blog.logrocket.com/user-authentication-firebase-react-apps/
 function Login() {
     console.log(auth)
     //const email = "stepanklos@gmail.com"
