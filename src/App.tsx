@@ -26,7 +26,7 @@ import LightningAcceptedHere from './icons/Lightning-accepted-here.png'
 import { collection, getDocs } from "firebase/firestore";
 import { useDispatch, useSelector } from 'react-redux';
 import { db, auth } from "./components/Firebase";
-import Dashboard from './components/Dashboard';
+import Dashboard from './pages/Dashboard';
 import Register from './pages/Register';
 
 function App() {

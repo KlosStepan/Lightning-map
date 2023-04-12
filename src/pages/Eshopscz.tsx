@@ -1,5 +1,5 @@
 import React from 'react'
-import Eshop from './Eshop'
+import Eshop from '../components/Eshop'
 import { Table } from 'reactstrap';
 import { useSelector } from 'react-redux';
 function Eshopscz() {

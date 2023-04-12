@@ -13,6 +13,7 @@
     "bootstrap": "^5.2.0",
     "firebase": "^9.9.3",
     "mapbox-gl": "^2.10.0",
+    "pwnspinner": "^2.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-firebase-hooks": "^5.1.1",

@@ -1,5 +1,5 @@
 //todo
-interface IPlace {
+interface IMerchant {
     geometry: {
         coordinates: [number, number]
         type: string
@@ -11,4 +11,4 @@ interface IPlace {
     }
     type: string
 }
-export default IPlace
+export default IMerchant
