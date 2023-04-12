@@ -6,7 +6,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 //Move imports and stuff out into Firebase.js
 //https://blog.logrocket.com/user-authentication-firebase-react-apps/
 function Login() {
-    console.log(auth)
+    //console.log(auth)
     //const email = "stepanklos@gmail.com"
     //const password = "passwd"
     const [email, setEmail] = useState("");

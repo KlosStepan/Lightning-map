@@ -9,6 +9,7 @@ import { query, collection, getDocs, where } from "firebase/firestore";
 function Dashboard() {
     const [user, loading, error] = useAuthState(auth);
     const [name, setName] = useState("");
+    const [myMerchants, setMyMerchants] = useState([]);
     const navigate = useNavigate();
     const fetchUserName = async () => {
         /*try {
@@ -24,7 +25,17 @@ function Dashboard() {
     useEffect(() => {
         if (loading) return;
         if (!user) return navigate("/");
-        console.log(user)
+        //console.log(user) //user?.uid
+        const owner = user?.uid
+        const getMyMerchants = async (db: any, owner: string) => {
+            const merchSnapshot = await getDocs(query(collection(db, 'merchants'), where('properties.owner', '==', owner)));
+            const listMerchants = merchSnapshot.docs.map((doc: any) => doc.data());
+            console.log("list myMerchants")
+            setMyMerchants(listMerchants)
+            console.log(listMerchants)
+            //dispatch(setMerchants(listMerchants));
+        }
+        getMyMerchants(db, owner)
         //fetchUserName();
     }, [user, loading]);
     return (

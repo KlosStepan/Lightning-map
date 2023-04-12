@@ -33,6 +33,7 @@ function App() {
   //const [merchants, setMerchants] = useState([]);
   //const [eshopscz, setEshopscz] = useState([]);
   const merchants = useSelector((state: any) => state.allReducers.merchants);
+  console.log(merchants)
   const dispatch = useDispatch();
   //console.log("merchants");
   //console.log(merchants);
@@ -53,6 +54,8 @@ function App() {
     const getMerchants = async (db: any) => {
       const merchSnapshot: any = await getDocs(collection(db, 'merchants'));
       const listMerchants = merchSnapshot.docs.map((doc: any) => doc.data());
+      console.log("list Merchants")
+      console.log(listMerchants)
       dispatch(setMerchants(listMerchants));
     }
     const getEschopscz = async (db: any) => {
