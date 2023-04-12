@@ -13,6 +13,7 @@ function Menu() {
     const [isOpen, setIsOpen] = React.useState(false);
     //<b>LN PRAGUE CZ</b> | ESHOPS CZ | ABOUT
     //TODO rewrite to Redux selections
+    //TODO rewrite Redux to Redux/RTK later
     return (<div>
         <Navbar color="white" light expand="md">
             <NavbarBrand className="navbarHomeBtn" href="/">HOME</NavbarBrand>

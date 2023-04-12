@@ -10,6 +10,7 @@ function Dashboard() {
     const [user, loading, error] = useAuthState(auth);
     const [name, setName] = useState("");
     const [myMerchants, setMyMerchants] = useState([]);
+    const [eshopsCZ, setEshopsCZ] = useState([]);
     const navigate = useNavigate();
     const fetchUserName = async () => {
         /*try {
@@ -29,13 +30,38 @@ function Dashboard() {
         const owner = user?.uid
         const getMyMerchants = async (db: any, owner: string) => {
             const merchSnapshot = await getDocs(query(collection(db, 'merchants'), where('properties.owner', '==', owner)));
-            const listMerchants = merchSnapshot.docs.map((doc: any) => doc.data());
-            console.log("list myMerchants")
-            setMyMerchants(listMerchants)
-            console.log(listMerchants)
-            //dispatch(setMerchants(listMerchants));
+            let merchants = []
+
+            merchSnapshot.forEach((doc) => {
+                console.log(doc.id, " => ", doc.data())
+                merchants.push({
+                    id: doc.id,
+                    data: doc.data()
+                })
+            })
+
+            console.log("rewrapped merchants")
+            console.log(merchants)
+            setMyMerchants(merchants)
+        }
+        const getMyEshopscz = async (db: any, owner: string) => {
+            const eshopsczSnapshot: any = await getDocs(query(collection(db, 'eshops'), where('owner', '==', owner)));
+            let eshopscz = []
+
+            eshopsczSnapshot.forEach((doc) => {
+                console.log(doc.id, " => ", doc.data())
+                eshopscz.push({
+                    id: doc.id,
+                    data: doc.data()
+                })
+            })
+
+            console.log("rewrapped eshopscz")
+            console.log(eshopscz)
+            setEshopsCZ(eshopscz)
         }
         getMyMerchants(db, owner)
+        getMyEshopscz(db, owner)
         //fetchUserName();
     }, [user, loading]);
     return (
