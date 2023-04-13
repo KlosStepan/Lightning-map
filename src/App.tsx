@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom'
 import logo from './logo.svg';
-import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 //import ReactMapGl, { Layer, Feature, Marker } from 'react-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import './css/layout1-color2.css';
+import './App.css';
 
 import { Col, Container, Row } from 'reactstrap';
 import { BrowserRouter as Router, Link, Routes, Route } from 'react-router-dom';
@@ -71,13 +72,27 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Container>
+        <Container className='container main-container'>
           <Row>
             <Col>
-              <div className="alignLeft">
-                <img height={64} width={200} src={LightningAcceptedHere} alt="Lightning accepted here!" />
-                <span className="alignDown">&nbsp; PRAGUE, CZECH REPUBLIC</span>
-              </div>
+              <header>
+                <div className="resume-title">
+                  <h2>Bitcoin</h2>
+                  <h2>Lightning Network ⚡</h2>
+                  <div className="resume-designation extra-offset-md">
+                    <span className="border"></span>
+                    <span>Prague, Czech Republic</span>
+                  </div>
+                </div>
+              </header>
+              {
+                /*
+                <div className="alignLeft">
+                  <img height={64} width={200} src={LightningAcceptedHere} alt="Lightning accepted here!" />
+                  <span className="alignDown">&nbsp; PRAGUE, CZECH REPUBLIC</span>
+                </div>
+                */
+              }
             </Col>
           </Row>
           <Row>
@@ -97,7 +112,7 @@ function App() {
               </Routes>
             </Col>
           </Row>
-          <Row><Col><p className="alignLeft">stepo 2022 (c)</p></Col></Row>
+          <Row><Col><p className="alignCenter">by pwnstepo.io</p></Col></Row>
         </Container>
       </div>
     </Router>

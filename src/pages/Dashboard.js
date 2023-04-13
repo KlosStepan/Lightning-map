@@ -107,6 +107,8 @@ function Dashboard() {
                 <Row>
                     <Col>
                         <h2>Merchants</h2>
+                        <hr />
+                        <div>&nbsp;</div>
                         <span className="boxed btnStyle ptHover">+</span>
                         <div>&nbsp;</div>
                         <Table className="boxed">
@@ -138,6 +140,8 @@ function Dashboard() {
                     </Col>
                     <Col>
                         <h2>Eshops</h2>
+                        <hr />
+                        <div>&nbsp;</div>
                         <span className="boxed btnStyle ptHover">+</span>
                         <div>&nbsp;</div>
                         <Table className="boxed">

@@ -7,7 +7,15 @@ function Eshopscz() {
     console.log("eshops cz")
     console.log(eshopscz)
     return (<div>
-        <h1>Eshops</h1>
+        {
+            /*<div style={{ margin: "auto", width: "6%" }}>
+                <h1 className="title">Eshops</h1>
+                <hr />
+            </div>
+            */
+        }
+        <h1 className="title">Eshops</h1>
+        <hr />
         <Table>
             <thead>
                 <tr>
@@ -20,6 +28,6 @@ function Eshopscz() {
                 {eshopscz.map((eshop: any, key: number) => <Eshop eshop={eshop} key={key} />)}
             </tbody>
         </Table>
-    </div>)
+    </div >)
 }
 export default Eshopscz

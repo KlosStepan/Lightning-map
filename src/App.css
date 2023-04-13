@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  text-align: left;
 }
 
 .App-logo {
@@ -41,7 +41,9 @@
 .alignLeft {
   float: left;
   text-align: left;
+  margin-top: 0px;
 }
+
 
 .alignRight {
   float: right;
@@ -52,15 +54,28 @@
   vertical-align: bottom;
 }
 
+.alignCenter {
+  text-align: center;
+  margin-top: 0px;
+}
+
 .navbarLink {
   /* hmpf just supress underscore in nested navbarLink in bottom most node of menu nav */
   text-decoration: none !important;
 }
 
+.navbar-nav li a {
+  color: black;
+}
+
+.navbar-nav li a:hover {
+  color: black;
+}
+
 .map-container {
   /*position: absolute;*/
-  height: 80vh;
-  width: 80vw;
+  height: 50vh;
+  /* width: 80vw; */
   top: 0;
   bottom: 0;
   left: 0;
