@@ -11,6 +11,7 @@ npm start
 <p align="center">
   <img src="src/img/lnmap_preview.png" alt="lnmap_preview"/>
 </p>
+
 ## Project overview
 Everybody can register and add a place  
 -designed website w/ map and some pins-  
