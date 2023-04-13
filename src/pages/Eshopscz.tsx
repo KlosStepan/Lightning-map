@@ -17,7 +17,7 @@ function Eshopscz() {
                 </tr>
             </thead>
             <tbody>
-                {eshopscz.map((eshop: any) => <Eshop eshop={eshop} />)}
+                {eshopscz.map((eshop: any, key: number) => <Eshop eshop={eshop} key={key} />)}
             </tbody>
         </Table>
     </div>)
