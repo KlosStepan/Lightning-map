@@ -1,5 +1,16 @@
 # Lightning Map
 This project is a map website mostly for merchat collection & display of places that accept Lightning Network in Prague, Czech Republic.  
+
+## Run it!
+```
+git clone https://github.com/KlosStepan/Lightning-map
+npm install
+npm start
+```
+## Preview
+<p align="center">
+  <img src="src/img/lnmap_preview.png" alt="lnmap_preview"/>
+</p>
 ## Project overview
 Everybody can register and add a place  
 -designed website w/ map and some pins-  
@@ -14,7 +25,7 @@ mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worke
 - conditions: WHERE **visible** 1 - fe, WHERE owner(=me) - be
 - approve everything by me WHERE **visible** 0
 
-## TODO list
+## TODO list - move to ISSUES to be able to colab. w/ somebody
 - [x] rest of preview frontend
 - [x] auth. w/ accounts firebase
 - [x] admin pages
