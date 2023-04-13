@@ -8,13 +8,11 @@ npm install
 npm start
 ```
 ## Preview
+Everybody will be able to Register / Sign Up With Google to add pin to our map! 
 <p align="center">
   <img src="src/img/lnmap_preview.png" alt="lnmap_preview"/>
 </p>
 
-## Project overview
-Everybody can register and add a place  
--designed website w/ map and some pins-  
 
 ## map
 For map we use service called Mapbox wrapped for ReactJS installed as npm package. 
