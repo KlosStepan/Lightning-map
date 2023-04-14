@@ -77,7 +77,8 @@ sup {
 }
 
 .main-container {
-  margin-top: 61px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   border: 25px solid #fbc55e;
   background-color: #fff;
 }
