@@ -15,8 +15,8 @@ Everybody will be able to Register / Sign Up With Google to add pin to our map!
 
 ## Color schema & design
 - black
-- orange `#FAC55E` - bitcoin color
-- purple `#6354B3` - lightning color
+- orange '#FAC55E' - bitcoin color
+- purple '#6354B3' - lightning color
 
 
 ## map

@@ -87,8 +87,11 @@ function Dashboard() {
             <Container>
                 <Row>
                     <Col>
+                        <h1 class="title">Credentials</h1>
+                        <hr />
+                        <div>&nbsp;</div>
                         <div className="dashboard boxed">
-                            <div className="dashboard__container">
+                            <div className="dashboard__container" style={{ textAlign: "center" }}>
                                 {(!user)
                                     ? <Pwnspinner color="#FAC55E" thickness={10} />
                                     : <>
@@ -105,8 +108,11 @@ function Dashboard() {
                     </Col>
                 </Row>
                 <Row>
+                    <span>&nbsp;</span>
+                </Row>
+                <Row>
                     <Col>
-                        <h2>Merchants</h2>
+                        <h1 class="title">Merchants</h1>
                         <hr />
                         <div>&nbsp;</div>
                         <span className="boxed btnStyle ptHover">+</span>
@@ -139,7 +145,7 @@ function Dashboard() {
                         </Table>
                     </Col>
                     <Col>
-                        <h2>Eshops</h2>
+                        <h1 class="title">Eshops</h1>
                         <hr />
                         <div>&nbsp;</div>
                         <span className="boxed btnStyle ptHover">+</span>
