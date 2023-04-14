@@ -1,9 +1,9 @@
 import React from 'react';
-function AddPlace() {
+function AddMerchant() {
     return (
         <>
             <span>stuff</span>
         </>
     )
 }
-export default AddPlace
+export default AddMerchant
