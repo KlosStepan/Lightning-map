@@ -69,12 +69,12 @@ function Dashboard() {
             <style type="text/css">
                 {`
                 .boxed {
-                    border: 1px solid gray;
+                    border: 1px solid #6354B3;
                     margin: 2px;
                 }
                 .btnStyle {
                     padding: 6px 10px 6px 10px;
-                    background-color: orange;
+                    background-color: #FAC55E;
                     color: white !important;
                     font-size: 14px !important;
                     font-weight: bold;
@@ -90,7 +90,7 @@ function Dashboard() {
                         <div className="dashboard boxed">
                             <div className="dashboard__container">
                                 {(!user)
-                                    ? <Pwnspinner color="orange" thickness={10} />
+                                    ? <Pwnspinner color="#FAC55E" thickness={10} />
                                     : <>
                                         <div>Logged in as <b>{user?.displayName}</b></div>
                                         <div>{user?.email} / {user?.uid}</div>

@@ -16,30 +16,34 @@ function Menu() {
     //TODO rewrite Redux to Redux/RTK later
     return (<div>
         <Navbar color="white" light expand="md">
-            <NavbarBrand className="navbarHomeBtn" href="/">HOME</NavbarBrand>
+            <Link onClick={() => console.log("home-pressed")} className="navRemoveUnderscoreInLinkA navbarHomeBtn" to="/">
+                <span>DOMŮ</span>
+            </Link>
+            <span>&nbsp;</span>
+            <span>&nbsp;</span>
             <NavbarToggler onClick={() => { setIsOpen(!isOpen) }} />
             <Collapse isOpen={isOpen} navbar>
                 <Nav className="mr-auto" navbar>
                     <NavItem className="navbarItem">
-                        <Link className="navbarLink" to="/eshops">
-                            <NavLink  /*href="/povrchy"*/>ESHOPS</NavLink>
+                        <Link className="nav-link" to="/eshops">
+                            <span  /*href="/povrchy"*/>ESHOPS</span>
                         </Link>
                     </NavItem>
                     <NavItem className="navbarItem">
-                        <Link className="navbarLink" to="/about">
-                            <NavLink /*href="/doplnky"*/>ABOUT</NavLink>
+                        <Link className="nav-link" to="/about">
+                            <span /*href="/doplnky"*/>ABOUT</span>
                         </Link>
                     </NavItem>
                 </Nav>
             </Collapse>
             <div className="alignRight">
-                <NavItem className="navbarItem">
-                    <Link className="navbarLink" to="/login">
-                        <NavLink /*href="/doplnky"*/>LOGIN</NavLink>
+                <NavItem className="navbarItem" style={{ listStyleType: "none" }}>
+                    <Link className="nav-link" to="/login">
+                        <span /*href="/doplnky"*/>LOGIN</span>
                     </Link>
                 </NavItem>
             </div>
-        </Navbar>
-    </div>)
+        </Navbar >
+    </div >)
 };
 export default Menu

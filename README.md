@@ -13,6 +13,11 @@ Everybody will be able to Register / Sign Up With Google to add pin to our map!
   <img src="src/img/lnmap_preview.png" alt="lnmap_preview"/>
 </p>
 
+## Color schema & design
+- black
+- orange #FAC55E - bitcoin color
+- purple #6354B3 - lightning color
+
 
 ## map
 For map we use service called Mapbox wrapped for ReactJS installed as npm package. 
