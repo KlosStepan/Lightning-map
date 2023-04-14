@@ -15,8 +15,8 @@ Everybody will be able to Register / Sign Up With Google to add pin to our map!
 
 ## Color schema & design
 - black
-- orange #FAC55E - bitcoin color
-- purple #6354B3 - lightning color
+- orange `#FAC55E` - bitcoin color
+- purple `#6354B3` - lightning color
 
 
 ## map
@@ -24,4 +24,14 @@ For map we use service called Mapbox wrapped for ReactJS installed as npm packag
 ```jsx 
 // eslint-disable-next-line import/no-webpack-loader-syntax   
 mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;  
+```
+
+___ 
+## BUILD & PUSH
+First run to build and then push into Dockerhub/
+```
+docker build -t stepanklos/lightning_map .
+```
+```
+docker push stepanklos/lightning_map
 ```
