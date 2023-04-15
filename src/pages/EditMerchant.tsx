@@ -1,9 +1,9 @@
 import React from 'react';
-function EditPlace() {
+function EditMerchant() {
     return (
         <>
             <span>stuff</span>
         </>
     )
 }
-export default EditPlace
+export default EditMerchant
