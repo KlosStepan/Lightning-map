@@ -29,6 +29,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { db, auth } from "./components/Firebase";
 import Dashboard from './pages/Dashboard';
 import Register from './pages/Register';
+//Add/Edit imports
+import AddEshop from './pages/AddEshop';
+import EditEshop from './pages/EditEshop';
+import AddMerchant from './pages/AddMerchant';
+import EditMerchant from './pages/EditMerchant';
 
 function App() {
   //const [merchants, setMerchants] = useState([]);
@@ -109,6 +114,10 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/eshops/add" element={<AddEshop />} />
+                <Route path="/eshops/edit/:id" element={<EditEshop />} />
+                <Route path="/merchants/add" element={<AddMerchant />} />
+                <Route path="/merchants/edit/:id" element={<EditMerchant />} />
               </Routes>
             </Col>
           </Row>

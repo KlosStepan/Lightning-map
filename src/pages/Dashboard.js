@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 //import "./Dashboard.css";
 import { Col, Container, Row, Table } from 'reactstrap';
 import { auth, db, logout } from "../components/Firebase"
@@ -68,20 +68,6 @@ function Dashboard() {
         <>
             <style type="text/css">
                 {`
-                .boxed {
-                    border: 1px solid #6354B3;
-                    margin: 2px;
-                }
-                .btnStyle {
-                    padding: 6px 10px 6px 10px;
-                    background-color: #FAC55E;
-                    color: white !important;
-                    font-size: 14px !important;
-                    font-weight: bold;
-                  }
-                .ptHover:hover{
-                    cursor: pointer;
-                  }  
                 `}
             </style>
             <Container>
@@ -115,7 +101,9 @@ function Dashboard() {
                         <h1 class="title">Merchants</h1>
                         <hr />
                         <div>&nbsp;</div>
-                        <span className="boxed btnStyle ptHover">+</span>
+                        <Link className="nav-link" to="/merchants/add">
+                            <span className="boxed btnStyle ptHover"/*href="/doplnky"*/>+</span>
+                        </Link>
                         <div>&nbsp;</div>
                         <Table className="boxed">
                             <thead>
@@ -148,7 +136,9 @@ function Dashboard() {
                         <h1 class="title">Eshops</h1>
                         <hr />
                         <div>&nbsp;</div>
-                        <span className="boxed btnStyle ptHover">+</span>
+                        <Link className="nav-link" to="/eshops/add">
+                            <span className="boxed btnStyle ptHover"/*href="/doplnky"*/>+</span>
+                        </Link>
                         <div>&nbsp;</div>
                         <Table className="boxed">
                             <thead>
