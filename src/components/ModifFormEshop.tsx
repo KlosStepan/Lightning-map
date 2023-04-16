@@ -1,9 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Input, Table } from 'reactstrap';
-function ModifFormEshop(props: any) {
+import IEshop from '../ts/IEeshop';
+
+interface IModifFormEshopProps {
+    edit?: boolean
+    eshop?: IEshop
+}
+function ModifFormEshop(props: IModifFormEshopProps = {}) {
     console.log("ModifFormEshop props")
     console.log(props)
     //if props.edit{ load 4 fields }
+    useEffect(() => {
+        console.log("useEffect()")
+        if (props.edit) {
+            console.log("edit")
+            console.log(props.eshop)
+        }
+    })
     return (
         <>
             <Container>

@@ -39,7 +39,7 @@ function Menu() {
             <div className="alignRight">
                 <NavItem className="navbarItem" style={{ listStyleType: "none" }}>
                     <Link className="nav-link" to="/login">
-                        <span /*href="/doplnky"*/>LOGIN</span>
+                        <span /*href="/doplnky"*/>ADMINISTRATION</span>
                     </Link>
                 </NavItem>
             </div>
