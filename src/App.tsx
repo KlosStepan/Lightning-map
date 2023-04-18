@@ -114,10 +114,10 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/eshops/add" element={<AddEshop />} />
-                <Route path="/eshops/edit/:id" element={<EditEshop />} />
                 <Route path="/merchants/add" element={<AddMerchant />} />
                 <Route path="/merchants/edit/:id" element={<EditMerchant />} />
+                <Route path="/eshops/add" element={<AddEshop />} />
+                <Route path="/eshops/edit/:id" element={<EditEshop />} />
               </Routes>
             </Col>
           </Row>
