@@ -18,6 +18,7 @@ interface IMerchantAdmin {
     id: String,
     data: IMechant
 }
+
 function Dashboard() {
     const [user, loading, error] = useAuthState(auth);
     const [eshopsCZ, setEshopsCZ] = useState([]);

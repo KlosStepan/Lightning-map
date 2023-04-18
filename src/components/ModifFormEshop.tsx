@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import { Container, Input, Table } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import IEshop from '../ts/IEeshop';
-
+//TS
 interface IModifFormEshopProps {
     edit?: boolean
-    eshop?: IEshop
+    eshop?: IEshop | null
 }
+
 function ModifFormEshop(props: IModifFormEshopProps = {}) {
     const navigate = useNavigate();
     console.log("ModifFormEshop props")
@@ -69,9 +70,11 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
                             </tr>
                         </tbody>
                     </Table>
-                    {(props.edit)
-                        ? <span className="katBtnStyle ptHover" onClick={() => { UpdateEshop() }} > UPDATE </span>
-                        : <span className="katBtnStyle ptHover" onClick={() => { AddEshop() }} > ADD </span>}
+                    <div className="alignCenter">
+                        {(props.edit)
+                            ? <span className="btnStyle ptHover" onClick={() => { UpdateEshop() }} > UPDATE </span>
+                            : <span className="btnStyle ptHover" onClick={() => { AddEshop() }} > ADD </span>}
+                    </div>
                     {/*<div className="alignCenter">
                         <span className="btnStyle ptHover" onClick={() => { console.log("ADD") }} > ADD </span>
 </div>*/}

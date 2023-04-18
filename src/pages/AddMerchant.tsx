@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { Col, Container, Row } from 'reactstrap';
 import ModifFormMerchant from '../components/ModifFormMerchant';
+
 function AddMerchant() {
     useEffect(() => {
-        console.log("useEffect")
+        console.log("useEffect AddMerchant()")
     }, [])
     return (
         <>

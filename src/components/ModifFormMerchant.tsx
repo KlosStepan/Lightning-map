@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import { Container, Input, Table } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import IMerchant from '../ts/IMerchant';
-
+//TS
 interface IModifFormMerchantProps {
     edit?: boolean
-    merchant?: IMerchant
+    merchant?: IMerchant | null
 }
+
 function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
     const navigate = useNavigate();
     console.log("ModifFormEshop props")
@@ -63,9 +64,11 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
                             </tr>
                         </tbody>
                     </Table>
-                    {(props.edit)
-                        ? <span className="katBtnStyle ptHover" onClick={() => { UpdateMerchant() }} > UPDATE </span>
-                        : <span className="katBtnStyle ptHover" onClick={() => { AddMerchant() }} > ADD </span>}
+                    <div className="alignCenter">
+                        {(props.edit)
+                            ? <span className="btnStyle ptHover" onClick={() => { UpdateMerchant() }} > UPDATE </span>
+                            : <span className="btnStyle ptHover" onClick={() => { AddMerchant() }} > ADD </span>}
+                    </div>
                 </div>
             </Container>
         </>
