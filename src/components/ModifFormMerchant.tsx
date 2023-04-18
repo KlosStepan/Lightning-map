@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Container, Input, Table } from 'reactstrap';
+import { useNavigate } from 'react-router-dom';
 import IMerchant from '../ts/IMerchant';
 
 interface IModifFormMerchantProps {
@@ -7,9 +8,16 @@ interface IModifFormMerchantProps {
     merchant?: IMerchant
 }
 function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
+    const navigate = useNavigate();
     console.log("ModifFormEshop props")
     console.log(props)
     //if props.edit{ load 4 fields }
+    const UpdateMerchant = () => {
+        console.log("UpdateMerchant()")
+    }
+    const AddMerchant = () => {
+        console.log("AddMerchant()")
+    }
     useEffect(() => {
         console.log("useEffect()")
         if (props.edit) {
@@ -24,7 +32,7 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
                     <Table>
                         <thead>
                             <tr>
-                                <th className='justWrap'><span className="btnStyle ptHover" onClick={() => { /*navigate(-1)*/ }} > &lt; BACK </span></th>
+                                <th className='justWrap'><span className="btnStyle ptHover" onClick={() => { navigate(-1) }} > &lt; BACK </span></th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -55,6 +63,9 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
                             </tr>
                         </tbody>
                     </Table>
+                    {(props.edit)
+                        ? <span className="katBtnStyle ptHover" onClick={() => { UpdateMerchant() }} > UPDATE </span>
+                        : <span className="katBtnStyle ptHover" onClick={() => { AddMerchant() }} > ADD </span>}
                 </div>
             </Container>
         </>

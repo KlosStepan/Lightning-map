@@ -117,7 +117,7 @@ function Dashboard() {
                             <tbody>
                                 {
                                     (myMerchants.length !== 0)
-                                        ? myMerchants.map((merch) => <tr key={merch.id}><td>{merch.data.properties.title}</td><td>{merch.data.properties.description}</td><td>{merch.data.geometry.coordinates[0]}/{merch.data.geometry.coordinates[1]}</td><td><Link className="navRemoveUnderscoreInLinkA" to="/merchants/edit/5"><span className="boxed btnStyle ptHover">EDIT</span></Link><span className="boxed btnStyle ptHover">DEL</span></td></tr>)
+                                        ? myMerchants.map((merch) => <tr key={merch.id}><td>{merch.data.properties.title}</td><td>{merch.data.properties.description}</td><td>{merch.data.geometry.coordinates[0]}/{merch.data.geometry.coordinates[1]}</td><td><Link className="navRemoveUnderscoreInLinkA" to={"/merchants/edit/" + merch.id}><span className="boxed btnStyle ptHover">EDIT</span></Link><span className="boxed btnStyle ptHover">DEL</span></td></tr>)
                                         : <tr>not ok</tr>
 
                                 }
@@ -152,7 +152,7 @@ function Dashboard() {
                             <tbody>
                                 {
                                     (eshopsCZ.length !== 0)
-                                        ? eshopsCZ.map((eshop) => <tr key={eshop.id}><td>{eshop.data.name}</td><td>{eshop.data.description}</td><td>{eshop.data.url}</td><td><Link className="navRemoveUnderscoreInLinkA" to="/eshops/edit/5"><span className="boxed btnStyle ptHover">EDIT</span></Link><span className="boxed btnStyle ptHover">DEL</span></td></tr>)
+                                        ? eshopsCZ.map((eshop) => <tr key={eshop.id}><td>{eshop.data.name}</td><td>{eshop.data.description}</td><td>{eshop.data.url}</td><td><Link className="navRemoveUnderscoreInLinkA" to={"/eshops/edit/" + eshop.id}><span className="boxed btnStyle ptHover">EDIT</span></Link><span className="boxed btnStyle ptHover">DEL</span></td></tr>)
                                         : <tr>not ok</tr>
 
                                 }

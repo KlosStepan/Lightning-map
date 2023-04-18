@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Container, Input, Table } from 'reactstrap';
+import { useNavigate } from 'react-router-dom';
 import IEshop from '../ts/IEeshop';
 
 interface IModifFormEshopProps {
@@ -7,9 +8,16 @@ interface IModifFormEshopProps {
     eshop?: IEshop
 }
 function ModifFormEshop(props: IModifFormEshopProps = {}) {
+    const navigate = useNavigate();
     console.log("ModifFormEshop props")
     console.log(props)
     //if props.edit{ load 4 fields }
+    const UpdateEshop = () => {
+        console.log("UpdateEshop()")
+    }
+    const AddEshop = () => {
+        console.log("AddEshop()")
+    }
     useEffect(() => {
         console.log("useEffect()")
         if (props.edit) {
@@ -25,7 +33,7 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
                     <Table>
                         <thead>
                             <tr>
-                                <th className='justWrap'><span className="btnStyle ptHover" onClick={() => { /*navigate(-1)*/ }} > &lt; BACK </span></th>
+                                <th className='justWrap'><span className="btnStyle ptHover" onClick={() => { navigate(-1) }} > &lt; BACK </span></th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -61,12 +69,12 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
                             </tr>
                         </tbody>
                     </Table>
-                    { /*(props.edit)
-              ? <span className="katBtnStyle ptHover" onClick={() => {UpdateDoplnek()}} > AKTUALIZOVAT </span>
-    : <span className="katBtnStyle ptHover" onClick={() => {AddDoplnek()}} > PŘIDAT </span>*/}
-                    <div className="alignCenter">
+                    {(props.edit)
+                        ? <span className="katBtnStyle ptHover" onClick={() => { UpdateEshop() }} > UPDATE </span>
+                        : <span className="katBtnStyle ptHover" onClick={() => { AddEshop() }} > ADD </span>}
+                    {/*<div className="alignCenter">
                         <span className="btnStyle ptHover" onClick={() => { console.log("ADD") }} > ADD </span>
-                    </div>
+</div>*/}
                     <span>&nbsp;</span>
                 </div>
             </Container>
