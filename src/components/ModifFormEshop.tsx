@@ -15,10 +15,10 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
     console.log("ModifFormEshop props")
     console.log(props)
     ////Uncontrolled Form Handling via. ref& s
-    const inputName = React.useRef();
-    const inputDescription = React.useRef();
-    const inputCountry = React.useRef();
-    const inputUrl = React.useRef();
+    const inputName = useRef<HTMLInputElement>(null);
+    const inputDescription = useRef<HTMLInputElement>(null);
+    const inputCountry = useRef<HTMLInputElement>(null);
+    const inputUrl = useRef<HTMLInputElement>(null);
     ////
     //Data Handling Functions w/ Firebase
     const UpdateEshop = () => {
@@ -26,6 +26,7 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
     }
     const AddEshop = () => {
         console.log("AddEshop()")
+        console.log(inputName?.current!.value)
     }
     //Upon loading do
     useEffect(() => {
@@ -55,6 +56,7 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
                                 <Input
                                     type="textarea"
                                     rows="1"
+                                    innerRef={inputName}
                                 //ref={inputName}
                                 //value={(formKod) ? formKod : ""}
                                 //onChange={(e: any) => { setFormKod(e.target.value) }}
@@ -68,6 +70,7 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
                                 <Input
                                     type="textarea"
                                     rows="5"
+                                    innerRef={inputDescription}
                                 />
                             </td>
                         </tr>
@@ -78,6 +81,7 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
                                 <Input
                                     type="textarea"
                                     rows="1"
+                                    innerRef={inputUrl}
                                 />
                             </td>
                         </tr>
