@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, db, logout } from "../components/Firebase"
 import { Container, Input, Table } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import IMerchant from '../ts/IMerchant';
@@ -9,6 +11,7 @@ interface IModifFormMerchantProps {
 }
 
 function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
+    const [user, loading, error] = useAuthState(auth);
     const navigate = useNavigate();
     //Debug - DELETABLE
     console.log("ModifFormEshop props")
@@ -25,13 +28,13 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
     }
     const AddMerchant = () => {
         console.log("AddMerchant()")
-        const _merchant: IMerchant = { geometry: { coordinates: [coordX, coordY], type: "Point" }, properties: { description: inputDescription?.current!.value, owner: "UID", title: inputTitle?.current!.value }, type: "Feature" };
+        const _merchant: IMerchant = { geometry: { coordinates: [coordX, coordY], type: "Point" }, properties: { description: inputDescription?.current!.value, owner: user?.uid, title: inputTitle?.current!.value }, type: "Feature" };
         console.log(_merchant)
     }
     useEffect(() => {
         console.log("useEffect()")
         if (props.edit) {
-            //if props.edit{ load 4 fields }
+            //if props.edit{ FETCH& load 4 fields }
             console.log("edit")
             console.log(props.merchant)
         }

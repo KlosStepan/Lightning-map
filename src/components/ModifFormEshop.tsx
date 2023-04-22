@@ -1,4 +1,6 @@
 import React, { useEffect, useRef } from 'react';
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, db, logout } from "../components/Firebase"
 import { Container, Input, Table } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import IEshop from '../ts/IEeshop';
@@ -9,7 +11,7 @@ interface IModifFormEshopProps {
 }
 
 function ModifFormEshop(props: IModifFormEshopProps = {}) {
-    //Essentials for Component
+    const [user, loading, error] = useAuthState(auth);
     const navigate = useNavigate();
     //Debug - DELETABLE
     console.log("ModifFormEshop props")
@@ -26,13 +28,14 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
     }
     const AddEshop = () => {
         console.log("AddEshop()")
-        console.log(inputName?.current!.value)
+        const _eshop: IEshop = { name: inputName?.current!.value, description: inputDescription?.current!.value, country: "CZ", url: inputUrl?.current!.value, owner: user?.uid }
+        console.log(_eshop)
     }
     //Upon loading do
     useEffect(() => {
         console.log("useEffect()")
         if (props.edit) {
-            //if props.edit{ load stuff into 4 fields }
+            //if props.edit{ FETCH& load stuff into 4 fields }
             console.log("edit")
             console.log(props.eshop)
         }
