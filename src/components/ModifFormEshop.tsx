@@ -4,8 +4,9 @@ import { auth, db, logout } from "../components/Firebase"
 import { doc, getDoc } from "firebase/firestore";
 import { Container, Input, Table } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
-import IEshop from '../ts/IEeshop';
+
 //TS
+import IEshop from '../ts/IEeshop';
 interface IModifFormEshopProps {
     edit?: boolean
     id?: string
