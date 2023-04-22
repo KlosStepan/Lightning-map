@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Container, Input, Table } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import IMerchant from '../ts/IMerchant';
@@ -10,18 +10,28 @@ interface IModifFormMerchantProps {
 
 function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
     const navigate = useNavigate();
+    //Debug - DELETABLE
     console.log("ModifFormEshop props")
     console.log(props)
-    //if props.edit{ load 4 fields }
+    ////Uncontrolled Form Handling via. ref& s
+    const inputTitle = useRef<HTMLInputElement>(null);
+    const inputDescription = useRef<HTMLInputElement>(null);
+    ////
+    const [coordX, setCoordX] = useState<number>(14.4483);
+    const [coordY, setCoordY] = useState<number>(50.1033);
+    //Data Handling Functions w/ Firebase
     const UpdateMerchant = () => {
         console.log("UpdateMerchant()")
     }
     const AddMerchant = () => {
         console.log("AddMerchant()")
+        const _merchant: IMerchant = { geometry: { coordinates: [coordX, coordY], type: "Point" }, properties: { description: inputDescription?.current!.value, owner: "UID", title: inputTitle?.current!.value }, type: "Feature" };
+        console.log(_merchant)
     }
     useEffect(() => {
         console.log("useEffect()")
         if (props.edit) {
+            //if props.edit{ load 4 fields }
             console.log("edit")
             console.log(props.merchant)
         }
@@ -39,11 +49,12 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
                         </thead>
                         <tbody>
                             <tr>
-                                <th className='justWrap'>NAME</th>
+                                <th className='justWrap'>TITLE</th>
                                 <td>
                                     <Input
                                         type="textarea"
                                         rows="1"
+                                        innerRef={inputTitle}
                                     //value={(formKod) ? formKod : ""}
                                     //onChange={(e: any) => { setFormKod(e.target.value) }}
                                     />
@@ -55,12 +66,13 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
                                     <Input
                                         type="textarea"
                                         rows="5"
+                                        innerRef={inputDescription}
                                     />
                                 </td>
                             </tr>
                             <tr>
                                 <th>place</th>
-                                <td>map box to pick x, y</td>
+                                <td>map box to pick x <b>{coordX}</b> and y <b>{coordY}</b></td>
                             </tr>
                         </tbody>
                     </Table>
