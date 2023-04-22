@@ -12,29 +12,37 @@ interface IModifFormEshopProps {
 }
 
 function ModifFormEshop(props: IModifFormEshopProps = {}) {
-    const [user, loading, error] = useAuthState(auth);
     const navigate = useNavigate();
-    //Debug - DELETABLE
-    console.log("ModifFormEshop props")
-    console.log(props)
-    const [country, setCountry] = useState("CZ");
-    ////Uncontrolled Form Handling via. ref& s
+    const [user, loading, error] = useAuthState(auth);
+    //console.log("<ModifFormEshop /> props")
+    //console.log(props)
     const inputName = useRef<HTMLInputElement>(null);
     const inputDescription = useRef<HTMLInputElement>(null);
-    //const inputCountry = useRef<HTMLInputElement>(null);
+    const [country, setCountry] = useState("CZ");
     const inputUrl = useRef<HTMLInputElement>(null);
-    ////
-    //Data Handling Functions w/ Firebase
+
     const UpdateEshop = () => {
-        console.log("UpdateEshop()")
+        console.log(`UpdateEshop(), Firebase -> UPDATE/${props.id}`)
+        const _eshop: IEshop = {
+            name: inputName?.current!.value,
+            description: inputDescription?.current!.value,
+            country: "CZ", url: inputUrl?.current!.value,
+            owner: user?.uid
+        }
+        console.log(_eshop)
     }
     const AddEshop = () => {
-        console.log("AddEshop()")
-        const _eshop: IEshop = { name: inputName?.current!.value, description: inputDescription?.current!.value, country: "CZ", url: inputUrl?.current!.value, owner: user?.uid }
+        console.log("AddEshop(), Firebase -> INSERT")
+        const _eshop: IEshop = {
+            name: inputName?.current!.value,
+            description: inputDescription?.current!.value,
+            country: "CZ", url: inputUrl?.current!.value,
+            owner: user?.uid
+        }
         console.log(_eshop)
     }
     const getEshop = async (db: any, id: any) => {
-        const eshopId = id; // replace with the ID of the e-shop you want to retrieve
+        const eshopId = id;
         const eshopRef = doc(db, 'eshops', eshopId);
         const eshopSnapshot = await getDoc(eshopRef);
         if (eshopSnapshot.exists()) {
@@ -46,19 +54,16 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
             return null
         }
     }
-    //Upon loading do
     useEffect(() => {
-        console.log("useEffect()")
+        console.log("<ModifFormEshop /> useEffect()")
         if (props.edit) {
-            //if props.edit{ FETCH& load stuff into 4 fields }
-            console.log("edit")
-            console.log(props.id)
+            //console.log("edit")
+            //console.log(props.id)
             const eshop_promise = getEshop(db, props.id)
             Promise.resolve(eshop_promise)
                 .then((result) => {
-                    console.log("result")
+                    console.log("Fetched e-shop")
                     console.log(result)
-                    //
                     inputName.current!.value = result!.name
                     inputDescription.current!.value = result!.description
                     setCountry(result!.country)
@@ -67,85 +72,74 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
                 .catch((e: any) => {
                     console.log(e)
                 })
-            //inputName.current!.value = "_eshop.name"
         }
     })
     return (
-        <>
-            <Container>
-                {/*<span>modif form eshop cz w/o flag</span>*/}
-                <Table>
-                    <thead>
-                        <tr>
-                            <th className='justWrap'><span className="btnStyle ptHover" onClick={() => { navigate(-1) }} > &lt; BACK </span></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th className='justWrap'>NAME</th>
-                            <td>
-                                {/*hopefully ref={inputName}*/}
-                                <Input
-                                    type="textarea"
-                                    rows="1"
-                                    innerRef={inputName}
-                                //ref={inputName}
-                                //value={(formKod) ? formKod : ""}
-                                //onChange={(e: any) => { setFormKod(e.target.value) }}
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th className='justWrap'>DESCRIPTION</th>
-                            <td>
-                                {/*hopefully ref={inputDescription}*/}
-                                <Input
-                                    type="textarea"
-                                    rows="5"
-                                    innerRef={inputDescription}
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th className='justWrap'>COUNTRY</th>
-                            <td>
-                                {/*hopefully ref={inputName}*/}
-                                <Input
-                                    disabled
-                                    type="textarea"
-                                    rows="1"
-                                    value={country}
-                                //ref={inputName}
-                                //value={(formKod) ? formKod : ""}
-                                //onChange={(e: any) => { setFormKod(e.target.value) }}
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th className='justWrap'>URL</th>
-                            <td>
-                                {/*hopefully ref={inputUrl}/*/}
-                                <Input
-                                    type="textarea"
-                                    rows="1"
-                                    innerRef={inputUrl}
-                                />
-                            </td>
-                        </tr>
-                    </tbody>
-                </Table>
-                <div className="alignCenter">
-                    {(props.edit)
-                        ? <span className="btnStyle ptHover" onClick={() => { UpdateEshop() }} > UPDATE </span>
-                        : <span className="btnStyle ptHover" onClick={() => { AddEshop() }} > ADD </span>}
-                </div>
-                {/*<div className="alignCenter">
-                        <span className="btnStyle ptHover" onClick={() => { console.log("ADD") }} > ADD </span>
-</div>*/}
-                <span>&nbsp;</span>
-            </Container >
-        </>
+        <Container>
+            <Table>
+                <thead>
+                    <tr>
+                        <th className='justWrap'><span className="btnStyle ptHover" onClick={() => { navigate(-1) }} > &lt; BACK </span></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th className='justWrap'>NAME</th>
+                        <td>
+                            <Input
+                                type="textarea"
+                                rows="1"
+                                innerRef={inputName}
+                            //ref={inputName}
+                            //value={(formKod) ? formKod : ""}
+                            //onChange={(e: any) => { setFormKod(e.target.value) }}
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th className='justWrap'>DESCRIPTION</th>
+                        <td>
+                            <Input
+                                type="textarea"
+                                rows="5"
+                                innerRef={inputDescription}
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th className='justWrap'>COUNTRY</th>
+                        <td>
+                            <Input
+                                disabled
+                                type="textarea"
+                                rows="1"
+                                value={country}
+                            //ref={inputName}
+                            //value={(formKod) ? formKod : ""}
+                            //onChange={(e: any) => { setFormKod(e.target.value) }}
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th className='justWrap'>URL</th>
+                        <td>
+                            <Input
+                                type="textarea"
+                                rows="1"
+                                innerRef={inputUrl}
+                            />
+                        </td>
+                    </tr>
+                </tbody>
+            </Table>
+            <div className="alignCenter">
+                {(props.edit)
+                    ? <span className="btnStyle ptHover" onClick={() => { UpdateEshop() }} > UPDATE </span>
+                    : <span className="btnStyle ptHover" onClick={() => { AddEshop() }} > ADD </span>}
+            </div>
+            <span>&nbsp;</span>
+        </Container >
     )
 }
 export default ModifFormEshop
