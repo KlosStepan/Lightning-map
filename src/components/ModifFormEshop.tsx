@@ -23,25 +23,15 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
 
     const UpdateEshop = () => {
         console.log(`UpdateEshop(), Firebase -> UPDATE/${props.id}`)
-        const _eshop: IEshop = {
-            name: inputName?.current!.value,
-            description: inputDescription?.current!.value,
-            country: "CZ", url: inputUrl?.current!.value,
-            owner: user?.uid
-        }
+        const _eshop: IEshop = _BundleEshop();
         console.log(_eshop)
     }
     const AddEshop = () => {
         console.log("AddEshop(), Firebase -> INSERT")
-        const _eshop: IEshop = {
-            name: inputName?.current!.value,
-            description: inputDescription?.current!.value,
-            country: "CZ", url: inputUrl?.current!.value,
-            owner: user?.uid
-        }
+        const _eshop: IEshop = _BundleEshop();
         console.log(_eshop)
     }
-    const getEshop = async (db: any, id: any) => {
+    const GetEshop = async (db: any, id: any) => {
         const eshopId = id;
         const eshopRef = doc(db, 'eshops', eshopId);
         const eshopSnapshot = await getDoc(eshopRef);
@@ -54,12 +44,21 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
             return null
         }
     }
+    const _BundleEshop = () => {
+        const _eshop: IEshop = {
+            name: inputName?.current!.value,
+            description: inputDescription?.current!.value,
+            country: "CZ", url: inputUrl?.current!.value,
+            owner: user?.uid
+        }
+        return _eshop
+    }
     useEffect(() => {
         console.log("<ModifFormEshop /> useEffect()")
         if (props.edit) {
             //console.log("edit")
             //console.log(props.id)
-            const eshop_promise = getEshop(db, props.id)
+            const eshop_promise = GetEshop(db, props.id)
             Promise.resolve(eshop_promise)
                 .then((result) => {
                     console.log("Fetched e-shop")
