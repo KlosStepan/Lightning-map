@@ -7,7 +7,7 @@ import IMerchant from '../ts/IMerchant';
 //TS
 interface IModifFormMerchantProps {
     edit?: boolean
-    merchant?: IMerchant | null
+    id?: string
 }
 
 function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
@@ -36,54 +36,52 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
         if (props.edit) {
             //if props.edit{ FETCH& load 4 fields }
             console.log("edit")
-            console.log(props.merchant)
+            console.log(props.id)
         }
     })
     return (
         <>
             <Container>
-                <div>
-                    <Table>
-                        <thead>
-                            <tr>
-                                <th className='justWrap'><span className="btnStyle ptHover" onClick={() => { navigate(-1) }} > &lt; BACK </span></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th className='justWrap'>TITLE</th>
-                                <td>
-                                    <Input
-                                        type="textarea"
-                                        rows="1"
-                                        innerRef={inputTitle}
-                                    //value={(formKod) ? formKod : ""}
-                                    //onChange={(e: any) => { setFormKod(e.target.value) }}
-                                    />
-                                </td>
-                            </tr>
-                            <tr>
-                                <th className='justWrap'>DESCRIPTION</th>
-                                <td>
-                                    <Input
-                                        type="textarea"
-                                        rows="5"
-                                        innerRef={inputDescription}
-                                    />
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>place</th>
-                                <td>map box to pick x <b>{coordX}</b> and y <b>{coordY}</b></td>
-                            </tr>
-                        </tbody>
-                    </Table>
-                    <div className="alignCenter">
-                        {(props.edit)
-                            ? <span className="btnStyle ptHover" onClick={() => { UpdateMerchant() }} > UPDATE </span>
-                            : <span className="btnStyle ptHover" onClick={() => { AddMerchant() }} > ADD </span>}
-                    </div>
+                <Table>
+                    <thead>
+                        <tr>
+                            <th className='justWrap'><span className="btnStyle ptHover" onClick={() => { navigate(-1) }} > &lt; BACK </span></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th className='justWrap'>TITLE</th>
+                            <td>
+                                <Input
+                                    type="textarea"
+                                    rows="1"
+                                    innerRef={inputTitle}
+                                //value={(formKod) ? formKod : ""}
+                                //onChange={(e: any) => { setFormKod(e.target.value) }}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th className='justWrap'>DESCRIPTION</th>
+                            <td>
+                                <Input
+                                    type="textarea"
+                                    rows="5"
+                                    innerRef={inputDescription}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>place</th>
+                            <td>map box to pick x <b>{coordX}</b> and y <b>{coordY}</b></td>
+                        </tr>
+                    </tbody>
+                </Table>
+                <div className="alignCenter">
+                    {(props.edit)
+                        ? <span className="btnStyle ptHover" onClick={() => { UpdateMerchant() }} > UPDATE </span>
+                        : <span className="btnStyle ptHover" onClick={() => { AddMerchant() }} > ADD </span>}
                 </div>
             </Container>
         </>

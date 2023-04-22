@@ -7,7 +7,7 @@ function EditEshop() {
     let { id } = useParams()
     console.log("id is: " + id)
     //TODO get Eshop and push it to the <ModifFormEshop as eshop={}
-    const eshop = null
+    //const eshop = null
     useEffect(() => {
         console.log("useEffect");
     }, [])
@@ -19,7 +19,7 @@ function EditEshop() {
                         <h1 className="title">Edit Eshop</h1>
                         <hr />
                         <div>&nbsp;</div>
-                        <ModifFormEshop edit={true} eshop={eshop} />
+                        <ModifFormEshop edit={true} id={id} />
                     </Col>
                 </Row>
             </Container>

@@ -19,7 +19,7 @@ function EditMerchant() {
                         <h1 className="title">Edit Merchant</h1>
                         <hr />
                         <div>&nbsp;</div>
-                        <ModifFormMerchant edit={true} merchant={merchant} />
+                        <ModifFormMerchant edit={true} id={id} />
                     </Col>
                 </Row>
             </Container>
