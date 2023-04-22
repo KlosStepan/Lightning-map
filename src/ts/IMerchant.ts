@@ -6,7 +6,7 @@ interface IMerchant {
     }
     properties: {
         description: string
-        owner: string
+        owner: string | undefined
         title: string
     }
     type: string

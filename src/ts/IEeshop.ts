@@ -3,5 +3,6 @@ interface IEshop {
     description: string
     country: string
     url: string
+    owner: string | undefined
 }
 export default IEshop
