@@ -13,8 +13,8 @@ interface IModifFormMerchantProps {
 }
 
 function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
-    const [user, loading, error] = useAuthState(auth);
     const navigate = useNavigate();
+    const [user, loading, error] = useAuthState(auth);
     //console.log("<ModifFormMerchant /> props")
     //console.log(props)
     const inputTitle = useRef<HTMLInputElement>(null);
