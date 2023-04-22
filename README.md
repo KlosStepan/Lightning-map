@@ -10,7 +10,7 @@ npm start
 ## Preview
 Everybody will be able to Register / Sign Up With Google to add pin to our map soon! 
 <p align="center">
-  <img src="src/img/lnmap_preview2.png" alt="lnmap_preview"/>
+  <img src="src/img/lnmap_preview3.png" alt="lnmap_preview"/>
 </p>
 
 ## Design
@@ -19,10 +19,10 @@ These colors are used in our application:
 - Orange ![#FAC55E](https://via.placeholder.com/15/FAC55E/000000?text=+) `#FAC55E` - Bitcoin.
 - Purple ![#6354B3](https://via.placeholder.com/15/6354B3/000000?text=+) `#6354B3` - Lightning.
 
-Symbols for background:
-- Bitcoin ₿.
+Symbols for background (their 32x32 icon `png` equivalent in ![#F6F8FA](https://via.placeholder.com/15/F6F8FA/000000?text=+) `#F6F8FA`):
+- Bitcoin ₿ (12.5deg. rot).
 - Lightning ⚡.
-- Satoshi <img src="src/img/sat.jpg" alt="alt text" width="30"/>.
+- Satoshi <img src="src/img/sat.jpg" alt="alt text" width="30"/> (12.5deg. rot.).
 
 ___
 ## // Map fiddle
