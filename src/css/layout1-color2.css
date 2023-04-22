@@ -47,7 +47,7 @@ a {
   2. GLOBAL COMPONENTS  - defines overall common styles of the template
 ========================================================================== */
 body {
-  background-image: url('../img/pattern.png');
+  background-image: url('../img/pattern_custom.png');
   background-repeat: repeat;
   background-color: #6355b3;
 }
