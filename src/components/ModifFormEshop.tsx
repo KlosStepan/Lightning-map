@@ -31,7 +31,7 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
         const _eshop: IEshop = _BundleEshop();
         console.log(_eshop)
     }
-    const GetEshop = async (db: any, id: any) => {
+    const FetchEshop = async (db: any, id: any) => {
         const eshopId = id;
         const eshopRef = doc(db, 'eshops', eshopId);
         const eshopSnapshot = await getDoc(eshopRef);
@@ -58,7 +58,7 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
         if (props.edit) {
             //console.log("edit")
             //console.log(props.id)
-            const eshop_promise = GetEshop(db, props.id)
+            const eshop_promise = FetchEshop(db, props.id)
             Promise.resolve(eshop_promise)
                 .then((result) => {
                     console.log("Fetched e-shop")
