@@ -30,12 +30,12 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
     const inputTitle = useRef<HTMLInputElement>(null);
     const inputDescription = useRef<HTMLInputElement>(null);
     //Lng Lat X,Y - onDropEnd
-    const [coordX, setCoordX] = useState<number>(0);
-    const [coordY, setCoordY] = useState<number>(0);
+    const [coordX, setCoordX] = useState<number>(14.498);
+    const [coordY, setCoordY] = useState<number>(50.065);
     //Working version of marker
     const [marker, setMarker] = useState({
-        latitude: 0,
-        longitude: 0
+        latitude: 50.065,
+        longitude: 14.498
     });
     const [events, logEvents] = useState<Record<string, LngLat>>({});
 
