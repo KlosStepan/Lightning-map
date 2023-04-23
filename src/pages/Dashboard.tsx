@@ -21,8 +21,8 @@ interface IMerchantAdmin {
 
 function Dashboard() {
     const [user, loading, error] = useAuthState(auth);
-    const [eshopsCZ, setEshopsCZ] = useState([]);
-    const [myMerchants, setMyMerchants] = useState([]);
+    const [eshopsCZ, setEshopsCZ] = useState<any[]>([]);
+    const [myMerchants, setMyMerchants] = useState<any[]>([]);
     const navigate = useNavigate();
     useEffect(() => {
         if (loading) return;
@@ -32,9 +32,9 @@ function Dashboard() {
 
         const getMyEshopscz = async (db: any, owner: string) => {
             const eshopsczSnapshot: any = await getDocs(query(collection(db, 'eshops'), where('owner', '==', owner)));
-            let eshopscz: IEshopAdmin[] = []
+            let eshopscz: any[] = []
 
-            eshopsczSnapshot.forEach((doc) => {
+            eshopsczSnapshot.forEach((doc: any) => {
                 console.log(doc.id, " => ", doc.data())
                 eshopscz.push({
                     id: doc.id,
@@ -48,7 +48,7 @@ function Dashboard() {
         }
         const getMyMerchants = async (db: any, owner: string) => {
             const merchSnapshot = await getDocs(query(collection(db, 'merchants'), where('properties.owner', '==', owner)));
-            let merchants = []
+            let merchants: any[] = []
 
             merchSnapshot.forEach((doc) => {
                 console.log(doc.id, " => ", doc.data())
@@ -74,7 +74,7 @@ function Dashboard() {
             <Container>
                 <Row>
                     <Col>
-                        <h1 class="title">Credentials</h1>
+                        <h1 className={"title"}>Credentials</h1>
                         <hr />
                         <div>&nbsp;</div>
                         <div className="dashboard boxed">
@@ -99,7 +99,7 @@ function Dashboard() {
                 </Row>
                 <Row>
                     <Col>
-                        <h1 class="title">Merchants</h1>
+                        <h1 className="title">Merchants</h1>
                         <hr />
                         <div>&nbsp;</div>
                         <Link className="nav-link" to="/merchants/add">
@@ -120,7 +120,6 @@ function Dashboard() {
                                     (myMerchants.length !== 0)
                                         ? myMerchants.map((merch) => <tr key={merch.id}><td>{merch.data.properties.title}</td><td>{merch.data.properties.description}</td><td>{merch.data.geometry.coordinates[0]}/{merch.data.geometry.coordinates[1]}</td><td><Link className="navRemoveUnderscoreInLinkA" to={"/merchants/edit/" + merch.id}><span className="boxed btnStyle ptHover">EDIT</span></Link><span className="boxed btnStyle ptHover">DEL</span></td></tr>)
                                         : <tr>not ok</tr>
-
                                 }
                                 {
                                     /*<tr>
@@ -134,7 +133,7 @@ function Dashboard() {
                         </Table>
                     </Col>
                     <Col>
-                        <h1 class="title">Eshops</h1>
+                        <h1 className="title">Eshops</h1>
                         <hr />
                         <div>&nbsp;</div>
                         <Link className="nav-link" to="/eshops/add">
