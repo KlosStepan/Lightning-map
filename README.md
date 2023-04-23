@@ -22,8 +22,9 @@ These colors are used in our application:
 Symbols for background (their 32x32 icon `png` equivalent in ![#F6F8FA](https://via.placeholder.com/15/F6F8FA/000000?text=+) `#F6F8FA`):
 - Bitcoin ₿ (12.5deg. rot).
 - Lightning ⚡.
-- Satoshi <img src="src/img/sat.jpg" alt="alt text" width="30"/> (12.5deg. rot.).
+- Satoshi <img src="src/img/sat.jpg" alt="alt text" width="30"/> (12.5deg. rot.).  
 
+Logo edits like https://shallowsky.com/blog/gimp/gimp-black-to-color.html
 ___
 ## // Map fiddle
 For map we use service called Mapbox wrapped for ReactJS installed as npm package. 
