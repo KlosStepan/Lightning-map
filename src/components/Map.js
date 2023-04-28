@@ -58,14 +58,20 @@ const Map = (props: any) => {
         }
       );
     });
+
     // Add navigation control (the +/- zoom buttons)
     map.addControl(new mapboxgl.NavigationControl(), "top-right");
-
     // Clean up on unmount
     return () => map.remove();
   }, [props.pins]);
 
-  return <div className="map-container" ref={mapContainerRef} />;
+  return (
+    <>
+      <h1 className="title">Places accepting lightning</h1>
+      <hr />
+      <div className="map-container" ref={mapContainerRef} />
+    </>
+  );
 };
 
 export default Map

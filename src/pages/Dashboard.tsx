@@ -82,9 +82,8 @@ function Dashboard() {
                                 {(!user)
                                     ? <Pwnspinner color="#FAC55E" thickness={10} />
                                     : <>
-                                        <div>Logged in as <b>{user?.displayName}</b></div>
-                                        <div>{user?.email} / {user?.uid}</div>
-                                        {/*<button className="dashboard__btn" onClick={logout}>*/}
+                                        <div>Welcome back <b>{user?.displayName}</b></div>
+                                        <div>aka <b>{user?.email}</b> {/* / {user?.uid} */}</div>
                                         <button className="boxed btnStyle ptHover" onClick={logout}>
                                             Logout
                                         </button>
@@ -109,17 +108,17 @@ function Dashboard() {
                         <Table className="boxed">
                             <thead>
                                 <tr>
-                                    <th>name</th>
-                                    <th>description</th>
-                                    <th>place [x,y]</th>
-                                    <th>actions</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Coordinates [x, y]</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
                                     (myMerchants.length !== 0)
-                                        ? myMerchants.map((merch) => <tr key={merch.id}><td>{merch.data.properties.title}</td><td>{merch.data.properties.description}</td><td>{merch.data.geometry.coordinates[0]}/{merch.data.geometry.coordinates[1]}</td><td><Link className="navRemoveUnderscoreInLinkA" to={"/merchants/edit/" + merch.id}><span className="boxed btnStyle ptHover">EDIT</span></Link><span className="boxed btnStyle ptHover">DEL</span></td></tr>)
-                                        : <tr>not ok</tr>
+                                        ? myMerchants.map((merch) => <tr key={merch.id}><td>{merch.data.properties.title}</td><td>{merch.data.properties.description}</td><td>[{merch.data.geometry.coordinates[0]}, {merch.data.geometry.coordinates[1]}]</td><td><Link className="navRemoveUnderscoreInLinkA" to={"/merchants/edit/" + merch.id}><span className="boxed btnStyle ptHover">EDIT</span></Link><span className="boxed btnStyle ptHover">DEL</span></td></tr>)
+                                        : <tr><td>not ok</td></tr>
                                 }
                                 {
                                     /*<tr>
@@ -143,17 +142,17 @@ function Dashboard() {
                         <Table className="boxed">
                             <thead>
                                 <tr>
-                                    <th>name</th>
-                                    <th>description</th>
-                                    <th>url</th>
-                                    <th>actions</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Url</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
                                     (eshopsCZ.length !== 0)
                                         ? eshopsCZ.map((eshop) => <tr key={eshop.id}><td>{eshop.data.name}</td><td>{eshop.data.description}</td><td>{eshop.data.url}</td><td><Link className="navRemoveUnderscoreInLinkA" to={"/eshops/edit/" + eshop.id}><span className="boxed btnStyle ptHover">EDIT</span></Link><span className="boxed btnStyle ptHover">DEL</span></td></tr>)
-                                        : <tr>not ok</tr>
+                                        : <tr><td>not ok</td></tr>
 
                                 }
                                 {

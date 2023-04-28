@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import Map, { Marker, NavigationControl } from 'react-map-gl';
 import Pin from './pin';
 import type { MarkerDragEvent, LngLat } from 'react-map-gl';
-import ControlPanel from './control-panel';
+//import ControlPanel from './ControlPanel';
 //TS
 import IMerchant from '../ts/IMerchant';
 interface IModifFormMerchantProps {
