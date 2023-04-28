@@ -1,17 +1,9 @@
 import React, { useRef, useEffect } from "react";
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl';
 import '../App.css';
-//import geoJson from "../chicago-parks.json";
 
 //TODO https://github.com/visgl/react-map-gl/issues/1266
-import light16 from '../icons/light16.png'
-import light24 from '../icons/light24.png'
-import light32 from '../icons/light32.png'
 import light64 from '../icons/light64.png'
-import light128 from '../icons/light128.png'
-
-import { initializeApp } from "firebase/app";
-import { collection, doc, getDoc, getDocs, getFirestore } from 'firebase/firestore';
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoicHduc3RlcG8iLCJhIjoiY2w3YWltaDBrMHNyMzNxbzhrbWR3cG54byJ9.VzxNCsvHqjjolwUOn1VAdQ";
@@ -66,11 +58,6 @@ const Map = (props: any) => {
         }
       );
     });
-    //console.log("props pins")
-    //console.log(props.pins)
-    //console.log("geoJSON pins")
-    //console.log(geoJson.features)
-
     // Add navigation control (the +/- zoom buttons)
     map.addControl(new mapboxgl.NavigationControl(), "top-right");
 
