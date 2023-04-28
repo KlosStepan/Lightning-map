@@ -8,7 +8,7 @@ import './css/layout1-color2.css';
 import './App.css';
 
 import { Col, Container, Row } from 'reactstrap';
-import { BrowserRouter as Router, Link, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 //import { useDispatch, useSelector } from 'react-redux'
 import { setMerchants, setEshopscz } from './redux/actions/lightningMapActions';
 
@@ -20,13 +20,9 @@ import Login from './pages/Login';
 
 import LightningAcceptedHere from './icons/Lightning-accepted-here.png'
 
-//import { initializeApp } from "firebase/app";
-//import { getAnalytics } from "firebase/analytics";
-//import { getAuth } from "firebase/auth";
-//import { collection, getDocs, getFirestore } from "firebase/firestore";
 import { collection, getDocs } from "firebase/firestore";
 import { useDispatch, useSelector } from 'react-redux';
-import { db, auth } from "./components/Firebase";
+import { db } from "./components/Firebase";
 import Dashboard from './pages/Dashboard';
 import Register from './pages/Register';
 //Add/Edit imports
@@ -36,28 +32,12 @@ import AddMerchant from './pages/AddMerchant';
 import EditMerchant from './pages/EditMerchant';
 
 function App() {
-  //const [merchants, setMerchants] = useState([]);
-  //const [eshopscz, setEshopscz] = useState([]);
-  const merchants = useSelector((state: any) => state.allReducers.merchants);
-  //const eshopscz = useSelector((state: any) => state.allReducers.eshopscz)
-  console.log(merchants)
-  const dispatch = useDispatch();
-  //console.log("merchants");
-  //console.log(merchants);
-  useEffect(() => {
-    /*const firebaseConfig = {
-      apiKey: "AIzaSyCYmaYxP4zOMdlL3mvLmJi7RdymWGz24Kw",
-      authDomain: "lightning-map-be.firebaseapp.com",
-      projectId: "lightning-map-be",
-      storageBucket: "lightning-map-be.appspot.com",
-      messagingSenderId: "922431666121",
-      appId: "1:922431666121:web:6ecc0cbe196857e7fb5a18",
-      measurementId: "G-4YDZGK2JYT"
-    };
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const auth = getAuth(app);*/
+  const dispatch = useDispatch()
 
+  const merchants = useSelector((state: any) => state.allReducers.merchants)
+  console.log(merchants)
+
+  useEffect(() => {
     const getMerchants = async (db: any) => {
       const merchSnapshot: any = await getDocs(collection(db, 'merchants'));
       const listMerchants = merchSnapshot.docs.map((doc: any) => doc.data());
@@ -90,14 +70,6 @@ function App() {
                   </div>
                 </div>
               </header>
-              {
-                /*
-                <div className="alignLeft">
-                  <img height={64} width={200} src={LightningAcceptedHere} alt="Lightning accepted here!" />
-                  <span className="alignDown">&nbsp; PRAGUE, CZECH REPUBLIC</span>
-                </div>
-                */
-              }
             </Col>
           </Row>
           <Row>
