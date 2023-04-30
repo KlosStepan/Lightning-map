@@ -1,5 +1,4 @@
 import { initializeApp } from "firebase/app";
-//import { getAnalytics } from "firebase/analytics";
 import {
     GoogleAuthProvider,
     getAuth,
@@ -90,6 +89,7 @@ const sendPasswordReset = async (email: string) => {
 const logout = () => {
     signOut(auth);
 };
+
 export {
     auth,
     db,

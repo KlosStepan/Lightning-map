@@ -8,14 +8,14 @@ import Map, { Marker, NavigationControl } from 'react-map-gl';
 import Pin from './pin';
 import type { MarkerDragEvent, LngLat } from 'react-map-gl';
 //import ControlPanel from './ControlPanel';
-//TS
+//TypeScript
 import IMerchant from '../ts/IMerchant';
 interface IModifFormMerchantProps {
     edit?: boolean
     id?: string
 }
-const TOKEN = 'pk.eyJ1IjoicHduc3RlcG8iLCJhIjoiY2w3YWltaDBrMHNyMzNxbzhrbWR3cG54byJ9.VzxNCsvHqjjolwUOn1VAdQ'; // Set your mapbox token here
-
+//Token variable and default settings for map camera
+const TOKEN = 'pk.eyJ1IjoicHduc3RlcG8iLCJhIjoiY2w3YWltaDBrMHNyMzNxbzhrbWR3cG54byJ9.VzxNCsvHqjjolwUOn1VAdQ';
 const initialViewState = {
     latitude: 50.065,
     longitude: 14.498,
@@ -27,6 +27,8 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
     const [user, loading, error] = useAuthState(auth);
     //console.log("<ModifFormMerchant /> props")
     //console.log(props)
+
+    ////FORM STUFF
     const inputTitle = useRef<HTMLInputElement>(null);
     const inputDescription = useRef<HTMLInputElement>(null);
     //Lng Lat X,Y - onDropEnd
@@ -37,12 +39,13 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
         latitude: 50.065,
         longitude: 14.498
     });
-    const [events, logEvents] = useState<Record<string, LngLat>>({});
+    ////FORM STUFF
 
+    //Form Map Event Functions
+    const [events, logEvents] = useState<Record<string, LngLat>>({});
     const onMarkerDragStart = useCallback((event: MarkerDragEvent) => {
         logEvents(_events => ({ ..._events, onDragStart: event.lngLat }));
     }, []);
-
     const onMarkerDrag = useCallback((event: MarkerDragEvent) => {
         logEvents(_events => ({ ..._events, onDrag: event.lngLat }));
 
@@ -51,22 +54,25 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
             latitude: event.lngLat.lat
         });
     }, []);
-
     const onMarkerDragEnd = useCallback((event: MarkerDragEvent) => {
         logEvents(_events => ({ ..._events, onDragEnd: event.lngLat }));
         console.log(`${event.lngLat.lng}, ${event.lngLat.lat}`)
         setCoordX(event.lngLat.lng)
         setCoordY(event.lngLat.lat)
     }, []);
+
+    //Our Fetch/Save functions
     const UpdateMerchant = () => {
-        console.log(`UpdateMerchant(), Firebase -> UPDATE/${props.id}`)
+        console.log(`UpdateMerchant(), Firebase -> UPDATE/${props.id}`);
         const _merchant: IMerchant = _BundleMerchant();
-        console.log(_merchant)
+        console.log(_merchant);
+        //SOMEHOW UPDATE
     }
     const AddMerchant = () => {
-        console.log("AddMerchant(), Firebase -> INSERT")
+        console.log("AddMerchant(), Firebase -> INSERT");
         const _merchant: IMerchant = _BundleMerchant();
-        console.log(_merchant)
+        console.log(_merchant);
+        //addDoc TODO
     }
     const FetchMerchant = async (db: any, id: any) => {
         const merchantId = id;
@@ -75,11 +81,11 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
         if (merchantSnapshot.exists()) {
             const merchantData = merchantSnapshot.data();
             //console.log(merchantData)
-            return merchantData
+            return merchantData;
         }
         else {
             console.log(`No merchant found with ID ${merchantId}`);
-            return null
+            return null;
         }
     }
     const _BundleMerchant = () => {
@@ -95,8 +101,10 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
             },
             type: "Feature"
         };
-        return _merchant
+        return _merchant;
     }
+
+    //useEffect&Component
     useEffect(() => {
         console.log("<ModifFormMerchant /> useEffect()")
         if (props.edit) {
@@ -202,4 +210,5 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
         </>
     )
 }
-export default ModifFormMerchant
+
+export default ModifFormMerchant;

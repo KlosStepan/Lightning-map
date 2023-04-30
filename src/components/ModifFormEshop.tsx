@@ -4,8 +4,7 @@ import { auth, db, logout } from "../components/Firebase"
 import { doc, getDoc } from "firebase/firestore";
 import { Container, Input, Table } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
-
-//TS
+//TypeScript
 import IEshop from '../ts/IEeshop';
 interface IModifFormEshopProps {
     edit?: boolean
@@ -17,20 +16,26 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
     const [user, loading, error] = useAuthState(auth);
     //console.log("<ModifFormEshop /> props")
     //console.log(props)
+
+    ////FORM STUFF
     const inputName = useRef<HTMLInputElement>(null);
     const inputDescription = useRef<HTMLInputElement>(null);
     const [country, setCountry] = useState("CZ");
     const inputUrl = useRef<HTMLInputElement>(null);
+    ////FORM STUFF
 
+    //Our Fetch/Save functions
     const UpdateEshop = () => {
         console.log(`UpdateEshop(), Firebase -> UPDATE/${props.id}`)
         const _eshop: IEshop = _BundleEshop();
-        console.log(_eshop)
+        console.log(_eshop);
+        //SOMEHOW UPDATE
     }
     const AddEshop = () => {
         console.log("AddEshop(), Firebase -> INSERT")
         const _eshop: IEshop = _BundleEshop();
-        console.log(_eshop)
+        console.log(_eshop);
+        //addDoc TODO
     }
     const FetchEshop = async (db: any, id: any) => {
         const eshopId = id;
@@ -39,10 +44,10 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
         if (eshopSnapshot.exists()) {
             const eshopData = eshopSnapshot.data();
             //console.log(eshopData)
-            return eshopData
+            return eshopData;
         } else {
             console.log(`No e-shop found with ID ${eshopId}`);
-            return null
+            return null;
         }
     }
     const _BundleEshop = () => {
@@ -52,18 +57,20 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
             country: "CZ", url: inputUrl?.current!.value,
             owner: user?.uid
         }
-        return _eshop
+        return _eshop;
     }
+
+    //useEffect&Component
     useEffect(() => {
-        console.log("<ModifFormEshop /> useEffect()")
+        //console.log("<ModifFormEshop /> useEffect()")
         if (props.edit) {
             //console.log("edit")
             //console.log(props.id)
             const eshop_promise = FetchEshop(db, props.id)
             Promise.resolve(eshop_promise)
                 .then((result) => {
-                    console.log("Fetched e-shop")
-                    console.log(result)
+                    //console.log("Fetched e-shop")
+                    //console.log(result)
                     inputName.current!.value = result!.name
                     inputDescription.current!.value = result!.description
                     setCountry(result!.country)
@@ -142,4 +149,5 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
         </Container >
     )
 }
-export default ModifFormEshop
+
+export default ModifFormEshop;

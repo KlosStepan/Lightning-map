@@ -1,22 +1,17 @@
 import React, { useRef, useEffect } from "react";
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl';
 import '../App.css';
-
 //TODO https://github.com/visgl/react-map-gl/issues/1266
 import light64 from '../icons/light64.png'
 
-mapboxgl.accessToken =
-  "pk.eyJ1IjoicHduc3RlcG8iLCJhIjoiY2w3YWltaDBrMHNyMzNxbzhrbWR3cG54byJ9.VzxNCsvHqjjolwUOn1VAdQ";
-
+mapboxgl.accessToken = "pk.eyJ1IjoicHduc3RlcG8iLCJhIjoiY2w3YWltaDBrMHNyMzNxbzhrbWR3cG54byJ9.VzxNCsvHqjjolwUOn1VAdQ";
 // eslint-disable-next-line import/no-webpack-loader-syntax
 mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
 const Map = (props: any) => {
   const mapContainerRef = useRef(null);
-
   // Initialize map when component mounts
   useEffect(() => {
-
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: "mapbox://styles/pwnstepo/cl7aiq2qd003g15nqmwwpyglr",
@@ -58,10 +53,9 @@ const Map = (props: any) => {
         }
       );
     });
-
     // Add navigation control (the +/- zoom buttons)
     map.addControl(new mapboxgl.NavigationControl(), "top-right");
-    // Clean up on unmount
+    // Clean up upon unmount
     return () => map.remove();
   }, [props.pins]);
 
@@ -74,4 +68,4 @@ const Map = (props: any) => {
   );
 };
 
-export default Map
+export default Map;
