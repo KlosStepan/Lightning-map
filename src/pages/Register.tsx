@@ -6,6 +6,7 @@ import {
     registerWithEmailAndPassword,
     signInWithGoogle,
 } from "../components/Firebase";
+
 function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -24,39 +25,39 @@ function Register() {
         <>
             <style type="text/css">
                 {`
-.register {
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .register__container {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    background-color: #dcdcdc;
-    padding: 30px;
-  }
-  .register__textBox {
-    padding: 10px;
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
-  .register__btn {
-    padding: 10px;
-    font-size: 18px;
-    margin-bottom: 10px;
-    border: none;
-    color: white;
-    background-color: black;
-  }
-  .register__google {
-    background-color: #4285f4;
-  }
-  .register div {
-    margin-top: 7px;
-  }
+                    .register {
+                        height: 100vh;
+                        width: 100vw;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    .register__container {
+                        display: flex;
+                        flex-direction: column;
+                        text-align: center;
+                        background-color: #dcdcdc;
+                        padding: 30px;
+                    }
+                    .register__textBox {
+                        padding: 10px;
+                        font-size: 18px;
+                        margin-bottom: 10px;
+                    }
+                    .register__btn {
+                        padding: 10px;
+                        font-size: 18px;
+                        margin-bottom: 10px;
+                        border: none;
+                        color: white;
+                        background-color: black;
+                    }
+                    .register__google {
+                        background-color: #4285f4;
+                    }
+                    .register div {
+                        margin-top: 7px;
+                    }
                 `}
             </style>
             <div className="register">
@@ -97,6 +98,7 @@ function Register() {
                 </div>
             </div>
         </>
-    );
+    )
 }
+
 export default Register;

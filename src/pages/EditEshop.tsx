@@ -5,7 +5,7 @@ import ModifFormEshop from '../components/ModifFormEshop';
 
 function EditEshop() {
     let { id } = useParams()
-    console.log("id is: " + id)
+    //console.log("id is: " + id)
     //TODO get Eshop and push it to the <ModifFormEshop as eshop={}
     //const eshop = null
     useEffect(() => {
@@ -26,4 +26,4 @@ function EditEshop() {
         </>
     )
 }
-export default EditEshop
+export default EditEshop;

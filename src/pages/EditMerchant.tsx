@@ -5,9 +5,9 @@ import ModifFormMerchant from '../components/ModifFormMerchant';
 
 function EditMerchant() {
     let { id } = useParams()
-    console.log("id is: " + id)
+    //console.log("id is: " + id)
     //TODO get Merchant and push it to the <ModifFormMerchant as mechant={}
-    const merchant = null
+    //const merchant = null
     useEffect(() => {
         console.log("useEffect");
     }, [])
@@ -26,4 +26,4 @@ function EditMerchant() {
         </>
     )
 }
-export default EditMerchant
+export default EditMerchant;

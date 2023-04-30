@@ -21,4 +21,4 @@ function AddEshop() {
         </>
     )
 }
-export default AddEshop
+export default AddEshop;

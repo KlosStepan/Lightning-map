@@ -21,4 +21,4 @@ function AddMerchant() {
         </>
     )
 }
-export default AddMerchant
+export default AddMerchant;
