@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db, logout } from "../components/Firebase"
-import { doc, getDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import { Container, Input, Table } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import Map, { Marker, NavigationControl } from 'react-map-gl';
@@ -69,10 +69,17 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
         //SOMEHOW UPDATE
     }
     const AddMerchant = () => {
-        console.log("AddMerchant(), Firebase -> INSERT");
+        //console.log("AddMerchant(), Firebase -> INSERT");
         const _merchant: IMerchant = _BundleMerchant();
-        console.log(_merchant);
-        //addDoc TODO
+        //console.log(_merchant);
+        const merchantsCollectionRef = collection(db, "merchants");
+        addDoc(merchantsCollectionRef, _merchant)
+            .then((docRef) => {
+                console.log("Merchant added successfully! Document reference: ", docRef);
+            })
+            .catch((error) => {
+                console.error("Error adding merchant: ", error);
+            });
     }
     const FetchMerchant = async (db: any, id: any) => {
         const merchantId = id;

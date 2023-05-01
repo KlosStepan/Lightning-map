@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db, logout } from "../components/Firebase"
-import { doc, getDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import { Container, Input, Table } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 //TypeScript
@@ -31,11 +31,18 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
         console.log(_eshop);
         //SOMEHOW UPDATE
     }
-    const AddEshop = () => {
-        console.log("AddEshop(), Firebase -> INSERT")
+    const AddEshop = async () => {
+        //console.log("AddEshop(), Firebase -> INSERT")
         const _eshop: IEshop = _BundleEshop();
-        console.log(_eshop);
-        //addDoc TODO
+        //console.log(_eshop);
+        const eshopCollectionRef = collection(db, "eshops");
+        addDoc(eshopCollectionRef, _eshop)
+            .then((docRef) => {
+                console.log("Eshop added successfully! Document reference: ", docRef);
+            })
+            .catch((error) => {
+                console.error("Error adding eshop: ", error);
+            });
     }
     const FetchEshop = async (db: any, id: any) => {
         const eshopId = id;
