@@ -26,8 +26,6 @@ function Login() {
             <style type="text/css">
                 {`
                 .login {
-                    height: 100vh;
-                    /* width: 100vw; */
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -36,32 +34,22 @@ function Login() {
                     display: flex;
                     flex-direction: column;
                     text-align: center;
-                    background-color: #dcdcdc;
                     padding: 30px;
                   }
                   .login__textBox {
-                    padding: 10px;
-                    font-size: 18px;
+                    background: white;
+                    padding: 8px 8px 8px 8px !important;
                     margin-bottom: 10px;
+                    color: black !important;
                   }
-                  .login__btn {
-                    padding: 10px;
-                    font-size: 18px;
-                    margin-bottom: 10px;
-                    border: none;
-                    color: white;
-                    background-color: black;
-                  }
-                  .login__google {
-                    background-color: #4285f4;
-                  }
-                  .login div {
-                    margin-top: 7px;
-                  }
+                  a {
+                    transition: all 0.35s;
+                    color: black;
+                    }
                 `}
             </style>
             <div className="login">
-                <div className="login__container">
+                <div className="login__container boxed">
                     <input
                         type="text"
                         className="login__textBox"
@@ -77,12 +65,12 @@ function Login() {
                         placeholder="Password"
                     />
                     <button
-                        className="login__btn"
+                        className="boxed btnStyle ptHover"
                         onClick={() => logInWithEmailAndPassword(email, password)}
                     >
                         Login
                     </button>
-                    <button className="login__btn login__google" onClick={signInWithGoogle}>
+                    <button className="boxed btnStyle ptHover" onClick={signInWithGoogle}>
                         Login with Google
                     </button>
                     <div>
