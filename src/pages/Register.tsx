@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import '../App.css';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -25,69 +26,40 @@ function Register() {
         <>
             <style type="text/css">
                 {`
-                    .register {
-                        height: 100vh;
-                        width: 100vw;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                    }
-                    .register__container {
-                        display: flex;
-                        flex-direction: column;
-                        text-align: center;
-                        background-color: #dcdcdc;
-                        padding: 30px;
-                    }
-                    .register__textBox {
-                        padding: 10px;
-                        font-size: 18px;
-                        margin-bottom: 10px;
-                    }
-                    .register__btn {
-                        padding: 10px;
-                        font-size: 18px;
-                        margin-bottom: 10px;
-                        border: none;
-                        color: white;
-                        background-color: black;
-                    }
-                    .register__google {
-                        background-color: #4285f4;
-                    }
-                    .register div {
-                        margin-top: 7px;
-                    }
+                a {
+                    transition: all 0.35s;
+                    color: black;
+                }
                 `}
             </style>
-            <div className="register">
-                <div className="register__container">
+            <div className="authForm_page">
+                <div className="authForm_container boxed">
                     <input
                         type="text"
-                        className="register__textBox"
+                        className="authForm_textBox"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Full Name"
                     />
                     <input
                         type="text"
-                        className="register__textBox"
+                        className="authForm_textBox"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="E-mail Address"
                     />
                     <input
                         type="password"
-                        className="register__textBox"
+                        className="authForm_textBox"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="Password"
                     />
-                    <button className="register__btn" onClick={register}>
+                    <button className="boxed btnStyle ptHover" onClick={register}>
                         Register
                     </button>
                     <button
-                        className="register__btn register__google"
+                        className="boxed btnStyle ptHover"
                         onClick={signInWithGoogle}
                     >
                         Register with Google

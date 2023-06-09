@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import '../App.css';
 import { Link, useNavigate } from "react-router-dom";
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from "../components/Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -25,41 +26,41 @@ function Login() {
         <>
             <style type="text/css">
                 {`
-                .login {
+                .authForm_page {
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                  }
-                  .login__container {
+                }
+                .authForm_container {
                     display: flex;
                     flex-direction: column;
                     text-align: center;
                     padding: 30px;
-                  }
-                  .login__textBox {
+                }
+                .authForm_textBox {
                     background: white;
                     padding: 8px 8px 8px 8px !important;
                     margin-bottom: 10px;
                     color: black !important;
-                  }
-                  a {
+                }
+                a {
                     transition: all 0.35s;
                     color: black;
-                    }
+                }
                 `}
             </style>
-            <div className="login">
-                <div className="login__container boxed">
+            <div className="authForm_page">
+                <div className="authForm_container boxed">
                     <input
                         type="text"
-                        className="login__textBox"
+                        className="authForm_textBox"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="E-mail Address"
                     />
                     <input
                         type="password"
-                        className="login__textBox"
+                        className="authForm_textBox"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="Password"

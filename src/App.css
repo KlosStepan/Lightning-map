@@ -155,3 +155,25 @@
 .ptHover:hover {
   cursor: pointer;
 }
+
+/*Login/Register style unification*/
+
+.authForm_page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.authForm_container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 30px;
+}
+
+.authForm_textBox {
+  background: white;
+  padding: 8px 8px 8px 8px !important;
+  margin-bottom: 10px;
+  color: black !important;
+}
