@@ -1,44 +1,54 @@
 import React, { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { Link, useNavigate } from "react-router-dom";
-//import "./Dashboard.css";
 import { Col, Container, Row, Table } from 'reactstrap';
+import { Link, useNavigate } from "react-router-dom";
+//Firebase stuff
+import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db, logout } from "../components/Firebase"
 import { query, collection, getDocs, where } from "firebase/firestore";
-import { Pwnspinner } from 'pwnspinner';
-//https://blog.logrocket.com/user-authentication-firebase-react-apps/
 //TypeScript
 import IEshop from "../ts/IEeshop";
-import IMechant from "../ts/IMerchant";
-/*interface IEshopAdmin {
-    id: String,
+import IMerchant from "../ts/IMerchant";
+//Other
+import { Pwnspinner } from 'pwnspinner';
+
+//Typed Interfaces rewrapping w/ id->IAdmin
+interface IEshopAdmin {
+    id: string,
     data: IEshop
 }
 interface IMerchantAdmin {
-    id: String,
-    data: IMechant
-}*/
+    id: string,
+    data: IMerchant
+}
 
 function Dashboard() {
-    const [user, loading, error] = useAuthState(auth);
-    const [eshopsCZ, setEshopsCZ] = useState<any[]>([]);
-    const [myMerchants, setMyMerchants] = useState<any[]>([]);
     const navigate = useNavigate();
-
+    const [user, loading, error] = useAuthState(auth);
+    //Lists for Dashboard
+    const [eshopsCZ, setEshopsCZ] = useState<IEshopAdmin[]>([]);
+    const [myMerchants, setMyMerchants] = useState<IMerchantAdmin[]>([]);
+    //DELETES
+    const DeleteEshop = async (eshop_id: string) => {
+        console.log("delete eshop ", eshop_id)
+    }
+    const DeleteMerchant = async (merchant_id: string) => {
+        console.log("delete merchant ", merchant_id)
+    }
+    //useEffect
     useEffect(() => {
+        //console.log("useEffect() Dashboard")
         if (loading) return;
         if (!user) return navigate("/");
         //owner for my mechants & eshops
         const owner = user?.uid
-
         const getMyEshopscz = async (db: any, owner: string) => {
-            const eshopsczSnapshot: any = await getDocs(query(collection(db, 'eshops'), where('owner', '==', owner)));
-            let eshopscz: any[] = []
-            eshopsczSnapshot.forEach((doc: any) => {
+            const eshopsczSnapshot = await getDocs(query(collection(db, 'eshops'), where('owner', '==', owner)));
+            let eshopscz: IEshopAdmin[] = []
+            eshopsczSnapshot.forEach((doc) => {
                 console.log(doc.id, " => ", doc.data())
                 eshopscz.push({
                     id: doc.id,
-                    data: doc.data()
+                    data: doc.data() as IEshop
                 })
             })
             //console.log("rewrapped eshopscz")
@@ -47,12 +57,12 @@ function Dashboard() {
         }
         const getMyMerchants = async (db: any, owner: string) => {
             const merchSnapshot = await getDocs(query(collection(db, 'merchants'), where('properties.owner', '==', owner)));
-            let merchants: any[] = []
+            let merchants: IMerchantAdmin[] = []
             merchSnapshot.forEach((doc) => {
                 console.log(doc.id, " => ", doc.data())
                 merchants.push({
                     id: doc.id,
-                    data: doc.data()
+                    data: doc.data() as IMerchant
                 })
             })
             //console.log("rewrapped merchants")
@@ -62,6 +72,8 @@ function Dashboard() {
         getMyEshopscz(db, owner)
         getMyMerchants(db, owner)
     }, [user, loading]);
+
+    //COMPONENT JSX FRAGMENT
     return (
         <>
             <style type="text/css">
@@ -119,7 +131,7 @@ function Dashboard() {
                                                 <td>{merch.data.properties.title}</td>
                                                 <td>{merch.data.properties.description}</td>
                                                 <td>[{merch.data.geometry.coordinates[0]}, {merch.data.geometry.coordinates[1]}]</td>
-                                                <td><Link className="navRemoveUnderscoreInLinkA" to={"/merchants/edit/" + merch.id}><span className="boxed btnStyle ptHover">EDIT</span></Link><span className="boxed btnStyle ptHover">DEL</span>
+                                                <td><Link className="navRemoveUnderscoreInLinkA" to={"/merchants/edit/" + merch.id}><span className="boxed btnStyle ptHover">EDIT</span></Link><span className="boxed btnStyle ptHover" onClick={() => DeleteMerchant(merch.id)}>DEL</span>
                                                 </td>
                                             </tr>)
                                         : <tr><td>not ok</td></tr>
@@ -152,7 +164,7 @@ function Dashboard() {
                                                 <td>{eshop.data.name}</td>
                                                 <td>{eshop.data.description}</td>
                                                 <td>{eshop.data.url}</td>
-                                                <td><Link className="navRemoveUnderscoreInLinkA" to={"/eshops/edit/" + eshop.id}><span className="boxed btnStyle ptHover">EDIT</span></Link><span className="boxed btnStyle ptHover">DEL</span>
+                                                <td><Link className="navRemoveUnderscoreInLinkA" to={"/eshops/edit/" + eshop.id}><span className="boxed btnStyle ptHover">EDIT</span></Link><span className="boxed btnStyle ptHover" onClick={() => DeleteEshop(eshop.id)}>DEL</span>
                                                 </td>
                                             </tr>)
                                         : <tr><td>not ok</td></tr>

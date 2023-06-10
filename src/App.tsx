@@ -1,31 +1,29 @@
 import React, { useEffect } from 'react';
-import ReactDOM from 'react-dom'
-import logo from './logo.svg';
+import { Col, Container, Row } from 'reactstrap';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+//import ReactDOM from 'react-dom'
+//import logo from './logo.svg';
 import 'bootstrap/dist/css/bootstrap.css';
 //import ReactMapGl, { Layer, Feature, Marker } from 'react-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import './css/layout1-color2.css';
 import './App.css';
-
-import { Col, Container, Row } from 'reactstrap';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-//import { useDispatch, useSelector } from 'react-redux'
+//Redux
+import { useDispatch, useSelector } from 'react-redux';
 import { setMerchants, setEshopscz } from './redux/actions/lightningMapActions';
-
+//Web - Pages
 import Eshopscz from './pages/Eshopscz';
-import Map from './components/Map';
-import Menu from './components/Menu';
 import About from './pages/About';
 import Login from './pages/Login';
-
-import LightningAcceptedHere from './icons/Lightning-accepted-here.png'
-
-import { collection, getDocs } from "firebase/firestore";
-import { useDispatch, useSelector } from 'react-redux';
-import { db } from "./components/Firebase";
-import Dashboard from './pages/Dashboard';
 import Register from './pages/Register';
-//Add/Edit imports
+//Web - Components
+import Menu from './components/Menu';
+import Map from './components/Map';
+//Firebase
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "./components/Firebase";
+//Admin - Add/Edit imports
+import Dashboard from './pages/Dashboard';
 import AddEshop from './pages/AddEshop';
 import EditEshop from './pages/EditEshop';
 import AddMerchant from './pages/AddMerchant';
@@ -33,21 +31,21 @@ import EditMerchant from './pages/EditMerchant';
 
 function App() {
   const dispatch = useDispatch()
-
   const merchants = useSelector((state: any) => state.allReducers.merchants)
   console.log(merchants)
-
   useEffect(() => {
     const getMerchants = async (db: any) => {
       const merchSnapshot: any = await getDocs(collection(db, 'merchants'));
       const listMerchants = merchSnapshot.docs.map((doc: any) => doc.data());
-      console.log("list Merchants")
-      console.log(listMerchants)
+      //console.log("list Merchants")
+      //console.log(listMerchants)
       dispatch(setMerchants(listMerchants));
     }
     const getEschopscz = async (db: any) => {
       const eshopsczSnapshot: any = await getDocs(collection(db, 'eshops'));
       const listEshopscz = eshopsczSnapshot.docs.map((doc: any) => doc.data());
+      //console.log("list Eshopscz")
+      //console.log(listEshopscz)
       dispatch(setEshopscz(listEshopscz));
     }
 

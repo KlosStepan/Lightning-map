@@ -15,7 +15,7 @@ function Menu() {
     return (
         <div>
             <Navbar color="white" light expand="md">
-                <Link onClick={() => console.log("home-pressed")} className="navRemoveUnderscoreInLinkA navbarHomeBtn" to="/">
+                <Link /*onClick={() => console.log("home-pressed")}*/ className="navRemoveUnderscoreInLinkA navbarHomeBtn" to="/">
                     <span>DOMŮ</span>
                 </Link>
                 <span>&nbsp;</span>
