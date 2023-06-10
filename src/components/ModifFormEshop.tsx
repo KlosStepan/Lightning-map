@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db, logout } from "../components/Firebase"
-import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import { Container, Input, Table } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
+//Firebase stuff
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, db, logout } from "../components/Firebase"
+import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
 //TypeScript
 import IEshop from '../ts/IEeshop';
+
+//Typed props
 interface IModifFormEshopProps {
     edit?: boolean
     id?: string
@@ -24,17 +27,13 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
     const inputUrl = useRef<HTMLInputElement>(null);
     ////FORM STUFF
 
-    //Our Fetch/Save functions
-    const UpdateEshop = () => {
-        console.log(`UpdateEshop(), Firebase -> UPDATE/${props.id}`)
-        const _eshop: IEshop = _BundleEshop();
-        console.log(_eshop);
-        //SOMEHOW UPDATE
-    }
+    //OUR FETCH/SAVE FUNCTION
     const AddEshop = async () => {
-        //console.log("AddEshop(), Firebase -> INSERT")
         const _eshop: IEshop = _BundleEshop();
+        //console.log("AddEshop(), Firebase -> INSERT")
         //console.log(_eshop);
+
+        //Collection Ref->ADD
         const eshopCollectionRef = collection(db, "eshops");
         addDoc(eshopCollectionRef, _eshop)
             .then((docRef) => {
@@ -46,7 +45,7 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
     }
     const FetchEshop = async (db: any, id: any) => {
         const eshopId = id;
-        const eshopRef = doc(db, 'eshops', eshopId);
+        const eshopRef = doc(db, "eshops", eshopId);
         const eshopSnapshot = await getDoc(eshopRef);
         if (eshopSnapshot.exists()) {
             const eshopData = eshopSnapshot.data();
@@ -57,17 +56,32 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
             return null;
         }
     }
+    const UpdateEshop = async () => {
+        const _eshop: IEshop = _BundleEshop();
+        //console.log(`UpdateEshop(), Firebase -> UPDATE/${props.id}`)
+        //console.log(_eshop);
+
+        //Eshop Ref->UPDATE
+        const eshopDocRef = doc(db, "eshops", props.id as string)
+        try {
+            await updateDoc(eshopDocRef, { ..._eshop });
+            console.log("Eshop updated successfully!");
+        } catch (error) {
+            console.error("Error updating eshop: ", error);
+        }
+    }
+    //INTERNAL BUNDLING FUNCTION
     const _BundleEshop = () => {
         const _eshop: IEshop = {
             name: inputName?.current!.value,
             description: inputDescription?.current!.value,
-            country: "CZ", url: inputUrl?.current!.value,
+            country: "CZ",
+            url: inputUrl?.current!.value,
             owner: user?.uid
         }
         return _eshop;
     }
-
-    //useEffect&Component
+    //useEffect
     useEffect(() => {
         //console.log("<ModifFormEshop /> useEffect()")
         if (props.edit) {
@@ -87,14 +101,16 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
                     console.log(e)
                 })
         }
-    })
+    }, [])
+
+    //COMPONENT JSX FRAGMENT
     return (
         <Container>
             <Table>
                 <thead>
                     <tr>
                         <th className='justWrap'><span className="btnStyle ptHover" onClick={() => { navigate(-1) }} > &lt; BACK </span></th>
-                        <th></th>
+                        <th>&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -105,9 +121,6 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
                                 type="textarea"
                                 rows="1"
                                 innerRef={inputName}
-                            //ref={inputName}
-                            //value={(formKod) ? formKod : ""}
-                            //onChange={(e: any) => { setFormKod(e.target.value) }}
                             />
                         </td>
                     </tr>
@@ -129,9 +142,6 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
                                 type="textarea"
                                 rows="1"
                                 value={country}
-                            //ref={inputName}
-                            //value={(formKod) ? formKod : ""}
-                            //onChange={(e: any) => { setFormKod(e.target.value) }}
                             />
                         </td>
                     </tr>

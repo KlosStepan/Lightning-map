@@ -1,19 +1,18 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db, logout } from "../components/Firebase"
-import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import { Container, Input, Table } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
+//Firebase stuff
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, db, logout } from "../components/Firebase"
+import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
+//Map stuff
 import Map, { Marker, NavigationControl } from 'react-map-gl';
-import Pin from './pin';
 import type { MarkerDragEvent, LngLat } from 'react-map-gl';
 //import ControlPanel from './ControlPanel';
+import Pin from './pin';
 //TypeScript
 import IMerchant from '../ts/IMerchant';
-interface IModifFormMerchantProps {
-    edit?: boolean
-    id?: string
-}
+
 //Token variable and default settings for map camera
 const TOKEN = 'pk.eyJ1IjoicHduc3RlcG8iLCJhIjoiY2w3YWltaDBrMHNyMzNxbzhrbWR3cG54byJ9.VzxNCsvHqjjolwUOn1VAdQ';
 const initialViewState = {
@@ -21,6 +20,12 @@ const initialViewState = {
     longitude: 14.498,
     zoom: 10.25
 };
+
+//Typed props
+interface IModifFormMerchantProps {
+    edit?: boolean
+    id?: string
+}
 
 function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
     const navigate = useNavigate();
@@ -41,7 +46,7 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
     });
     ////FORM STUFF
 
-    //Form Map Event Functions
+    //FORM MAP Event Functions
     const [events, logEvents] = useState<Record<string, LngLat>>({});
     const onMarkerDragStart = useCallback((event: MarkerDragEvent) => {
         logEvents(_events => ({ ..._events, onDragStart: event.lngLat }));
@@ -61,17 +66,13 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
         setCoordY(event.lngLat.lat)
     }, []);
 
-    //Our Fetch/Save functions
-    const UpdateMerchant = () => {
-        console.log(`UpdateMerchant(), Firebase -> UPDATE/${props.id}`);
-        const _merchant: IMerchant = _BundleMerchant();
-        console.log(_merchant);
-        //SOMEHOW UPDATE
-    }
+    //OUR FETCH/SAVE FUNCTION
     const AddMerchant = () => {
-        //console.log("AddMerchant(), Firebase -> INSERT");
         const _merchant: IMerchant = _BundleMerchant();
+        //console.log("AddMerchant(), Firebase -> INSERT");
         //console.log(_merchant);
+
+        //Collection Ref->ADD
         const merchantsCollectionRef = collection(db, "merchants");
         addDoc(merchantsCollectionRef, _merchant)
             .then((docRef) => {
@@ -89,12 +90,26 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
             const merchantData = merchantSnapshot.data();
             //console.log(merchantData)
             return merchantData;
-        }
-        else {
+        } else {
             console.log(`No merchant found with ID ${merchantId}`);
             return null;
         }
     }
+    const UpdateMerchant = async () => {
+        const _merchant: IMerchant = _BundleMerchant();
+        console.log(`UpdateMerchant(), Firebase -> UPDATE/${props.id}`);
+        console.log(_merchant);
+
+        //Merchant Ref->UPDATE
+        const merchantDocRef = doc(db, "merchants", props.id as string)
+        try {
+            await updateDoc(merchantDocRef, { ..._merchant });
+            console.log("Merchant updated successfully!");
+        } catch (error) {
+            console.error("Error updating merchant: ", error);
+        }
+    }
+    //INTERNAL BUNDLING FUNCTION
     const _BundleMerchant = () => {
         const _merchant: IMerchant = {
             geometry: {
@@ -110,18 +125,17 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
         };
         return _merchant;
     }
-
-    //useEffect&Component
+    //useEffect
     useEffect(() => {
-        console.log("<ModifFormMerchant /> useEffect()")
+        //console.log("<ModifFormMerchant /> useEffect()")
         if (props.edit) {
             //console.log("edit")
             //console.log(props.id)
             const merchant_promise = FetchMerchant(db, props.id)
             Promise.resolve(merchant_promise)
                 .then((result) => {
-                    console.log("Fetched merchant")
-                    console.log(result)
+                    //console.log("Fetched merchant")
+                    //console.log(result)
                     inputTitle.current!.value = result!.properties.title
                     inputDescription.current!.value = result!.properties.description
                     setCoordX(result!.geometry.coordinates[0])
@@ -136,16 +150,18 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
                 })
         }
     }, [])
+
+    //COMPONENT JSX FRAGMENT
     return (
         <>
             <style type="text/css">
                 {`
-            .mapboxgl-map {
-                position: absolute;
-                top: 0;
-                bottom: 0;
-                width: 100%;
-                height: 300px !important;
+                .mapboxgl-map {
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    width: 100%;
+                    height: 300px !important;
                 }
             `}
             </style>
@@ -165,8 +181,6 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
                                     type="textarea"
                                     rows="1"
                                     innerRef={inputTitle}
-                                //value={(formKod) ? formKod : ""}
-                                //onChange={(e: any) => { setFormKod(e.target.value) }}
                                 />
                             </td>
                         </tr>

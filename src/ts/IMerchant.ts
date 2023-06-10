@@ -1,4 +1,3 @@
-//todo
 interface IMerchant {
     geometry: {
         coordinates: [number, number]
