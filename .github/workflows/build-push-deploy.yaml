@@ -35,7 +35,7 @@ jobs:
       run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|stepanklos/lightning_map:'${TAG}'|' $GITHUB_WORKSPACE/config/deployment.yaml
     
     - name: Print Cluster Name
-      run: echo ${{ env.CLUSTER_NAME }}
+      run: echo ${{ secrets.CLUSTER_NAME }}
     
     - name: Save DigitalOcean kubeconfig with short-lived credentials
       run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-1-24-4-do-0-ams3-1662414081395
