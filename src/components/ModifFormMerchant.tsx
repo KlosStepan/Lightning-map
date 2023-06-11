@@ -36,6 +36,7 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
     ////FORM STUFF
     const inputTitle = useRef<HTMLInputElement>(null);
     const inputDescription = useRef<HTMLInputElement>(null);
+    const [visible, setVisible] = useState<boolean>(false);
     //Lng Lat X,Y - onDropEnd
     const [coordX, setCoordX] = useState<number>(14.498);
     const [coordY, setCoordY] = useState<number>(50.065);
@@ -119,7 +120,8 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
             properties: {
                 description: inputDescription?.current!.value,
                 owner: user?.uid,
-                title: inputTitle?.current!.value
+                title: inputTitle?.current!.value,
+                visible: visible
             },
             type: "Feature"
         };
@@ -138,6 +140,7 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
                     //console.log(result)
                     inputTitle.current!.value = result!.properties.title
                     inputDescription.current!.value = result!.properties.description
+                    setVisible(result!.properties.visible)
                     setCoordX(result!.geometry.coordinates[0])
                     setCoordY(result!.geometry.coordinates[1])
                     setMarker({
@@ -217,6 +220,17 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
                                     <NavigationControl />
                                 </Map>
                                 {/*<ControlPanel events={events} />*/}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th className='justWrap'>VISIBLE</th>
+                            <td>
+                                <Input
+                                    disabled
+                                    type="textarea"
+                                    rows="1"
+                                    value={+visible}
+                                />
                             </td>
                         </tr>
                     </tbody>

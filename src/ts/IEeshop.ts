@@ -4,5 +4,6 @@ interface IEshop {
     country: string
     url: string
     owner: string | undefined
+    visible: boolean
 }
 export default IEshop

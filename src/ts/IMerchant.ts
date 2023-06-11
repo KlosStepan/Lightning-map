@@ -7,6 +7,7 @@ interface IMerchant {
         description: string
         owner: string | undefined
         title: string
+        visible: boolean
     }
     type: string
 }

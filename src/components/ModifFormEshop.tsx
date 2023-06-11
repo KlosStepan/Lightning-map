@@ -25,6 +25,7 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
     const inputDescription = useRef<HTMLInputElement>(null);
     const [country, setCountry] = useState("CZ");
     const inputUrl = useRef<HTMLInputElement>(null);
+    const [visible, setVisible] = useState<boolean>(false);
     ////FORM STUFF
 
     //OUR FETCH/SAVE FUNCTION
@@ -77,7 +78,8 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
             description: inputDescription?.current!.value,
             country: "CZ",
             url: inputUrl?.current!.value,
-            owner: user?.uid
+            owner: user?.uid,
+            visible: visible
         }
         return _eshop;
     }
@@ -94,6 +96,7 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
                     //console.log(result)
                     inputName.current!.value = result!.name
                     inputDescription.current!.value = result!.description
+                    setVisible(result!.visible)
                     setCountry(result!.country)
                     inputUrl.current!.value = result!.url
                 })
@@ -152,6 +155,17 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
                                 type="textarea"
                                 rows="1"
                                 innerRef={inputUrl}
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th className='justWrap'>VISIBLE</th>
+                        <td>
+                            <Input
+                                disabled
+                                type="textarea"
+                                rows="1"
+                                value={+visible}
                             />
                         </td>
                     </tr>

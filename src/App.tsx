@@ -20,7 +20,7 @@ import Register from './pages/Register';
 import Menu from './components/Menu';
 import Map from './components/Map';
 //Firebase
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "./components/Firebase";
 //Admin - Add/Edit imports
 import Dashboard from './pages/Dashboard';
@@ -35,14 +35,14 @@ function App() {
   console.log(merchants)
   useEffect(() => {
     const getMerchants = async (db: any) => {
-      const merchSnapshot: any = await getDocs(collection(db, 'merchants'));
+      const merchSnapshot: any = await getDocs(query(collection(db, 'merchants'), where('properties.visible', '==', true)));
       const listMerchants = merchSnapshot.docs.map((doc: any) => doc.data());
       //console.log("list Merchants")
       //console.log(listMerchants)
       dispatch(setMerchants(listMerchants));
     }
     const getEschopscz = async (db: any) => {
-      const eshopsczSnapshot: any = await getDocs(collection(db, 'eshops'));
+      const eshopsczSnapshot: any = await getDocs(query(collection(db, 'eshops'), where('visible', '==', true)));
       const listEshopscz = eshopsczSnapshot.docs.map((doc: any) => doc.data());
       //console.log("list Eshopscz")
       //console.log(listEshopscz)
