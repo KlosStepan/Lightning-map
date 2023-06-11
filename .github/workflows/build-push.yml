@@ -16,11 +16,30 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
+    - name: Install doctl
+      uses: digitalocean/action-doctl@v2
+      with:
+        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
     - name: Build Docker image
-      run: docker build -t stepanklos/lightning_map:latest .
+      run: docker build -t stepanklos/lightning_map:$(echo $GITHUB_SHA | head -c7) .
 
     - name: Dockerhub login
       run: docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Push image to Dockerhub
-      run: docker push stepanklos/lightning_map:latest
+      run: docker push stepanklos/lightning_map:$(echo $GITHUB_SHA | head -c7)
+
+    - name: Update deployment file
+      run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|stepanklos/lightning_map:'${TAG}'|' $GITHUB_WORKSPACE/config/deployment.yaml
+
+    - name: Save DigitalOcean kubeconfig with short-lived credentials
+      run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 do-ams3-k8s-1-24-4-do-0-ams3-1662414081395
+
+    - name: Deploy to DigitalOcean Kubernetes
+      run: kubectl apply -f $GITHUB_WORKSPACE/config/deployment.yaml
+
+    - name: Verify Deployment
+      run: kubectl rollout status deployment/lnmap
+
+
