@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Build+Push+Deploy LNMap into K8s
 
 on:
   workflow_dispatch:
