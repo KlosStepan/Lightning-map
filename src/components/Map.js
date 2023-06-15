@@ -61,7 +61,7 @@ const Map = (props: any) => {
 
   return (
     <>
-      <h1 className="title">Places accepting lightning</h1>
+      <h1 className="title">Merchants accepting LN</h1>
       <hr />
       <div className="map-container" ref={mapContainerRef} />
     </>

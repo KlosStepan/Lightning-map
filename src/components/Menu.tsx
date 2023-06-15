@@ -25,7 +25,7 @@ function Menu() {
                     <Nav className="mr-auto" navbar>
                         <NavItem className="navbarItem">
                             <Link className="nav-link" to="/eshops">
-                                <span>ESHOPS</span>
+                                <span>E-SHOPS</span>
                             </Link>
                         </NavItem>
                         <NavItem className="navbarItem">

@@ -9,14 +9,14 @@ function Eshopscz() {
     //console.log(eshopscz)
     return (
         <div>
-            <h1 className="title">Eshops</h1>
+            <h1 className="title">E-shops</h1>
             <hr />
             <Table>
                 <thead>
                     <tr>
-                        <th>name</th>
-                        <th>description</th>
-                        <th>url</th>
+                        <th>Name</th>
+                        <th>E-shop Description</th>
+                        <th>URL</th>
                     </tr>
                 </thead>
                 <tbody>

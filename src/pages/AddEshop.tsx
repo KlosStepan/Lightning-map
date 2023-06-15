@@ -11,7 +11,7 @@ function AddEshop() {
             <Container>
                 <Row>
                     <Col>
-                        <h1 className="title">Add Eshop</h1>
+                        <h1 className="title">Add E-shop</h1>
                         <hr />
                         <div>&nbsp;</div>
                         <ModifFormEshop />

@@ -119,7 +119,7 @@ function Dashboard() {
                                 <tr>
                                     <th>Title</th>
                                     <th>Description</th>
-                                    <th>Coordinates [x, y]</th>
+                                    <th>Coord/s [x, y]</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -140,7 +140,7 @@ function Dashboard() {
                         </Table>
                     </Col>
                     <Col>
-                        <h1 className="title">Eshops</h1>
+                        <h1 className="title">E-shops</h1>
                         <hr />
                         <div>&nbsp;</div>
                         <Link className="nav-link" to="/eshops/add">
