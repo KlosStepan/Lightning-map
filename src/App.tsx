@@ -1,101 +1,174 @@
-import React, { useEffect } from 'react';
-import { Col, Container, Row } from 'reactstrap';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-//import ReactDOM from 'react-dom'
-//import logo from './logo.svg';
-import 'bootstrap/dist/css/bootstrap.css';
-//import ReactMapGl, { Layer, Feature, Marker } from 'react-mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import './css/layout1-color2.css';
-import './App.css';
-//Redux
-import { useDispatch, useSelector } from 'react-redux';
-import { setMerchants, setEshopscz } from './redux/actions/lightningMapActions';
-//Web - Pages
-import Eshopscz from './pages/Eshopscz';
-import About from './pages/About';
-import Login from './pages/Login';
-import Register from './pages/Register';
-//Web - Components
-import Menu from './components/Menu';
-import Map from './components/Map';
-//Firebase
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "./components/Firebase";
-//Admin - Add/Edit imports
-import Dashboard from './pages/Dashboard';
-import AddEshop from './pages/AddEshop';
-import EditEshop from './pages/EditEshop';
-import AddMerchant from './pages/AddMerchant';
-import EditMerchant from './pages/EditMerchant';
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import { Card, CardMedia } from '@mui/material';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+//import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
+//import AdbIcon from '@mui/icons-material/Adb';
+import logo from './img/lightning-everywhere.png'
+//
+const pages = ['Map', 'E-shops', 'Why Lightning', 'Blog', 'About'];
+const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function App() {
-  const dispatch = useDispatch()
-  const merchants = useSelector((state: any) => state.allReducers.merchants)
-  console.log(merchants)
-  useEffect(() => {
-    const getMerchants = async (db: any) => {
-      const merchSnapshot: any = await getDocs(query(collection(db, 'merchants'), where('properties.visible', '==', true)));
-      const listMerchants = merchSnapshot.docs.map((doc: any) => doc.data());
-      //console.log("list Merchants")
-      //console.log(listMerchants)
-      dispatch(setMerchants(listMerchants));
-    }
-    const getEschopscz = async (db: any) => {
-      const eshopsczSnapshot: any = await getDocs(query(collection(db, 'eshops'), where('visible', '==', true)));
-      const listEshopscz = eshopsczSnapshot.docs.map((doc: any) => doc.data());
-      //console.log("list Eshopscz")
-      //console.log(listEshopscz)
-      dispatch(setEshopscz(listEshopscz));
-    }
+    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
-    getMerchants(db);
-    getEschopscz(db);
-  }, []);
-  return (
-    <Router>
-      <div className="App">
-        <Container className='container main-container'>
-          <Row>
-            <Col>
-              <header>
-                <div className="resume-title">
-                  <h2>Bitcoin</h2>
-                  <h2>Lightning Network ⚡</h2>
-                  <div className="resume-designation extra-offset-md">
-                    <span className="border"></span>
-                    <span>Prague, Czech Republic</span>
-                  </div>
-                </div>
-              </header>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <span className=""><Menu /></span>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Routes>
-                <Route path="/" element={<Map pins={merchants} />} />
-                <Route path="/eshops" element={<Eshopscz />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/merchants/add" element={<AddMerchant />} />
-                <Route path="/merchants/edit/:id" element={<EditMerchant />} />
-                <Route path="/eshops/add" element={<AddEshop />} />
-                <Route path="/eshops/edit/:id" element={<EditEshop />} />
-              </Routes>
-            </Col>
-          </Row>
-          <Row><Col><p className="alignCenter">by pwnstepo.io</p></Col></Row>
-        </Container>
-      </div>
-    </Router>
-  );
+    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorElNav(event.currentTarget);
+    };
+    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorElUser(event.currentTarget);
+    };
+
+    const handleCloseNavMenu = () => {
+        setAnchorElNav(null);
+    };
+
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
+
+    return (
+        <AppBar position="static" sx={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+            <Container maxWidth="xl">
+                <Toolbar disableGutters>
+                    {/*<AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />*/}
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        component="a"
+                        href="#app-bar-with-responsive-menu"
+                        sx={{
+                            mr: 2,
+                            display: { xs: 'none', md: 'flex' },
+                            fontFamily: 'monospace',
+                            fontWeight: 700,
+                            letterSpacing: '.3rem',
+                            //: 'inherit',
+                            textDecoration: 'none',
+                        }}
+                    >
+                        <CardMedia
+                            component="img"
+                            image={logo}
+                            alt="Lightning Everywhere"
+                        />
+                    </Typography>
+
+                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                        <IconButton
+                            size="large"
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={handleOpenNavMenu}
+                            color="inherit"
+                        >
+                            {/*<MenuIcon />*/}
+                        </IconButton>
+                        <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorElNav}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}
+                            open={Boolean(anchorElNav)}
+                            onClose={handleCloseNavMenu}
+                            sx={{
+                                display: { xs: 'block', md: 'none' },
+                            }}
+                        >
+                            {pages.map((page) => (
+                                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                                    <Typography textAlign="center">{page}</Typography>
+                                </MenuItem>
+                            ))}
+                        </Menu>
+                    </Box>
+                    {/*<AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />*/}
+                    <Typography
+                        variant="h5"
+                        noWrap
+                        component="a"
+                        href="#app-bar-with-responsive-menu"
+                        sx={{
+                            mr: 2,
+                            display: { xs: 'flex', md: 'none' },
+                            flexGrow: 1,
+                            fontFamily: 'monospace',
+                            fontWeight: 700,
+                            letterSpacing: '.3rem',
+                            color: 'inherit',
+                            textDecoration: 'none',
+                        }}
+                    >
+                        <CardMedia
+                            component="img"
+                            width="164"
+                            height="51"
+                            image={logo}
+                            alt="Lightning Everywhere"
+                        />
+                    </Typography>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
+                        {pages.map((page) => (
+                            <Button
+                                key={page}
+                                onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: 'grey', display: 'block' }}
+                            >
+                                / {page}
+                            </Button>
+                        ))}
+                    </Box>
+
+                    <Box sx={{ flexGrow: 0 }}>
+                        <Tooltip title="Open settings">
+                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                            </IconButton>
+                        </Tooltip>
+                        <Menu
+                            sx={{ mt: '45px' }}
+                            id="menu-appbar"
+                            anchorEl={anchorElUser}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            open={Boolean(anchorElUser)}
+                            onClose={handleCloseUserMenu}
+                        >
+                            {settings.map((setting) => (
+                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                    <Typography textAlign="center">{setting}</Typography>
+                                </MenuItem>
+                            ))}
+                        </Menu>
+                    </Box>
+                </Toolbar>
+            </Container>
+        </AppBar>
+    );
 }
-
 export default App;

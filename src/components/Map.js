@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl';
-import '../App.css';
+import '../_App.css';
 //TODO https://github.com/visgl/react-map-gl/issues/1266
 import light64 from '../icons/light64.png'
 
