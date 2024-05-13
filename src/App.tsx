@@ -1,7 +1,8 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import { Card, CardMedia, createTheme, ThemeProvider } from '@mui/material';
+import CssBaseline from '@mui/material/CssBaseline';
+import { Card, CardMedia, createTheme, Grid, ThemeProvider } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -13,7 +14,10 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 //import AdbIcon from '@mui/icons-material/Adb';
-import logo from './img/lightning-everywhere.png'
+import logo from './img/lightning-everywhere.png';
+import transactionspeed from './img/Interface-Essential-Flash--Streamline-Pixel.png';
+import lowfees from './img/Business-Products-Cash-User-Man-Message--Streamline-Pixel.png';
+import privacyanddecentralization from './img/Interface-Essential-Lock--Streamline-Pixel.png';
 // Import your TTF font file
 import PixgamerRegularWoff from './fonts/PixgamerRegular-PKxO2.ttf';
 //
@@ -59,6 +63,21 @@ const theme = createTheme({
     },
 });
 
+const containerOuterStyle = {
+    //width: '315px',
+    //height: '478px',
+    padding: '32px 0px 0px 0px',
+    gap: '10px',
+    borderRadius: '24px 0px 0px 0px',
+    opacity: '0px',
+};
+
+const containerInnerStyle = {
+    //width: '251px',
+    //height: '414px',
+    gap: '20px',
+    opacity: '0px',
+};
 
 function App() {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -212,6 +231,70 @@ function App() {
                     </Toolbar>
                 </Container>
             </AppBar>
+            <React.Fragment>
+                <CssBaseline />
+                <Container maxWidth="sm">
+                    <Box sx={{ bgcolor: '#cfe8fc', height: '20vh' }}>
+                        <h1>Experience the Power of
+                            Lightning Network Everywhere </h1>
+                        <p>Discover spots and e-shops accepting payments via the Lightning Networkand enjoy instant transactions without unnecessary waiting or high fees.</p>
+                    </Box>
+                </Container>
+            </React.Fragment>
+            <React.Fragment>
+                <Grid container spacing={2}>
+                    <Grid item xs={3}>
+                        {/* Content for the first column */}
+                        <h1>Why Lightning?</h1>
+                    </Grid>
+                    <Grid item xs={3}>
+                        {/* Content for the second column */}
+                        <Container maxWidth="sm" sx={containerOuterStyle}>
+                            <Box sx={{ bgcolor: '#cfe8fc', ...containerInnerStyle }}>
+                                <div style={{ width: '100%', height: '100%' }}>
+                                    <CardMedia
+                                        component="img"
+                                        image={transactionspeed}
+                                        alt="Transaction Speed"
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    />
+                                </div>
+                                <h2 style={{ border: '1px solid black', padding: '10px' }}>Transaction Speed</h2>
+                                <p style={{ border: '1px solid black', padding: '10px' }}>
+                                    Bitcoin Lightning enables instant microtransactions off the main Bitcoin blockchain. This means users can make payments practically instantly, which is much faster than traditional blockchain transactions that can take several minutes to hours.
+                                </p>
+                            </Box>
+                        </Container>
+                    </Grid>
+                    <Grid item xs={3}>
+                        {/* Content for the third column */}
+                        <div style={{ width: 60, height: 60 }}>
+                            <CardMedia
+                                component="img"
+                                image={lowfees}
+                                alt="Low Fees"
+                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            />
+                        </div>
+                        <h2>Low Fees</h2>
+                        <p>Transaction fees with Bitcoin Lightning are typically much lower than with traditional on-chain transactions. This means that even when conducting frequent and small transactions, you can save on fees.</p>
+                    </Grid>
+                    <Grid item xs={3}>
+                        {/* Content for the fourth column */}
+                        <div style={{ width: 60, height: 60 }}>
+
+                            <CardMedia
+                                component="img"
+                                image={privacyanddecentralization}
+                                alt="Privacy and Decentralization"
+                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            />
+                        </div>
+                        <h2>Privacy & Decentralization</h2>
+                        <p>Bitcoin Lightning enhances privacy and decentralization by allowing users to make more anonymous payments off the main blockchain. This boosts security and trust while reducing reliance on central authorities, making it more resistant to censorship and manipulation.</p>
+                    </Grid>
+                </Grid>
+            </React.Fragment>
         </ThemeProvider>
     );
 }
