@@ -1,14 +1,26 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import { Card, CardMedia, createTheme, Grid, ThemeProvider } from '@mui/material';
+//import CssBaseline from '@mui/material/CssBaseline';
+//import Container from '@mui/material/Container';
+import { Container, CssBaseline } from "@mui/material";
+//import ThemeProvider from '@mui/material/styles/ThemeProvider'
+//import ThemeProvider from '@mui/material/styles/ThemeProvider';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+//import createTheme from "@mui/material/styles/createTheme";
+//
+//import { ThemeProvider, createTheme } from "@mui/material/styles"
+//import { createTheme } from '@mui/material';
+//
+import { useTheme } from '@mui/material/styles';
+
+import { Card, CardMedia, Grid } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 //import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
@@ -24,7 +36,10 @@ import privacyanddecentralization from './img/Interface-Essential-Lock--Streamli
 import mapofspots from './img/Interface-Essential-Map--Streamline-Pixel.png';
 import eshops from './img/Shopping-Shipping-Bag-1--Streamline-Pixel.png';
 // Import your TTF font file
+import myPixgamerFont from './myPixgamerFont';
 import PixgamerRegularWoff from './fonts/PixgamerRegular-PKxO2.ttf';
+//
+import { theme } from "./theme"
 //
 const pages = ['Map', 'E-shops', 'Why Lightning', 'Blog', 'About'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -48,20 +63,18 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 });*/
 // Define your custom theme
 //https://stackoverflow.com/questions/57108085/self-host-font-added-in-material-ui-not-working
-const theme = createTheme({
+/*const theme = createTheme({
     typography: {
-        fontFamily: 'PixGamer Regular', // Ensure font family matches the font face name
+        fontFamily: 'PixGamer', // Ensure font family matches the font face name
+        h1: {
+            fontFamily: 'PixGamer', // Apply Pixgamer font to h1
+        },
     },
     components: {
         MuiCssBaseline: {
             styleOverrides: {
                 '@global': {
-                    '@font-face': {
-                        fontFamily: 'PixGamer Regular', // Font family name defined in your custom theme
-                        src: `url('${PixgamerRegularWoff}') format('ttf')`,
-                        fontWeight: 'normal',
-                        fontStyle: 'normal',
-                    },
+                    '@font-face': [...myPixgamerFontArray],
                 },
             },
         },
@@ -71,7 +84,8 @@ const theme = createTheme({
             default: '#F0F0F0', // Set your desired grey color
         },
     },
-});
+});*/
+
 
 // Define the style for the new purple box
 const purpleBoxStyle = {
@@ -112,6 +126,8 @@ const containerInnerStyle = {
 };
 
 function App() {
+    const theme = useTheme();
+    console.log(theme)
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -131,8 +147,8 @@ function App() {
     };
 
     return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
+        <React.Fragment>
+            {/*<CssBaseline />*/}
             <Grid container justifyContent="center">
                 <Grid item xs={10} md={8} lg={6}>
                     <AppBar position="static" sx={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
@@ -267,12 +283,15 @@ function App() {
                         </Container>
                     </AppBar>
                     <React.Fragment>
-                        <CssBaseline />
+                        {/*<CssBaseline />*/}
                         <Container maxWidth="sm">
+                            <CssBaseline />
                             <Box sx={{ /*bgcolor: '#cfe8fc',*/ height: '20vh' }}>
+
                                 <h1>Experience the Power of
                                     Lightning Network Everywhere </h1>
                                 <p>Discover spots and e-shops accepting payments via the Lightning Networkand enjoy instant transactions without unnecessary waiting or high fees.</p>
+
                             </Box>
                             <Grid container spacing={2}>
                                 {/* First container */}
@@ -393,7 +412,7 @@ function App() {
                     </React.Fragment>
                 </Grid>
             </Grid>
-        </ThemeProvider >
+        </React.Fragment>
     );
 }
 export default App;
