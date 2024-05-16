@@ -3,7 +3,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 //import CssBaseline from '@mui/material/CssBaseline';
 //import Container from '@mui/material/Container';
-import { Container, CssBaseline } from "@mui/material";
+import { Container, CssBaseline, Paper } from "@mui/material";
 //import ThemeProvider from '@mui/material/styles/ThemeProvider'
 //import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -110,11 +110,12 @@ const textBottomLeftStyle = {
 const containerOuterStyle = {
     //width: '315px',
     //height: '478px',
-    padding: '32px 0px 0px 0px',
+    padding: '32px 0px 10px 0px',
     gap: '10px',
     borderRadius: '24px 24px 24px 24px',
     opacity: '0px',
     backgroundColor: 'white', // Adding background color
+    margin: '0px 0px 10px 0px',
 };
 
 const containerInnerStyle = {
@@ -144,6 +145,9 @@ function App() {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+    // Dummy image URLs
+    const dummyImageURL = 'https://upload.wikimedia.org/wikipedia/commons/7/77/Google_Images_2015_logo.svg';
 
     return (
         <React.Fragment>
@@ -242,7 +246,7 @@ function App() {
                                         <Button
                                             key={page}
                                             onClick={handleCloseNavMenu}
-                                            sx={{ my: 2, color: 'grey', display: 'block' }}
+                                            sx={{ /*my: 2, display: 'block'*/ }}
                                         >
                                             / {page}
                                         </Button>
@@ -285,7 +289,7 @@ function App() {
                         {/*<CssBaseline />*/}
                         <Container maxWidth="sm">
                             {/*<CssBaseline />*/}
-                            <Box sx={{ /*bgcolor: '#cfe8fc',*/ height: '20vh' }}>
+                            <Box sx={{ /*bgcolor: '#cfe8fc', height: '20vh'*/ }}>
 
                                 <Typography variant="h1" component="h1">
                                     Experience the Power of
@@ -351,7 +355,7 @@ function App() {
                         <Grid container spacing={2}>
                             <Grid item xs={3}>
                                 {/* Content for the first column */}
-                                <Typography variant="h2" component="h2">
+                                <Typography variant="h1" component="h2">
                                     Why Lightning?
                                 </Typography>
                             </Grid>
@@ -359,7 +363,7 @@ function App() {
                                 {/* Content for the second column */}
                                 <Container maxWidth="sm" sx={containerOuterStyle}>
                                     <Box sx={{ bgcolor: '#ffffff', ...containerInnerStyle }}>
-                                        <div style={{ width: 60, height: 60 }}>
+                                        <div style={{ width: 40, height: 40 }}>
                                             <CardMedia
                                                 component="img"
                                                 image={transactionspeed}
@@ -379,7 +383,7 @@ function App() {
                             <Grid item xs={3}>
                                 <Container maxWidth="sm" sx={containerOuterStyle}>
                                     <Box sx={{ bgcolor: '#ffffff', ...containerInnerStyle }}>
-                                        <div style={{ width: 60, height: 60 }}>
+                                        <div style={{ width: 40, height: 40 }}>
                                             <CardMedia
                                                 component="img"
                                                 image={lowfees}
@@ -399,7 +403,7 @@ function App() {
                             <Grid item xs={3}>
                                 <Container maxWidth="sm" sx={containerOuterStyle}>
                                     <Box sx={{ bgcolor: '#ffffff', ...containerInnerStyle }}>
-                                        <div style={{ width: 60, height: 60 }}>
+                                        <div style={{ width: 40, height: 40 }}>
                                             <CardMedia
                                                 component="img"
                                                 image={privacyanddecentralization}
@@ -418,9 +422,44 @@ function App() {
                             </Grid>
                         </Grid>
                     </React.Fragment>
+                    <React.Fragment>
+                        <div style={{ textAlign: 'center' }}>-the complicated elements around here-</div>
+                    </React.Fragment>
+                    <React.Fragment>
+                        <Typography variant="h1" component="h2">
+                            Latest Blog Posts || See all -&gt;
+                        </Typography>
+                        <Grid container spacing={2}>
+                            <Grid item xs={4}>
+                                <Paper elevation={3} style={{ padding: '20px', textAlign: 'center' }}>
+                                    <Avatar alt="Blog Image" src={dummyImageURL} style={{ width: '100px', height: '100px', margin: 'auto' }} />
+                                    <Typography variant="h2" gutterBottom>Title</Typography>
+                                    <Typography variant="h3" gutterBottom>Date</Typography>
+
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Paper elevation={3} style={{ padding: '20px', textAlign: 'center' }}>
+                                    <Avatar alt="Blog Image" src={dummyImageURL} style={{ width: '100px', height: '100px', margin: 'auto' }} />
+                                    <Typography variant="h2" gutterBottom>Title</Typography>
+                                    <Typography variant="h3" gutterBottom>Date</Typography>
+
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Paper elevation={3} style={{ padding: '20px', textAlign: 'center' }}>
+                                    <Avatar alt="Blog Image" src={dummyImageURL} style={{ width: '100px', height: '100px', margin: 'auto' }} />
+                                    <Typography variant="h2" gutterBottom>Title</Typography>
+                                    <Typography variant="h3" gutterBottom>Date</Typography>
+
+                                </Paper>
+                            </Grid>
+                        </Grid>
+                        <div>&nbsp;</div>
+                    </React.Fragment>
                 </Grid>
             </Grid>
-        </React.Fragment>
+        </React.Fragment >
     );
 }
 export default App;

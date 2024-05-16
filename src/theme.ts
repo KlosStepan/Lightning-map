@@ -74,6 +74,18 @@ export const theme = createTheme({
                 },
             },
         },
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    fontFamily: "PixGamer", // Set the font family for buttons
+                    fontSize: 18,
+                    color: "#000000",
+                    paddingLeft: 12, // Add 6 pixels of padding on the left side
+                    paddingRight: 12, // Add 6 pixels of padding on the right side
+                    // Add other button styles as needed
+                },
+            },
+        },
     },
     palette: {
         primary: {
