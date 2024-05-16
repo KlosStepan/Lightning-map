@@ -96,12 +96,14 @@ const textTopRightStyle = {
     position: 'absolute',
     top: '10px',
     right: '10px',
+    color: 'white',
 };
 
 const textBottomLeftStyle = {
     position: 'absolute',
     bottom: '10px',
     left: '10px',
+    color: 'white',
 };
 
 //Down 3 boxes for LN info
@@ -368,7 +370,7 @@ function App() {
                                         <Typography variant="h2" component="h2">
                                             Transaction Speed
                                         </Typography>
-                                        <p style={{ border: '1px solid black', padding: '10px' }}>
+                                        <p style={{ /*border: '1px solid black', padding: '10px' */ }}>
                                             Bitcoin Lightning enables instant microtransactions off the main Bitcoin blockchain. This means users can make payments practically instantly, which is much faster than traditional blockchain transactions that can take several minutes to hours.
                                         </p>
                                     </Box>
@@ -388,7 +390,7 @@ function App() {
                                         <Typography variant="h2" component="h2">
                                             Low Fees
                                         </Typography>
-                                        <p style={{ border: '1px solid black', padding: '10px' }}>
+                                        <p style={{ /*border: '1px solid black', padding: '10px'*/ }}>
                                             Transaction fees with Bitcoin Lightning are typically much lower than with traditional on-chain transactions. This means that even when conducting frequent and small transactions, you can save on fees.
                                         </p>
                                     </Box>
@@ -408,7 +410,7 @@ function App() {
                                         <Typography variant="h2" component="h2">
                                             Privacy & Decentralization
                                         </Typography>
-                                        <p style={{ border: '1px solid black', padding: '10px' }}>
+                                        <p style={{ /*border: '1px solid black', padding: '10px' */ }}>
                                             Bitcoin Lightning enhances privacy and decentralization by allowing users to make more anonymous payments off the main blockchain. This boosts security and trust while reducing reliance on central authorities, making it more resistant to censorship and manipulation.
                                         </p>
                                     </Box>

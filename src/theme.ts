@@ -4,7 +4,7 @@ import myPixgamerFont from './myPixgamerFont';
 import PixgamerRegularTtf from './fonts/PixgamerRegular-OVD6A.ttf';
 import PixgamerRegularWoff from './fonts/PixgamerRegular-BWVqG.woff';
 
-
+const ibmPlexSansCondensed = require('@fontsource/ibm-plex-sans-condensed');
 
 export const theme = createTheme({
     //                local('PixGamer'),
@@ -49,6 +49,12 @@ export const theme = createTheme({
                     fontFamily: "PixGamer",
                     src: `url(${PixgamerRegularTtf}) format("truetype")`
                     //src: `url(${PixgamerRegularWoff}) format("woff")`
+                },
+                p: {
+                    fontFamily: "IBM Plex Sans Condensed"
+                },
+                body: {
+                    fontFamily: "IBM Plex Sans Condensed"
                 }
             },
         },
