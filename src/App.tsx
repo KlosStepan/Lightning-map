@@ -35,9 +35,6 @@ import privacyanddecentralization from './img/Interface-Essential-Lock--Streamli
 //
 import mapofspots from './img/Interface-Essential-Map--Streamline-Pixel.png';
 import eshops from './img/Shopping-Shipping-Bag-1--Streamline-Pixel.png';
-// Import your TTF font file
-import myPixgamerFont from './myPixgamerFont';
-import PixgamerRegularWoff from './fonts/PixgamerRegular-PKxO2.ttf';
 //
 import { theme } from "./theme"
 //
@@ -148,7 +145,7 @@ function App() {
 
     return (
         <React.Fragment>
-            {/*<CssBaseline />*/}
+            <CssBaseline />
             <Grid container justifyContent="center">
                 <Grid item xs={10} md={8} lg={6}>
                     <AppBar position="static" sx={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
@@ -285,11 +282,12 @@ function App() {
                     <React.Fragment>
                         {/*<CssBaseline />*/}
                         <Container maxWidth="sm">
-                            <CssBaseline />
+                            {/*<CssBaseline />*/}
                             <Box sx={{ /*bgcolor: '#cfe8fc',*/ height: '20vh' }}>
 
-                                <h1>Experience the Power of
-                                    Lightning Network Everywhere </h1>
+                                <Typography variant="h1" component="h1">
+                                    Experience the Power of
+                                    Lightning Network Everywhere </Typography>
                                 <p>Discover spots and e-shops accepting payments via the Lightning Networkand enjoy instant transactions without unnecessary waiting or high fees.</p>
 
                             </Box>
@@ -308,11 +306,11 @@ function App() {
                                                 />
                                             </div>
                                             {/* Text - Top right */}
-                                            <Typography variant="subtitle1" sx={textTopRightStyle}>
+                                            <Typography variant="h3" component="h3" sx={textTopRightStyle}>
                                                 12
                                             </Typography>
                                             {/* Text - Bottom left */}
-                                            <Typography variant="subtitle1" sx={textBottomLeftStyle}>
+                                            <Typography variant="h2" component="h2" sx={textBottomLeftStyle}>
                                                 Map of spots
                                             </Typography>
                                         </Box>
@@ -333,11 +331,11 @@ function App() {
                                                 />
                                             </div>
                                             {/* Text - Top right */}
-                                            <Typography variant="subtitle1" sx={textTopRightStyle}>
+                                            <Typography variant="h3" component="h3" sx={textTopRightStyle}>
                                                 7
                                             </Typography>
                                             {/* Text - Bottom left */}
-                                            <Typography variant="subtitle1" sx={textBottomLeftStyle}>
+                                            <Typography variant="h2" component="h2" sx={textBottomLeftStyle}>
                                                 E-shops
                                             </Typography>
                                         </Box>
@@ -351,7 +349,9 @@ function App() {
                         <Grid container spacing={2}>
                             <Grid item xs={3}>
                                 {/* Content for the first column */}
-                                <h1>Why Lightning?</h1>
+                                <Typography variant="h2" component="h2">
+                                    Why Lightning?
+                                </Typography>
                             </Grid>
                             <Grid item xs={3}>
                                 {/* Content for the second column */}
@@ -365,7 +365,9 @@ function App() {
                                                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                             />
                                         </div>
-                                        <h2 style={{ border: '1px solid black', padding: '10px' }}>Transaction Speed</h2>
+                                        <Typography variant="h2" component="h2">
+                                            Transaction Speed
+                                        </Typography>
                                         <p style={{ border: '1px solid black', padding: '10px' }}>
                                             Bitcoin Lightning enables instant microtransactions off the main Bitcoin blockchain. This means users can make payments practically instantly, which is much faster than traditional blockchain transactions that can take several minutes to hours.
                                         </p>
@@ -383,7 +385,9 @@ function App() {
                                                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                             />
                                         </div>
-                                        <h2 style={{ border: '1px solid black', padding: '10px' }}>Low Fees</h2>
+                                        <Typography variant="h2" component="h2">
+                                            Low Fees
+                                        </Typography>
                                         <p style={{ border: '1px solid black', padding: '10px' }}>
                                             Transaction fees with Bitcoin Lightning are typically much lower than with traditional on-chain transactions. This means that even when conducting frequent and small transactions, you can save on fees.
                                         </p>
@@ -401,7 +405,9 @@ function App() {
                                                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                             />
                                         </div>
-                                        <h2 style={{ border: '1px solid black', padding: '10px' }}>Privacy & Decentralization</h2>
+                                        <Typography variant="h2" component="h2">
+                                            Privacy & Decentralization
+                                        </Typography>
                                         <p style={{ border: '1px solid black', padding: '10px' }}>
                                             Bitcoin Lightning enhances privacy and decentralization by allowing users to make more anonymous payments off the main blockchain. This boosts security and trust while reducing reliance on central authorities, making it more resistant to censorship and manipulation.
                                         </p>
