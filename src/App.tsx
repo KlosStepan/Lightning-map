@@ -20,7 +20,9 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
+// New Components
 import MenuC from './components/MenuC';
+import TileMerch from './components/TileMerch';
 //import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -305,50 +307,47 @@ function App() {
                                 {/* First container */}
                                 <Grid item xs={6}>
                                     <Container maxWidth="sm">
+                                        <TileMerch caption="Map of Places" numPlaces="12" imageSrc={mapofspots} />
+                                        {/*
                                         <Box sx={{ ...purpleBoxStyle, width: '236px', height: '150px', position: 'relative' }}>
-                                            {/* Image */}
                                             <div style={{ width: '77px', height: '77px', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
                                                 <CardMedia
                                                     component="img"
                                                     image={mapofspots}
                                                     alt="Map of Spots"
-                                                    style={{ width: '100%', height: '100%', objectFit: 'cover'/*, borderRadius: '50%'*/ }} // Adjusted to make the image circular
+                                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                                 />
                                             </div>
-                                            {/* Text - Top right */}
                                             <Typography variant="h3" component="h3" sx={textTopRightStyle}>
                                                 12
                                             </Typography>
-                                            {/* Text - Bottom left */}
                                             <Typography variant="h2" component="h2" sx={textBottomLeftStyle}>
                                                 Map of spots
                                             </Typography>
-                                        </Box>
+                                    </Box>*/}
                                     </Container>
                                 </Grid>
 
                                 {/* Second container */}
                                 <Grid item xs={6}>
                                     <Container maxWidth="sm">
-                                        <Box sx={{ ...purpleBoxStyle, width: '236px', height: '150px', position: 'relative' }}>
-                                            {/* Image */}
+                                        <TileMerch caption="E-shops" numPlaces="7" imageSrc={eshops} />
+                                        {/*(<Box sx={{ ...purpleBoxStyle, width: '236px', height: '150px', position: 'relative' }}>
                                             <div style={{ width: '77px', height: '77px', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
                                                 <CardMedia
                                                     component="img"
                                                     image={eshops}
                                                     alt="E-shops"
-                                                    style={{ width: '100%', height: '100%', objectFit: 'cover'/*, borderRadius: '50%'*/ }} // Adjusted to make the image circular
+                                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                                 />
                                             </div>
-                                            {/* Text - Top right */}
                                             <Typography variant="h3" component="h3" sx={textTopRightStyle}>
                                                 7
                                             </Typography>
-                                            {/* Text - Bottom left */}
                                             <Typography variant="h2" component="h2" sx={textBottomLeftStyle}>
                                                 E-shops
                                             </Typography>
-                                        </Box>
+                                </Box>*/}
                                     </Container>
                                 </Grid>
                             </Grid>
