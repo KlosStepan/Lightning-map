@@ -20,6 +20,7 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
+import MenuC from './components/MenuC';
 //import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -38,8 +39,8 @@ import eshops from './img/Shopping-Shipping-Bag-1--Streamline-Pixel.png';
 //
 import { theme } from "./theme"
 //
-const pages = ['Map', 'E-shops', 'Why Lightning', 'Blog', 'About'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ["Map", "E-shops", "Why Lightning", "Blog", "About"];
+const settings = ["Profile", "Account", "Dashboard", "Logout"];
 //
 /*const theme = createTheme({
     typography: {
@@ -242,15 +243,18 @@ function App() {
                                     />
                                 </Typography>
                                 <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
+                                    <MenuC pages={pages} />
+                                    {/*
                                     {pages.map((page) => (
                                         <Button
                                             key={page}
                                             onClick={handleCloseNavMenu}
-                                            sx={{ /*my: 2, display: 'block'*/ }}
+                                            sx={{}}
                                         >
                                             / {page}
                                         </Button>
                                     ))}
+                                */}
                                 </Box>
 
                                 <Box sx={{ flexGrow: 0 }}>

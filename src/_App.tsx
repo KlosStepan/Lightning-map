@@ -17,7 +17,7 @@ import About from './pages/About';
 import Login from './pages/Login';
 import Register from './pages/Register';
 //Web - Components
-import Menu from './components/Menu';
+import _Menu from './components/_Menu';
 import Map from './components/Map';
 //Firebase
 import { collection, getDocs, query, where } from "firebase/firestore";
@@ -72,7 +72,7 @@ function App() {
           </Row>
           <Row>
             <Col>
-              <span className=""><Menu /></span>
+              <span className=""><_Menu /></span>
             </Col>
           </Row>
           <Row>
