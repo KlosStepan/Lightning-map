@@ -12,7 +12,7 @@ import './_App.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMerchants, setEshopscz } from './redux/actions/lightningMapActions';
 //Web - Pages
-import Eshopscz from './pages/Eshopscz';
+import Eshopscz from './pages/_Eshopscz';
 import About from './pages/About';
 import Login from './pages/Login';
 import Register from './pages/Register';
