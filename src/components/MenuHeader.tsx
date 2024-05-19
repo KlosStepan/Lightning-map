@@ -60,11 +60,13 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                     textDecoration: 'none',
                 }}
             >
-                <CardMedia
-                    component="img"
-                    image={logo}
-                    alt="Lightning Everywhere"
-                />
+                <Link style={{ color: "inherit", textDecoration: "inherit" }} to="/">
+                    <CardMedia
+                        component="img"
+                        image={logo}
+                        alt="Lightning Everywhere"
+                    />
+                </Link>
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>

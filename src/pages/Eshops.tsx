@@ -1,5 +1,6 @@
 import React from "react";
-
+import Footer
+    from "../components/Footer";
 //
 function Eshops() {
     return (
@@ -13,11 +14,7 @@ function Eshops() {
                     <div>B1 (1/6) | B2 (1/6) | B3 (1/6) | B4 (1/6) | B5 (1/6) | B6 (1/6)</div>
                     <div>B7 (1/6) | B8 (1/6) | B9 (1/6) | B10 (1/6) | B11 (1/6) | B12 (1/6)</div>
                 </div>
-                <div>
-                    --- <br />
-                    FOOTER <br />
-                    --- <br />
-                </div>
+                <Footer />
             </div>
         </React.Fragment>
     )
