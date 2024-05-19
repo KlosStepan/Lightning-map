@@ -15,9 +15,10 @@ import logo from '../img/lightning-everywhere.png';
 
 //
 import { Link } from 'react-router-dom';
+import ILink from "../ts/ILink";
 
 type MenuHeaderProps = {
-    pages: string[];
+    pages: ILink[];
     settings: string[];
 };
 
@@ -96,8 +97,8 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                     }}
                 >
                     {pages.map((page) => (
-                        <MenuItem key={page} onClick={handleCloseNavMenu}>
-                            <Typography textAlign="center">{page}</Typography>
+                        <MenuItem key={page.title} onClick={handleCloseNavMenu}>
+                            <Typography textAlign="center">{page.title}</Typography>
                         </MenuItem>
                     ))}
                 </Menu>
@@ -130,11 +131,13 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
                 {pages.map((page) => (
                     <Button
-                        key={page}
+                        key={page.title}
                         onClick={handleCloseNavMenu}
                         sx={{}}
                     >
-                        / {page}
+                        <Link style={{ color: "inherit", textDecoration: "inherit" }} to={page.link}>
+                            / {page.title}
+                        </Link>
                     </Button>
                 ))}
 

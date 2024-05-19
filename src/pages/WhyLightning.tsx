@@ -3,7 +3,7 @@ import React from "react";
 //
 function WhyLightning() {
     return (
-        <div>-WhyLightning-</div>
+        <div>-Why Lightning-</div>
     )
 }
 export default WhyLightning;

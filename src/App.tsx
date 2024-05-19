@@ -54,8 +54,17 @@ import eshops from './img/Shopping-Shipping-Bag-1--Streamline-Pixel.png';
 import { theme } from "./theme"
 import MiddleOfHomepage from './components/MiddleOfHomepage';
 import MenuHeader from './components/MenuHeader';
+import ILink from './ts/ILink';
 //
-const pages = ["Map", "E-shops", "Why Lightning", "Blog", "About"];
+//const pages = ["Map", "E-shops", "Why Lightning", "Blog", "About"];
+const pages: ILink[] = [
+    { title: "Map", link: "/map" },
+    { title: "E-shops", link: "/e-shops" },
+    { title: "Why Lightning", link: "/why-lightning" },
+    { title: "Blog", link: "/blog" },
+    { title: "About", link: "/about" }
+];
+//TODO change to ILink[] too for administration etc.
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function App() {
@@ -96,8 +105,8 @@ function App() {
                         <Routes>
                             <Route path="/" element={<Homepage />} />
                             <Route path="/map" element={<Map />} />
-                            <Route path="/eshops" element={<Eshops />} />
-                            <Route path="/whylightning" element={<WhyLightning />} />
+                            <Route path="/e-shops" element={<Eshops />} />
+                            <Route path="/why-lightning" element={<WhyLightning />} />
                             <Route path="/blog" element={<Blog />} />
                             <Route path="/about" element={<About />} />
                         </Routes>
