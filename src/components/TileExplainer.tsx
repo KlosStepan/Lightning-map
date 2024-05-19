@@ -5,10 +5,6 @@ import { Container, CssBaseline, Paper } from "@mui/material";
 import Typography from '@mui/material/Typography';
 
 
-const containerInnerStyle = {
-    gap: '20px',
-    opacity: '0px',
-};
 //Down 3 boxes for LN info
 const containerOuterStyle = {
     //width: '315px',
@@ -19,6 +15,11 @@ const containerOuterStyle = {
     opacity: '0px',
     backgroundColor: 'white', // Adding background color
     margin: '0px 0px 10px 0px',
+};
+
+const containerInnerStyle = {
+    gap: '20px',
+    opacity: '0px',
 };
 
 // Define the type for the props
@@ -33,7 +34,6 @@ type TilePitchProps = {
 const TileExplainer: React.FC<TilePitchProps> = ({ image, title, paragraph }) => {
     return (
         <Container maxWidth="sm" sx={containerOuterStyle}>
-
             <Box sx={{ bgcolor: '#ffffff', ...containerInnerStyle }}>
                 <div style={{ width: 40, height: 40 }}>
                     <CardMedia
