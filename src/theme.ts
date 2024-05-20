@@ -1,25 +1,13 @@
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-//import { createTheme } from '@mui/material';
-import myPixgamerFont from './myPixgamerFont';
+import { createTheme } from '@mui/material/styles';
 import PixgamerRegularTtf from './fonts/PixgamerRegular-OVD6A.ttf';
-import PixgamerRegularWoff from './fonts/PixgamerRegular-BWVqG.woff';
 
 const ibmPlexSansCondensed = require('@fontsource/ibm-plex-sans-condensed');
 
 export const theme = createTheme({
-    //                local('PixGamer'),
-
     typography: {
-        //fontSize: 15,
-        //fontFamily: 'PixGamer Regular', // Ensure font family matches the font face name
         h1: {
-            fontFamily: 'PixGamer', // Should match the fontFamily in the theme
-            //fontStyle: 'normal',
-            //fontColor: '#FF0000',
-            //fontWeight: 400,
+            fontFamily: 'PixGamer',
             fontSize: '2em',
-            //NOT WORKING vv - gotta do it via <CssBaseline /> further down
-            //src: `url(${PixgamerRegularTtf}) format("truetype")`,
         },
         h2: {
             fontFamily: 'PixGamer',
@@ -48,7 +36,6 @@ export const theme = createTheme({
                 "@font-face": {
                     fontFamily: "PixGamer",
                     src: `url(${PixgamerRegularTtf}) format("truetype")`
-                    //src: `url(${PixgamerRegularWoff}) format("woff")`
                 },
                 p: {
                     fontFamily: "IBM Plex Sans Condensed"
@@ -67,22 +54,17 @@ export const theme = createTheme({
                     h4: 'h4',
                     h5: 'h5',
                     h6: 'h6',
-                    //subtitle1: 'h2',
-                    //subtitle2: 'h2',
-                    //body1: 'span',
-                    //body2: 'span',
                 },
             },
         },
         MuiButton: {
             styleOverrides: {
                 root: {
-                    fontFamily: "PixGamer", // Set the font family for buttons
+                    fontFamily: "PixGamer",
                     fontSize: 18,
                     color: "#000000",
-                    paddingLeft: 12, // Add 6 pixels of padding on the left side
-                    paddingRight: 12, // Add 6 pixels of padding on the right side
-                    // Add other button styles as needed
+                    paddingLeft: 12,
+                    paddingRight: 12,
                 },
             },
         },
@@ -92,7 +74,7 @@ export const theme = createTheme({
             main: "#F4005E",
         },
         background: {
-            default: '#F0F0F0', // Set your desired grey color
+            default: '#F0F0F0',
         },
     },
 });

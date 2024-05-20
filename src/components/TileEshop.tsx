@@ -4,12 +4,16 @@ import { Card, CardMedia, Container, Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 //
 import warningbox from '../img/warning-box.png'
+//
+import IconExclamationMark from "../icons/IconExclamationMark";
+import IconLightningNumber from "../icons/IconLightningNumber";
 
 const containerOuterStyle = {
     //width: '315px',
     //height: '478px',
     //padding: '32px 0px 10px 0px',
-    padding: '20px 16px 20px 16px',
+    //padding: '16px 12px 16px 12px',
+    padding: '16px 12px',
     gap: '10px',
     //borderRadius: '24px 24px 24px 24px',
     borderRadius: '16px',
@@ -35,21 +39,20 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, logo, title, caption }) =>
         <React.Fragment>
             <Container maxWidth="sm" sx={containerOuterStyle}>
                 <Box sx={{ bgcolor: '#ffffff', ...containerInnerStyle }}>
-                    <div>
-                        <CardMedia
-                            component="img"
-                            //width="4"
-                            //height="4"
-                            image={warningbox}
-                            alt="report"
-                        />
+                    <div style={{ display: "flex" }}>
+                        <IconExclamationMark />
                         &nbsp;
-                        {likes}</div>
+                        <IconLightningNumber number={likes} />
+                    </div>
                     {/*<div><u>|A alza.cz|</u></div>*/}
                     <CardMedia
                         component="img"
-                        //width="164"
-                        height="100"
+                        //width="100"
+                        style={{
+                            //width: '100px',
+                            margin: '24px 0' // 20px top and bottom margin, 0 left and right margin
+                        }}
+                        //height="100"
                         image={logo}
                         alt={title}
                     />
