@@ -80,6 +80,7 @@ function Homepage() {
                 <MiddleOfHomepage />
             </React.Fragment>
             <React.Fragment>
+                <div>//TODO blog section</div>
                 <Typography variant="h1" component="h2">
                     Latest Blog Posts || See all -&gt;
                 </Typography>
