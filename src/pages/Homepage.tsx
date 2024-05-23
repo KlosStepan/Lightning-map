@@ -17,10 +17,15 @@ import privacyanddecentralization from '../img/Interface-Essential-Lock--Streaml
 import mapofspots from '../img/Interface-Essential-Map--Streamline-Pixel.png';
 import eshops from '../img/Shopping-Shipping-Bag-1--Streamline-Pixel.png';
 
+import { Link } from 'react-router-dom';
+
+import dummyImg from '../img/dummy512x288.png';
+
 //
 function Homepage() {
     // Dummy image URLs
     const dummyImageURL = 'https://upload.wikimedia.org/wikipedia/commons/7/77/Google_Images_2015_logo.svg';
+    //import dummyImg from '../img/dummy512x288.png';
 
     return (
         <React.Fragment>
@@ -80,30 +85,41 @@ function Homepage() {
                 <MiddleOfHomepage />
             </React.Fragment>
             <React.Fragment>
-                <div>//TODO blog section</div>
-                <Typography variant="h1" component="h2">
-                    Latest Blog Posts || See all -&gt;
-                </Typography>
+                <Grid container alignItems="center">
+                    <Grid item xs={6}>
+                        <Typography variant="h1" component="h2">
+                            Latest Blog Posts
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={6} style={{ textAlign: 'right' }}>
+                        <Typography variant="h2" component="h2">
+                            See all &nbsp;
+                            <Link style={{ color: "inherit", textDecoration: "inherit" }} to="/all-posts" >
+                                -&gt;
+                            </Link>
+                        </Typography>
+                    </Grid>
+                </Grid>
                 <Grid container spacing={2}>
                     <Grid item xs={4}>
                         <TileBlogpost
-                            title="Sample Blog Title 3"
-                            date="May 18, 2024"
-                            image={dummyImageURL}
+                            title="How Bitcoin Lightning Revolutionizes Transaction Times"
+                            date="Jan 8, 2024"
+                            image={dummyImg}
                         />
                     </Grid>
                     <Grid item xs={4}>
                         <TileBlogpost
-                            title="Sample Blog Title 2"
-                            date="Apr 18, 2024"
-                            image={dummyImageURL}
+                            title="Exploring the Growing Ecosystem of Lightning-Enabled Businesses"
+                            date="Jan 8, 2024"
+                            image={dummyImg}
                         />
                     </Grid>
                     <Grid item xs={4}>
                         <TileBlogpost
-                            title="Sample Blog Title 1"
-                            date="Mar 18, 2024"
-                            image={dummyImageURL}
+                            title="The Role of Bitcoin Lightning in Financial Inclusion"
+                            date="Jan 8, 2024"
+                            image={dummyImg}
                         />
                     </Grid>
                 </Grid>
