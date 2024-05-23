@@ -94,7 +94,7 @@ function Homepage() {
                     <Grid item xs={6} style={{ textAlign: 'right' }}>
                         <Typography variant="h2" component="h2">
                             See all &nbsp;
-                            <Link style={{ color: "inherit", textDecoration: "inherit" }} to="/all-posts" >
+                            <Link style={{ color: "inherit", textDecoration: "inherit" }} to="/blog" >
                                 -&gt;
                             </Link>
                         </Typography>

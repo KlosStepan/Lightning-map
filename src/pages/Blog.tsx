@@ -35,6 +35,34 @@ function Blog() {
                         image={dummyImg}
                     />
                 </Grid>
+                <Grid item xs={4}>
+                    <TileBlogpost
+                        title="How Bitcoin Lightning Revolutionizes Transaction Times"
+                        date="Jan 8, 2024"
+                        image={dummyImg}
+                    />
+                </Grid>
+                <Grid item xs={4}>
+                    <TileBlogpost
+                        title="Exploring the Growing Ecosystem of Lightning-Enabled Businesses"
+                        date="Jan 8, 2024"
+                        image={dummyImg}
+                    />
+                </Grid>
+                <Grid item xs={4}>
+                    <TileBlogpost
+                        title="The Role of Bitcoin Lightning in Financial Inclusion"
+                        date="Jan 8, 2024"
+                        image={dummyImg}
+                    />
+                </Grid>
+                <Grid item xs={4}>
+                    <TileBlogpost
+                        title="How Bitcoin Lightning Revolutionizes Transaction Times"
+                        date="Jan 8, 2024"
+                        image={dummyImg}
+                    />
+                </Grid>
             </Grid>
             <Footer />
         </React.Fragment>

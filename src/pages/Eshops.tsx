@@ -2,6 +2,8 @@ import React from "react";
 import Grid from '@mui/material/Grid';
 import Footer from "../components/Footer";
 import { Container, CssBaseline, Paper } from "@mui/material";
+import Typography from '@mui/material/Typography';
+
 
 //
 import SearchFiddle from "../components/SearchFiddle";
@@ -13,14 +15,31 @@ function Eshops() {
     return (
         <React.Fragment>
             <div style={{ textAlign: 'center' }}>
-                {/*
-                <SearchFiddle />
-                <SearchFiddle2 />*/}
+
+
+
+                {/*<SearchFiddle2 />*/}
                 <Container>
-                    <span >Search</span> || (1 Add e-shop)
+                    {/*<span >Search</span> || (1 Add e-shop)*/}
+                    <div>&nbsp;</div>
+                    <Grid container spacing={2}>
+                        <Grid item xs={4}>
+                            {/* 4/12 */}
+                            <SearchFiddle />
+                        </Grid>
+                        <Grid item xs={6}>
+                            {/*6/12*/}
+                        </Grid>
+                        <Grid item xs={2}>
+                            {/*2/12*/}
+                            (+ Add e-shop)
+                        </Grid>
+                    </Grid>
                 </Container>
                 <div>
-                    <div style={{ textAlign: 'left' }}>12 results</div>
+                    <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>
+                        12 results
+                    </p>
                     <Grid container spacing={2}>
                         <Grid item xs={2}>
                             <TileEshop likes="7" logo="https://cdn.alza.cz/images/web-static/eshop-logos/alza_cz.svg" title="Alza.cz" caption="Nejvetsi prodejce elektroniky v CR" />

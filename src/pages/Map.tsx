@@ -1,31 +1,53 @@
 import React from "react";
-import { Grid, Paper } from '@material-ui/core';
+import { Box, Grid } from '@material-ui/core';
+import { Container, CssBaseline } from "@mui/material";
 
 import Footer from "../components/Footer";
+
+import SearchFiddle from "../components/SearchFiddle";
 
 //
 function Map() {
     return (
         <React.Fragment>
-            <div>Search //TODO search || <b>(All)</b> (Food & Drinks) (Shops) (Services) //TODO tiles || (+ Add spot)//TODO btn</div>
-            <Grid container spacing={3}>
+            <Container>
+                {/*<span >Search</span> || (1 Add e-shop)*/}
+                <div>&nbsp;</div>
+                <Grid container spacing={2}>
+                    <Grid item xs={4}>
+                        {/* 4/12 */}
+                        <SearchFiddle />
+                    </Grid>
+                    <Grid item xs={6}>
+                        {/*6/12*/}
+                        (All) &nbsp;
+                        (Food&Drinks) &nbsp;
+                        (Shops) &nbsp;
+                        (Services) &nbsp;
+                    </Grid>
+                    <Grid item xs={2}>
+                        {/*2/12*/}
+                        (+ Add spot)
+                    </Grid>
+                </Grid>
+            </Container>            <Grid container spacing={3}>
                 {/* 7/12 width column */}
                 <Grid item xs={7}>
-                    <Paper style={{ height: 100, textAlign: 'center' }}>
+                    <Box style={{ height: 100, textAlign: 'center' }}>
                         <div>Content 7/12</div>
                         <div>Stuff tiles etc.</div>
                         <div>
                             Big tile - chosen //TODO Component <br />
                             Small tile x3 0 not chosen  //TODO Component<br />
                         </div>
-                    </Paper>
+                    </Box>
                 </Grid>
                 {/* 5/12 width column */}
                 <Grid item xs={5}>
-                    <Paper style={{ height: 100, textAlign: 'center' }}>
+                    <Box style={{ height: 100, textAlign: 'center' }}>
                         <div>Content 5/12</div>
                         <div>https://snazzymaps.com/style/151/ultra-light-with-labels</div>
-                    </Paper>
+                    </Box>
                 </Grid>
             </Grid>
             <Footer />
