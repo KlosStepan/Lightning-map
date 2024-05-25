@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Grid } from '@material-ui/core';
 import { Container, CssBaseline } from "@mui/material";
-
+import ButtonFiltering from "../components/ButtonFiltering";
 import Footer from "../components/Footer";
 
 import SearchFiddle from "../components/SearchFiddle";
@@ -20,14 +20,14 @@ function Map() {
                     </Grid>
                     <Grid item xs={6}>
                         {/*6/12*/}
-                        (All) &nbsp;
-                        (Food&Drinks) &nbsp;
-                        (Shops) &nbsp;
-                        (Services) &nbsp;
+                        <ButtonFiltering title="All" /> &nbsp;
+                        <ButtonFiltering title="Food&Drinks" /> &nbsp;
+                        <ButtonFiltering title="Shops" /> &nbsp;
+                        <ButtonFiltering title="Services" /> &nbsp;
                     </Grid>
                     <Grid item xs={2}>
                         {/*2/12*/}
-                        (+ Add spot)
+                        <ButtonFiltering title="+ Add spot" />
                     </Grid>
                 </Grid>
             </Container>            <Grid container spacing={3}>

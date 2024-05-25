@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 import Footer from "../components/Footer";
 import { Container, CssBaseline, Paper } from "@mui/material";
 import Typography from '@mui/material/Typography';
+import ButtonFiltering from "../components/ButtonFiltering";
 
 
 //
@@ -32,7 +33,7 @@ function Eshops() {
                         </Grid>
                         <Grid item xs={2}>
                             {/*2/12*/}
-                            (+ Add e-shop)
+                            <ButtonFiltering title="+ Add e-shop" />
                         </Grid>
                     </Grid>
                 </Container>
