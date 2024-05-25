@@ -3,11 +3,13 @@ import { Box, Grid } from '@material-ui/core';
 import { Container, CssBaseline } from "@mui/material";
 import ButtonFiltering from "../components/ButtonFiltering";
 import Footer from "../components/Footer";
-
+import TileBlogpost from "../components/TileBlogpost";
 import SearchFiddle from "../components/SearchFiddle";
 
 //
 function Map() {
+    const dummyImageURL = 'https://upload.wikimedia.org/wikipedia/commons/7/77/Google_Images_2015_logo.svg';
+
     return (
         <React.Fragment>
             <Container>
@@ -32,20 +34,67 @@ function Map() {
                 </Grid>
             </Container>            <Grid container spacing={3}>
                 {/* 7/12 width column */}
+
                 <Grid item xs={7}>
-                    <Box style={{ height: 100, textAlign: 'center' }}>
-                        <div>Content 7/12</div>
-                        <div>Stuff tiles etc.</div>
-                        <div>
-                            Big tile - chosen //TODO Component <br />
-                            Small tile x3 0 not chosen  //TODO Component<br />
-                        </div>
-                    </Box>
+                    <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>
+                        12 results
+                    </p>
+                    <Grid container spacing={2}>
+                        <Grid item xs={4}>
+                            <TileBlogpost
+                                title="How Bitcoin Lightning Revolutionizes Transaction Times"
+                                date="Jan 8, 2024"
+                                image={dummyImageURL}
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <TileBlogpost
+                                title="Exploring the Growing Ecosystem of Lightning-Enabled Businesses"
+                                date="Jan 8, 2024"
+                                image={dummyImageURL}
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <TileBlogpost
+                                title="The Role of Bitcoin Lightning in Financial Inclusion"
+                                date="Jan 8, 2024"
+                                image={dummyImageURL}
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <TileBlogpost
+                                title="How Bitcoin Lightning Revolutionizes Transaction Times"
+                                date="Jan 8, 2024"
+                                image={dummyImageURL}
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <TileBlogpost
+                                title="Exploring the Growing Ecosystem of Lightning-Enabled Businesses"
+                                date="Jan 8, 2024"
+                                image={dummyImageURL}
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <TileBlogpost
+                                title="The Role of Bitcoin Lightning in Financial Inclusion"
+                                date="Jan 8, 2024"
+                                image={dummyImageURL}
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <TileBlogpost
+                                title="How Bitcoin Lightning Revolutionizes Transaction Times"
+                                date="Jan 8, 2024"
+                                image={dummyImageURL}
+                            />
+                        </Grid>
+                    </Grid>
                 </Grid>
                 {/* 5/12 width column */}
                 <Grid item xs={5}>
                     <Box style={{ height: 100, textAlign: 'center' }}>
-                        <div>Content 5/12</div>
+                        {/*<div>Content 5/12</div>*/}
                         <div>https://snazzymaps.com/style/151/ultra-light-with-labels</div>
                     </Box>
                 </Grid>
