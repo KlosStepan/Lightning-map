@@ -34,7 +34,7 @@ import About from './pages/About';
 
 import TileBlogpost from './components/TileBlogpost';
 import TileExplainer from './components/TileExplainer';
-import TileMerch from './components/TileMerch';
+import TileMerch from './components/TileTypeMerchant';
 //import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';

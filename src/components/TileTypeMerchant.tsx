@@ -33,13 +33,13 @@ const textBottomLeftStyle = {
     color: 'white',
 };
 
-type MerchTileProps = {
+type TileTypeMerchantProps = {
     caption: string;
     numPlaces: string;
     imageSrc: string;
 };
 
-const TileMerch: React.FC<MerchTileProps> = ({ caption, numPlaces, imageSrc }) => {
+const TileTypeMerchant: React.FC<TileTypeMerchantProps> = ({ caption, numPlaces, imageSrc }) => {
     return (
         <React.Fragment>
             <Container maxWidth="sm">
@@ -68,4 +68,4 @@ const TileMerch: React.FC<MerchTileProps> = ({ caption, numPlaces, imageSrc }) =
     )
 }
 
-export default TileMerch;
+export default TileTypeMerchant;

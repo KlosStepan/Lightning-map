@@ -25,13 +25,15 @@ const containerInnerStyle = {
     opacity: '0px',
 };
 
-type TileMerchantProps = {
+type TileMerchantBigProps = {
     image: string;
+    categories: string[];
     title: string;
     address: string;
+    socials: string[];
     likes: string;
 }
-const TileMerchant: React.FC<TileMerchantProps> = ({ image, title, address, likes }) => {
+const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ image, categories, title, address, socials, likes }) => {
     return (
         <React.Fragment>
             <Container maxWidth="sm" sx={containerOuterStyle}>
@@ -62,4 +64,4 @@ const TileMerchant: React.FC<TileMerchantProps> = ({ image, title, address, like
         </React.Fragment>
     )
 }
-export default TileMerchant;
+export default TileMerchantBig;

@@ -4,10 +4,10 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Card, CardMedia, Grid } from '@mui/material';
 // New Components
-import MenuC from '../components/MenuHeader';
+import MenuHeader from '../components/MenuHeader';
 import TileBlogpost from '../components/TileBlogpost';
 import TileExplainer from '../components/TileExplainer';
-import TileMerch from '../components/TileMerch';
+import TileTypeMerchant from '../components/TileTypeMerchant';
 import MiddleOfHomepage from "../components/MiddleOfHomepage";
 //
 import transactionspeed from '../img/Interface-Essential-Flash--Streamline-Pixel.png';
@@ -42,10 +42,10 @@ function Homepage() {
                     </Box>
                     <Grid container spacing={2}>
                         <Grid item xs={6}>
-                            <TileMerch caption="Map of Places" numPlaces="12" imageSrc={mapofspots} />
+                            <TileTypeMerchant caption="Map of Places" numPlaces="12" imageSrc={mapofspots} />
                         </Grid>
                         <Grid item xs={6}>
-                            <TileMerch caption="E-shops" numPlaces="7" imageSrc={eshops} />
+                            <TileTypeMerchant caption="E-shops" numPlaces="7" imageSrc={eshops} />
                         </Grid>
                     </Grid>
                     <p>&nbsp;</p>

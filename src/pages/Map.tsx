@@ -1,12 +1,17 @@
 import React from "react";
 import { Box, Grid } from '@material-ui/core';
 import { Container, CssBaseline } from "@mui/material";
-import ButtonFiltering from "../components/ButtonFiltering";
-import Footer from "../components/Footer";
-import TileBlogpost from "../components/TileBlogpost";
-import SearchFiddle from "../components/SearchFiddle";
-
 //
+import ButtonFiltering from "../components/ButtonFiltering";
+import SearchFiddle from "../components/SearchFiddle";
+import Footer from "../components/Footer";
+// OUT vv
+import TileBlogpost from "../components/TileBlogpost";
+//
+import TileMerchantBig from "../components/TileMerchantBig";
+import TileMerchant from "../components/TileMerchant";
+
+// Prepare types, push object into component
 function Map() {
     const dummyImageURL = 'https://upload.wikimedia.org/wikipedia/commons/7/77/Google_Images_2015_logo.svg';
 
@@ -40,6 +45,16 @@ function Map() {
                         12 results
                     </p>
                     <Grid container spacing={2}>
+                        <TileMerchantBig
+                            title="How Bitcoin Lightning Revolutionizes Transaction Times"
+                            image={dummyImageURL}
+                            categories={["Finance", "Technology"]} // Add categories here
+                            address="123 Bitcoin St."
+                            socials={["twitter.com/example", "facebook.com/example"]}
+                            likes="1024"
+                        />
+                    </Grid>
+                    <Grid container spacing={2}>
                         <Grid item xs={4}>
                             <TileBlogpost
                                 title="How Bitcoin Lightning Revolutionizes Transaction Times"
@@ -48,47 +63,22 @@ function Map() {
                             />
                         </Grid>
                         <Grid item xs={4}>
-                            <TileBlogpost
-                                title="Exploring the Growing Ecosystem of Lightning-Enabled Businesses"
-                                date="Jan 8, 2024"
+                            <TileMerchant
                                 image={dummyImageURL}
+                                title="Blue pig vegan shop"
+                                address="Vrsovice"
+                                likes="7"
                             />
                         </Grid>
                         <Grid item xs={4}>
-                            <TileBlogpost
-                                title="The Role of Bitcoin Lightning in Financial Inclusion"
-                                date="Jan 8, 2024"
+                            <TileMerchant
                                 image={dummyImageURL}
+                                title="Palalelni polis"
+                                address="Holesovice"
+                                likes="7"
                             />
                         </Grid>
-                        <Grid item xs={4}>
-                            <TileBlogpost
-                                title="How Bitcoin Lightning Revolutionizes Transaction Times"
-                                date="Jan 8, 2024"
-                                image={dummyImageURL}
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <TileBlogpost
-                                title="Exploring the Growing Ecosystem of Lightning-Enabled Businesses"
-                                date="Jan 8, 2024"
-                                image={dummyImageURL}
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <TileBlogpost
-                                title="The Role of Bitcoin Lightning in Financial Inclusion"
-                                date="Jan 8, 2024"
-                                image={dummyImageURL}
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <TileBlogpost
-                                title="How Bitcoin Lightning Revolutionizes Transaction Times"
-                                date="Jan 8, 2024"
-                                image={dummyImageURL}
-                            />
-                        </Grid>
+
                     </Grid>
                 </Grid>
                 {/* 5/12 width column */}
@@ -96,6 +86,8 @@ function Map() {
                     <Box style={{ height: 100, textAlign: 'center' }}>
                         {/*<div>Content 5/12</div>*/}
                         <div>https://snazzymaps.com/style/151/ultra-light-with-labels</div>
+                        <div>&nbsp;</div>
+                        <div>https://javascript.plainenglish.io/add-a-google-map-to-your-react-app-with-a-snazzy-maps-style-38781edcdc7a</div>
                     </Box>
                 </Grid>
             </Grid>
