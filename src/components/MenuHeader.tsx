@@ -12,7 +12,8 @@ import Avatar from '@mui/material/Avatar';
 
 //Images imports
 import logo from '../img/lightning-everywhere.png';
-
+//
+import IconKey from "../icons/IconKey";
 //
 import { Link } from 'react-router-dom';
 import ILink from "../ts/ILink";
@@ -145,7 +146,7 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
 
             </Box>
 
-            <Box sx={{ flexGrow: 0 }}>
+            {/*<Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                         <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -173,6 +174,11 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                         </MenuItem>
                     ))}
                 </Menu>
+            </Box>*/}
+            <Box sx={{ flexGrow: 0, color: 'black' }}>
+                <div style={{ fontFamily: 'PixGamer' }}>
+                    |<IconKey /> Login|
+                </div>
             </Box>
         </Toolbar>
     )

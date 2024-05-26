@@ -21,8 +21,6 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
-// New Components
-import MenuC from './components/MenuHeader';
 
 //Pages
 import Homepage from './pages/Homepage';
@@ -58,6 +56,7 @@ import ILink from './ts/ILink';
 //
 //const pages = ["Map", "E-shops", "Why Lightning", "Blog", "About"];
 const pages: ILink[] = [
+    { title: "Welcome", link: "/" },
     { title: "Map", link: "/map" },
     { title: "E-shops", link: "/e-shops" },
     { title: "Why Lightning", link: "/why-lightning" },

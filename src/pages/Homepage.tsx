@@ -37,7 +37,7 @@ function Homepage() {
                         <Typography variant="h1" component="h1">
                             Experience the Power of
                             Lightning Network Everywhere </Typography>
-                        <p>Discover spots and e-shops accepting payments via the Lightning Networkand enjoy instant transactions without unnecessary waiting or high fees.</p>
+                        <p>Discover spots and e-shops accepting payments via the Lightning Network and enjoy instant transactions without unnecessary waiting or high fees.</p>
 
                     </Box>
                     <Grid container spacing={2}>
