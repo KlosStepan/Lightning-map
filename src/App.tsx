@@ -29,6 +29,7 @@ import Eshops from './pages/Eshops';
 import WhyLightning from './pages/WhyLightning';
 import Blog from './pages/Blog';
 import About from './pages/About';
+import Login from './pages/Login';
 
 import TileBlogpost from './components/TileBlogpost';
 import TileExplainer from './components/TileExplainer';
@@ -91,6 +92,7 @@ function App() {
                             <Route path="/why-lightning" element={<WhyLightning />} />
                             <Route path="/blog" element={<Blog />} />
                             <Route path="/about" element={<About />} />
+                            <Route path="/login" element={<Login />} />
                         </Routes>
                     </React.Fragment>
                 </Grid>

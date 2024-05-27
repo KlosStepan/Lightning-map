@@ -175,9 +175,12 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                     ))}
                 </Menu>
             </Box>*/}
+
             <Box sx={{ flexGrow: 0, color: 'black' }}>
                 <div style={{ fontFamily: 'PixGamer' }}>
-                    |<IconKey /> Login|
+                    <Link style={{ color: "inherit", textDecoration: "inherit", fontSize: '18px' }} to="/login">
+                        <IconKey /> LOGIN
+                    </Link>
                 </div>
             </Box>
         </Toolbar>

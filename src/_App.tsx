@@ -14,7 +14,7 @@ import { setMerchants, setEshopscz } from './redux/actions/lightningMapActions';
 //Web - Pages
 import Eshopscz from './pages/_Eshopscz';
 import About from './pages/About';
-import Login from './pages/Login';
+import Login from './pages/_Login';
 import Register from './pages/Register';
 //Web - Components
 import _Menu from './components/_Menu';
