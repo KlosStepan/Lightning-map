@@ -23,7 +23,7 @@ import Map from './components/Map';
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "./components/Firebase";
 //Admin - Add/Edit imports
-import Dashboard from './pages/Dashboard';
+import Dashboard from './pages/_Dashboard';
 import AddEshop from './pages/AddEshop';
 import EditEshop from './pages/EditEshop';
 import AddMerchant from './pages/AddMerchant';

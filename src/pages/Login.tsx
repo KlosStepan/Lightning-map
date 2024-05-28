@@ -29,6 +29,7 @@ function Copyright(props: any) {
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
+//Will be stepped: Login general || Login e-mail/pass || Create Account || Password reset
 export default function SignInSide() {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -40,7 +41,7 @@ export default function SignInSide() {
     };
 
     return (
-        <ThemeProvider theme={defaultTheme}>
+        < /*theme={defaultTheme}*/>
             <Grid container component="main" sx={{ height: '100vh' }}>
                 <CssBaseline />
                 <Grid
@@ -58,6 +59,7 @@ export default function SignInSide() {
                     }}
                 />
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+                    {/*
                     <Box
                         sx={{
                             my: 8,
@@ -120,9 +122,39 @@ export default function SignInSide() {
                             </Grid>
                             <Copyright sx={{ mt: 5 }} />
                         </Box>
+                    
+                    </Box>
+                    */}
+                    <Box
+                        sx={{
+                            my: 8,
+                            mx: 4,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Typography variant="h1" component="h1">
+                            Login
+                        </Typography>
+                        <div>
+                            Continue with Google -&gt;
+                        </div>
+                        <div>
+                            Continue with Apple -&gt;
+                        </div>
+                        <div>
+                            Continue with e-mail -&gt;
+                        </div>
+                        <div>
+                            I forgot my password
+                        </div>
+                        <div>
+                            Don't you have an account? Sign up
+                        </div>
                     </Box>
                 </Grid>
             </Grid>
-        </ThemeProvider>
+        </>
     );
 }
