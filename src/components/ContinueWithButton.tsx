@@ -1,5 +1,7 @@
 import React from 'react';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import LoginArrowRight from '../img/login-arrow-right.png';
 
 type ContinueWithButtonProps = {
     icon: string;
@@ -13,19 +15,56 @@ const ContinueWithButton: React.FC<ContinueWithButtonProps> = ({ icon, title, mi
             color="primary"
             sx={{
                 backgroundColor: 'white',
-                borderRadius: '20px', // Adjust the value to make the corners more or less rounded
-                width: '100%', // Make the button fill the horizontal space
-                padding: '4px', // Add padding
-                //borderTop: '12px !important', // Add top border
-                //borderBottom: '12px !important', // Add bottom border
+                borderRadius: '20px',
+                width: '100%',
+                padding: '4px',
                 marginTop: '12px',
-                marginBotton: '12px',
+                marginBottom: '12px',
                 '&:hover': {
-                    //backgroundColor: 'lightgray' // Optional: change color on hover
-                }
+                    // Optional: change color on hover
+                },
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
             }}
         >
-            `{icon}` Continue with {title} <span style={{ display: "none" }}>({miscDelegate})</span> -&gt;
+            <Box
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '100%',
+                }}
+            >
+                <Box
+                    component="img"
+                    src={icon}
+                    alt={title}
+                    sx={{
+                        width: 24,
+                        height: 24,
+                        marginRight: 1,
+                    }}
+                />
+                <Box
+                    component="span"
+                    sx={{
+                        textAlign: 'center',
+                        marginRight: 1,
+                    }}
+                >
+                    Continue with {title} <span style={{ display: "none" }}>({miscDelegate})</span>
+                </Box>
+                <Box
+                    component="img"
+                    src={LoginArrowRight}
+                    alt="login-button"
+                    sx={{
+                        width: 24,
+                        height: 24,
+                    }}
+                />
+            </Box>
         </Button>
     )
 }

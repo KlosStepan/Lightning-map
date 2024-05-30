@@ -14,6 +14,13 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ContinueWithButton from '../components/ContinueWithButton';
 
+//Login buttons stuff
+import LoginApple from '../img/login-apple.png';
+import LoginGoogle from '../img/login-google.png';
+import LoginEmail from '../img/login-mail.png';
+
+import { logInWithEmailAndPassword } from '../components/Firebase';
+
 //3x png
 function Copyright(props: any) {
     return (
@@ -74,9 +81,9 @@ export default function SignInSide() {
                             Login
                         </Typography>
                         <div>&nbsp;</div>
-                        <ContinueWithButton icon="icon.png" title="Google" miscDelegate="delegat" />
-                        <ContinueWithButton icon="icon.png" title="Apple" miscDelegate="delegat" />
-                        <ContinueWithButton icon="icon.png" title="e-mail" miscDelegate="delegat" />
+                        <ContinueWithButton icon={LoginGoogle} title="Google" miscDelegate="delegat" />
+                        <ContinueWithButton icon={LoginApple} title="Apple" miscDelegate="delegat" />
+                        <ContinueWithButton icon={LoginEmail} title="e-mail" miscDelegate="delegat" />
                         <div>&nbsp;</div>
                         <div>
                             <u>I forgot my password</u>
