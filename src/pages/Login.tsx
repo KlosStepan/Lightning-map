@@ -14,29 +14,28 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ContinueWithButton from '../components/ContinueWithButton';
 
+//
+import { auth, logInWithEmailAndPassword, signInWithGoogle } from "../components/Firebase";
+
 //Login buttons stuff
 import LoginApple from '../img/login-apple.png';
 import LoginGoogle from '../img/login-google.png';
 import LoginEmail from '../img/login-mail.png';
-
-import { logInWithEmailAndPassword } from '../components/Firebase';
-
-//3x png
-function Copyright(props: any) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import { isNullishCoalesce } from 'typescript';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
+
+//TODO signIns
+const signInWithApple = (): Promise<void> => {
+    console.log("TODO - signInWithApple");
+    return Promise.resolve();
+};
+
+const signInWithEmail = (): Promise<void> => {
+    console.log("TODO - signInWithEmail");
+    return Promise.resolve();
+};
 
 //Will be stepped: Login general || Login e-mail/pass || Create Account || Password reset
 export default function SignInSide() {
@@ -81,15 +80,15 @@ export default function SignInSide() {
                             Login
                         </Typography>
                         <div>&nbsp;</div>
-                        <ContinueWithButton icon={LoginGoogle} title="Google" miscDelegate="delegat" />
-                        <ContinueWithButton icon={LoginApple} title="Apple" miscDelegate="delegat" />
-                        <ContinueWithButton icon={LoginEmail} title="e-mail" miscDelegate="delegat" />
+                        <ContinueWithButton icon={LoginGoogle} title="Google" actionDelegate={signInWithGoogle} />
+                        <ContinueWithButton icon={LoginApple} title="Apple" actionDelegate={signInWithApple} />
+                        <ContinueWithButton icon={LoginEmail} title="e-mail" actionDelegate={signInWithEmail} />
                         <div>&nbsp;</div>
                         <div>
-                            <u>I forgot my password</u>
+                            <span onClick={() => { console.log("TODO - forgotten passwd") }}><u>I forgot my password</u></span>
                         </div>
                         <div>
-                            Don't you have an account? <u>Sign up</u>
+                            <span>Don't you have an account? <span onClick={() => { console.log("TODO - sign up") }}><u>Sign up</u></span></span>
                         </div>
                     </Box>
                 </Grid>

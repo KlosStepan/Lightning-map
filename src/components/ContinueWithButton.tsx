@@ -6,13 +6,14 @@ import LoginArrowRight from '../img/login-arrow-right.png';
 type ContinueWithButtonProps = {
     icon: string;
     title: string;
-    miscDelegate?: string;
+    actionDelegate?: () => Promise<void>; // Update type to function
 }
 
-const ContinueWithButton: React.FC<ContinueWithButtonProps> = ({ icon, title, miscDelegate }) => {
+const ContinueWithButton: React.FC<ContinueWithButtonProps> = ({ icon, title, actionDelegate }) => {
     return (
         <Button
             color="primary"
+            onClick={actionDelegate} // Use actionDelegate as onClick handler
             sx={{
                 backgroundColor: 'white',
                 borderRadius: '20px',
@@ -53,7 +54,7 @@ const ContinueWithButton: React.FC<ContinueWithButtonProps> = ({ icon, title, mi
                         marginRight: 1,
                     }}
                 >
-                    Continue with {title} <span style={{ display: "none" }}>({miscDelegate})</span>
+                    Continue with {title}
                 </Box>
                 <Box
                     component="img"
