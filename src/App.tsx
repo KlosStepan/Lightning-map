@@ -30,6 +30,7 @@ import WhyLightning from './pages/WhyLightning';
 import Blog from './pages/Blog';
 import About from './pages/About';
 import Login from './pages/Login';
+import AdminDashboard from './pages/AdminDashboard';
 
 import TileBlogpost from './components/TileBlogpost';
 import TileExplainer from './components/TileExplainer';
@@ -93,6 +94,7 @@ function App() {
                             <Route path="/blog" element={<Blog />} />
                             <Route path="/about" element={<About />} />
                             <Route path="/login" element={<Login />} />
+                            <Route path="/admin-dashboard" element={<AdminDashboard />}></Route>
                         </Routes>
                     </React.Fragment>
                 </Grid>
