@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ContinueWithButton from '../components/ContinueWithButton';
 
 //
+import { useNavigate } from "react-router-dom";
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from "../components/Firebase";
 
 //Login buttons stuff
@@ -22,6 +23,7 @@ import LoginApple from '../img/login-apple.png';
 import LoginGoogle from '../img/login-google.png';
 import LoginEmail from '../img/login-mail.png';
 import { isNullishCoalesce } from 'typescript';
+import { useAuthState } from "react-firebase-hooks/auth";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
@@ -39,14 +41,24 @@ const signInWithEmail = (): Promise<void> => {
 
 //Will be stepped: Login general || Login e-mail/pass || Create Account || Password reset
 export default function SignInSide() {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    /*const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         console.log({
             email: data.get('email'),
             password: data.get('password'),
         });
-    };
+    };*/
+    const [user, loading, error] = useAuthState(auth);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (loading) {
+            // maybe trigger a loading screen
+            return;
+        }
+        if (user) navigate("/admin/dashboard");
+    }, [user, loading]);
 
     return (
         < /*theme={defaultTheme}*/>
