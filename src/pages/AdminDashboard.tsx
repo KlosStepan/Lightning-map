@@ -1,45 +1,35 @@
 import React from "react";
 import Typography from '@mui/material/Typography';
 import { Grid, Box } from '@mui/material';
-import ADMenuButton from "../components/ADMenuButton";
+import ADMenu from "../components/ADMenu";
+//import ADMenuButton from "../components/ADMenuButton";
 
+// 4x icon
+//import IcoADHome from '../icons/ad-home.png';
+//import IcoADPin from '../icons/ad-pin.png';
+//import IcoADShoppingBag from '../icons/ad-shopping-bag.png';
+//import IcoADUser from '../icons/ad-user.png';
 
 function AdminDashboard() {
     return (
         <React.Fragment>
-            {/*<Typography variant="h1" component="h1">
-                Welcome back
-            </Typography>*/}
-            < Grid container >
+            <Grid container>
                 {/* Sidebar */}
-                < Grid item xs={2} >
+                <Grid item xs={3}>
                     <Box
                         sx={{
-                            //height: '100vh', // Full height of the viewport
-                            //backgroundColor: '#f4f4f4', // Background color for the sidebar
-                            padding: 2, // Padding inside the sidebar
+                            padding: 2,
                         }}
                     >
-                        <ADMenuButton icon="ico.png" title="Dashboard" path="/admin/dashboard" />
-                        <ADMenuButton icon="ico.png" title="My spots" path="/admin/my-spots" />
-                        <ADMenuButton icon="ico.png" title="My e-shops" path="/admin/my-eshops" />
-                        <ADMenuButton icon="ico.png" title="My account" path="/admin/my-account" />
-
-                        <ul>
-                            <li>|<u>Dashboard</u>|</li>
-                            <li>|<u>My spots</u>|</li>
-                            <li>|<u>My e-shops</u>|</li>
-                            <li>|<u>My account</u>|</li>
-                            {/* Add more menu items here */}
-                        </ul>
+                        <ADMenu />
                     </Box>
-                </Grid >
+                </Grid>
 
                 {/* Main Content */}
-                < Grid item xs={10} >
+                <Grid item xs={9}>
                     <Box
                         sx={{
-                            padding: 3, // Padding inside the main content area
+                            padding: 3,
                         }}
                     >
                         <Typography variant="h1" component="h1">
@@ -48,14 +38,43 @@ function AdminDashboard() {
                         <Typography variant="h1" component="h1">
                             Stepan Klos
                         </Typography>
-                        <p>This is the main content area.</p>
-                        {/* Add more content here */}
+                        <Grid container spacing={2}>
+                            <Grid item xs={4}>
+                                <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>
+                                    {/* First tile content */}
+                                    Tile 1
+                                </Box>
+                                <Box sx={{ border: '1px solid #ddd', padding: 2, marginTop: 2, height: '100%' }}>
+                                    {/* Second tile content */}
+                                    Tile 2
+                                </Box>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>
+                                    {/* Third tile content */}
+                                    Tile 3
+                                </Box>
+                                <Box sx={{ border: '1px solid #ddd', padding: 2, marginTop: 2, height: '100%' }}>
+                                    {/* Fourth tile content */}
+                                    Tile 4
+                                </Box>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>
+                                    {/* Fifth tile content */}
+                                    Tile 5
+                                </Box>
+                                <Box sx={{ border: '1px solid #ddd', padding: 2, marginTop: 2, height: '100%' }}>
+                                    {/* Sixth tile content */}
+                                    Tile 6
+                                </Box>
+                            </Grid>
+                        </Grid>
                     </Box>
-                </Grid >
-            </Grid >
+                </Grid>
+            </Grid>
         </React.Fragment>
-
-    )
+    );
 }
 
 export default AdminDashboard;

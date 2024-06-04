@@ -1,6 +1,8 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import LoginArrowRight from '../img/login-arrow-right.png';
+import { Link } from 'react-router-dom';
 
 type ADMenuButtonProps = {
     icon: string;
@@ -11,59 +13,58 @@ type ADMenuButtonProps = {
 const ADMenuButton: React.FC<ADMenuButtonProps> = ({ icon, title, path }) => {
     return (
         <React.Fragment>
-            {/*<Link wrapper*/}
-            <Button
-                color="primary"
-                //onClick={actionDelegate} // Use actionDelegate as onClick handler
-                sx={{
-                    //backgroundColor: 'white',
-                    borderRadius: '12px',
-                    width: '100%',
-                    padding: '4px',
-                    marginTop: '12px',
-                    marginBottom: '12px',
-                    '&:hover': {
-                        // Optional: change color on hover
-                        backgroundColor: 'white',
-
-                    },
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <Box
+            <Link style={{ color: "inherit", textDecoration: "inherit", fontSize: '18px' }} to={path}>
+                {/*//Make Link*/}
+                <Button
+                    color="primary"
                     sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
+                        backgroundColor: 'white',
+                        borderRadius: '20px',
                         width: '100%',
+                        padding: '4px',
+                        marginTop: '12px',
+                        marginBottom: '12px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        '&:hover': {
+                            // Optional: change color on hover
+                        },
                     }}
                 >
                     <Box
-                        component="img"
-                        src={icon}
-                        alt={title}
                         sx={{
-                            width: 24,
-                            height: 24,
-                            marginRight: 1,
-                        }}
-                    />
-                    <Box
-                        component="span"
-                        sx={{
-                            textAlign: 'center',
-                            marginRight: 1,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: '100%',
+                            position: 'relative',
                         }}
                     >
-                        {title}
+                        <Box
+                            component="img"
+                            src={icon}
+                            alt={title}
+                            sx={{
+                                width: 24,
+                                height: 24,
+                                marginRight: 2,
+                            }}
+                        />
+                        <Box
+                            component="span"
+                            sx={{
+                                textAlign: 'center',
+                                flexGrow: 1,
+                            }}
+                        >
+                            {title}
+                        </Box>
                     </Box>
-                </Box>
-            </Button>
-            {/*</Link wrapper*/}
+                </Button>
+            </Link>
         </React.Fragment>
-    )
+    );
 }
 
 export default ADMenuButton;

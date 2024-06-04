@@ -64,7 +64,7 @@ import ILink from './ts/ILink';
 //
 //const pages = ["Map", "E-shops", "Why Lightning", "Blog", "About"];
 const pages: ILink[] = [
-    { title: "Welcome", link: "/" },
+    { title: "Home", link: "/" },
     { title: "Map", link: "/map" },
     { title: "E-shops", link: "/e-shops" },
     { title: "Why Lightning", link: "/why-lightning" },
