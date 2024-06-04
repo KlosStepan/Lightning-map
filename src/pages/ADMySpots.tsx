@@ -6,6 +6,9 @@ import Button from '@mui/material/Button';
 import ADMenu from "../components/ADMenu";
 import TileAddedSpot from "../components/TileAddedSpot";
 
+import FotoBluePig from '../img/foto-blue-pig.png';
+import FotoPolis from '../img/foto-polis.png';
+
 function ADMySpots() {
     return (
         <React.Fragment>
@@ -44,7 +47,13 @@ function ADMySpots() {
                             <Grid item xs={4}>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>
                                     {/* First tile content */}
-                                    <TileAddedSpot />
+                                    <TileAddedSpot
+                                        likes="12"
+                                        image={FotoPolis}
+                                        tags={['Food&Drinks', 'Services']}
+                                        title="Paralelní Polis"
+                                        address="475/43, Dělnická, 170 00 Praha 7"
+                                    />
                                 </Box>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, marginTop: 2, height: '100%' }}>
                                     {/* Second tile content */}
@@ -54,7 +63,13 @@ function ADMySpots() {
                             <Grid item xs={4}>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>
                                     {/* Third tile content */}
-                                    <TileAddedSpot />
+                                    <TileAddedSpot
+                                        likes="7"
+                                        image={FotoBluePig}
+                                        tags={['Food&Drinks', 'Services', 'Idk']}
+                                        title="Blue Vegal Pig Shop"
+                                        address="Francouzská 420/76, 101 00 Praha 10-Vinohrady"
+                                    />
 
                                 </Box>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, marginTop: 2, height: '100%' }}>

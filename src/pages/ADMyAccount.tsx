@@ -38,6 +38,7 @@ function ADMyAccount() {
                                 </Button>
                             </Grid>
                         </Grid>
+                        <div>Some user stuff goes here (depending on auth method I would say)</div>
                     </Box>
                 </Grid>
             </Grid>

@@ -44,7 +44,13 @@ function ADMyEShops() {
                             <Grid item xs={4}>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>
                                     {/* First tile content */}
-                                    <TileAddedEshop />
+                                    <TileAddedEshop
+                                        //id="70"
+                                        image="https://"
+                                        likes="12"
+                                        title="Alza"
+                                        desc="Největší prodejce elektroniky v ČR."
+                                    />
                                 </Box>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, marginTop: 2, height: '100%' }}>
                                     {/* Second tile content */}
@@ -54,7 +60,13 @@ function ADMyEShops() {
                             <Grid item xs={4}>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>
                                     {/* Third tile content */}
-                                    <TileAddedEshop />
+                                    <TileAddedEshop
+                                        //id="80"
+                                        image="https://"
+                                        likes="7"
+                                        title="Alza"
+                                        desc="Největší prodejce elektroniky v ČR."
+                                    />
                                 </Box>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, marginTop: 2, height: '100%' }}>
                                     {/* Fourth tile content */}
