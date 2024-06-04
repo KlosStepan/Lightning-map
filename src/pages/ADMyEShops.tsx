@@ -2,6 +2,9 @@ import React from "react";
 import Typography from '@mui/material/Typography';
 import { Grid, Box } from '@mui/material';
 import ADMenu from "../components/ADMenu";
+import Button from '@mui/material/Button';
+
+import TileAddedEshop from "../components/TileAddedEshop";
 
 function ADMyEShops() {
     return (
@@ -25,14 +28,23 @@ function ADMyEShops() {
                             padding: 3,
                         }}
                     >
-                        <Typography variant="h1" component="h1">
-                            Added e-shops
-                        </Typography>
+                        <Grid container spacing={2} alignItems="center">
+                            <Grid item xs={6}>
+                                <Typography variant="h1" component="h1">
+                                    Added e-shops
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={6} container justifyContent="flex-end">
+                                <Button variant="contained" color="primary">
+                                    + Add e-shop
+                                </Button>
+                            </Grid>
+                        </Grid>
                         <Grid container spacing={2}>
                             <Grid item xs={4}>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>
                                     {/* First tile content */}
-                                    Tile 1
+                                    <TileAddedEshop />
                                 </Box>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, marginTop: 2, height: '100%' }}>
                                     {/* Second tile content */}
@@ -42,7 +54,7 @@ function ADMyEShops() {
                             <Grid item xs={4}>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>
                                     {/* Third tile content */}
-                                    Tile 3
+                                    <TileAddedEshop />
                                 </Box>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, marginTop: 2, height: '100%' }}>
                                     {/* Fourth tile content */}

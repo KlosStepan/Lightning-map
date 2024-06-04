@@ -42,10 +42,10 @@ function Homepage() {
                     </Box>
                     <Grid container spacing={2}>
                         <Grid item xs={6}>
-                            <TileTypeMerchant caption="Map of Places" numPlaces="12" imageSrc={mapofspots} />
+                            <TileTypeMerchant caption="Map of Places" numPlaces="12" imageSrc={mapofspots} path="/map" />
                         </Grid>
                         <Grid item xs={6}>
-                            <TileTypeMerchant caption="E-shops" numPlaces="7" imageSrc={eshops} />
+                            <TileTypeMerchant caption="E-shops" numPlaces="7" imageSrc={eshops} path="/e-shops" />
                         </Grid>
                     </Grid>
                     <p>&nbsp;</p>

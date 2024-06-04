@@ -4,6 +4,12 @@ import { Grid, Box } from '@mui/material';
 import ADMenu from "../components/ADMenu";
 //import ADMenuButton from "../components/ADMenuButton";
 
+import TileTypeMerchant from '../components/TileTypeMerchant';
+//
+import mapofspots from '../img/Interface-Essential-Map--Streamline-Pixel.png';
+import eshops from '../img/Shopping-Shipping-Bag-1--Streamline-Pixel.png';
+
+
 // 4x icon
 //import IcoADHome from '../icons/ad-home.png';
 //import IcoADPin from '../icons/ad-pin.png';
@@ -42,7 +48,8 @@ function AdminDashboard() {
                             <Grid item xs={4}>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>
                                     {/* First tile content */}
-                                    Tile 1
+                                    <TileTypeMerchant caption="Map of Places" numPlaces="12" imageSrc={mapofspots} path="" />
+
                                 </Box>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, marginTop: 2, height: '100%' }}>
                                     {/* Second tile content */}
@@ -52,7 +59,8 @@ function AdminDashboard() {
                             <Grid item xs={4}>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>
                                     {/* Third tile content */}
-                                    Tile 3
+                                    <TileTypeMerchant caption="E-shops" numPlaces="7" imageSrc={eshops} path="" />
+
                                 </Box>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, marginTop: 2, height: '100%' }}>
                                     {/* Fourth tile content */}
