@@ -3,10 +3,16 @@ import Typography from '@mui/material/Typography';
 import { Grid, Box } from '@mui/material';
 import ADMenu from "../components/ADMenu";
 import Button from '@mui/material/Button';
+import ButtonUniversal from "../components/ButtonUniversal";
 
 import TileAddedEshop from "../components/TileAddedEshop";
 
 function ADMyEShops() {
+    const FuncAddEshop = (): Promise<void> => {
+        console.log("AddEshop")
+        return Promise.resolve();
+    }
+
     return (
         <React.Fragment>
             <Grid container>
@@ -35,9 +41,7 @@ function ADMyEShops() {
                                 </Typography>
                             </Grid>
                             <Grid item xs={6} container justifyContent="flex-end">
-                                <Button variant="contained" color="primary">
-                                    + Add e-shop
-                                </Button>
+                                <ButtonUniversal title="+ Add e-shop" color="#F23CFF" actionDelegate={FuncAddEshop} />
                             </Grid>
                         </Grid>
                         <Grid container spacing={2}>

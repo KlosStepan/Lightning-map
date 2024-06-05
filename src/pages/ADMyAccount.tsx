@@ -3,8 +3,13 @@ import Typography from '@mui/material/Typography';
 import { Grid, Box } from '@mui/material';
 import Button from '@mui/material/Button';
 import ADMenu from "../components/ADMenu";
+import ButtonUniversal from "../components/ButtonUniversal";
 
 function ADMyAccount() {
+    const FuncEdit = (): Promise<void> => {
+        console.log("Edit")
+        return Promise.resolve();
+    }
     return (
         <React.Fragment>
             <Grid container>
@@ -33,9 +38,8 @@ function ADMyAccount() {
                                 </Typography>
                             </Grid>
                             <Grid item xs={6} container justifyContent="flex-end">
-                                <Button variant="contained" color="primary">
-                                    Edit
-                                </Button>
+                                <ButtonUniversal title="Edit" color="#F23CFF" actionDelegate={FuncEdit} />
+
                             </Grid>
                         </Grid>
                         <div>Some user stuff goes here (depending on auth method I would say)</div>

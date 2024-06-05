@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import Footer from "../components/Footer";
 import { Container, CssBaseline, Paper } from "@mui/material";
 import Typography from '@mui/material/Typography';
-import ButtonFiltering from "../components/ButtonFiltering";
+import ButtonUniversal from "../components/ButtonUniversal";
 
 
 //
@@ -13,6 +13,10 @@ import SearchFiddle2 from "../components/SearchFiddle2";
 import TileEshop from "../components/TileEshop";
 
 function Eshops() {
+    const FuncAddEshop = (): Promise<void> => {
+        console.log("AddEshop")
+        return Promise.resolve();
+    }
     return (
         <React.Fragment>
             <div style={{ textAlign: 'center' }}>
@@ -33,7 +37,7 @@ function Eshops() {
                         </Grid>
                         <Grid item xs={2}>
                             {/*2/12*/}
-                            <ButtonFiltering title="+ Add e-shop" />
+                            <ButtonUniversal title="+ Add e-shop" color="red" actionDelegate={FuncAddEshop} />
                         </Grid>
                     </Grid>
                 </Container>

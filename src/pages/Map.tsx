@@ -2,7 +2,8 @@ import React from "react";
 import { Box, Grid } from '@material-ui/core';
 import { Container, CssBaseline } from "@mui/material";
 //
-import ButtonFiltering from "../components/ButtonFiltering";
+import ButtonUniversal from "../components/ButtonUniversal";
+
 import SearchFiddle from "../components/SearchFiddle";
 import Footer from "../components/Footer";
 // OUT vv
@@ -14,6 +15,27 @@ import TileMerchant from "../components/TileMerchant";
 // Prepare types, push object into component
 function Map() {
     const dummyImageURL = 'https://upload.wikimedia.org/wikipedia/commons/7/77/Google_Images_2015_logo.svg';
+
+    const FuncAll = (): Promise<void> => {
+        console.log("All")
+        return Promise.resolve();
+    }
+    const FuncFD = (): Promise<void> => {
+        console.log("Food&Drinks")
+        return Promise.resolve();
+    }
+    const FuncShops = (): Promise<void> => {
+        console.log("Shops")
+        return Promise.resolve();
+    }
+    const FuncServices = (): Promise<void> => {
+        console.log("Services")
+        return Promise.resolve();
+    }
+    const FuncAddSpot = (): Promise<void> => {
+        console.log("AddSpot")
+        return Promise.resolve();
+    }
 
     return (
         <React.Fragment>
@@ -27,14 +49,15 @@ function Map() {
                     </Grid>
                     <Grid item xs={6}>
                         {/*6/12*/}
-                        <ButtonFiltering title="All" /> &nbsp;
-                        <ButtonFiltering title="Food&Drinks" /> &nbsp;
-                        <ButtonFiltering title="Shops" /> &nbsp;
-                        <ButtonFiltering title="Services" /> &nbsp;
+
+                        <ButtonUniversal title="All" color="#F0F0A5" actionDelegate={FuncAll} />
+                        <ButtonUniversal title="Food&Drinks" color="#F0F0A5" actionDelegate={FuncFD} />
+                        <ButtonUniversal title="Shops" color="#F0F0A5" actionDelegate={FuncShops} />
+                        <ButtonUniversal title="Services" color="#F0F0A5" actionDelegate={FuncServices} />
                     </Grid>
                     <Grid item xs={2}>
                         {/*2/12*/}
-                        <ButtonFiltering title="+ Add spot" />
+                        <ButtonUniversal title="+ Add spot" color="red" actionDelegate={FuncAddSpot} />
                     </Grid>
                 </Grid>
             </Container>            <Grid container spacing={3}>

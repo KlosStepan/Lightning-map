@@ -3,6 +3,7 @@ import Typography from '@mui/material/Typography';
 import { Grid, Box } from '@mui/material';
 import ADMenu from "../components/ADMenu";
 //import ADMenuButton from "../components/ADMenuButton";
+import ButtonUniversal from "../components/ButtonUniversal";
 
 import TileTypeMerchant from '../components/TileTypeMerchant';
 //
@@ -17,6 +18,10 @@ import eshops from '../img/Shopping-Shipping-Bag-1--Streamline-Pixel.png';
 //import IcoADUser from '../icons/ad-user.png';
 
 function AdminDashboard() {
+    const FuncAdd = (): Promise<void> => {
+        console.log("Add")
+        return Promise.resolve();
+    }
     return (
         <React.Fragment>
             <Grid container>
@@ -38,12 +43,19 @@ function AdminDashboard() {
                             padding: 3,
                         }}
                     >
-                        <Typography variant="h1" component="h1">
-                            Welcome back
-                        </Typography>
-                        <Typography variant="h1" component="h1">
-                            Stepan Klos
-                        </Typography>
+                        <Grid container spacing={2}>
+                            <Grid item xs={10}>
+                                <Typography variant="h1" component="h1">
+                                    Welcome back
+                                </Typography>
+                                <Typography variant="h1" component="h1">
+                                    Stepan Klos
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={2}>
+                                <ButtonUniversal title="+ Add" color="#F23CFF" actionDelegate={FuncAdd} />
+                            </Grid>
+                        </Grid>
                         <Grid container spacing={2}>
                             <Grid item xs={4}>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>

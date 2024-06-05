@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, CardMedia, Container, Box, Typography } from '@mui/material';
+import ButtonUniversal from "../components/ButtonUniversal";
 
 const containerOuterStyle = {
     //padding: '16px 12px',
@@ -23,6 +24,15 @@ type TileAddedEshopProps = {
 }
 
 const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ image, likes, title, desc }) => {
+    const FuncEdit = (): Promise<void> => {
+        console.log("Calling Edit")
+        return Promise.resolve();
+    }
+    const FuncDelete = (): Promise<void> => {
+        console.log("Calling Delete")
+        return Promise.resolve();
+    }
+
     return (
         <Container /*maxWidth="sm"*/ sx={containerOuterStyle} disableGutters>
             {/*<Card sx={{ height: '100%' }}>*/}
@@ -42,7 +52,10 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ image, likes, title, de
             <Typography variant="body2" color="text.secondary">
                 {desc}
             </Typography>
-            <div>|EDIT| &nbsp; |DELETE|</div>
+            <div>
+                <ButtonUniversal title="EDIT" color="#F23CFF" actionDelegate={FuncEdit} /> &nbsp;
+                <ButtonUniversal title="DELETE" color="#F23CFF" actionDelegate={FuncDelete} />
+            </div>
             {/*</Box>*/}
             {/*</Card>*/}
         </Container>

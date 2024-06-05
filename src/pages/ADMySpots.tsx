@@ -2,6 +2,7 @@ import React from "react";
 import Typography from '@mui/material/Typography';
 import { Grid, Box } from '@mui/material';
 import Button from '@mui/material/Button';
+import ButtonUniversal from "../components/ButtonUniversal";
 
 import ADMenu from "../components/ADMenu";
 import TileAddedSpot from "../components/TileAddedSpot";
@@ -10,6 +11,11 @@ import FotoBluePig from '../img/foto-blue-pig.png';
 import FotoPolis from '../img/foto-polis.png';
 
 function ADMySpots() {
+    const FuncAddSpot = (): Promise<void> => {
+        console.log("AddSpot")
+        return Promise.resolve();
+    }
+
     return (
         <React.Fragment>
             <Grid container>
@@ -38,9 +44,7 @@ function ADMySpots() {
                                 </Typography>
                             </Grid>
                             <Grid item xs={6} container justifyContent="flex-end">
-                                <Button variant="contained" color="primary">
-                                    + Add spot
-                                </Button>
+                                <ButtonUniversal title="+ Add spot" color="#F23CFF" actionDelegate={FuncAddSpot} />
                             </Grid>
                         </Grid>
                         <Grid container spacing={2}>
@@ -50,7 +54,7 @@ function ADMySpots() {
                                     <TileAddedSpot
                                         likes="12"
                                         image={FotoPolis}
-                                        tags={['Food&Drinks', 'Services']}
+                                        tags={['Food & Drinks', 'Services']}
                                         title="Paralelní Polis"
                                         address="475/43, Dělnická, 170 00 Praha 7"
                                     />
@@ -66,7 +70,7 @@ function ADMySpots() {
                                     <TileAddedSpot
                                         likes="7"
                                         image={FotoBluePig}
-                                        tags={['Food&Drinks', 'Services', 'Idk']}
+                                        tags={['Food & Drinks', 'Services', 'Idk']}
                                         title="Blue Vegal Pig Shop"
                                         address="Francouzská 420/76, 101 00 Praha 10-Vinohrady"
                                     />

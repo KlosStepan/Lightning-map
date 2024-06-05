@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, CardMedia, Container, Box, Typography } from '@mui/material';
-import MerchantTag from "./MerchantTag";
+import TagMerchant from "./TagMerchant";
+import ButtonUniversal from "../components/ButtonUniversal";
 
 const containerOuterStyle = {
     //padding: '16px 12px',
@@ -25,6 +26,15 @@ type TileAddedSpotProps = {
 }
 
 const TileAddedSpot: React.FC<TileAddedSpotProps> = ({ image, likes, tags, title, address }) => {
+    const FuncEdit = (): Promise<void> => {
+        console.log("Calling Edit")
+        return Promise.resolve();
+    }
+    const FuncDelete = (): Promise<void> => {
+        console.log("Calling Delete")
+        return Promise.resolve();
+    }
+
     return (
         <Container /*maxWidth="sm"*/ sx={containerOuterStyle} disableGutters>
             {/*<Card sx={{ height: '100%' }}>*/}
@@ -40,8 +50,8 @@ const TileAddedSpot: React.FC<TileAddedSpotProps> = ({ image, likes, tags, title
             </Typography>
             <Box sx={{ marginTop: '8px', marginBottom: '8px' }}>
                 {tags.map((tag, index) => (
-                    <span key={index} style={{ border: '1px solid black', padding: '4px', marginRight: '4px' }}>
-                        <MerchantTag tag={tag} />
+                    <span key={index} style={{ /*border: '1px solid black', padding: '4px',*/ marginRight: '4px' }}>
+                        <TagMerchant tag={tag} />
                     </span>
                 ))}
             </Box>            <Typography variant="h5" component="div">
@@ -50,7 +60,10 @@ const TileAddedSpot: React.FC<TileAddedSpotProps> = ({ image, likes, tags, title
             <Typography variant="body2" color="text.secondary">
                 {address}
             </Typography>
-            <div>|EDIT| &nbsp; |DELETE|</div>
+            <div>
+                <ButtonUniversal title="EDIT" color="#F23CFF" actionDelegate={FuncEdit} /> &nbsp;
+                <ButtonUniversal title="DELETE" color="#F23CFF" actionDelegate={FuncDelete} />
+            </div>
             {/*</Box>*/}
             {/*</Card>*/}
         </Container>
