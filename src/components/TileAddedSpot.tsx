@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, CardMedia, Container, Box, Typography } from '@mui/material';
+import MerchantTag from "./MerchantTag";
 
 const containerOuterStyle = {
     //padding: '16px 12px',
@@ -40,7 +41,7 @@ const TileAddedSpot: React.FC<TileAddedSpotProps> = ({ image, likes, tags, title
             <Box sx={{ marginTop: '8px', marginBottom: '8px' }}>
                 {tags.map((tag, index) => (
                     <span key={index} style={{ border: '1px solid black', padding: '4px', marginRight: '4px' }}>
-                        {tag}
+                        <MerchantTag tag={tag} />
                     </span>
                 ))}
             </Box>            <Typography variant="h5" component="div">
