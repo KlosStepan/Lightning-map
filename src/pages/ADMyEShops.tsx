@@ -7,6 +7,8 @@ import ButtonUniversal from "../components/ButtonUniversal";
 
 import TileAddedEshop from "../components/TileAddedEshop";
 
+import IconPlus from '../icons/ico-btn-plus.png';
+
 function ADMyEShops() {
     const FuncAddEshop = (): Promise<void> => {
         console.log("AddEshop")
@@ -41,7 +43,7 @@ function ADMyEShops() {
                                 </Typography>
                             </Grid>
                             <Grid item xs={6} container justifyContent="flex-end">
-                                <ButtonUniversal title="+ Add e-shop" color="#F23CFF" actionDelegate={FuncAddEshop} />
+                                <ButtonUniversal icon={IconPlus} side="L" title="Add e-shop" color="#F23CFF" textColor="white" actionDelegate={FuncAddEshop} />
                             </Grid>
                         </Grid>
                         <Grid container spacing={2}>

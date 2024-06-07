@@ -4,12 +4,13 @@ import Box from '@mui/material/Box';
 
 type ButtonUniversalProps = {
     icon?: string;
-    //side?: string; // L/R/NA
+    side?: 'L' | 'R';
     title: string;
     color: string;
+    textColor: string;
     actionDelegate?: () => Promise<void>;
 }
-const ButtonUniversal: React.FC<ButtonUniversalProps> = ({ icon, title, color, actionDelegate }) => {
+const ButtonUniversal: React.FC<ButtonUniversalProps> = ({ icon, side, title, color, textColor, actionDelegate }) => {
     return (
         <Button
             color="primary"
@@ -39,34 +40,42 @@ const ButtonUniversal: React.FC<ButtonUniversalProps> = ({ icon, title, color, a
                     //width: '100%',
                 }}
             >
-                {/*<Box
-                    component="img"
-                    src={icon}
-                    alt={title}
-                    sx={{
-                        width: 24,
-                        height: 24,
-                        marginRight: 1,
-                    }}
-                />*/}
+                {side === 'L' && icon && (
+                    <Box
+                        component="img"
+                        src={icon}
+                        alt={title}
+                        sx={{
+                            width: 24,
+                            height: 24,
+                            marginLeft: 1,
+                        }}
+                    />
+                )}
                 <Box
                     component="span"
                     sx={{
                         textAlign: 'center',
+                        color: textColor,
+                        fontSize: '16px',
+                        marginLeft: 1,
                         marginRight: 1,
                     }}
                 >
                     {title}
                 </Box>
-                {/*<Box
-                    component="img"
-                    //src={LoginArrowRight}
-                    alt="login-button"
-                    sx={{
-                        width: 24,
-                        height: 24,
-                    }}
-                />*/}
+                {side === 'R' && icon && (
+                    <Box
+                        component="img"
+                        src={icon}
+                        alt={title}
+                        sx={{
+                            width: 24,
+                            height: 24,
+                            marginRight: 1,
+                        }}
+                    />
+                )}
             </Box>
         </Button>
     )

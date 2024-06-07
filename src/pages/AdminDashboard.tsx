@@ -53,7 +53,7 @@ function AdminDashboard() {
                                 </Typography>
                             </Grid>
                             <Grid item xs={2}>
-                                <ButtonUniversal title="+ Add" color="#F23CFF" actionDelegate={FuncAdd} />
+                                <ButtonUniversal title="+ Add" color="#F23CFF" textColor="white" actionDelegate={FuncAdd} />
                             </Grid>
                         </Grid>
                         <Grid container spacing={2}>

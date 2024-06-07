@@ -12,6 +12,8 @@ import TileBlogpost from "../components/TileBlogpost";
 import TileMerchantBig from "../components/TileMerchantBig";
 import TileMerchant from "../components/TileMerchant";
 
+//
+import IconPlus from '../icons/ico-btn-plus.png';
 // Prepare types, push object into component
 function Map() {
     const dummyImageURL = 'https://upload.wikimedia.org/wikipedia/commons/7/77/Google_Images_2015_logo.svg';
@@ -50,14 +52,14 @@ function Map() {
                     <Grid item xs={6}>
                         {/*6/12*/}
 
-                        <ButtonUniversal title="All" color="#F0F0A5" actionDelegate={FuncAll} />
-                        <ButtonUniversal title="Food&Drinks" color="#F0F0A5" actionDelegate={FuncFD} />
-                        <ButtonUniversal title="Shops" color="#F0F0A5" actionDelegate={FuncShops} />
-                        <ButtonUniversal title="Services" color="#F0F0A5" actionDelegate={FuncServices} />
+                        <ButtonUniversal title="All" color="#8000FF" textColor="white" actionDelegate={FuncAll} />
+                        <ButtonUniversal title="Food & Drinks" color="#FFFFFF" textColor="black" actionDelegate={FuncFD} />
+                        <ButtonUniversal title="Shops" color="#FFFFFF" textColor="black" actionDelegate={FuncShops} />
+                        <ButtonUniversal title="Services" color="#FFFFFF" textColor="black" actionDelegate={FuncServices} />
                     </Grid>
                     <Grid item xs={2}>
                         {/*2/12*/}
-                        <ButtonUniversal title="+ Add spot" color="red" actionDelegate={FuncAddSpot} />
+                        <ButtonUniversal icon={IconPlus} side="L" title="Add spot" color="#F23CFF" textColor="white" actionDelegate={FuncAddSpot} />
                     </Grid>
                 </Grid>
             </Container>            <Grid container spacing={3}>

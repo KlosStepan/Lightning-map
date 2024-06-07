@@ -3,6 +3,10 @@ import { Card, CardMedia, Container, Box, Typography } from '@mui/material';
 import TagMerchant from "./TagMerchant";
 import ButtonUniversal from "../components/ButtonUniversal";
 
+//
+import IconEdit from '../icons/ico-btn-edit.png';
+import IconTrash from '../icons/ico-btn-trash.png';
+
 const containerOuterStyle = {
     //padding: '16px 12px',
     //gap: '10px',
@@ -61,8 +65,8 @@ const TileAddedSpot: React.FC<TileAddedSpotProps> = ({ image, likes, tags, title
                 {address}
             </Typography>
             <div>
-                <ButtonUniversal title="EDIT" color="#F23CFF" actionDelegate={FuncEdit} /> &nbsp;
-                <ButtonUniversal title="DELETE" color="#F23CFF" actionDelegate={FuncDelete} />
+                <ButtonUniversal icon={IconEdit} side="R" title="EDIT" color="#F23CFF" textColor="white" actionDelegate={FuncEdit} /> &nbsp;
+                <ButtonUniversal icon={IconTrash} side="R" title="DELETE" color="#8000FF" textColor="white" actionDelegate={FuncDelete} />
             </div>
             {/*</Box>*/}
             {/*</Card>*/}

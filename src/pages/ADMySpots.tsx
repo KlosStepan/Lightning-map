@@ -10,6 +10,8 @@ import TileAddedSpot from "../components/TileAddedSpot";
 import FotoBluePig from '../img/foto-blue-pig.png';
 import FotoPolis from '../img/foto-polis.png';
 
+import IconPlus from '../icons/ico-btn-plus.png';
+
 function ADMySpots() {
     const FuncAddSpot = (): Promise<void> => {
         console.log("AddSpot")
@@ -44,7 +46,7 @@ function ADMySpots() {
                                 </Typography>
                             </Grid>
                             <Grid item xs={6} container justifyContent="flex-end">
-                                <ButtonUniversal title="+ Add spot" color="#F23CFF" actionDelegate={FuncAddSpot} />
+                                <ButtonUniversal icon={IconPlus} side="L" title="Add spot" color="#F23CFF" textColor="white" actionDelegate={FuncAddSpot} />
                             </Grid>
                         </Grid>
                         <Grid container spacing={2}>

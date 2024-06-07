@@ -12,6 +12,9 @@ import SearchFiddle2 from "../components/SearchFiddle2";
 //
 import TileEshop from "../components/TileEshop";
 
+import IconPlus from '../icons/ico-btn-plus.png';
+
+
 function Eshops() {
     const FuncAddEshop = (): Promise<void> => {
         console.log("AddEshop")
@@ -37,7 +40,7 @@ function Eshops() {
                         </Grid>
                         <Grid item xs={2}>
                             {/*2/12*/}
-                            <ButtonUniversal title="+ Add e-shop" color="red" actionDelegate={FuncAddEshop} />
+                            <ButtonUniversal icon={IconPlus} side="L" title="Add e-shop" color="red" textColor="white" actionDelegate={FuncAddEshop} />
                         </Grid>
                     </Grid>
                 </Container>

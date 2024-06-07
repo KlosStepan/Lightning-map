@@ -38,7 +38,7 @@ function ADMyAccount() {
                                 </Typography>
                             </Grid>
                             <Grid item xs={6} container justifyContent="flex-end">
-                                <ButtonUniversal title="Edit" color="#F23CFF" actionDelegate={FuncEdit} />
+                                <ButtonUniversal title="Edit" color="#F23CFF" textColor="white" actionDelegate={FuncEdit} />
 
                             </Grid>
                         </Grid>
