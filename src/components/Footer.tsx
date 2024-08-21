@@ -3,7 +3,7 @@ import { Grid, Typography } from '@mui/material';
 import { BorderTop } from "@mui/icons-material";
 
 const footerStyling = {
-    marginTop: '60px',
+    marginTop: '20px',
     marginBottom: '20px',
     textAlign: 'left',
     //borderTop: '1px solid black',
@@ -16,7 +16,7 @@ type FooterProps = {
 const Footer: React.FC<FooterProps> = ({ }) => {
     return (
         <React.Fragment>
-            {/*<div style={{ marginTop: '10px', borderTop: '1px solid F0F0F0', }}></div>*/}
+            <div style={{ marginTop: '40px', borderTop: '1px solid #808080' }}></div>
             <Grid container spacing={2} sx={{ ...footerStyling }}>
                 {/* First part: 1/2 */}
                 <Grid item xs={12} md={6}>

@@ -3,6 +3,7 @@ import { Container, CssBaseline, Paper } from "@mui/material";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Card, CardMedia, Grid } from '@mui/material';
+import Footer from "../components/Footer";
 // New Components
 import MenuHeader from '../components/MenuHeader';
 import TileBlogpost from '../components/TileBlogpost';
@@ -20,6 +21,9 @@ import eshops from '../img/Shopping-Shipping-Bag-1--Streamline-Pixel.png';
 import { Link } from 'react-router-dom';
 
 import dummyImg from '../img/dummy512x288.png';
+import dummyImg1 from '../img/rectangle_149.png';
+import dummyImg2 from '../img/rectangle_150.png';
+import dummyImg3 from '../img/rectangle_151.png';
 
 //
 function Homepage() {
@@ -105,26 +109,27 @@ function Homepage() {
                         <TileBlogpost
                             title="How Bitcoin Lightning Revolutionizes Transaction Times"
                             date="Jan 8, 2024"
-                            image={dummyImg}
+                            image={dummyImg1}
                         />
                     </Grid>
                     <Grid item xs={4}>
                         <TileBlogpost
                             title="Exploring the Growing Ecosystem of Lightning-Enabled Businesses"
                             date="Jan 8, 2024"
-                            image={dummyImg}
+                            image={dummyImg2}
                         />
                     </Grid>
                     <Grid item xs={4}>
                         <TileBlogpost
                             title="The Role of Bitcoin Lightning in Financial Inclusion"
                             date="Jan 8, 2024"
-                            image={dummyImg}
+                            image={dummyImg3}
                         />
                     </Grid>
                 </Grid>
                 <div>&nbsp;</div>
             </React.Fragment>
+            <Footer />
         </React.Fragment>
     )
 }
