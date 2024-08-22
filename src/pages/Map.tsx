@@ -15,6 +15,12 @@ import TileMerchant from "../components/TileMerchant";
 //
 import IconPlus from '../icons/ico-btn-plus.png';
 // Prepare types, push object into component
+
+//
+import dummyImgBigTile from '../img/image-1-3.png';
+import dummyImgTile1 from '../img/image-1-4.png';
+import dummyImgTile2 from '../img/image-1-5.png';
+//
 function Map() {
     const dummyImageURL = 'https://upload.wikimedia.org/wikipedia/commons/7/77/Google_Images_2015_logo.svg';
 
@@ -71,39 +77,63 @@ function Map() {
                     </p>
                     <Grid container spacing={2}>
                         <TileMerchantBig
-                            title="How Bitcoin Lightning Revolutionizes Transaction Times"
-                            image={dummyImageURL}
-                            categories={["Finance", "Technology"]} // Add categories here
-                            address="123 Bitcoin St."
+                            image={dummyImgBigTile}
+                            categories={["Food & Drinks"]} // Add categories here
+                            title="Blue Vegan Pig Shop"
+                            address="Francouzská 240/76, 101 00 Praha 10-Vinohrady"
+                            description="Nunc diam sed fermentum lectus non. At varius sed non arcu tempor lorem elementum id duis. Justo."
                             socials={["twitter.com/example", "facebook.com/example"]}
-                            likes="1024"
+                            likes="7"
                         />
                     </Grid>
                     <Grid container spacing={2}>
                         <Grid item xs={4}>
-                            <TileBlogpost
-                                title="How Bitcoin Lightning Revolutionizes Transaction Times"
-                                date="Jan 8, 2024"
-                                image={dummyImageURL}
+                            <TileMerchant
+                                image={dummyImgTile1}
+                                title="Palalelni Polis"
+                                address="475/43, Dělnická, 170 00 Praha 7"
+                                likes="12"
                             />
                         </Grid>
                         <Grid item xs={4}>
                             <TileMerchant
-                                image={dummyImageURL}
+                                image={dummyImgTile2}
                                 title="Blue pig vegan shop"
-                                address="Vrsovice"
+                                address="Francouzská 240/76, 101 00 Praha 10-Vinohrady"
                                 likes="7"
                             />
                         </Grid>
                         <Grid item xs={4}>
                             <TileMerchant
-                                image={dummyImageURL}
-                                title="Palalelni polis"
-                                address="Holesovice"
+                                image={dummyImgTile1}
+                                title="Palalelni Polis"
+                                address="475/43, Dělnická, 170 00 Praha 7"
+                                likes="12"
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <TileMerchant
+                                image={dummyImgTile2}
+                                title="Blue pig vegan shop"
+                                address="Francouzská 240/76, 101 00 Praha 10-Vinohrady"
+                                likes="7"
+                            />
+                        </Grid>                        <Grid item xs={4}>
+                            <TileMerchant
+                                image={dummyImgTile1}
+                                title="Palalelni Polis"
+                                address="475/43, Dělnická, 170 00 Praha 7"
+                                likes="12"
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <TileMerchant
+                                image={dummyImgTile2}
+                                title="Blue pig vegan shop"
+                                address="Francouzská 240/76, 101 00 Praha 10-Vinohrady"
                                 likes="7"
                             />
                         </Grid>
-
                     </Grid>
                 </Grid>
                 {/* 5/12 width column */}

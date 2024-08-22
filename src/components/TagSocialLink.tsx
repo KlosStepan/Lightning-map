@@ -1,26 +1,28 @@
 import React from "react";
 import { Box } from "@mui/material";
 
-type TagMerchantProps = {
-    tag: string;
+type TagSocialLinkProps = {
+    social: string;
+    link: string;
 }
 
-const TagMerchant: React.FC<TagMerchantProps> = ({ tag }) => {
+const TagSocialLink: React.FC<TagSocialLinkProps> = ({ social, link }) => {
     return (
         <Box
             sx={{
                 display: 'inline-block',
-                backgroundColor: '#8000FF',
+                backgroundColor: '#808080',
                 color: 'white',
                 padding: '4px 8px',
+                margin: '0px 2px 0px 2px',
                 borderRadius: '12px',
-                fontSize: '10px',
+                fontSize: '12px',
                 textAlign: 'center'
             }}
         >
-            {tag}
+            {social}
         </Box>
     )
 }
 
-export default TagMerchant;
+export default TagSocialLink;
