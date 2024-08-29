@@ -21,6 +21,8 @@ import dummyImgBigTile from '../img/image-1-3.png';
 import dummyImgTile1 from '../img/image-1-4.png';
 import dummyImgTile2 from '../img/image-1-5.png';
 //
+import GMap from "../components/GMap";
+
 function Map() {
     const dummyImageURL = 'https://upload.wikimedia.org/wikipedia/commons/7/77/Google_Images_2015_logo.svg';
 
@@ -140,6 +142,7 @@ function Map() {
                 <Grid item xs={5}>
                     <Box style={{ height: 100, textAlign: 'center' }}>
                         {/*<div>Content 5/12</div>*/}
+                        <GMap/>
                         <div>https://snazzymaps.com/style/151/ultra-light-with-labels</div>
                         <div>&nbsp;</div>
                         <div>https://javascript.plainenglish.io/add-a-google-map-to-your-react-app-with-a-snazzy-maps-style-38781edcdc7a</div>
