@@ -1,9 +1,8 @@
 import React from "react";
 import Box from '@mui/material/Box';
-import { Card, CardMedia, Container, Grid } from '@mui/material';
+import { CardMedia, Container, Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
-//
-import warningbox from '../img/warning-box.png'
+
 //
 import IconExclamationMark from "../icons/IconExclamationMark";
 import IconLightningNumber from "../icons/IconLightningNumber";
