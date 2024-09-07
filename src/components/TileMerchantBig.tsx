@@ -2,7 +2,8 @@ import React from "react";
 import Box from '@mui/material/Box';
 import { CardMedia, Container, Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import IconExclamationMark from "../icons/IconExclamationMark";
+import ButtonUniversal from "./ButtonUniversal";
+import IconExclamationMark from "../icons/warning-box.png";
 import IconLightningNumber from "../icons/IconLightningNumber";
 //
 import TagMerchant from "./TagMerchant";
@@ -64,24 +65,17 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ image, categories, ti
                                 <TagSocialLink social="IG" link={"https://www.ig.com/"}/>
                                 <TagSocialLink social="X" link={"https://www.x.com/"}/>
                             </div>
-                            <div
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                }}
-                            >
-                            <div
-                                style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                }}
-                            >
-                            <IconExclamationMark />
-                            <span style={{ marginLeft: "4px" }}>&nbsp; Report</span>
-                            </div>
-                            <IconLightningNumber number={likes} scale={0.9} />
-                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <ButtonUniversal
+        icon={IconExclamationMark} // Adjust the path or component as needed
+        side="L"
+        title="Report"
+        color="white"
+        textColor="#BEBEBE"
+        actionDelegate={() => Promise.resolve()} // Placeholder action; replace as needed
+      />
+      <IconLightningNumber number={likes} scale={0.9} />
+    </div>
                         </Grid>
                     </Grid>
                 </Box>

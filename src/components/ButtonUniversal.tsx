@@ -2,8 +2,6 @@ import React from 'react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
-
-
 const buttonStyles = {
     backgroundColor: (color: string) => color,
     borderRadius: '20px',
@@ -59,7 +57,7 @@ const ButtonUniversal: React.FC<ButtonUniversalProps> = ({ icon, side, title, co
                         component="img"
                         src={icon}
                         alt={title}
-                        sx={{ ...iconStyles, marginLeft: 1 }}
+                        sx={{ ...iconStyles }}
                     />
                 )}
                 <Box component="span" sx={{ ...textStyles, color: textColor }}>
@@ -70,7 +68,7 @@ const ButtonUniversal: React.FC<ButtonUniversalProps> = ({ icon, side, title, co
                         component="img"
                         src={icon}
                         alt={title}
-                        sx={{ ...iconStyles, marginRight: 1 }}
+                        sx={{ ...iconStyles }}
                     />
                 )}
             </Box>
