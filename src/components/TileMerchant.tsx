@@ -1,28 +1,39 @@
 import React from "react";
 import Box from '@mui/material/Box';
-import { Card, CardMedia, Container, Grid } from '@mui/material';
-import Typography from '@mui/material/Typography';
+import { CardMedia, Container, Typography } from '@mui/material';
 //
 import IconExclamationMark from "../icons/IconExclamationMark";
 import IconLightningNumber from "../icons/IconLightningNumber";
 
+import TagMerchant from "./TagMerchant";
+
 const containerOuterStyle = {
-    //width: '315px',
-    //height: '478px',
-    //padding: '32px 0px 10px 0px',
-    //padding: '16px 12px 16px 12px',
-    padding: '16px 12px',
+    padding: '0px 0px 0px 0px !important',
     gap: '10px',
-    //borderRadius: '24px 24px 24px 24px',
     borderRadius: '16px',
-    opacity: '0px',
-    backgroundColor: 'white', // Adding background color
+    backgroundColor: 'white',
     margin: '0px 0px 10px 0px',
 };
 
-const containerInnerStyle = {
-    gap: '20px',
-    opacity: '0px',
+//Upper part of Tile
+const containerInnerStyleUp = {
+};
+
+const topRight = {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+}
+
+const leftBottom = {
+    position: 'absolute',
+    bottom: 8,
+    left: 8,
+}
+
+//Bottom part of Tile
+const containerInnerStyleDown = {
+    padding: '10px 10px 10px 10px',
 };
 
 type TileMerchantProps = {
@@ -30,36 +41,41 @@ type TileMerchantProps = {
     title: string;
     address: string;
     likes: string;
-}
+};
+
 const TileMerchant: React.FC<TileMerchantProps> = ({ image, title, address, likes }) => {
     return (
-        <React.Fragment>
-            <Container maxWidth="sm" sx={containerOuterStyle}>
-                <Box sx={{ bgcolor: '#ffffff', ...containerInnerStyle }}>
-                    <div style={{ display: "flex" }}>
-                        <IconExclamationMark />
-                        &nbsp;
-                        <IconLightningNumber number={likes} />
-                    </div>
-                    {/*<div><u>|A alza.cz|</u></div>*/}
-                    <CardMedia
-                        component="img"
-                        //width="100"
-                        style={{
-                            //width: '100px',
-                            margin: '24px 0' // 20px top and bottom margin, 0 left and right margin
-                        }}
-                        //height="100"
-                        image={image}
-                        alt={title}
-                    />
-                    <Typography variant="h2" component="h2" style={{ textAlign: 'left' }}>
-                        {title}
-                    </Typography>
-                    <p style={{ textAlign: 'left', fontSize: '12px' }}>{address}</p>
+        <Container maxWidth="sm" sx={containerOuterStyle}>
+            <Box sx={{ ...containerInnerStyleUp, position: 'relative', height: '50%', width: '100%' }}>
+                <CardMedia
+                    component="img"
+                    style={{
+                        height: '100%', // Fill the container height
+                        width: '100%',  // Fill the width of the container
+                        objectFit: 'cover', // Adjust image scaling
+                        margin: 0,
+                        padding: 0,
+                    }}
+                    image={image}
+                    alt={title}
+                />
+                {/* Icon in the top right corner */}
+                <Box sx={{ ...topRight }}> {/* Adjust positioning as needed */}
+                    <IconLightningNumber number={likes} />
                 </Box>
-            </Container>
-        </React.Fragment>
-    )
-}
+                {/* Text in the bottom left corner */}
+                <Box sx={{ ...leftBottom /*color: 'white', fontWeight: 'bold'*/ }}> {/* Adjust positioning and styles as needed */}
+                <TagMerchant tag={"Food & Drinks"}/>
+                </Box>
+            </Box>
+            <Box sx={{ ...containerInnerStyleDown }}> {/* Adjust padding as needed */}
+                <Typography variant="h2" component="h2" style={{ textAlign: 'left' }}>
+                    {title}
+                </Typography>
+                <p style={{ textAlign: 'left', fontSize: '12px' }}>{address}</p>
+            </Box>
+        </Container>
+    );
+};
+
 export default TileMerchant;
