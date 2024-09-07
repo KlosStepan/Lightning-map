@@ -40,7 +40,7 @@ function Eshops() {
                         </Grid>
                         <Grid item xs={2}>
                             {/*2/12*/}
-                            <ButtonUniversal icon={IconPlus} side="L" title="Add e-shop" color="red" textColor="white" actionDelegate={FuncAddEshop} />
+                            <ButtonUniversal icon={IconPlus} side="L" title="Add e-shop" color="#F23CFF" textColor="white" actionDelegate={FuncAddEshop} />
                         </Grid>
                     </Grid>
                 </Container>

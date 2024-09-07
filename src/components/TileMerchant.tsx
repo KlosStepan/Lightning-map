@@ -17,6 +17,9 @@ const containerOuterStyle = {
 
 //Upper part of Tile
 const containerInnerStyleUp = {
+    position: 'relative',
+    height: '50%',
+    width: '100%',
 };
 
 const topRight = {
@@ -33,7 +36,8 @@ const leftBottom = {
 
 //Bottom part of Tile
 const containerInnerStyleDown = {
-    padding: '10px 10px 10px 10px',
+    padding: '6px 10px 2px 10px',
+    textAlign: 'left',
 };
 
 type TileMerchantProps = {
@@ -46,33 +50,24 @@ type TileMerchantProps = {
 const TileMerchant: React.FC<TileMerchantProps> = ({ image, title, address, likes }) => {
     return (
         <Container maxWidth="sm" sx={containerOuterStyle}>
-            <Box sx={{ ...containerInnerStyleUp, position: 'relative', height: '50%', width: '100%' }}>
+            <Box sx={{ ...containerInnerStyleUp}}>
                 <CardMedia
                     component="img"
-                    style={{
-                        height: '100%', // Fill the container height
-                        width: '100%',  // Fill the width of the container
-                        objectFit: 'cover', // Adjust image scaling
-                        margin: 0,
-                        padding: 0,
-                    }}
                     image={image}
                     alt={title}
                 />
-                {/* Icon in the top right corner */}
-                <Box sx={{ ...topRight }}> {/* Adjust positioning as needed */}
+                <Box sx={{ ...topRight }}>
                     <IconLightningNumber number={likes} />
                 </Box>
-                {/* Text in the bottom left corner */}
-                <Box sx={{ ...leftBottom /*color: 'white', fontWeight: 'bold'*/ }}> {/* Adjust positioning and styles as needed */}
+                <Box sx={{ ...leftBottom }}>
                 <TagMerchant tag={"Food & Drinks"}/>
                 </Box>
             </Box>
-            <Box sx={{ ...containerInnerStyleDown }}> {/* Adjust padding as needed */}
-                <Typography variant="h2" component="h2" style={{ textAlign: 'left' }}>
+            <Box sx={{ ...containerInnerStyleDown }}>
+                <Typography variant="h3" component="h2" >
                     {title}
                 </Typography>
-                <p style={{ textAlign: 'left', fontSize: '12px' }}>{address}</p>
+                <p style={{ fontSize: '12px' }}>{address}</p>
             </Box>
         </Container>
     );

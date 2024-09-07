@@ -40,9 +40,6 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ image, categories, ti
                         <Grid item xs={6}>
                             <CardMedia
                                 component="img"
-                                style={{
-                                    //margin: '24px 0' // 20px top and bottom margin, 0 left and right margin
-                                }}
                                 image={image}
                                 alt={title}
                             />
@@ -56,19 +53,34 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ image, categories, ti
                             <p style={{ textAlign: 'left', fontSize: '12px' }}>
                                 {address}
                             </p>
-                            <p>
+                            <p style={{
+                                fontSize: '14px',
+                            }}>
                                 {description}
                             </p>
-                            <div>Socials:
+                            <div>Socials &nbsp;
                                 <TagSocialLink social="Web" link={"https://www.web.com/"}/>
                                 <TagSocialLink social="FB" link={"https://www.fb.com/"}/>
                                 <TagSocialLink social="IG" link={"https://www.ig.com/"}/>
-
+                                <TagSocialLink social="X" link={"https://www.x.com/"}/>
                             </div>
-                            <div style={{ display: "flex", alignItems: "center" }}>
-                                <IconExclamationMark />
-                                &nbsp;
-                                <IconLightningNumber number={likes} />
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                }}
+                            >
+                            <div
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                }}
+                            >
+                            <IconExclamationMark />
+                            <span style={{ marginLeft: "4px" }}>&nbsp; Report</span>
+                            </div>
+                            <IconLightningNumber number={likes} scale={0.9} />
                             </div>
                         </Grid>
                     </Grid>
