@@ -1,17 +1,80 @@
 import React from 'react';
-import Typography from '@mui/material/Typography';
+import { Grid, Typography, CardMedia, Box } from "@mui/material";
 
+// Importing images
+import img1Magnet from '../img/Interface-Essential-Magnet--Streamline-Pixel-2.png';
+import img2Comeback from '../img/Hand-Love--Streamline-Pixel-2.png';
+
+import Footer from '../components/Footer';
+// Define the common height as a constant
+const COMMON_HEIGHT = '250px';
 
 function About() {
     return (
         <React.Fragment>
-            <Typography variant="h1" component="h1">
-                About LN map
-            </Typography>
-            {/*<p>This is <u>About Page</u> of Lightning Prague map.</p> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>*/}
-            <p>Bitcoin Lightning Network (LN) is a banger technology that allows instant cheap payments by Bitcoin locked in widely accepted <b>Layer 2</b>.</p>
-            <p>Our endeavor is to get together all places in Prague that are accepting Lightning as a means of payment. We want to have the best up-to-date list of places, where you can enjoy coffee, beer or pay for goods or services in Prauge. We have a list of e-shops as well, since we want to support adoption of Lightning and not all people accepting Lightning are cafés or similar.</p>
+            <div style={{ backgroundColor: "#F23CFF" }}>
+                <Typography variant="h1" component="h1" align="center">
+                    OUR MISSION &#9889; OUR MISSION &#9889; OUR MISSION &#9889; OUR MISSION &#9889; OUR MISSION
+                </Typography>
+                <Grid container spacing={2} alignItems="center" justifyContent="center">
+                    {/* First 1 unit: Left upper img1Magnet */}
+                    <Grid item xs={1}>
+                        <Box
+                            sx={{
+                                position: "relative",
+                                height: COMMON_HEIGHT,
+                                display: 'flex',
+                                alignItems: 'flex-start',
+                            }}
+                        >
+                            <CardMedia
+                                component="img"
+                                image={img1Magnet}
+                                alt="Magnet Image"
+                                style={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    objectFit: 'cover',
+                                }}
+                            />
+                        </Box>
+                    </Grid>
+
+                    {/* 10 units: Middle Section */}
+                    <Grid item xs={6}>
+                        <p>Our goal is to compile a comprehensive and up-to-date list of all establishments in Czechia that accept Lightning payments. Whether you're looking to enjoy a coffee, have a beer, or purchase goods and services, we've got you covered. We also include e-shops in our directory to support the broader adoption of Lightning, recognizing that not all businesses accepting Lightning are cafés or similar establishments.</p>
+                    </Grid>
+
+                    {/* Second 1 unit: Right down img2Comeback */}
+                    <Grid item xs={1}>
+                        <Box
+                            sx={{
+                                position: "relative",
+                                height: COMMON_HEIGHT,
+                                display: 'flex',
+                                alignItems: 'flex-end',
+                                justifyContent: 'flex-end',
+                            }}
+                        >
+                            <CardMedia
+                                component="img"
+                                image={img2Comeback}
+                                alt="Comeback Image"
+                                style={{
+                                    position: 'absolute',
+                                    bottom: 0,
+                                    right: 0,
+                                    objectFit: 'cover',
+                                }}
+                            />
+                        </Box>
+                    </Grid>
+                </Grid>
+            </div>
+            <Footer/>
         </React.Fragment>
-    )
+    );
 }
+
 export default About;
