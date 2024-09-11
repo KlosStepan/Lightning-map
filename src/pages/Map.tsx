@@ -23,7 +23,14 @@ import dummyImgTile2 from '../img/image-1-5.png';
 //
 import GMap from "../components/GMap";
 
-function Map() {
+type MapProps = {
+
+};
+
+const filters = ["Food & Drinks", "Shops", "Services"];
+
+//function Map() {
+const Map: React.FC<MapProps> = ({ }) =>{
     const dummyImageURL = 'https://upload.wikimedia.org/wikipedia/commons/7/77/Google_Images_2015_logo.svg';
 
     const FuncAll = (): Promise<void> => {
@@ -31,7 +38,7 @@ function Map() {
         return Promise.resolve();
     }
     const FuncFD = (): Promise<void> => {
-        console.log("Food&Drinks")
+        console.log("Food & Drinks")
         return Promise.resolve();
     }
     const FuncShops = (): Promise<void> => {
@@ -151,6 +158,7 @@ function Map() {
             </Grid>
             <Footer />
         </React.Fragment>
-    )
-}
+    );
+};
+
 export default Map;
