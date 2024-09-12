@@ -22,23 +22,30 @@ import dummyImgTile1 from '../img/image-1-4.png';
 import dummyImgTile2 from '../img/image-1-5.png';
 //
 import GMap from "../components/GMap";
+import IMerchant from "../ts/IMerchant";
 
 type MapProps = {
 
 };
 
 const filters = ["Food & Drinks", "Shops", "Services"];
-const merchants = [
+const merchants: IMerchant[] = [
     {
       "geometry": {
         "coordinates": [14.4483471, 50.1033561],
         "type": "Point"
       },
       "properties": {
-        "description": "lorem ipsum2",
         "owner": "OxMuB2PyqsM3pUtwTEmB86EzM9p1",
-        "title": "Paralelní Polis",
         "visible": true,
+        "image": "dummyImgTile1",
+        "title": "Paralelní Polis",
+        "description": "lorem ipsum2",
+        address: {
+          address: "Dělnická 43",
+          city: "Praha 7",
+          postalCode: "170 00",
+        },
         "tags": ["Shops", "Services"],
         "socials": [
           {
@@ -71,10 +78,16 @@ const merchants = [
         "type": "Point"
       },
       "properties": {
-        "description": "lorem ipsum",
         "owner": "7G9IT4IfBBV2JV8UJDhiMPzYWOq2",
-        "title": "Blue Vegan Pig Shop",
         "visible": true,
+        "image": "dummyImgTile2",
+        "title": "Blue Vegan Pig Shop",
+        "description": "lorem ipsum",
+        address: {
+          address: "Štefánikova 6",
+          city: "Praha 5",
+          postalCode: "150 00",
+        },
         "tags": ["Food&Drinks", "Shops"],
         "socials": [
           {
@@ -178,6 +191,16 @@ const Map: React.FC<MapProps> = ({ }) => {
                         />
                     </Grid>
                     <Grid container spacing={2}>
+                      {merchants.map((merchant: IMerchant) => (
+                        <Grid item xs={4}>
+                          <TileMerchant
+                            image={merchant.properties.image}
+                            title={merchant.properties.title}
+                            address={merchant.properties.address.address + merchant.properties.address.city + merchant.properties.address.postalCode}
+                            likes="777"
+                          />
+                        </Grid>
+                      ))}
                         <Grid item xs={4}>
                             <TileMerchant
                                 image={dummyImgTile1}
@@ -186,6 +209,7 @@ const Map: React.FC<MapProps> = ({ }) => {
                                 likes="12"
                             />
                         </Grid>
+
                         <Grid item xs={4}>
                             <TileMerchant
                                 image={dummyImgTile2}
