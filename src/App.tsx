@@ -32,7 +32,7 @@ import About from './pages/About';
 import Login from './pages/Login';
 
 //
-import AdminDashboard from './pages/AdminDashboard';
+import ADHome from './pages/ADHome';
 import ADMySpots from './pages/ADMySpots';
 import ADMyEShops from './pages/ADMyEShops';
 import ADMyAccount from './pages/ADMyAccount';
@@ -100,7 +100,7 @@ function App() {
                             <Route path="/blog" element={<Blog />} />
                             <Route path="/about" element={<About />} />
                             <Route path="/login" element={<Login />} />
-                            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                            <Route path="/admin/dashboard" element={<ADHome />} />
                             <Route path="/admin/my-spots" element={<ADMySpots />} />
                             <Route path="/admin/my-eshops" element={<ADMyEShops />} />
                             <Route path="/admin/my-account" element={<ADMyAccount />} />

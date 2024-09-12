@@ -2,7 +2,11 @@ import React, { useEffect } from 'react';
 import { Col, Container, Row } from 'reactstrap';
 import ModifFormEshop from '../components/ModifFormEshop';
 
-function AddEshop() {
+type AddEshopProps = {
+
+};
+
+const AddEshop: React.FC<AddEshopProps> = ({ }) => {
     useEffect(() => {
         console.log("useEffect AddEshop()")
     }, [])

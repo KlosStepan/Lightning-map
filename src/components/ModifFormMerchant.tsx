@@ -112,7 +112,8 @@ function ModifFormMerchant(props: IModifFormMerchantProps = {}) {
     }
     //INTERNAL BUNDLING FUNCTION
     const _BundleMerchant = () => {
-        const _merchant: IMerchant = {
+        //const _merchant: IMerchant = {
+        const _merchant: any = {
             geometry: {
                 coordinates: [coordX, coordY],
                 type: "Point"

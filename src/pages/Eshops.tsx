@@ -14,8 +14,11 @@ import TileEshop from "../components/TileEshop";
 
 import IconPlus from '../icons/ico-btn-plus.png';
 
+type EshopsProps = {
 
-function Eshops() {
+};
+
+const Eshops: React.FC<EshopsProps> = ({ }) => {
     const FuncAddEshop = (): Promise<void> => {
         console.log("AddEshop")
         return Promise.resolve();

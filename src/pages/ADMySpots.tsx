@@ -12,7 +12,11 @@ import FotoPolis from '../img/foto-polis.png';
 
 import IconPlus from '../icons/ico-btn-plus.png';
 
-function ADMySpots() {
+type ADMySpotsProps = {
+
+};
+
+const ADMySpots: React.FC<ADMySpotsProps> = ({ }) => {
     const FuncAddSpot = (): Promise<void> => {
         console.log("AddSpot")
         return Promise.resolve();

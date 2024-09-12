@@ -8,6 +8,8 @@ import {
     signInWithGoogle,
 } from "../components/Firebase";
 
+//TODO  - hmm(?) this
+
 function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");

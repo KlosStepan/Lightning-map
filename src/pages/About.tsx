@@ -9,7 +9,11 @@ import Footer from '../components/Footer';
 // Define the common height as a constant
 const COMMON_HEIGHT = '250px';
 
-function About() {
+type AboutProps = {
+
+};
+
+const About: React.FC<AboutProps> = ({ }) => {
     return (
         <React.Fragment>
             <div style={{ backgroundColor: "#F23CFF" }}>

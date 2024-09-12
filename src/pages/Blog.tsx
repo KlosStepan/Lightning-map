@@ -6,8 +6,11 @@ import Typography from '@mui/material/Typography';
 
 import dummyImg from '../img/dummy512x288.png';
 
-//
-function Blog() {
+type BlogProps = {
+
+};
+
+const Blog: React.FC<BlogProps> = ({ }) => {
     return (
         <React.Fragment>
             <Typography variant="h1" component="h1">

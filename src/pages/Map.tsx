@@ -28,25 +28,98 @@ type MapProps = {
 };
 
 const filters = ["Food & Drinks", "Shops", "Services"];
-
-//function Map() {
-const Map: React.FC<MapProps> = ({ }) =>{
+const merchants = [
+    {
+      "geometry": {
+        "coordinates": [14.4483471, 50.1033561],
+        "type": "Point"
+      },
+      "properties": {
+        "description": "lorem ipsum2",
+        "owner": "OxMuB2PyqsM3pUtwTEmB86EzM9p1",
+        "title": "Paralelní Polis",
+        "visible": true,
+        "tags": ["Shops", "Services"],
+        "socials": [
+          {
+            "network": "web",
+            "label": "Web",
+            "link": "https://www.paralelnipolis.com"
+          },
+          {
+            "network": "facebook",
+            "label": "FB",
+            "link": "https://www.facebook.com/paralelnipolis"
+          },
+          {
+            "network": "instagram",
+            "label": "IG",
+            "link": "https://www.instagram.com/paralelnipolis"
+          },
+          {
+            "network": "twitter",
+            "label": "X",
+            "link": "https://www.twitter.com/paralelnipolis"
+          }
+        ]
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [14.4440644, 50.0719584],
+        "type": "Point"
+      },
+      "properties": {
+        "description": "lorem ipsum",
+        "owner": "7G9IT4IfBBV2JV8UJDhiMPzYWOq2",
+        "title": "Blue Vegan Pig Shop",
+        "visible": true,
+        "tags": ["Food&Drinks", "Shops"],
+        "socials": [
+          {
+            "network": "web",
+            "label": "Web",
+            "link": "https://www.blueveganpigshop.com"
+          },
+          {
+            "network": "facebook",
+            "label": "FB",
+            "link": "https://www.facebook.com/blueveganpigshop"
+          },
+          {
+            "network": "instagram",
+            "label": "IG",
+            "link": "https://www.instagram.com/blueveganpigshop"
+          },
+          {
+            "network": "twitter",
+            "label": "X",
+            "link": "https://www.twitter.com/blueveganpigshop"
+          }
+        ]
+      },
+      "type": "Feature"
+    }
+  ]
+  
+  
+const Map: React.FC<MapProps> = ({ }) => {
     const dummyImageURL = 'https://upload.wikimedia.org/wikipedia/commons/7/77/Google_Images_2015_logo.svg';
 
     const FuncAll = (): Promise<void> => {
         console.log("All")
         return Promise.resolve();
     }
-    const FuncFD = (): Promise<void> => {
-        console.log("Food & Drinks")
-        return Promise.resolve();
-    }
-    const FuncShops = (): Promise<void> => {
-        console.log("Shops")
-        return Promise.resolve();
-    }
-    const FuncServices = (): Promise<void> => {
-        console.log("Services")
+    const FuncFilt = (filter: string): Promise<void> => {
+        if(filter=="All")
+        {
+            console.log("All pressed");
+        }
+        else
+        {
+            console.log("Filtering pressed: " + filter);
+        }
         return Promise.resolve();
     }
     const FuncAddSpot = (): Promise<void> => {
@@ -67,17 +140,26 @@ const Map: React.FC<MapProps> = ({ }) =>{
                     <Grid item xs={6}>
                         {/*6/12*/}
 
-                        <ButtonUniversal title="All" color="#8000FF" textColor="white" actionDelegate={FuncAll} />
-                        <ButtonUniversal title="Food & Drinks" color="#FFFFFF" textColor="black" actionDelegate={FuncFD} />
-                        <ButtonUniversal title="Shops" color="#FFFFFF" textColor="black" actionDelegate={FuncShops} />
-                        <ButtonUniversal title="Services" color="#FFFFFF" textColor="black" actionDelegate={FuncServices} />
+                        <ButtonUniversal title="All" color="#8000FF" textColor="white" actionDelegate={() => FuncFilt("All")} />
+                        
+                        {filters.map((filter) => (
+                            <ButtonUniversal
+                                key={filter}
+                                title={filter}
+                                color="#FFFFFF"
+                                textColor="black"
+                                actionDelegate={() => FuncFilt(filter)}
+                            />
+                        ))}
+
                     </Grid>
                     <Grid item xs={2}>
                         {/*2/12*/}
                         <ButtonUniversal icon={IconPlus} side="L" title="Add spot" color="#F23CFF" textColor="white" actionDelegate={FuncAddSpot} />
                     </Grid>
                 </Grid>
-            </Container>            <Grid container spacing={3}>
+            </Container>
+                <Grid container spacing={3}>
                 {/* 7/12 width column */}
 
                 <Grid item xs={7}>
@@ -112,37 +194,6 @@ const Map: React.FC<MapProps> = ({ }) =>{
                                 likes="7"
                             />
                         </Grid>
-                        <Grid item xs={4}>
-                            <TileMerchant
-                                image={dummyImgTile1}
-                                title="Palalelni Polis"
-                                address="475/43, Dělnická, 170 00 Praha 7"
-                                likes="12"
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <TileMerchant
-                                image={dummyImgTile2}
-                                title="Blue pig vegan shop"
-                                address="Francouzská 240/76, 101 00 Praha 10-Vinohrady"
-                                likes="7"
-                            />
-                        </Grid>                        <Grid item xs={4}>
-                            <TileMerchant
-                                image={dummyImgTile1}
-                                title="Palalelni Polis"
-                                address="475/43, Dělnická, 170 00 Praha 7"
-                                likes="12"
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <TileMerchant
-                                image={dummyImgTile2}
-                                title="Blue pig vegan shop"
-                                address="Francouzská 240/76, 101 00 Praha 10-Vinohrady"
-                                likes="7"
-                            />
-                        </Grid>
                     </Grid>
                 </Grid>
                 {/* 5/12 width column */}
@@ -150,9 +201,6 @@ const Map: React.FC<MapProps> = ({ }) =>{
                     <Box style={{ height: 100, textAlign: 'center' }}>
                         {/*<div>Content 5/12</div>*/}
                         <GMap/>
-                        <div>https://snazzymaps.com/style/151/ultra-light-with-labels</div>
-                        <div>&nbsp;</div>
-                        <div>https://javascript.plainenglish.io/add-a-google-map-to-your-react-app-with-a-snazzy-maps-style-38781edcdc7a</div>
                     </Box>
                 </Grid>
             </Grid>

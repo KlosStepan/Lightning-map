@@ -25,8 +25,11 @@ import dummyImg1 from '../img/rectangle_149.png';
 import dummyImg2 from '../img/rectangle_150.png';
 import dummyImg3 from '../img/rectangle_151.png';
 
-//
-function Homepage() {
+type HomepageProps = {
+
+};
+
+const Homepage: React.FC<HomepageProps> = ({ }) => {
     // Dummy image URLs
     const dummyImageURL = 'https://upload.wikimedia.org/wikipedia/commons/7/77/Google_Images_2015_logo.svg';
     //import dummyImg from '../img/dummy512x288.png';

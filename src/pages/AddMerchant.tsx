@@ -2,7 +2,11 @@ import React, { useEffect } from 'react';
 import { Col, Container, Row } from 'reactstrap';
 import ModifFormMerchant from '../components/ModifFormMerchant';
 
-function AddMerchant() {
+type AddMerchantProps = {
+
+};
+
+const AddMerchant: React.FC<AddMerchantProps> = ({ }) => {
     useEffect(() => {
         console.log("useEffect AddMerchant()")
     }, [])

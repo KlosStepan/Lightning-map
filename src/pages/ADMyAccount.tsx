@@ -5,7 +5,11 @@ import Button from '@mui/material/Button';
 import ADMenu from "../components/ADMenu";
 import ButtonUniversal from "../components/ButtonUniversal";
 
-function ADMyAccount() {
+type ADMyAccountProps = {
+
+};
+//function ADMyAccount() {
+const ADMyAccount: React.FC<ADMyAccountProps> = ({ }) => {
     const FuncEdit = (): Promise<void> => {
         console.log("Edit")
         return Promise.resolve();

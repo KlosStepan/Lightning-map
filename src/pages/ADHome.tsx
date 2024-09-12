@@ -16,8 +16,11 @@ import eshops from '../img/Shopping-Shipping-Bag-1--Streamline-Pixel.png';
 //import IcoADPin from '../icons/ad-pin.png';
 //import IcoADShoppingBag from '../icons/ad-shopping-bag.png';
 //import IcoADUser from '../icons/ad-user.png';
+type ADHomeProps = {
 
-function AdminDashboard() {
+};
+
+const ADHome: React.FC<ADHomeProps> = ({ }) => {
     const FuncAdd = (): Promise<void> => {
         console.log("Add")
         return Promise.resolve();
@@ -97,4 +100,4 @@ function AdminDashboard() {
     );
 }
 
-export default AdminDashboard;
+export default ADHome;

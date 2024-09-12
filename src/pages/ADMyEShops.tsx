@@ -9,7 +9,11 @@ import TileAddedEshop from "../components/TileAddedEshop";
 
 import IconPlus from '../icons/ico-btn-plus.png';
 
-function ADMyEShops() {
+type ADMyEShopsProps = {
+
+};
+
+const ADMyEShops: React.FC<ADMyEShopsProps> = ({ }) => {
     const FuncAddEshop = (): Promise<void> => {
         console.log("AddEshop")
         return Promise.resolve();

@@ -3,7 +3,11 @@ import { Col, Container, Row } from 'reactstrap';
 import { useParams } from 'react-router-dom';
 import ModifFormEshop from '../components/ModifFormEshop';
 
-function EditEshop() {
+type EditEshopProps = {
+
+};
+
+const EditEshop: React.FC<EditEshopProps> = ({ }) => {
     let { id } = useParams()
     //console.log("id is: " + id)
     //TODO get Eshop and push it to the <ModifFormEshop as eshop={}

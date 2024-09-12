@@ -3,7 +3,11 @@ import { Col, Container, Row } from 'reactstrap';
 import { useParams } from 'react-router-dom';
 import ModifFormMerchant from '../components/ModifFormMerchant';
 
-function EditMerchant() {
+type EditMerchantProps = {
+
+};
+
+const EditMerchant: React.FC<EditMerchantProps> = ({ }) => {
     let { id } = useParams()
     //console.log("id is: " + id)
     //TODO get Merchant and push it to the <ModifFormMerchant as mechant={}
