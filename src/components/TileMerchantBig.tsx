@@ -5,9 +5,11 @@ import Typography from '@mui/material/Typography';
 import ButtonUniversal from "./ButtonUniversal";
 import IconExclamationMark from "../icons/warning-box.png";
 import IconLightningNumber from "../icons/IconLightningNumber";
-//
 import TagMerchant from "./TagMerchant";
 import TagSocialLink from "./TagSocialLink";
+import { IMerchantTile, ISocial } from "../ts/IMerchant"; // Import the IMerchantTile type
+import dummyImgBigTile from '../img/image-1-3.png';
+
 
 const containerOuterStyle = {
     padding: '16px 12px',
@@ -21,17 +23,12 @@ const containerInnerStyle = {
     gap: '20px',
 };
 
+// Update props to accept tile of type IMerchantTile
 type TileMerchantBigProps = {
-    image: string;
-    categories: string[];
-    title: string;
-    address: string;
-    description: string;
-    socials: string[];
-    likes: string;
+    tile: IMerchantTile; 
 };
 
-const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ image, categories, title, address, description, socials, likes }) => {
+const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ tile }) => {
     return (
         <React.Fragment>
             <Container maxWidth="sm" sx={containerOuterStyle}>
@@ -41,47 +38,47 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ image, categories, ti
                         <Grid item xs={6}>
                             <CardMedia
                                 component="img"
-                                image={image}
-                                alt={title}
+                                //TODO 
+                                image={dummyImgBigTile}
+                                alt={tile.title}
                             />
                         </Grid>
                         {/* Content section - 60% width */}
                         <Grid item xs={6}>
-                            <TagMerchant tag={"Food & Drinks"}/>
+                            {tile.tags.map((tag: string) => (
+                                <TagMerchant key={tag} tag={tag} />
+                            ))}
                             <Typography variant="h2" component="h2" style={{ textAlign: 'left' }}>
-                                {title}
+                                {tile.title}
                             </Typography>
                             <p style={{ textAlign: 'left', fontSize: '12px' }}>
-                                {address}
+                                {`${tile.address.address} ${tile.address.city} ${tile.address.postalCode}`}
                             </p>
-                            <p style={{
-                                fontSize: '14px',
-                            }}>
-                                {description}
+                            <p style={{ fontSize: '14px' }}>
+                                {tile.description}
                             </p>
                             <div>Socials &nbsp;
-                                <TagSocialLink social="Web" link={"https://www.web.com/"}/>
-                                <TagSocialLink social="FB" link={"https://www.fb.com/"}/>
-                                <TagSocialLink social="IG" link={"https://www.ig.com/"}/>
-                                <TagSocialLink social="X" link={"https://www.x.com/"}/>
+                                {tile.socials.map((social: ISocial) => (
+                                    <TagSocialLink social={social}/>
+                                ))}
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-      <ButtonUniversal
-        icon={IconExclamationMark} // Adjust the path or component as needed
-        side="L"
-        title="Report"
-        color="white"
-        textColor="#BEBEBE"
-        actionDelegate={() => Promise.resolve()} // Placeholder action; replace as needed
-      />
-      <IconLightningNumber number={likes} scale={0.9} />
-    </div>
+                                <ButtonUniversal
+                                    icon={IconExclamationMark}
+                                    side="L"
+                                    title="Report"
+                                    color="white"
+                                    textColor="#BEBEBE"
+                                    actionDelegate={() => Promise.resolve()} // Placeholder action; replace as needed
+                                />
+                                <IconLightningNumber number={"777"} scale={0.9} /> {/* Replace "777" with actual likes if available */}
+                            </div>
                         </Grid>
                     </Grid>
                 </Box>
             </Container>
         </React.Fragment>
     );
-}
+};
 
 export default TileMerchantBig;

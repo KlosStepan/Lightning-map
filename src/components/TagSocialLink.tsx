@@ -1,5 +1,6 @@
 import React from "react";
 import { Box } from "@mui/material";
+import { ISocial } from "../ts/IMerchant";
 
 const styleTagSocialLink = {
     fontFamily: 'PixGamer',
@@ -14,14 +15,13 @@ const styleTagSocialLink = {
 };
 
 type TagSocialLinkProps = {
-    social: string;
-    link: string;
+    social: ISocial
 };
 
-const TagSocialLink: React.FC<TagSocialLinkProps> = ({ social, link }) => {
+const TagSocialLink: React.FC<TagSocialLinkProps> = ({ social }) => {
     return (
         <Box sx={{ ...styleTagSocialLink }}>
-            {social}
+            <span id={social.label}>{social.label}</span>
         </Box>
     );
 };

@@ -181,27 +181,23 @@ const Map: React.FC<MapProps> = ({ }) => {
                     </p>
                     <Grid container spacing={2}>
                         <TileMerchantBig
-                            image={dummyImgBigTile}
+                            tile={merchants[0].properties}
+                            /*image={dummyImgBigTile}
                             categories={["Food & Drinks"]} // Add categories here
                             title="Blue Vegan Pig Shop"
                             address="Francouzská 240/76, 101 00 Praha 10-Vinohrady"
                             description="Nunc diam sed fermentum lectus non. At varius sed non arcu tempor lorem elementum id duis. Justo."
                             socials={["twitter.com/example", "facebook.com/example"]}
-                            likes="7"
+                            likes="7"*/
                         />
                     </Grid>
                     <Grid container spacing={2}>
                       {merchants.map((merchant: IMerchant) => (
                         <Grid item xs={4}>
-                          <TileMerchant
-                            image={merchant.properties.image}
-                            title={merchant.properties.title}
-                            address={merchant.properties.address.address + merchant.properties.address.city + merchant.properties.address.postalCode}
-                            likes="777"
-                          />
+                          <TileMerchant tile={merchant.properties} />
                         </Grid>
                       ))}
-                        <Grid item xs={4}>
+                        {/*<Grid item xs={4}>
                             <TileMerchant
                                 image={dummyImgTile1}
                                 title="Palalelni Polis"
@@ -209,7 +205,6 @@ const Map: React.FC<MapProps> = ({ }) => {
                                 likes="12"
                             />
                         </Grid>
-
                         <Grid item xs={4}>
                             <TileMerchant
                                 image={dummyImgTile2}
@@ -217,7 +212,7 @@ const Map: React.FC<MapProps> = ({ }) => {
                                 address="Francouzská 240/76, 101 00 Praha 10-Vinohrady"
                                 likes="7"
                             />
-                        </Grid>
+                        </Grid>*/}
                     </Grid>
                 </Grid>
                 {/* 5/12 width column */}
