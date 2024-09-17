@@ -1,32 +1,17 @@
 import React from "react";
 import { Box, Grid } from '@material-ui/core';
-import { Container, CssBaseline } from "@mui/material";
-//
+import { Container } from "@mui/material";
 import ButtonUniversal from "../components/ButtonUniversal";
-
 import SearchFiddle from "../components/SearchFiddle";
 import Footer from "../components/Footer";
-// OUT vv
-import TileBlogpost from "../components/TileBlogpost";
-//
 import TileMerchantBig from "../components/TileMerchantBig";
 import TileMerchant from "../components/TileMerchant";
-
-//
 import IconPlus from '../icons/ico-btn-plus.png';
-// Prepare types, push object into component
-
-//
-import dummyImgBigTile from '../img/image-1-3.png';
-import dummyImgTile1 from '../img/image-1-4.png';
-import dummyImgTile2 from '../img/image-1-5.png';
-//
 import GMap from "../components/GMap";
+import { useDispatch, useSelector } from 'react-redux';
+import { setFiltering } from "../redux-rtk/mapFilteringSlice";
+import { RootState } from "../redux-rtk/store";  // Assuming you have a RootState type defined in your Redux store
 import IMerchant from "../ts/IMerchant";
-
-type MapProps = {
-
-};
 
 const filters = ["Food & Drinks", "Shops", "Services"];
 const merchants: IMerchant[] = [
@@ -115,111 +100,75 @@ const merchants: IMerchant[] = [
       "type": "Feature"
     }
   ]
-  
-  
-const Map: React.FC<MapProps> = ({ }) => {
-    const dummyImageURL = 'https://upload.wikimedia.org/wikipedia/commons/7/77/Google_Images_2015_logo.svg';
+const Map: React.FC = () => {
+    const dispatch = useDispatch();
+    const activeFilters = useSelector((state: RootState) => state.mapFiltering.filters);  // Get active filters from Redux state
 
-    const FuncAll = (): Promise<void> => {
-        console.log("All")
-        return Promise.resolve();
-    }
     const FuncFilt = (filter: string): Promise<void> => {
-        if(filter=="All")
-        {
-            console.log("All pressed");
-        }
-        else
-        {
-            console.log("Filtering pressed: " + filter);
-        }
+        dispatch(setFiltering(filter));
         return Promise.resolve();
-    }
+    };
+
     const FuncAddSpot = (): Promise<void> => {
-        console.log("AddSpot")
+        console.log("AddSpot");
         return Promise.resolve();
-    }
+    };
 
     return (
         <React.Fragment>
             <Container>
-                {/*<span >Search</span> || (1 Add e-shop)*/}
                 <div>&nbsp;</div>
                 <Grid container spacing={2}>
                     <Grid item xs={4}>
-                        {/* 4/12 */}
                         <SearchFiddle />
                     </Grid>
                     <Grid item xs={6}>
-                        {/*6/12*/}
+                        <ButtonUniversal
+                            title="All"
+                            color={activeFilters["All"] ? "#8000FF" : "#FFFFFF"}  // Purple if All is active
+                            textColor={activeFilters["All"] ? "white" : "black"}
+                            actionDelegate={() => FuncFilt("All")}
+                        />
 
-                        <ButtonUniversal title="All" color="#8000FF" textColor="white" actionDelegate={() => FuncFilt("All")} />
-                        
                         {filters.map((filter) => (
                             <ButtonUniversal
                                 key={filter}
                                 title={filter}
-                                color="#FFFFFF"
-                                textColor="black"
+                                color={activeFilters[filter] ? "#8000FF" : "#FFFFFF"}  // Purple if filter is active
+                                textColor={activeFilters[filter] ? "white" : "black"}
                                 actionDelegate={() => FuncFilt(filter)}
                             />
                         ))}
-
                     </Grid>
                     <Grid item xs={2}>
-                        {/*2/12*/}
-                        <ButtonUniversal icon={IconPlus} side="L" title="Add spot" color="#F23CFF" textColor="white" actionDelegate={FuncAddSpot} />
+                        <ButtonUniversal
+                            icon={IconPlus}
+                            side="L"
+                            title="Add spot"
+                            color="#F23CFF"
+                            textColor="white"
+                            actionDelegate={FuncAddSpot}
+                        />
                     </Grid>
                 </Grid>
             </Container>
-                <Grid container spacing={3}>
-                {/* 7/12 width column */}
-
+            <Grid container spacing={3}>
                 <Grid item xs={7}>
-                    <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>
-                        12 results
-                    </p>
+                    <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>12 results</p>
                     <Grid container spacing={2}>
-                        <TileMerchantBig
-                            tile={merchants[0].properties}
-                            /*image={dummyImgBigTile}
-                            categories={["Food & Drinks"]} // Add categories here
-                            title="Blue Vegan Pig Shop"
-                            address="Francouzská 240/76, 101 00 Praha 10-Vinohrady"
-                            description="Nunc diam sed fermentum lectus non. At varius sed non arcu tempor lorem elementum id duis. Justo."
-                            socials={["twitter.com/example", "facebook.com/example"]}
-                            likes="7"*/
-                        />
+                        <TileMerchantBig tile={merchants[0].properties} />
                     </Grid>
                     <Grid container spacing={2}>
-                      {merchants.map((merchant: IMerchant) => (
-                        <Grid item xs={4}>
-                          <TileMerchant tile={merchant.properties} />
-                        </Grid>
-                      ))}
-                        {/*<Grid item xs={4}>
-                            <TileMerchant
-                                image={dummyImgTile1}
-                                title="Palalelni Polis"
-                                address="475/43, Dělnická, 170 00 Praha 7"
-                                likes="12"
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <TileMerchant
-                                image={dummyImgTile2}
-                                title="Blue pig vegan shop"
-                                address="Francouzská 240/76, 101 00 Praha 10-Vinohrady"
-                                likes="7"
-                            />
-                        </Grid>*/}
+                        {merchants.map((merchant) => (
+                            <Grid item xs={4} key={merchant.properties.owner}>
+                                <TileMerchant tile={merchant.properties} />
+                            </Grid>
+                        ))}
                     </Grid>
                 </Grid>
-                {/* 5/12 width column */}
                 <Grid item xs={5}>
                     <Box style={{ height: 100, textAlign: 'center' }}>
-                        {/*<div>Content 5/12</div>*/}
-                        <GMap/>
+                        <GMap />
                     </Box>
                 </Grid>
             </Grid>
