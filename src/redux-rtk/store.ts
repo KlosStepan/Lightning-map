@@ -1,11 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
-//import ciselnikySlice from './ciselnikySlice'
-//import miscStuffSlice from './miscStuffSlice'
+import mapFilteringSlice from './mapFilteringSlice'
 
 export const store = configureStore({
     reducer: {
-        //miscStuff: miscStuffSlice,
-        //ciselniky: ciselnikySlice
+        mapFiltering: mapFilteringSlice
     },
 })
 

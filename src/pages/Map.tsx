@@ -73,7 +73,7 @@ const merchants: IMerchant[] = [
           city: "Praha 5",
           postalCode: "150 00",
         },
-        "tags": ["Food&Drinks", "Shops"],
+        "tags": ["Food & Drinks", "Shops"],
         "socials": [
           {
             "network": "web",
@@ -99,82 +99,95 @@ const merchants: IMerchant[] = [
       },
       "type": "Feature"
     }
-  ]
-const Map: React.FC = () => {
-    const dispatch = useDispatch();
-    const activeFilters = useSelector((state: RootState) => state.mapFiltering.filters);  // Get active filters from Redux state
+  ];
 
-    const FuncFilt = (filter: string): Promise<void> => {
-        dispatch(setFiltering(filter));
-        return Promise.resolve();
-    };
-
-    const FuncAddSpot = (): Promise<void> => {
-        console.log("AddSpot");
-        return Promise.resolve();
-    };
-
-    return (
-        <React.Fragment>
-            <Container>
-                <div>&nbsp;</div>
-                <Grid container spacing={2}>
-                    <Grid item xs={4}>
-                        <SearchFiddle />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <ButtonUniversal
-                            title="All"
-                            color={activeFilters["All"] ? "#8000FF" : "#FFFFFF"}  // Purple if All is active
-                            textColor={activeFilters["All"] ? "white" : "black"}
-                            actionDelegate={() => FuncFilt("All")}
-                        />
-
-                        {filters.map((filter) => (
-                            <ButtonUniversal
-                                key={filter}
-                                title={filter}
-                                color={activeFilters[filter] ? "#8000FF" : "#FFFFFF"}  // Purple if filter is active
-                                textColor={activeFilters[filter] ? "white" : "black"}
-                                actionDelegate={() => FuncFilt(filter)}
-                            />
-                        ))}
-                    </Grid>
-                    <Grid item xs={2}>
-                        <ButtonUniversal
-                            icon={IconPlus}
-                            side="L"
-                            title="Add spot"
-                            color="#F23CFF"
-                            textColor="white"
-                            actionDelegate={FuncAddSpot}
-                        />
-                    </Grid>
-                </Grid>
-            </Container>
-            <Grid container spacing={3}>
-                <Grid item xs={7}>
-                    <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>12 results</p>
-                    <Grid container spacing={2}>
-                        <TileMerchantBig tile={merchants[0].properties} />
-                    </Grid>
-                    <Grid container spacing={2}>
-                        {merchants.map((merchant) => (
-                            <Grid item xs={4} key={merchant.properties.owner}>
-                                <TileMerchant tile={merchant.properties} />
-                            </Grid>
-                        ))}
-                    </Grid>
-                </Grid>
-                <Grid item xs={5}>
-                    <Box style={{ height: 100, textAlign: 'center' }}>
-                        <GMap />
-                    </Box>
-                </Grid>
-            </Grid>
-            <Footer />
-        </React.Fragment>
-    );
-};
-
-export default Map;
+  const Map: React.FC = () => {
+      const dispatch = useDispatch();
+      const activeFilters = useSelector((state: RootState) => state.mapFiltering?.filters || {});
+  
+      const FuncFilt = (filter: string): Promise<void> => {
+          dispatch(setFiltering(filter));
+          return Promise.resolve();
+      };
+  
+      const FuncAddSpot = (): Promise<void> => {
+          console.log("AddSpot");
+          return Promise.resolve();
+      };
+  
+      // Function to filter merchants based on active filters
+      const filteredMerchants = merchants.filter(merchant => {
+          const merchantTags = merchant.properties.tags;
+  
+          // If "All" is active, show all merchants
+          if (activeFilters["All"]) return true;
+  
+          // Otherwise, check if at least one of the merchant's tags matches an active filter
+          return merchantTags.some(tag => activeFilters[tag]);
+      });
+  
+      return (
+          <React.Fragment>
+              <Container>
+                  <div>&nbsp;</div>
+                  <Grid container spacing={2}>
+                      <Grid item xs={4}>
+                          <SearchFiddle />
+                      </Grid>
+                      <Grid item xs={6}>
+                          <ButtonUniversal
+                              title="All"
+                              color={activeFilters["All"] ? "#8000FF" : "#FFFFFF"}  // Purple if All is active
+                              textColor={activeFilters["All"] ? "white" : "black"}
+                              actionDelegate={() => FuncFilt("All")}
+                          />
+  
+                          {filters.map((filter) => (
+                              <ButtonUniversal
+                                  key={filter}
+                                  title={filter}
+                                  color={activeFilters[filter] ? "#8000FF" : "#FFFFFF"}  // Purple if filter is active
+                                  textColor={activeFilters[filter] ? "white" : "black"}
+                                  actionDelegate={() => FuncFilt(filter)}
+                              />
+                          ))}
+                      </Grid>
+                      <Grid item xs={2}>
+                          <ButtonUniversal
+                              icon={IconPlus}
+                              side="L"
+                              title="Add spot"
+                              color="#F23CFF"
+                              textColor="white"
+                              actionDelegate={FuncAddSpot}
+                          />
+                      </Grid>
+                  </Grid>
+              </Container>
+              <Grid container spacing={3}>
+                  <Grid item xs={7}>
+                      <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>12 results</p>
+                      <Grid container spacing={2}>
+                          <TileMerchantBig tile={merchants[0].properties} />
+                      </Grid>
+                      <Grid container spacing={2}>
+                          {/* Use filtered merchants here */}
+                          {filteredMerchants.map((merchant) => (
+                              <Grid item xs={4} key={merchant.properties.owner}>
+                                  <TileMerchant tile={merchant.properties} />
+                              </Grid>
+                          ))}
+                      </Grid>
+                  </Grid>
+                  <Grid item xs={5}>
+                      <Box style={{ height: 100, textAlign: 'center' }}>
+                          <GMap />
+                      </Box>
+                  </Grid>
+              </Grid>
+              <Footer />
+          </React.Fragment>
+      );
+  };
+  
+  export default Map;

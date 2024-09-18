@@ -11,7 +11,7 @@ const initialState: FiltersState = {
   filters: initialFilters.reduce((acc, filter) => {
     acc[filter] = true;  // Set all filters to true by default
     return acc;
-  }, {} as { [key: string]: boolean }),
+  }, { "All": true } as { [key: string]: boolean }),  // Add "All" with default true
 };
 
 export const mapFilteringSlice = createSlice({
@@ -22,20 +22,25 @@ export const mapFilteringSlice = createSlice({
       const filter = action.payload;
 
       if (filter === "All") {
-        const areAllTrue = Object.values(state.filters).every(value => value);
+        const areAllTrue = Object.keys(state.filters)
+          .filter((key) => key !== "All")
+          .every(key => state.filters[key]);
+          
         Object.keys(state.filters).forEach(key => {
-          state.filters[key] = !areAllTrue;  // If all are true, uncheck all, otherwise check all
+          if (key !== "All") {
+            state.filters[key] = !areAllTrue;  // If all are true, uncheck all; otherwise, check all
+          }
         });
+        state.filters["All"] = !areAllTrue;  // Update "All" based on the toggle state
       } else {
+        // Toggle the individual filter
         state.filters[filter] = !state.filters[filter];
 
-        // Check if "All" should be selected or not
-        const areAllSelected = Object.values(state.filters).every(value => value);
-        if (areAllSelected) {
-          state.filters["All"] = true;
-        } else {
-          state.filters["All"] = false;
-        }
+        // Update the "All" key based on whether all individual filters are true
+        const areAllSelected = Object.keys(state.filters)
+          .filter((key) => key !== "All")
+          .every(key => state.filters[key]);
+        state.filters["All"] = areAllSelected;
       }
     },
   },
