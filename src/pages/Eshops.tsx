@@ -4,8 +4,8 @@ import Footer from "../components/Footer";
 import { Container, CssBaseline, Paper } from "@mui/material";
 import Typography from '@mui/material/Typography';
 import ButtonUniversal from "../components/ButtonUniversal";
-
-
+import { useDispatch, useSelector } from 'react-redux';
+import IEshop from "../ts/IEeshop";
 //
 import SearchFiddle from "../components/SearchFiddle";
 import SearchFiddle2 from "../components/SearchFiddle2";
@@ -19,6 +19,9 @@ type EshopsProps = {
 };
 
 const Eshops: React.FC<EshopsProps> = ({ }) => {
+    const eshops = useSelector((state: any) => state.data.eshops)
+    ////console.log("eshops")
+    ////console.log(eshops)
     const FuncAddEshop = (): Promise<void> => {
         console.log("AddEshop")
         return Promise.resolve();
@@ -49,29 +52,21 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                 </Container>
                 <div>
                     <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>
-                        12 results
+                        {eshops.length} results
                     </p>
                     <Grid container spacing={2}>
-                        <Grid item xs={2}>
-                            <TileEshop likes="7" logo="https://cdn.alza.cz/images/web-static/eshop-logos/alza_cz.svg" title="Alza.cz" caption="Nejvetsi prodejce elektroniky v CR" />
+                    {eshops.map((eshop: IEshop) => (
+                        <Grid item xs={2} key={"34"}>
+                            <TileEshop 
+                            likes={"7"} 
+                            logo={"N/A"} 
+                            title={eshop.name} 
+                            caption={eshop.description} 
+                        />
                         </Grid>
-                        <Grid item xs={2}>
-                            <TileEshop likes="7" logo="https://cdn.alza.cz/images/web-static/eshop-logos/alza_cz.svg" title="Alza.cz" caption="Nejvetsi prodejce elektroniky v CR" />
-                        </Grid>
-                        <Grid item xs={2}>
-                            <TileEshop likes="7" logo="https://cdn.alza.cz/images/web-static/eshop-logos/alza_cz.svg" title="Alza.cz" caption="Nejvetsi prodejce elektroniky v CR" />
-                        </Grid>
-                        <Grid item xs={2}>
-                            <TileEshop likes="7" logo="https://cdn.alza.cz/images/web-static/eshop-logos/alza_cz.svg" title="Alza.cz" caption="Nejvetsi prodejce elektroniky v CR" />
-                        </Grid>
-                        <Grid item xs={2}>
-                            <TileEshop likes="7" logo="https://cdn.alza.cz/images/web-static/eshop-logos/alza_cz.svg" title="Alza.cz" caption="Nejvetsi prodejce elektroniky v CR" />
-                        </Grid>
-                        <Grid item xs={2}>
-                            <TileEshop likes="7" logo="https://cdn.alza.cz/images/web-static/eshop-logos/alza_cz.svg" title="Alza.cz" caption="Nejvetsi prodejce elektroniky v CR" />
-                        </Grid>
+                    ))}
                     </Grid>
-                    <Grid container spacing={2}>
+                    {/*<Grid container spacing={2}>
                         <Grid item xs={2}>
                             <TileEshop likes="7" logo="https://cdn.alza.cz/images/web-static/eshop-logos/alza_cz.svg" title="Alza.cz" caption="Nejvetsi prodejce elektroniky v CR" />
                         </Grid>
@@ -90,7 +85,8 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                         <Grid item xs={2}>
                             <TileEshop likes="7" logo="https://cdn.alza.cz/images/web-static/eshop-logos/alza_cz.svg" title="Alza.cz" caption="Nejvetsi prodejce elektroniky v CR" />
                         </Grid>
-                    </Grid>                </div>
+                    </Grid>*/}
+                </div>
                 <Footer />
             </div>
         </React.Fragment>

@@ -14,6 +14,7 @@ import { RootState } from "../redux-rtk/store";  // Assuming you have a RootStat
 import IMerchant from "../ts/IMerchant";
 
 const filters = ["Food & Drinks", "Shops", "Services"];
+/*
 const merchants: IMerchant[] = [
     {
       "geometry": {
@@ -100,11 +101,16 @@ const merchants: IMerchant[] = [
       "type": "Feature"
     }
   ];
+*/
 
-  const Map: React.FC = () => {
+const Map: React.FC = () => {
+    const merchants = useSelector((state: any) => state.data.merchants)
+    ////console.log("merchants")
+    ////console.log(merchants)
       const dispatch = useDispatch();
+      //
       const activeFilters = useSelector((state: RootState) => state.mapFiltering?.filters || {});
-  
+      //
       const FuncFilt = (filter: string): Promise<void> => {
           dispatch(setFiltering(filter));
           return Promise.resolve();
@@ -116,14 +122,14 @@ const merchants: IMerchant[] = [
       };
   
       // Function to filter merchants based on active filters
-      const filteredMerchants = merchants.filter(merchant => {
+      const filteredMerchants = merchants.filter((merchant:IMerchant) => {
           const merchantTags = merchant.properties.tags;
   
           // If "All" is active, show all merchants
           if (activeFilters["All"]) return true;
   
           // Otherwise, check if at least one of the merchant's tags matches an active filter
-          return merchantTags.some(tag => activeFilters[tag]);
+          return merchantTags.some((tag: string) => activeFilters[tag]);
       });
   
       return (
@@ -166,13 +172,13 @@ const merchants: IMerchant[] = [
               </Container>
               <Grid container spacing={3}>
                   <Grid item xs={7}>
-                      <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>12 results</p>
+                      <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>{merchants.length} results</p>
                       <Grid container spacing={2}>
                           <TileMerchantBig tile={merchants[0].properties} />
                       </Grid>
                       <Grid container spacing={2}>
                           {/* Use filtered merchants here */}
-                          {filteredMerchants.map((merchant) => (
+                          {filteredMerchants.map((merchant: IMerchant) => (
                               <Grid item xs={4} key={merchant.properties.owner}>
                                   <TileMerchant tile={merchant.properties} />
                               </Grid>

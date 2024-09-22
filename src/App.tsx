@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 //import CssBaseline from '@mui/material/CssBaseline';
@@ -82,24 +82,30 @@ function App() {
     /*const theme = useTheme();
     console.log("theme")
     console.log(theme)*/
-    const merchants = useSelector((state: any) => state.merchants)
-    console.log("merchants")
-    console.log(merchants)
-    const eshops = useSelector((state: any) => state.eshopscz)
-    console.log("eshops")
-    console.log(eshops)
+
+    //const merchants = useSelector((state: any) => state.data.merchants)
+    ////console.log("merchants")
+    ////console.log(merchants)
+    //const eshops = useSelector((state: any) => state.data.eshops)
+    ////console.log("eshops")
+    ////console.log(eshops)
+
     // Dummy image URLs
     const dummyImageURL = 'https://upload.wikimedia.org/wikipedia/commons/7/77/Google_Images_2015_logo.svg';
 
-    React.useEffect(() => {
+    useEffect(() => {
         const getMerchants = async (db: any) => {
             const merchantsSnapshot: any = await getDocs(query(collection(db, 'merchants'), where('properties.visible', '==', true)));
             const merchantsList = merchantsSnapshot.docs.map((doc: any) => doc.data());
+            //console.log("merchantsList");
+            //console.log(merchantsList);
             dispatch(setMerchants(merchantsList));
         }
         const getEshopsCZ = async (db: any) => {
             const eshopsCZSnapshot: any = await getDocs(query(collection(db, 'eshops'), where('visible', '==', true)));
             const listsEshopsCZ = eshopsCZSnapshot.docs.map((doc: any) => doc.data());
+            //console.log("listsEshops");
+            //console.log(listsEshopsCZ);
             dispatch(setEshops(listsEshopsCZ));
         }
         getMerchants(db);

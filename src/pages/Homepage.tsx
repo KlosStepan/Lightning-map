@@ -15,11 +15,13 @@ import transactionspeed from '../img/Interface-Essential-Flash--Streamline-Pixel
 import lowfees from '../img/Business-Products-Cash-User-Man-Message--Streamline-Pixel.png';
 import privacyanddecentralization from '../img/Interface-Essential-Lock--Streamline-Pixel.png';
 //
-import mapofspots from '../img/Interface-Essential-Map--Streamline-Pixel.png';
-import eshops from '../img/Shopping-Shipping-Bag-1--Streamline-Pixel.png';
-
+import mapofspotsPic from '../img/Interface-Essential-Map--Streamline-Pixel.png';
+import eshopsPic from '../img/Shopping-Shipping-Bag-1--Streamline-Pixel.png';
+//Redux
+import { useDispatch, useSelector } from 'react-redux';
+//
 import { Link } from 'react-router-dom';
-
+//
 import dummyImg from '../img/dummy512x288.png';
 import dummyImg1 from '../img/rectangle_149.png';
 import dummyImg2 from '../img/rectangle_150.png';
@@ -30,6 +32,13 @@ type HomepageProps = {
 };
 
 const Homepage: React.FC<HomepageProps> = ({ }) => {
+    const merchants = useSelector((state: any) => state.data.merchants)
+    ////console.log("merchants")
+    ////console.log(merchants)
+    const eshops = useSelector((state: any) => state.data.eshops)
+    ////console.log("eshops")
+    ////console.log(eshops)
+    
     // Dummy image URLs
     const dummyImageURL = 'https://upload.wikimedia.org/wikipedia/commons/7/77/Google_Images_2015_logo.svg';
     //import dummyImg from '../img/dummy512x288.png';
@@ -49,10 +58,10 @@ const Homepage: React.FC<HomepageProps> = ({ }) => {
                     </Box>
                     <Grid container spacing={2}>
                         <Grid item xs={6}>
-                            <TileTypeMerchant caption="Map of Places" numPlaces="12" imageSrc={mapofspots} path="/map" />
+                            <TileTypeMerchant caption="Map of Places" numPlaces={merchants.length} imageSrc={mapofspotsPic} path="/map" />
                         </Grid>
                         <Grid item xs={6}>
-                            <TileTypeMerchant caption="E-shops" numPlaces="7" imageSrc={eshops} path="/e-shops" />
+                            <TileTypeMerchant caption="E-shops" numPlaces={eshops.length} imageSrc={eshopsPic} path="/e-shops" />
                         </Grid>
                     </Grid>
                     <p>&nbsp;</p>

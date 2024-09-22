@@ -18,16 +18,18 @@ import {
 } from "firebase/firestore";
 //TODO Prepare Login/Reg here and export it
 //https://blog.logrocket.com/user-authentication-firebase-react-apps/
+
 const firebaseConfig = {
-    apiKey: "AIzaSyCYmaYxP4zOMdlL3mvLmJi7RdymWGz24Kw",
-    authDomain: "lightning-map-be.firebaseapp.com",
-    projectId: "lightning-map-be",
-    storageBucket: "lightning-map-be.appspot.com",
-    messagingSenderId: "922431666121",
-    appId: "1:922431666121:web:6ecc0cbe196857e7fb5a18",
-    measurementId: "G-4YDZGK2JYT"
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID,
+    measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 };
 
+  
 //Initialize Firebase
 const app = initializeApp(firebaseConfig);
 //Initialize Firebase Services
