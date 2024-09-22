@@ -10,7 +10,7 @@ import './css/_layout1-color2.css';
 import './_App.css';
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { setMerchants, setEshopscz } from './redux/actions/lightningMapActions';
+//import { setMerchants, setEshopscz } from './redux/actions/lightningMapActions';
 //Web - Pages
 import Eshopscz from './pages/_Eshopscz';
 import About from './pages/About';
@@ -39,14 +39,14 @@ function App() {
       const listMerchants = merchSnapshot.docs.map((doc: any) => doc.data());
       //console.log("list Merchants")
       //console.log(listMerchants)
-      dispatch(setMerchants(listMerchants));
+      //dispatch(setMerchants(listMerchants));
     }
     const getEschopscz = async (db: any) => {
       const eshopsczSnapshot: any = await getDocs(query(collection(db, 'eshops'), where('visible', '==', true)));
       const listEshopscz = eshopsczSnapshot.docs.map((doc: any) => doc.data());
       //console.log("list Eshopscz")
       //console.log(listEshopscz)
-      dispatch(setEshopscz(listEshopscz));
+      //dispatch(setEshopscz(listEshopscz));
     }
 
     getMerchants(db);

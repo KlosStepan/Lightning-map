@@ -21,7 +21,9 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
-
+//Firebase
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "./components/Firebase";
 //Pages
 import Homepage from './pages/Homepage';
 import Map from './pages/Map';
@@ -30,13 +32,14 @@ import WhyLightning from './pages/WhyLightning';
 import Blog from './pages/Blog';
 import About from './pages/About';
 import Login from './pages/Login';
-
 //
 import ADHome from './pages/ADHome';
 import ADMySpots from './pages/ADMySpots';
 import ADMyEShops from './pages/ADMyEShops';
 import ADMyAccount from './pages/ADMyAccount';
-
+//Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { setMerchants, setEshops } from './redux-rtk/dataSlice';
 //
 import TileBlogpost from './components/TileBlogpost';
 import TileExplainer from './components/TileExplainer';
@@ -75,12 +78,33 @@ const pages: ILink[] = [
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function App() {
-    const theme = useTheme();
-    console.log(theme)
-
+    const dispatch = useDispatch()
+    /*const theme = useTheme();
+    console.log("theme")
+    console.log(theme)*/
+    const merchants = useSelector((state: any) => state.merchants)
+    console.log("merchants")
+    console.log(merchants)
+    const eshops = useSelector((state: any) => state.eshopscz)
+    console.log("eshops")
+    console.log(eshops)
     // Dummy image URLs
     const dummyImageURL = 'https://upload.wikimedia.org/wikipedia/commons/7/77/Google_Images_2015_logo.svg';
 
+    React.useEffect(() => {
+        const getMerchants = async (db: any) => {
+            const merchantsSnapshot: any = await getDocs(query(collection(db, 'merchants'), where('properties.visible', '==', true)));
+            const merchantsList = merchantsSnapshot.docs.map((doc: any) => doc.data());
+            dispatch(setMerchants(merchantsList));
+        }
+        const getEshopsCZ = async (db: any) => {
+            const eshopsCZSnapshot: any = await getDocs(query(collection(db, 'eshops'), where('visible', '==', true)));
+            const listsEshopsCZ = eshopsCZSnapshot.docs.map((doc: any) => doc.data());
+            dispatch(setEshops(listsEshopsCZ));
+        }
+        getMerchants(db);
+        getEshopsCZ(db);
+    }, [])
     return (
         <Router>
             <CssBaseline />
