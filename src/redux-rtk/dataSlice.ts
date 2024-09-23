@@ -4,12 +4,12 @@ import IMerchant from '../ts/IMerchant';
 import IEshop from '../ts/IEeshop';
 
 export interface IDataState {
-    merchants: IMerchant[],
-    eshops: IEshop[]
+    merchants: IMerchant[] | undefined,
+    eshops: IEshop[] | undefined
 }
 const initialState: IDataState = {
-    merchants: [],
-    eshops: []
+    merchants: undefined,
+    eshops: undefined
 }
 
 export const dataSlice = createSlice({

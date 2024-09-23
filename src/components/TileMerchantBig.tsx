@@ -23,7 +23,7 @@ const containerInnerStyle = {
     gap: '20px',
 };
 
-// Update props to accept tile of type IMerchantTile
+//TODO - tile.image be base64
 type TileMerchantBigProps = {
     tile: IMerchantTile; 
 };

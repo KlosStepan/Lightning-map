@@ -127,7 +127,7 @@ function App() {
                             <Route path="/map" element={<Map />} />
                             <Route path="/e-shops" element={<Eshops />} />
                             <Route path="/why-lightning" element={<WhyLightning />} />
-                            <Route path="/blog" element={<Blog />} />
+                            <Route path="/blog" element={<Blog />} /> {/*TODO blog enable/disable */}
                             <Route path="/about" element={<About />} />
                             <Route path="/login" element={<Login />} />
                             <Route path="/admin/dashboard" element={<ADHome />} />

@@ -58,10 +58,20 @@ const Homepage: React.FC<HomepageProps> = ({ }) => {
                     </Box>
                     <Grid container spacing={2}>
                         <Grid item xs={6}>
-                            <TileTypeMerchant caption="Map of Places" numPlaces={merchants.length} imageSrc={mapofspotsPic} path="/map" />
+                            <TileTypeMerchant
+                                caption="Map of Places"
+                                numPlaces={merchants ? merchants.length : undefined}
+                                imageSrc={mapofspotsPic}
+                                path="/map"
+                            />
                         </Grid>
                         <Grid item xs={6}>
-                            <TileTypeMerchant caption="E-shops" numPlaces={eshops.length} imageSrc={eshopsPic} path="/e-shops" />
+                            <TileTypeMerchant
+                                caption="E-shops"
+                                numPlaces={eshops ? eshops.length : undefined}
+                                imageSrc={eshopsPic}
+                                path="/e-shops"
+                            />
                         </Grid>
                     </Grid>
                     <p>&nbsp;</p>
@@ -100,6 +110,7 @@ const Homepage: React.FC<HomepageProps> = ({ }) => {
             <React.Fragment>
                 <MiddleOfHomepage />
             </React.Fragment>
+            {/*TODO blog enable/disable*/}
             <React.Fragment>
                 <Grid container alignItems="center">
                     <Grid item xs={6}>

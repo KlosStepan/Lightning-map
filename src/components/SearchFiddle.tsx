@@ -36,7 +36,7 @@ const iconStyle = {
 
 // Define props type
 type SearchFiddleProps = {
-
+  //TODO some reference to list of something, list of merch/eshops
 };
   
 // Component

@@ -138,6 +138,7 @@ const Map: React.FC = () => {
                   <div>&nbsp;</div>
                   <Grid container spacing={2}>
                       <Grid item xs={4}>
+                          {/*TODO - Make it work on tiles, I guess via &*/}
                           <SearchFiddle />
                       </Grid>
                       <Grid item xs={6}>
@@ -159,6 +160,7 @@ const Map: React.FC = () => {
                           ))}
                       </Grid>
                       <Grid item xs={2}>
+                        {/*TODO wider button space*/}
                           <ButtonUniversal
                               icon={IconPlus}
                               side="L"
@@ -173,6 +175,7 @@ const Map: React.FC = () => {
               <Grid container spacing={3}>
                   <Grid item xs={7}>
                       <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>{merchants.length} results</p>
+                      {/*TODO - tile big (one specific) selection - HOW*/}
                       <Grid container spacing={2}>
                           <TileMerchantBig tile={merchants[0].properties} />
                       </Grid>

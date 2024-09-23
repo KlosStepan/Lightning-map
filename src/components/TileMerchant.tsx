@@ -45,6 +45,7 @@ const containerInnerStyleDown = {
     textAlign: 'left',
 };
 
+//TODO - tile.image be base64
 type TileMerchantProps = {
     tile: IMerchantTile
 };

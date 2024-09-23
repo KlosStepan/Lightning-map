@@ -21,6 +21,8 @@ const containerInnerStyle = {
     opacity: '0px',
 };
 
+//TODO - tile: IEshop, in props
+//TODO - logo be base64
 type TileEshopProps = {
     likes: string;
     logo: string;

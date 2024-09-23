@@ -39,6 +39,7 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                     <Grid container spacing={2}>
                         <Grid item xs={4}>
                             {/* 4/12 */}
+                            {/*TODO - Make it work on tiles, I guess via &*/}
                             <SearchFiddle />
                         </Grid>
                         <Grid item xs={6}>
@@ -46,6 +47,7 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                         </Grid>
                         <Grid item xs={2}>
                             {/*2/12*/}
+                            {/*TODO wider button space*/}
                             <ButtonUniversal icon={IconPlus} side="L" title="Add e-shop" color="#F23CFF" textColor="white" actionDelegate={FuncAddEshop} />
                         </Grid>
                     </Grid>
