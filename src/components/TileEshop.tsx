@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 //
 import IconExclamationMark from "../icons/IconExclamationMark";
 import IconLightningNumber from "../icons/IconLightningNumber";
+import IEshop from "../ts/IEeshop";
 
 const containerOuterStyle = {
     padding: '10px 10px 10px 10px !important',
@@ -25,12 +26,13 @@ const containerInnerStyle = {
 //TODO - logo be base64
 type TileEshopProps = {
     likes: string;
-    logo: string;
-    title: string;
-    caption: string;
+    //logo: string;
+    //title: string;
+    //caption: string;
+    tile: IEshop
 }
 
-const TileEshop: React.FC<TileEshopProps> = ({ likes, logo, title, caption }) => {
+const TileEshop: React.FC<TileEshopProps> = ({ likes, tile /*, logo, title, caption*/ }) => {
     return (
         <React.Fragment>
             <Container maxWidth="sm" sx={{ ...containerOuterStyle }}>
@@ -44,14 +46,14 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, logo, title, caption }) =>
                     <CardMedia
                         component="img"
                         style={{ margin: '24px 0px' }}
-                        image={logo}
-                        alt={title}
+                        image={tile.logo}
+                        alt={tile.name}
                     />
                     <Typography variant="h2" component="h2" style={{ textAlign: 'left' }}>
-                        {title}
+                        {tile.name}
                     </Typography>
                     <p style={{ textAlign: 'left', fontSize: '12px' }}>
-                        {caption}
+                        {tile.description}
                     </p>
                 </Box>
             </Container>

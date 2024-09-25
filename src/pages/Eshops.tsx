@@ -61,9 +61,10 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                         <Grid item xs={2} key={"34"}>
                             <TileEshop 
                             likes={"7"} 
-                            logo={"N/A"} 
-                            title={eshop.name} 
-                            caption={eshop.description} 
+                            tile={eshop}
+                            //logo={"N/A"} 
+                            //title={eshop.name} 
+                            //caption={eshop.description} 
                         />
                         </Grid>
                     ))}

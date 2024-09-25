@@ -30,7 +30,7 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
 
     //OUR FETCH/SAVE FUNCTION
     const AddEshop = async () => {
-        const _eshop: IEshop = _BundleEshop();
+        const _eshop: any = _BundleEshop();
         //console.log("AddEshop(), Firebase -> INSERT")
         //console.log(_eshop);
 
@@ -58,7 +58,7 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
         }
     }
     const UpdateEshop = async () => {
-        const _eshop: IEshop = _BundleEshop();
+        const _eshop: any = _BundleEshop();
         //console.log(`UpdateEshop(), Firebase -> UPDATE/${props.id}`)
         //console.log(_eshop);
 
@@ -73,7 +73,7 @@ function ModifFormEshop(props: IModifFormEshopProps = {}) {
     }
     //INTERNAL BUNDLING FUNCTION
     const _BundleEshop = () => {
-        const _eshop: IEshop = {
+        const _eshop: any = {
             name: inputName?.current!.value,
             description: inputDescription?.current!.value,
             country: "CZ",

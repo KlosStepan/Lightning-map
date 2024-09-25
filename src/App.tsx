@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from "react";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 //import CssBaseline from '@mui/material/CssBaseline';
@@ -22,8 +22,9 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 //Firebase
+import { User, onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "./components/Firebase";
+import { auth, db } from "./components/Firebase";
 //Pages
 import Homepage from './pages/Homepage';
 import Map from './pages/Map';
@@ -78,7 +79,8 @@ const pages: ILink[] = [
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function App() {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const [user, setUser] = useState<User | null>(null);
     /*const theme = useTheme();
     console.log("theme")
     console.log(theme)*/
@@ -110,6 +112,14 @@ function App() {
         }
         getMerchants(db);
         getEshopsCZ(db);
+
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser); // Set the user or null
+            console.log("setting user");
+            console.log(currentUser?.displayName);
+          });
+
+        return () => unsubscribe();
     }, [])
     return (
         <Router>
