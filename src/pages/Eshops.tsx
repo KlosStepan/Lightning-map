@@ -4,7 +4,10 @@ import Footer from "../components/Footer";
 import { Container, CssBaseline, Paper } from "@mui/material";
 import Typography from '@mui/material/Typography';
 import ButtonUniversal from "../components/ButtonUniversal";
+//Redux
+import { RootState } from "../redux-rtk/store";
 import { useDispatch, useSelector } from 'react-redux';
+
 import IEshop from "../ts/IEeshop";
 //
 import SearchFiddle from "../components/SearchFiddle";
@@ -19,7 +22,7 @@ type EshopsProps = {
 };
 
 const Eshops: React.FC<EshopsProps> = ({ }) => {
-    const eshops = useSelector((state: any) => state.data.eshops)
+    const eshops = useSelector((state: RootState) => state.data.eshops)
     ////console.log("eshops")
     ////console.log(eshops)
     const FuncAddEshop = (): Promise<void> => {
@@ -42,10 +45,10 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                             {/*TODO - Make it work on tiles, I guess via &*/}
                             <SearchFiddle />
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={5}>
                             {/*6/12*/}
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={3}>
                             {/*2/12*/}
                             {/*TODO wider button space*/}
                             <ButtonUniversal icon={IconPlus} side="L" title="Add e-shop" color="#F23CFF" textColor="white" actionDelegate={FuncAddEshop} />
@@ -54,10 +57,10 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                 </Container>
                 <div>
                     <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>
-                        {eshops.length} results
+                        {eshops?.length} results
                     </p>
                     <Grid container spacing={2}>
-                    {eshops.map((eshop: IEshop) => (
+                    {eshops?.map((eshop: IEshop) => (
                         <Grid item xs={2} key={"34"}>
                             <TileEshop 
                             likes={"7"} 

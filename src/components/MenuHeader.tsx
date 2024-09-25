@@ -17,6 +17,9 @@ import IconKey from "../icons/IconKey";
 //
 import { Link } from 'react-router-dom';
 import ILink from "../ts/ILink";
+//Redux
+import { RootState } from "../redux-rtk/store";
+import { useSelector } from "react-redux";
 
 type MenuHeaderProps = {
     pages: ILink[];
@@ -24,6 +27,8 @@ type MenuHeaderProps = {
 };
 
 const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
+    const user = useSelector((state: RootState) => state.misc.user)
+    //
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -176,11 +181,19 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                 </Menu>
             </Box>*/}
 
-            <Box sx={{ flexGrow: 0, color: 'black' }}>
+<Box sx={{ flexGrow: 0, color: 'black' }}>
                 <div style={{ fontFamily: 'PixGamer' }}>
-                    <Link style={{ color: "inherit", textDecoration: "inherit", fontSize: '18px' }} to="/login">
-                        <IconKey /> LOGIN
-                    </Link>
+                    {user ? (
+                        // Render user displayName if user is logged in
+                        <Link style={{ color: "inherit", textDecoration: "inherit", fontSize: '18px' }} to="/login">
+                            | {user.displayName} |
+                        </Link>
+                    ) : (
+                        // Otherwise, render the IconKey and LOGIN
+                        <Link style={{ color: "inherit", textDecoration: "inherit", fontSize: '18px' }} to="/login">
+                            <IconKey /> LOGIN
+                        </Link>
+                    )}
                 </div>
             </Box>
         </Toolbar>

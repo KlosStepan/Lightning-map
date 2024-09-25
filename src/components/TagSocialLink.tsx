@@ -12,6 +12,12 @@ const styleTagSocialLink = {
     borderRadius: '16px',
     fontSize: '18px',
     textAlign: 'center',
+    textDecoration: 'none', // Remove underline from link
+    //transition: 'background-color 0.2s', // Smooth transition for hover
+    transition: 'background-color 0.7s ease',
+    '&:hover': {
+        backgroundColor: (theme: any) => theme.palette.grey[500],
+    },
 };
 
 type TagSocialLinkProps = {
@@ -20,9 +26,11 @@ type TagSocialLinkProps = {
 
 const TagSocialLink: React.FC<TagSocialLinkProps> = ({ social }) => {
     return (
-        <Box sx={{ ...styleTagSocialLink }}>
-            <span id={social.label}>{social.label}</span>
-        </Box>
+        <a href={social.link} style={{ textDecoration: 'none' }} target="_blank" rel="noopener noreferrer">
+            <Box sx={styleTagSocialLink}>
+                <span id={social.label}>{social.label}</span>
+            </Box>
+        </a>
     );
 };
 

@@ -37,7 +37,7 @@ const textBottomLeftStyle = {
 
 type TileTypeMerchantProps = {
     caption: string;
-    numPlaces: string;
+    numPlaces: number | undefined;
     imageSrc: string;
     path: string;
 };

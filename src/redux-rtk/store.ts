@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 //Slices
-import flagsSlice from './flagsSlice'
+import miscSlice from './miscSlice'
 import dataSlice from './dataSlice'
 import mapFilteringSlice from './mapFilteringSlice'
 
 export const store = configureStore({
     reducer: {
-        flags: flagsSlice,
+        misc: miscSlice,
         data: dataSlice,
         mapFiltering: mapFilteringSlice
     },

@@ -40,6 +40,8 @@ import ADMyEShops from './pages/ADMyEShops';
 import ADMyAccount from './pages/ADMyAccount';
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from "./redux-rtk/store";
+import { setDebug, setBlog, setUser } from "./redux-rtk/miscSlice";
 import { setMerchants, setEshops } from './redux-rtk/dataSlice';
 //
 import TileBlogpost from './components/TileBlogpost';
@@ -80,15 +82,14 @@ const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function App() {
     const dispatch = useDispatch();
-    const [user, setUser] = useState<User | null>(null);
     /*const theme = useTheme();
     console.log("theme")
     console.log(theme)*/
 
-    //const merchants = useSelector((state: any) => state.data.merchants)
+    //const merchants = useSelector((state: RootState) => state.data.merchants)
     ////console.log("merchants")
     ////console.log(merchants)
-    //const eshops = useSelector((state: any) => state.data.eshops)
+    //const eshops = useSelector((state: RootState) => state.data.eshops)
     ////console.log("eshops")
     ////console.log(eshops)
 
@@ -113,14 +114,21 @@ function App() {
         getMerchants(db);
         getEshopsCZ(db);
 
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser); // Set the user or null
-            console.log("setting user");
-            console.log(currentUser?.displayName);
-          });
+        // Listen for changes in Firebase auth state
+        const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
+            if (user) {
+                // User is signed in, set the user in Redux state
+                dispatch(setUser(user));
+            } else {
+                // User is signed out, unset the user in Redux state
+                dispatch(setUser(null));
+            }
+        });
 
         return () => unsubscribe();
-    }, [])
+    }, [dispatch])
+    //}, [])
+
     return (
         <Router>
             <CssBaseline />

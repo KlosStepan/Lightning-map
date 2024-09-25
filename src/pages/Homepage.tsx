@@ -18,6 +18,7 @@ import privacyanddecentralization from '../img/Interface-Essential-Lock--Streaml
 import mapofspotsPic from '../img/Interface-Essential-Map--Streamline-Pixel.png';
 import eshopsPic from '../img/Shopping-Shipping-Bag-1--Streamline-Pixel.png';
 //Redux
+import { RootState } from "../redux-rtk/store";
 import { useDispatch, useSelector } from 'react-redux';
 //
 import { Link } from 'react-router-dom';
@@ -32,10 +33,10 @@ type HomepageProps = {
 };
 
 const Homepage: React.FC<HomepageProps> = ({ }) => {
-    const merchants = useSelector((state: any) => state.data.merchants)
+    const merchants = useSelector((state: RootState) => state.data.merchants)
     ////console.log("merchants")
     ////console.log(merchants)
-    const eshops = useSelector((state: any) => state.data.eshops)
+    const eshops = useSelector((state: RootState) => state.data.eshops)
     ////console.log("eshops")
     ////console.log(eshops)
     

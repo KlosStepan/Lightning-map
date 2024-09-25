@@ -6,8 +6,7 @@ const buttonStyles = {
     backgroundColor: (color: string) => color,
     borderRadius: '20px',
     padding: '4px',
-    marginLeft: '4px',
-    marginRight: '4px',
+    margin: '2px 2px',  // Top/Bottom 4px, Left/Right 2px
     justifyContent: 'center',
     alignItems: 'center',
     transition: 'background-color 0.7s ease',

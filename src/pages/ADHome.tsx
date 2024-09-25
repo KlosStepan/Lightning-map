@@ -63,7 +63,7 @@ const ADHome: React.FC<ADHomeProps> = ({ }) => {
                             <Grid item xs={4}>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>
                                     {/* First tile content */}
-                                    <TileTypeMerchant caption="Map of Places" numPlaces="12" imageSrc={mapofspots} path="" />
+                                    <TileTypeMerchant caption="Map of Places" numPlaces={12} imageSrc={mapofspots} path="" />
 
                                 </Box>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, marginTop: 2, height: '100%' }}>
@@ -74,7 +74,7 @@ const ADHome: React.FC<ADHomeProps> = ({ }) => {
                             <Grid item xs={4}>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>
                                     {/* Third tile content */}
-                                    <TileTypeMerchant caption="E-shops" numPlaces="7" imageSrc={eshops} path="" />
+                                    <TileTypeMerchant caption="E-shops" numPlaces={7} imageSrc={eshops} path="" />
 
                                 </Box>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, marginTop: 2, height: '100%' }}>

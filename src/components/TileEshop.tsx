@@ -4,7 +4,8 @@ import { CardMedia, Container, Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 
 //
-import IconExclamationMark from "../icons/IconExclamationMark";
+import ButtonUniversal from "./ButtonUniversal";
+import IconExclamationMark from "../icons/warning-box.png";
 import IconLightningNumber from "../icons/IconLightningNumber";
 import IEshop from "../ts/IEeshop";
 
@@ -39,7 +40,14 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile /*, logo, title, capt
                 <Box sx={{  ...containerInnerStyle }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} >
                         <div style={{ display: "flex", alignItems: "center", }}>
-                            <IconExclamationMark />
+                        <ButtonUniversal
+                                    icon={IconExclamationMark}
+                                    side="L"
+                                    title="R."
+                                    color="white"
+                                    textColor="#BEBEBE"
+                                    actionDelegate={() => Promise.resolve()} // Placeholder action; replace as needed
+                                />
                         </div>
                         <IconLightningNumber number={likes} scale={0.85}/>
                     </div>

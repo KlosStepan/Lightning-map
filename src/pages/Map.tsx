@@ -8,14 +8,16 @@ import TileMerchantBig from "../components/TileMerchantBig";
 import TileMerchant from "../components/TileMerchant";
 import IconPlus from '../icons/ico-btn-plus.png';
 import GMap from "../components/GMap";
+//Redux
+import { RootState } from "../redux-rtk/store";
 import { useDispatch, useSelector } from 'react-redux';
+//
 import { setFiltering } from "../redux-rtk/mapFilteringSlice";
-import { RootState } from "../redux-rtk/store";  // Assuming you have a RootState type defined in your Redux store
 import IMerchant from "../ts/IMerchant";
 
 const filters = ["Food & Drinks", "Shops", "Services"];
-/*
-const merchants: IMerchant[] = [
+
+const merchants2: IMerchant[] = [
     {
       "geometry": {
         "coordinates": [14.4483471, 50.1033561],
@@ -101,10 +103,10 @@ const merchants: IMerchant[] = [
       "type": "Feature"
     }
   ];
-*/
+
 
 const Map: React.FC = () => {
-    const merchants = useSelector((state: any) => state.data.merchants)
+    const merchants = useSelector((state: RootState) => state.data.merchants)
     ////console.log("merchants")
     ////console.log(merchants)
       const dispatch = useDispatch();
@@ -122,7 +124,7 @@ const Map: React.FC = () => {
       };
   
       // Function to filter merchants based on active filters
-      const filteredMerchants = merchants.filter((merchant:IMerchant) => {
+      const filteredMerchants = merchants?.filter((merchant:IMerchant) => {
           const merchantTags = merchant.properties.tags;
   
           // If "All" is active, show all merchants
@@ -141,7 +143,7 @@ const Map: React.FC = () => {
                           {/*TODO - Make it work on tiles, I guess via &*/}
                           <SearchFiddle />
                       </Grid>
-                      <Grid item xs={6}>
+                      <Grid item xs={5}>
                           <ButtonUniversal
                               title="All"
                               color={activeFilters["All"] ? "#8000FF" : "#FFFFFF"}  // Purple if All is active
@@ -159,7 +161,7 @@ const Map: React.FC = () => {
                               />
                           ))}
                       </Grid>
-                      <Grid item xs={2}>
+                      <Grid item xs={3}>
                         {/*TODO wider button space*/}
                           <ButtonUniversal
                               icon={IconPlus}
@@ -174,14 +176,14 @@ const Map: React.FC = () => {
               </Container>
               <Grid container spacing={3}>
                   <Grid item xs={7}>
-                      <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>{merchants.length} results</p>
+                      <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>{merchants?.length} results</p>
                       {/*TODO - tile big (one specific) selection - HOW*/}
                       <Grid container spacing={2}>
-                          <TileMerchantBig tile={merchants[0].properties} />
+                          <TileMerchantBig tile={merchants2[0].properties} />
                       </Grid>
                       <Grid container spacing={2}>
                           {/* Use filtered merchants here */}
-                          {filteredMerchants.map((merchant: IMerchant) => (
+                          {filteredMerchants?.map((merchant: IMerchant) => (
                               <Grid item xs={4} key={merchant.properties.owner}>
                                   <TileMerchant tile={merchant.properties} />
                               </Grid>
