@@ -1,17 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import IMerchant from '../ts/IMerchant';
 
-interface FiltersState {
+interface IFiltersState {
   filters: {
     [key: string]: boolean;
-  };
+  }
+  selected: IMerchant | null
 }
 
 const initialFilters = ["Food & Drinks", "Shops", "Services"];
-const initialState: FiltersState = {
+const initialState: IFiltersState = {
   filters: initialFilters.reduce((acc, filter) => {
     acc[filter] = true;  // Set all filters to true by default
     return acc;
   }, { "All": true } as { [key: string]: boolean }),  // Add "All" with default true
+  selected: null
 };
 
 export const mapFilteringSlice = createSlice({
@@ -43,8 +46,11 @@ export const mapFilteringSlice = createSlice({
         state.filters["All"] = areAllSelected;
       }
     },
+    setSelected: (state, action: PayloadAction<IMerchant>) => {
+      state.selected = action.payload
+    }
   },
 });
 
-export const { setFiltering } = mapFilteringSlice.actions;
+export const { setFiltering, setSelected } = mapFilteringSlice.actions;
 export default mapFilteringSlice.reducer;

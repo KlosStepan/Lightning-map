@@ -45,9 +45,14 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ tile }) => {
                         </Grid>
                         {/* Content section - 60% width */}
                         <Grid item xs={6}>
-                            {tile.tags.map((tag: string) => (
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <div>
+                                {tile.tags.map((tag: string) => (
                                 <TagMerchant key={tag} tag={tag} />
-                            ))}
+                                ))}
+                            </div>
+                            <span>X</span>
+                        </div>
                             <Typography variant="h2" component="h2" style={{ textAlign: 'left' }}>
                                 {tile.title}
                             </Typography>

@@ -12,7 +12,7 @@ import GMap from "../components/GMap";
 import { RootState } from "../redux-rtk/store";
 import { useDispatch, useSelector } from 'react-redux';
 //
-import { setFiltering } from "../redux-rtk/mapFilteringSlice";
+import { setFiltering, setSelected } from "../redux-rtk/mapFilteringSlice";
 import IMerchant from "../ts/IMerchant";
 
 const filters = ["Food & Drinks", "Shops", "Services"];
@@ -107,6 +107,7 @@ const merchants2: IMerchant[] = [
 
 const Map: React.FC = () => {
     const merchants = useSelector((state: RootState) => state.data.merchants)
+    const selected = useSelector((state: RootState) => state.mapFiltering.selected)
     ////console.log("merchants")
     ////console.log(merchants)
       const dispatch = useDispatch();
@@ -177,10 +178,11 @@ const Map: React.FC = () => {
               <Grid container spacing={3}>
                   <Grid item xs={7}>
                       <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>{merchants?.length} results</p>
-                      {/*TODO - tile big (one specific) selection - HOW*/}
-                      <Grid container spacing={2}>
-                          <TileMerchantBig tile={merchants2[0].properties} />
-                      </Grid>
+                      {selected && ( // Check if selected is not null or undefined
+                        <Grid container spacing={2}>
+                          <TileMerchantBig tile={selected.properties} />
+                        </Grid>
+                      )}
                       <Grid container spacing={2}>
                           {/* Use filtered merchants here */}
                           {filteredMerchants?.map((merchant: IMerchant) => (
