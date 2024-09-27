@@ -186,9 +186,20 @@ const Map: React.FC = () => {
                       <Grid container spacing={2}>
                           {/* Use filtered merchants here */}
                           {filteredMerchants?.map((merchant: IMerchant) => (
-                              <Grid item xs={4} key={merchant.properties.owner}>
-                                  <TileMerchant tile={merchant.properties} />
-                              </Grid>
+                            <Grid item xs={4} key={merchant.properties.owner}>
+                              <Box
+                                onClick={() => dispatch(setSelected(merchant))}
+                                style={{
+                                  cursor: 'pointer',    // Shows pointer cursor on hover
+                                  transition: 'opacity 0.3s ease', // Smooth transition effect for hover
+                                  opacity: 1,
+                                }}
+                                onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.5')} // Hover effect
+                                onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}  // Reset on mouse leave
+                              >
+                                <TileMerchant tile={merchant.properties} />
+                              </Box>
+                            </Grid>
                           ))}
                       </Grid>
                   </Grid>
