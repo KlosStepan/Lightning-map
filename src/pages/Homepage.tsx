@@ -33,16 +33,15 @@ type HomepageProps = {
 };
 
 const Homepage: React.FC<HomepageProps> = ({ }) => {
+    //BLOG
+    const blogEnabled = useSelector((state: RootState) => state.misc.blog) 
+
     const merchants = useSelector((state: RootState) => state.data.merchants)
     ////console.log("merchants")
     ////console.log(merchants)
     const eshops = useSelector((state: RootState) => state.data.eshops)
     ////console.log("eshops")
     ////console.log(eshops)
-    
-    // Dummy image URLs
-    const dummyImageURL = 'https://upload.wikimedia.org/wikipedia/commons/7/77/Google_Images_2015_logo.svg';
-    //import dummyImg from '../img/dummy512x288.png';
 
     return (
         <React.Fragment>
@@ -111,48 +110,51 @@ const Homepage: React.FC<HomepageProps> = ({ }) => {
             <React.Fragment>
                 <MiddleOfHomepage />
             </React.Fragment>
-            {/*TODO blog enable/disable*/}
-            <React.Fragment>
-                <Grid container alignItems="center">
-                    <Grid item xs={6}>
-                        <Typography variant="h1" component="h2">
-                            Latest Blog Posts
-                        </Typography>
+            
+            {blogEnabled && (
+                <React.Fragment>
+                    <Grid container alignItems="center">
+                        <Grid item xs={6}>
+                            <Typography variant="h1" component="h2">
+                                Latest Blog Posts
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={6} style={{ textAlign: 'right' }}>
+                            <Typography variant="h2" component="h2">
+                                See all &nbsp;
+                                <Link style={{ color: "inherit", textDecoration: "inherit" }} to="/blog">
+                                    -&gt;
+                                </Link>
+                            </Typography>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={6} style={{ textAlign: 'right' }}>
-                        <Typography variant="h2" component="h2">
-                            See all &nbsp;
-                            <Link style={{ color: "inherit", textDecoration: "inherit" }} to="/blog" >
-                                -&gt;
-                            </Link>
-                        </Typography>
+                    <Grid container spacing={2}>
+                        <Grid item xs={4}>
+                            <TileBlogpost
+                                title="How Bitcoin Lightning Revolutionizes Transaction Times"
+                                date="Jan 8, 2024"
+                                image={dummyImg1}
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <TileBlogpost
+                                title="Exploring the Growing Ecosystem of Lightning-Enabled Businesses"
+                                date="Jan 8, 2024"
+                                image={dummyImg2}
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <TileBlogpost
+                                title="The Role of Bitcoin Lightning in Financial Inclusion"
+                                date="Jan 8, 2024"
+                                image={dummyImg3}
+                            />
+                        </Grid>
                     </Grid>
-                </Grid>
-                <Grid container spacing={2}>
-                    <Grid item xs={4}>
-                        <TileBlogpost
-                            title="How Bitcoin Lightning Revolutionizes Transaction Times"
-                            date="Jan 8, 2024"
-                            image={dummyImg1}
-                        />
-                    </Grid>
-                    <Grid item xs={4}>
-                        <TileBlogpost
-                            title="Exploring the Growing Ecosystem of Lightning-Enabled Businesses"
-                            date="Jan 8, 2024"
-                            image={dummyImg2}
-                        />
-                    </Grid>
-                    <Grid item xs={4}>
-                        <TileBlogpost
-                            title="The Role of Bitcoin Lightning in Financial Inclusion"
-                            date="Jan 8, 2024"
-                            image={dummyImg3}
-                        />
-                    </Grid>
-                </Grid>
-                <div>&nbsp;</div>
-            </React.Fragment>
+                    <div>&nbsp;</div>
+                </React.Fragment>
+            )}
+
             <Footer />
         </React.Fragment>
     )

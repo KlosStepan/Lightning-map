@@ -53,6 +53,9 @@ export REACT_APP_FIREBASE_STORAGE_BUCKET="xyz"
 export REACT_APP_FIREBASE_MESSAGING_SENDER_ID="xyz"
 export REACT_APP_FIREBASE_APP_ID="xyz"
 export REACT_APP_FIREBASE_MEASUREMENT_ID="xyz"
+
+export REACT_APP_DEBUG=true
+export REACT_APP_BLOG=false
 ```  
 and then use `direnv allow` which results in  
 ```

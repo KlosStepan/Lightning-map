@@ -82,19 +82,21 @@ const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function App() {
     const dispatch = useDispatch();
-    /*const theme = useTheme();
-    console.log("theme")
-    console.log(theme)*/
 
-    //const merchants = useSelector((state: RootState) => state.data.merchants)
-    ////console.log("merchants")
-    ////console.log(merchants)
-    //const eshops = useSelector((state: RootState) => state.data.eshops)
-    ////console.log("eshops")
-    ////console.log(eshops)
-
-    // Dummy image URLs
-    const dummyImageURL = 'https://upload.wikimedia.org/wikipedia/commons/7/77/Google_Images_2015_logo.svg';
+    // DEBUG
+    const debug = useSelector((state: RootState) => state.misc.debug)    
+    // Call all hooks at the top level, outside the conditional block
+    const theme = useTheme();
+    const merchants = useSelector((state: RootState) => state.data.merchants);
+    const eshops = useSelector((state: RootState) => state.data.eshops);
+    // Conditionally log debug information
+    if (debug) {
+        console.log("<DEBUG>");
+        console.log("theme", theme);
+        console.log("merchants", merchants);
+        console.log("eshops", eshops);
+        console.log("</DEBUG>")
+    }
 
     useEffect(() => {
         const getMerchants = async (db: any) => {

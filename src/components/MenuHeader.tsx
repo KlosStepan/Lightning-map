@@ -48,6 +48,9 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
         console.log("handleCloseUserMenu");
         setAnchorElUser(null);
     };
+    // BLOG 
+    const blogEnabled = useSelector((state: RootState) => state.misc.blog); // Get blog state from Redux
+
     return (
         <Toolbar disableGutters>
             {/*<AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />*/}
@@ -104,11 +107,16 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                         display: { xs: 'block', md: 'none' },
                     }}
                 >
-                    {pages.map((page) => (
-                        <MenuItem key={page.title} onClick={handleCloseNavMenu}>
-                            <Typography textAlign="center">{page.title}</Typography>
-                        </MenuItem>
-                    ))}
+                    {pages.map((page) => {
+                        // Conditionally render the Blog item
+                        if (page.title === "Blog" && !blogEnabled) return null;
+
+                        return (
+                            <MenuItem key={page.title} onClick={handleCloseNavMenu}>
+                                <Typography textAlign="center">{page.title}</Typography>
+                            </MenuItem>
+                        );
+                    })}
                 </Menu>
             </Box>
             {/*<AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />*/}
@@ -137,17 +145,21 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                 />
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
-                {pages.map((page) => (
-                    <Button
-                        key={page.title}
-                        onClick={handleCloseNavMenu}
-                        sx={{}}
-                    >
-                        <Link style={{ color: "inherit", textDecoration: "inherit" }} to={page.link}>
-                            / {page.title}
-                        </Link>
-                    </Button>
-                ))}
+                {pages.map((page) => {
+                    // Conditionally render the Blog item
+                    if (page.title === "Blog" && !blogEnabled) return null;
+                    
+                    return (
+                        <Button
+                            key={page.title}
+                            onClick={handleCloseNavMenu}
+                        >
+                            <Link style={{ color: "inherit", textDecoration: "inherit" }} to={page.link}>
+                                / {page.title}
+                            </Link>
+                        </Button>
+                    );
+                })}
 
             </Box>
 

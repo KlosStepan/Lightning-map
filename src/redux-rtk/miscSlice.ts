@@ -1,15 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from 'firebase/auth'; // Import the Firebase User type
-//TODO debugs& blog (homepage & menu out)
-//Use to enable/disable debug info (prolly via ENV local true) &blog
+
 export interface IMiscSlice {
     debug: boolean;
     blog: boolean;
     user: User | null;  // The user will now be of type Firebase User or null
 }
 const initialState: IMiscSlice = {
-    debug: true,
-    blog: true,
+    debug: process.env.REACT_APP_DEBUG === 'true' ? true : false,
+    blog: process.env.REACT_APP_BLOG === 'false' ? false : true,
     user: null,  // User is initially null, meaning no one is logged in
 };
 
