@@ -46,7 +46,7 @@ export const mapFilteringSlice = createSlice({
         state.filters["All"] = areAllSelected;
       }
     },
-    setSelected: (state, action: PayloadAction<IMerchant>) => {
+    setSelected: (state, action: PayloadAction<IMerchant|null>) => {
       state.selected = action.payload
     }
   },

@@ -9,7 +9,11 @@ import TagMerchant from "./TagMerchant";
 import TagSocialLink from "./TagSocialLink";
 import { IMerchantTile, ISocial } from "../ts/IMerchant"; // Import the IMerchantTile type
 import dummyImgBigTile from '../img/image-1-3.png';
-
+import closeIcon from '../icons/close.png';
+//Redux
+import { useDispatch } from 'react-redux';
+//
+import { setSelected } from "../redux-rtk/mapFilteringSlice";
 
 const containerOuterStyle = {
     padding: '16px 12px',
@@ -23,12 +27,18 @@ const containerInnerStyle = {
     gap: '20px',
 };
 
+const iconStyle = {
+    width: 18, // Adjust icon size as needed
+    height: 18,
+};
+
 //TODO - tile.image be base64
 type TileMerchantBigProps = {
     tile: IMerchantTile; 
 };
 
 const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ tile }) => {
+    const dispatch = useDispatch();
     return (
         <React.Fragment>
             <Container maxWidth="sm" sx={containerOuterStyle}>
@@ -51,7 +61,23 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ tile }) => {
                                 <TagMerchant key={tag} tag={tag} />
                                 ))}
                             </div>
-                            <span>X</span>
+
+                            <div
+                                onClick={() => dispatch(setSelected(null))}
+                            >
+                                <Box
+                                    component="img"
+                                    src={closeIcon}
+                                    alt="Custom Search Icon"
+                                    sx={iconStyle}
+                                    style={{
+                                        cursor: 'pointer',    // Shows pointer cursor on hover
+                                        //transition: 'opacity 0.3s ease', // Smooth transition effect for hover
+                                        opacity: 1,
+                                    }}
+                                />
+                            </div>
+
                         </div>
                             <Typography variant="h2" component="h2" style={{ textAlign: 'left' }}>
                                 {tile.title}
