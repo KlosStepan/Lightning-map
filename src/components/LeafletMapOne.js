@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 const position = [50.0755, 14.4378];  // Coordinates for Prague
 
-const LeafletMap = () => {
+const LeafletMapOne = () => {
     return (
         <>
             <style>{`
