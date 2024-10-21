@@ -8,6 +8,8 @@ import TileMerchantBig from "../components/TileMerchantBig";
 import TileMerchant from "../components/TileMerchant";
 import IconPlus from '../icons/ico-btn-plus.png';
 import GMap from "../components/GMap";
+import LeafletMap from "../components/LeafletMap";
+
 //Redux
 import { RootState } from "../redux-rtk/store";
 import { useDispatch, useSelector } from 'react-redux';
@@ -205,7 +207,8 @@ const Map: React.FC = () => {
                   </Grid>
                   <Grid item xs={5}>
                       <Box style={{ height: 100, textAlign: 'center' }}>
-                          <GMap />
+                          {/*<GMap />*/}
+                          <LeafletMap />
                       </Box>
                   </Grid>
               </Grid>
