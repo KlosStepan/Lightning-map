@@ -138,6 +138,12 @@ const Map: React.FC = () => {
       return merchantTags.some((tag: string) => activeFilters[tag]);
     });
   
+    //callback from child component
+    const handleMerchantSelect = (merchant:any) => {
+      //console.log("Selected Merchant:", merchant);
+      dispatch(setSelected(merchant))
+      // Perform any additional actions with the selected merchant
+    };
     return (
           <React.Fragment>
               <Container>
@@ -212,7 +218,7 @@ const Map: React.FC = () => {
                       <Box style={{ /*height: 100,*/ textAlign: 'center' }}>
                           {/* <GMap /> */}
                           {/* <LeafletMap /> */}
-                          <LeafletMapTwo /*geoJSON={merchants}*//>
+                          <LeafletMapTwo data={filteredMerchants} onMerchantSelect={handleMerchantSelect} />
                       </Box>
                   </Grid>
               </Grid>

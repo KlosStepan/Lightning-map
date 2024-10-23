@@ -1,11 +1,37 @@
-import React, { useRef } from "react";
-import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
+import React, { useState, useRef } from "react";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import L from "leaflet";
 
-const LeafletMapTwo = ({ /*geoJSON*/ }) => {
+//
+import group10 from '../icons/group10.png';
+import group13 from '../icons/group13.png';
+// Function to create a custom icon
+const createCustomIcon = () => {
+    return L.icon({
+        //iconUrl: `/path/to/your/icons/${imageName}.png`,  // Update this with the actual path to your icons
+        conUrl: group10,
+        iconSize: [32, 32],  // Adjust the size of the icons
+        iconAnchor: [16, 32],  // Position the icon correctly (centered at the bottom)
+    });
+};
+
+// Function to create a selected icon (you can customize this)
+const createSelectedIcon = () => {
+    return L.icon({
+        //iconUrl: `/path/to/your/icons/selectedIcon.png`,  // Custom icon for selected marker
+        iconUrl: group13,
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+    });
+};
+
+const LeafletMapTwo = ({ data, onMerchantSelect }) => {
     const mapRef = useRef(null);
+    const [selectedMerchant, setSelectedMerchant] = useState(null); // State to track selected merchant
     const latitude = 50.0755;
     const longitude = 14.4378;
+
     const merchants2 = [
       {
         "geometry": {
@@ -15,37 +41,9 @@ const LeafletMapTwo = ({ /*geoJSON*/ }) => {
         "properties": {
           "owner": "OxMuB2PyqsM3pUtwTEmB86EzM9p1",
           "visible": true,
-          "image": "dummyImgTile1",
+          "image": "dummyImgTile1",  // Image name for custom icon
           "title": "Paralelní Polis",
           "description": "lorem ipsum2",
-          address: {
-            address: "Dělnická 43",
-            city: "Praha 7",
-            postalCode: "170 00",
-          },
-          "tags": ["Shops", "Services"],
-          "socials": [
-            {
-              "network": "web",
-              "label": "Web",
-              "link": "https://www.paralelnipolis.com"
-            },
-            {
-              "network": "facebook",
-              "label": "FB",
-              "link": "https://www.facebook.com/paralelnipolis"
-            },
-            {
-              "network": "instagram",
-              "label": "IG",
-              "link": "https://www.instagram.com/paralelnipolis"
-            },
-            {
-              "network": "twitter",
-              "label": "X",
-              "link": "https://www.twitter.com/paralelnipolis"
-            }
-          ]
         },
         "type": "Feature"
       },
@@ -57,56 +55,40 @@ const LeafletMapTwo = ({ /*geoJSON*/ }) => {
         "properties": {
           "owner": "7G9IT4IfBBV2JV8UJDhiMPzYWOq2",
           "visible": true,
-          "image": "dummyImgTile2",
+          "image": "dummyImgTile2",  // Image name for custom icon
           "title": "Blue Vegan Pig Shop",
           "description": "lorem ipsum",
-          address: {
-            address: "Štefánikova 6",
-            city: "Praha 5",
-            postalCode: "150 00",
-          },
-          "tags": ["Food & Drinks", "Shops"],
-          "socials": [
-            {
-              "network": "web",
-              "label": "Web",
-              "link": "https://www.blueveganpigshop.com"
-            },
-            {
-              "network": "facebook",
-              "label": "FB",
-              "link": "https://www.facebook.com/blueveganpigshop"
-            },
-            {
-              "network": "instagram",
-              "label": "IG",
-              "link": "https://www.instagram.com/blueveganpigshop"
-            },
-            {
-              "network": "twitter",
-              "label": "X",
-              "link": "https://www.twitter.com/blueveganpigshop"
-            }
-          ]
         },
         "type": "Feature"
       }
     ];
-  
 
-    
+    const handleMarkerClick = (merchant) => {
+        setSelectedMerchant(merchant);  // Set selected merchant
+        if (onMerchantSelect) {
+            onMerchantSelect(merchant);  // Call the parent callback, if provided
+        }
+    };
+
     return ( 
-      // Make sure you set the height and width of the map container otherwise the map won't show
-      //style={{height: "100vh", width: "100vw"}}
-      //style={{height: "50vh", width: "50vw"}}
         <MapContainer center={[latitude, longitude]} zoom={13} ref={mapRef} style={{height: "50vh", width: "25vw"}}>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-          {/* Render the passed geoJSON prop */}
-          <GeoJSON data={merchants2} />
+          {/* Loop through merchants and place markers */}
+          {data?.map((merchant, index) => (
+              <Marker 
+                  key={index} 
+                  position={[merchant.geometry.coordinates[1], merchant.geometry.coordinates[0]]} 
+                  //icon={selectedMerchant === merchant ? createSelectedIcon() : createCustomIcon(merchant.properties.image)}  // Change icon if selected
+                  //icon={createCustomIcon}
+                  eventHandlers={{
+                      click: () => handleMarkerClick(merchant),  // Change icon on click
+                  }}
+              />
+          ))}
         </MapContainer>
     );
 }
