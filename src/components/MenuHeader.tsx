@@ -27,11 +27,17 @@ type MenuHeaderProps = {
 };
 
 const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
+    // DEBUG
+    const debug = useSelector((state: RootState) => state.misc.debug)
+    // BLOG 
+    const blogEnabled = useSelector((state: RootState) => state.misc.blog); // Get blog state from Redux
+
+    //
     const user = useSelector((state: RootState) => state.misc.user)
     //
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-
+    
     const handleCloseNavMenu = () => {
         console.log("handleCloseNavMenu");
         setAnchorElNav(null);
@@ -48,8 +54,14 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
         console.log("handleCloseUserMenu");
         setAnchorElUser(null);
     };
-    // BLOG 
-    const blogEnabled = useSelector((state: RootState) => state.misc.blog); // Get blog state from Redux
+
+
+    // Conditionally log debug information
+    if (debug) {
+        console.log("<DEBUG> MenuHeader.tsx");
+        console.log("user", user);
+        console.log("</DEBUG> MenuHeader.tsx")
+    }
 
     return (
         <Toolbar disableGutters>
@@ -193,12 +205,24 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                 </Menu>
             </Box>*/}
 
-<Box sx={{ flexGrow: 0, color: 'black' }}>
+            <Box sx={{ flexGrow: 0, color: 'black' }}>
                 <div style={{ fontFamily: 'PixGamer' }}>
                     {user ? (
                         // Render user displayName if user is logged in
-                        <Link style={{ color: "inherit", textDecoration: "inherit", fontSize: '18px' }} to="/login">
-                            | {user.displayName} |
+                        //<Link style={{ color: "inherit", textDecoration: "inherit", fontSize: '18px' }} to="/login">
+                        //    {user.photoURL && <img src={user.photoURL} alt={user.displayName ?? 'User'} />} &nbsp;
+                        //    {user.displayName}
+                        //</Link>
+                        <Link style={{ color: "inherit", textDecoration: "inherit", fontSize: '18px', display: 'flex', alignItems: 'center' }} to="/login">
+                            {user.photoURL && (
+                                <img 
+                                    src={user.photoURL} 
+                                    alt={user.displayName ?? 'User'} 
+                                    style={{ width: '28px', height: '28px', borderRadius: '50%' }}
+                                />
+                            )}
+                            &nbsp;
+                            {' ' + user.displayName}
                         </Link>
                     ) : (
                         // Otherwise, render the IconKey and LOGIN

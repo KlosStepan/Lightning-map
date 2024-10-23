@@ -92,11 +92,11 @@ function App() {
     const eshops = useSelector((state: RootState) => state.data.eshops);
     // Conditionally log debug information
     if (debug) {
-        console.log("<DEBUG>");
+        console.log("<DEBUG> App.tsx");
         console.log("theme", theme);
         console.log("merchants", merchants);
         console.log("eshops", eshops);
-        console.log("</DEBUG>")
+        console.log("</DEBUG> App.tsx")
     }
 
     useEffect(() => {
