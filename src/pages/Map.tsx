@@ -113,38 +113,40 @@ const Map: React.FC = () => {
     const selected = useSelector((state: RootState) => state.mapFiltering.selected)
     ////console.log("merchants")
     ////console.log(merchants)
-      const dispatch = useDispatch();
-      //
-      const activeFilters = useSelector((state: RootState) => state.mapFiltering?.filters || {});
-      //
-      const FuncFilt = (filter: string): Promise<void> => {
-          dispatch(setFiltering(filter));
-          return Promise.resolve();
-      };
+    const dispatch = useDispatch();
+    //
+    const activeFilters = useSelector((state: RootState) => state.mapFiltering?.filters || {});
+    //
+    const FuncFilt = (filter: string): Promise<void> => {
+        dispatch(setFiltering(filter));
+        return Promise.resolve();
+    };
   
-      const FuncAddSpot = (): Promise<void> => {
-          console.log("AddSpot");
-          return Promise.resolve();
-      };
+    const FuncAddSpot = (): Promise<void> => {
+      console.log("AddSpot");
+      return Promise.resolve();
+    };
   
-      // Function to filter merchants based on active filters
-      const filteredMerchants = merchants?.filter((merchant:IMerchant) => {
-          const merchantTags = merchant.properties.tags;
+    // Function to filter merchants based on active filters
+    const filteredMerchants = merchants?.filter((merchant:IMerchant) => {
+      const merchantTags = merchant.properties.tags;
   
-          // If "All" is active, show all merchants
-          if (activeFilters["All"]) return true;
+      // If "All" is active, show all merchants
+      if (activeFilters["All"]) return true;
   
-          // Otherwise, check if at least one of the merchant's tags matches an active filter
-          return merchantTags.some((tag: string) => activeFilters[tag]);
-      });
+      // Otherwise, check if at least one of the merchant's tags matches an active filter
+      return merchantTags.some((tag: string) => activeFilters[tag]);
+    });
   
-      return (
+    return (
           <React.Fragment>
               <Container>
                   <div>&nbsp;</div>
                   <Grid container spacing={2}>
                       <Grid item xs={4}>
                           {/*TODO - Make it work on tiles, I guess via &*/}
+                          {/*TODO - inject delegates of search: cities / fulltext*/}
+                          {/*TODO - also second delegate onFinished/enter or finishedTyping*/}
                           <SearchFiddle />
                       </Grid>
                       <Grid item xs={5}>
@@ -207,16 +209,16 @@ const Map: React.FC = () => {
                       </Grid>
                   </Grid>
                   <Grid item xs={5}>
-                      <Box style={{ height: 100, textAlign: 'center' }}>
+                      <Box style={{ /*height: 100,*/ textAlign: 'center' }}>
                           {/* <GMap /> */}
                           {/* <LeafletMap /> */}
-                          <LeafletMapTwo/>
+                          <LeafletMapTwo /*geoJSON={merchants}*//>
                       </Box>
                   </Grid>
               </Grid>
               <Footer />
           </React.Fragment>
-      );
+    );
   };
   
   export default Map;

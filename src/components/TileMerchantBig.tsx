@@ -39,6 +39,12 @@ type TileMerchantBigProps = {
 
 const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ tile }) => {
     const dispatch = useDispatch();
+
+    const FuncReport = (): Promise<void> => {
+        console.log("Report");
+        return Promise.resolve();
+    };
+
     return (
         <React.Fragment>
             <Container maxWidth="sm" sx={containerOuterStyle}>
@@ -100,7 +106,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ tile }) => {
                                     title="Report"
                                     color="white"
                                     textColor="#BEBEBE"
-                                    actionDelegate={() => Promise.resolve()} // Placeholder action; replace as needed
+                                    actionDelegate={FuncReport} // Placeholder action; replace as needed
                                 />
                                 <IconLightningNumber number={"777"} scale={0.9} /> {/* Replace "777" with actual likes if available */}
                             </div>
