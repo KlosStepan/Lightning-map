@@ -34,6 +34,12 @@ type TileEshopProps = {
 }
 
 const TileEshop: React.FC<TileEshopProps> = ({ likes, tile /*, logo, title, caption*/ }) => {
+    //
+    const FuncReport = (): Promise<void> => {
+        console.log("Report");
+        return Promise.resolve();
+    };
+
     return (
         <React.Fragment>
             <Container maxWidth="sm" sx={{ ...containerOuterStyle }}>
@@ -46,7 +52,7 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile /*, logo, title, capt
                                     title="R."
                                     color="white"
                                     textColor="#BEBEBE"
-                                    actionDelegate={() => Promise.resolve()} // Placeholder action; replace as needed
+                                    actionDelegate={FuncReport} // Placeholder action; replace as needed
                                 />
                         </div>
                         <IconLightningNumber number={likes} scale={0.85}/>

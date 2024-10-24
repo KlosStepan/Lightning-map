@@ -23,6 +23,7 @@ type EshopsProps = {
 
 const Eshops: React.FC<EshopsProps> = ({ }) => {
     const eshops = useSelector((state: RootState) => state.data.eshops)
+    //Mby to put blog flag check and write if debug
     ////console.log("eshops")
     ////console.log(eshops)
     const FuncAddEshop = (): Promise<void> => {
@@ -32,25 +33,16 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
     return (
         <React.Fragment>
             <div style={{ textAlign: 'center' }}>
-
-
-
-                {/*<SearchFiddle2 />*/}
                 <Container>
-                    {/*<span >Search</span> || (1 Add e-shop)*/}
                     <div>&nbsp;</div>
                     <Grid container spacing={2}>
                         <Grid item xs={4}>
-                            {/* 4/12 */}
-                            {/*TODO - Make it work on tiles, I guess via &*/}
                             <SearchFiddle />
                         </Grid>
-                        <Grid item xs={5}>
-                            {/*6/12*/}
+                        <Grid item xs={4}>
+                            <div>&nbsp;</div>
                         </Grid>
-                        <Grid item xs={3}>
-                            {/*2/12*/}
-                            {/*TODO wider button space*/}
+                        <Grid item xs={4}>
                             <ButtonUniversal icon={IconPlus} side="L" title="Add e-shop" color="#F23CFF" textColor="white" actionDelegate={FuncAddEshop} />
                         </Grid>
                     </Grid>
@@ -60,17 +52,14 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                         {eshops?.length} results
                     </p>
                     <Grid container spacing={2}>
-                    {eshops?.map((eshop: IEshop) => (
-                        <Grid item xs={2} key={"34"}>
-                            <TileEshop 
-                            likes={"7"} 
-                            tile={eshop}
-                            //logo={"N/A"} 
-                            //title={eshop.name} 
-                            //caption={eshop.description} 
-                        />
-                        </Grid>
-                    ))}
+                        {eshops?.map((eshop: IEshop) => (
+                            <Grid item xs={2} key={"34"}>
+                                <TileEshop 
+                                likes={"7"} 
+                                tile={eshop}
+                            />
+                            </Grid>
+                        ))}
                     </Grid>
                     {/*<Grid container spacing={2}>
                         <Grid item xs={2}>

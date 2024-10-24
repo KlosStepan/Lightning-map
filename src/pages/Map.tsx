@@ -109,6 +109,8 @@ const merchants2: IMerchant[] = [
 
 
 const Map: React.FC = () => {
+    const user = useSelector((state: RootState) => state.misc.user)
+    //
     const merchants = useSelector((state: RootState) => state.data.merchants)
     const selected = useSelector((state: RootState) => state.mapFiltering.selected)
     ////console.log("merchants")
@@ -138,21 +140,17 @@ const Map: React.FC = () => {
       return merchantTags.some((tag: string) => activeFilters[tag]);
     });
   
-    //callback from child component
+    //Callback from child component LeafletMap.js
     const handleMerchantSelect = (merchant:any) => {
-      //console.log("Selected Merchant:", merchant);
       dispatch(setSelected(merchant))
-      // Perform any additional actions with the selected merchant
     };
+
     return (
           <React.Fragment>
               <Container>
                   <div>&nbsp;</div>
                   <Grid container spacing={2}>
                       <Grid item xs={4}>
-                          {/*TODO - Make it work on tiles, I guess via &*/}
-                          {/*TODO - inject delegates of search: cities / fulltext*/}
-                          {/*TODO - also second delegate onFinished/enter or finishedTyping*/}
                           <SearchFiddle />
                       </Grid>
                       <Grid item xs={5}>
@@ -162,7 +160,6 @@ const Map: React.FC = () => {
                               textColor={activeFilters["All"] ? "white" : "black"}
                               actionDelegate={() => FuncFilt("All")}
                           />
-  
                           {filters.map((filter) => (
                               <ButtonUniversal
                                   key={filter}
@@ -174,50 +171,46 @@ const Map: React.FC = () => {
                           ))}
                       </Grid>
                       <Grid item xs={3}>
-                        {/*TODO wider button space*/}
-                          <ButtonUniversal
-                              icon={IconPlus}
-                              side="L"
-                              title="Add spot"
-                              color="#F23CFF"
-                              textColor="white"
-                              actionDelegate={FuncAddSpot}
-                          />
+                        <ButtonUniversal
+                            icon={IconPlus}
+                            side="L"
+                            title="Add spot"
+                            color="#F23CFF"
+                            textColor="white"
+                            actionDelegate={FuncAddSpot}
+                        />
                       </Grid>
                   </Grid>
               </Container>
               <Grid container spacing={3}>
                   <Grid item xs={7}>
-                      <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>{merchants?.length} results</p>
-                      {selected && ( // Check if selected is not null or undefined
+                      <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>{filteredMerchants?.length} results</p>
+                      {selected && ( // If selected & not null or undefined
                         <Grid container spacing={2}>
                           <TileMerchantBig tile={selected.properties} />
                         </Grid>
                       )}
                       <Grid container spacing={2}>
-                          {/* Use filtered merchants here */}
-                          {filteredMerchants?.map((merchant: IMerchant) => (
-                            <Grid item xs={4} key={merchant.properties.owner}>
-                              <Box
-                                onClick={() => dispatch(setSelected(merchant))}
-                                style={{
-                                  cursor: 'pointer',    // Shows pointer cursor on hover
-                                  transition: 'opacity 0.3s ease', // Smooth transition effect for hover
-                                  opacity: 1,
-                                }}
-                                onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.5')} // Hover effect
-                                onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}  // Reset on mouse leave
-                              >
-                                <TileMerchant tile={merchant.properties} />
-                              </Box>
+                        {filteredMerchants?.map((merchant: IMerchant) => (
+                          <Grid item xs={4} key={merchant.properties.owner}>
+                            <Box
+                              onClick={() => dispatch(setSelected(merchant))}
+                              style={{
+                                cursor: 'pointer',    // Shows pointer cursor on hover
+                                transition: 'opacity 0.3s ease', // Smooth transition effect for hover
+                                opacity: 1,
+                              }}
+                              onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.5')} // Hover effect
+                              onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}  // Reset on mouse leave
+                            >
+                              <TileMerchant tile={merchant.properties} />
+                            </Box>
                             </Grid>
                           ))}
                       </Grid>
                   </Grid>
                   <Grid item xs={5}>
                       <Box style={{ /*height: 100,*/ textAlign: 'center' }}>
-                          {/* <GMap /> */}
-                          {/* <LeafletMap /> */}
                           <LeafletMapTwo data={filteredMerchants} onMerchantSelect={handleMerchantSelect} />
                       </Box>
                   </Grid>
