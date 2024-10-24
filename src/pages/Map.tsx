@@ -8,6 +8,7 @@ import TileMerchantBig from "../components/TileMerchantBig";
 import TileMerchant from "../components/TileMerchant";
 import IconPlus from '../icons/ico-btn-plus.png';
 import GMap from "../components/GMap";
+import { Link, useNavigate } from "react-router-dom";
 //import LeafletMap from "../components/LeafletMapOne";
 import LeafletMapTwo from "../components/LeafletMapTwo";
 
@@ -17,7 +18,10 @@ import { useDispatch, useSelector } from 'react-redux';
 //
 import { setFiltering, setSelected } from "../redux-rtk/mapFilteringSlice";
 import IMerchant from "../ts/IMerchant";
-
+//
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
+//
 const filters = ["Food & Drinks", "Shops", "Services"];
 
 const merchants2: IMerchant[] = [
@@ -107,16 +111,16 @@ const merchants2: IMerchant[] = [
     }
   ];
 
-
 const Map: React.FC = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    //
     const user = useSelector((state: RootState) => state.misc.user)
     //
     const merchants = useSelector((state: RootState) => state.data.merchants)
     const selected = useSelector((state: RootState) => state.mapFiltering.selected)
     ////console.log("merchants")
     ////console.log(merchants)
-    const dispatch = useDispatch();
-    //
     const activeFilters = useSelector((state: RootState) => state.mapFiltering?.filters || {});
     //
     const FuncFilt = (filter: string): Promise<void> => {
@@ -126,6 +130,13 @@ const Map: React.FC = () => {
   
     const FuncAddSpot = (): Promise<void> => {
       console.log("AddSpot");
+      if(!user) {
+        navigate('/login')
+      }
+      else {
+        console.log("logged in")
+        handleOpen()
+      }
       return Promise.resolve();
     };
   
@@ -145,6 +156,11 @@ const Map: React.FC = () => {
       dispatch(setSelected(merchant))
     };
 
+    //Modal Stuff
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    //
     return (
           <React.Fragment>
               <Container>
@@ -216,6 +232,43 @@ const Map: React.FC = () => {
                   </Grid>
               </Grid>
               <Footer />
+              {/*MODAL ATTEMPT*/}
+              <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Box
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: 400,
+                    backgroundColor: 'white',  // Change bgcolor to backgroundColor for inline styles
+                    border: '2px solid #000',
+                    //boxShadow: 24,
+                    padding: '16px',  // Change p to padding for inline styles
+                  }}
+                >
+                  <Typography id="modal-modal-title" variant="h6" component="h2">
+                    New spot
+                  </Typography>
+                  <Typography id="modal-modal-description" style={{ marginTop: '16px' }}>
+                    <div>Title</div>
+                    <div>Description</div>
+                    <div>Address</div>
+                    <div>City</div>
+                    <div>Postal code</div>
+                    <div>-map-</div>
+                    <div>web</div>
+                    <div>IG/FB/X/Threads</div>
+                    <div>^^Upload image</div>
+                    <div>Cancel changes | Save changes</div>
+                  </Typography>
+                </Box>
+              </Modal>
           </React.Fragment>
     );
   };
