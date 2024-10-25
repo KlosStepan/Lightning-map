@@ -262,7 +262,7 @@ const Map: React.FC = () => {
                       <span>Title</span>
                     </Typography>
                     <Input 
-                      placeholder="Enter your text" 
+                      placeholder="Title" 
                       sx={{
                         width: '100%',
                       }} 
@@ -270,21 +270,60 @@ const Map: React.FC = () => {
                     <Typography variant="h2" component="h5">
                       <span>Description</span>
                     </Typography>
+                    <Input 
+                      placeholder="Description" 
+                      sx={{
+                        width: '100%',
+                      }} 
+                    />
                     <Typography variant="h2" component="h5">
                       <span>Address</span>
                     </Typography>
+                    <Input 
+                      placeholder="Address" 
+                      sx={{
+                        width: '100%',
+                      }} 
+                    />
                     <Typography variant="h2" component="h5">
                       <span>City</span>
                     </Typography>
+                    <Input 
+                      placeholder="City" 
+                      sx={{
+                        width: '100%',
+                      }} 
+                    />
                     <Typography variant="h2" component="h5">
                       <span>Postal code</span>
                     </Typography>
-                    <div>-map-</div>
+                    <Input 
+                      placeholder="Postal code" 
+                      sx={{
+                        width: '100%',
+                      }} 
+                    />
+                    <div>&nbsp;</div>
+                    <div style={{width:'100%', border: '1px solid #000'}}>Map</div>
+                    <div>&nbsp;</div>
                     <Typography variant="h2" component="h5">
                       <span>Web</span>
                     </Typography>
-                    <div>IG/FB/X/Threads</div>
-                    <div>^^Upload image</div>
+                    <Input 
+                      placeholder="Web" 
+                      sx={{
+                        width: '100%',
+                      }} 
+                    />
+                    <div>
+                      <div>+IG</div>
+                      <div>+FB</div>
+                      <div>+X</div>
+                      <div>+Threads</div>
+                    </div>
+                    <div>&nbsp;</div>
+                    <div style={{width:'100%', border: '1px solid #000'}}>Upload Img</div>
+                    <div>&nbsp;</div>
                     <div>
                       <ButtonUniversal
                         title="Cancel"
