@@ -1,5 +1,6 @@
 import React from "react";
-import { Box, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
+import Box from '@mui/material/Box';
 import { Container } from "@mui/material";
 import ButtonUniversal from "../components/ButtonUniversal";
 import SearchFiddle from "../components/SearchFiddle";
@@ -23,6 +24,12 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Input from '@mui/material/Input';
 //
+import closeIcon from '../icons/close.png';
+const iconStyle = {
+  width: 18, // Adjust icon size as needed
+  height: 18,
+};
+
 const filters = ["Food & Drinks", "Shops", "Services"];
 
 const merchants2: IMerchant[] = [
@@ -162,6 +169,14 @@ const Map: React.FC = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     //
+    const FuncCancel = (): Promise<void> => {
+      handleClose()
+      return Promise.resolve();
+    };
+    const FuncSave = (): Promise<void> => {
+      console.log("Saving")
+      return Promise.resolve();
+    };
     return (
           <React.Fragment>
               <Container>
@@ -233,7 +248,7 @@ const Map: React.FC = () => {
                   </Grid>
               </Grid>
               <Footer />
-              {/*MODAL ATTEMPT*/}
+              {/*MODAL*/}
               <Modal
                 open={open}
                 onClose={handleClose}
@@ -248,97 +263,69 @@ const Map: React.FC = () => {
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
                     width: 450,
-                    backgroundColor: 'white',  // Change bgcolor to backgroundColor for inline styles
-                    //border: '0px solid #FFFFFF',
-                    //boxShadow: 24,
-                    padding: '16px',  // Change p to padding for inline styles
+                    backgroundColor: 'white',
+                    padding: '16px',
                   }}
                 >
-                  <Typography id="modal-modal-title" variant="h1" component="h2">
+                  <Typography id="modal-modal-title" variant="h1" component="h2" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     New spot
+                    <span
+                        onClick={() => handleClose()}
+                    >
+                        <Box
+                            component="img"
+                            src={closeIcon}
+                            alt="Custom Search Icon"
+                            sx={iconStyle}
+                            style={{
+                                cursor: 'pointer',    // Shows pointer cursor on hover
+                                //transition: 'opacity 0.3s ease', // Smooth transition effect for hover
+                                opacity: 1,
+                            }}
+                          />
+                    </span>
                   </Typography>
-                  <Typography id="modal-modal-description" style={{ marginTop: '16px' }}>
-                    <Typography variant="h2" component="h5">
-                      <span>Title</span>
-                    </Typography>
-                    <Input 
-                      placeholder="Title" 
-                      sx={{
-                        width: '100%',
-                      }} 
-                    />
-                    <Typography variant="h2" component="h5">
-                      <span>Description</span>
-                    </Typography>
-                    <Input 
-                      placeholder="Description" 
-                      sx={{
-                        width: '100%',
-                      }} 
-                    />
-                    <Typography variant="h2" component="h5">
-                      <span>Address</span>
-                    </Typography>
-                    <Input 
-                      placeholder="Address" 
-                      sx={{
-                        width: '100%',
-                      }} 
-                    />
-                    <Typography variant="h2" component="h5">
-                      <span>City</span>
-                    </Typography>
-                    <Input 
-                      placeholder="City" 
-                      sx={{
-                        width: '100%',
-                      }} 
-                    />
-                    <Typography variant="h2" component="h5">
-                      <span>Postal code</span>
-                    </Typography>
-                    <Input 
-                      placeholder="Postal code" 
-                      sx={{
-                        width: '100%',
-                      }} 
-                    />
-                    <div>&nbsp;</div>
-                    <div style={{width:'100%', border: '1px solid #000'}}>Map</div>
-                    <div>&nbsp;</div>
-                    <Typography variant="h2" component="h5">
-                      <span>Web</span>
-                    </Typography>
-                    <Input 
-                      placeholder="Web" 
-                      sx={{
-                        width: '100%',
-                      }} 
-                    />
-                    <div>
-                      <div>+IG</div>
-                      <div>+FB</div>
-                      <div>+X</div>
-                      <div>+Threads</div>
-                    </div>
-                    <div>&nbsp;</div>
-                    <div style={{width:'100%', border: '1px solid #000'}}>Upload Img</div>
-                    <div>&nbsp;</div>
-                    <div>
-                      <ButtonUniversal
-                        title="Cancel"
-                        color={"#8000FF"}  // Purple if All is active
-                        textColor={"white"}
-                        //actionDelegate={() => FuncFilt("All")}
-                      />
-                      <ButtonUniversal
-                        title="Save"
-                        color={"#F23CFF"}  // Purple if All is active
-                        textColor={"white"}
-                        //actionDelegate={() => FuncFilt("All")}
-                      />
-                      </div>
-                  </Typography>
+                  {/*<div>&nbsp;</div>*/}
+                  {/*<Typography id="modal-modal-description" style={{ marginTop: '16px' }}>*/}
+                    <Box mt={2}>
+                      <Typography variant="h2" component="h5">Title</Typography>
+                      <Input placeholder="Title" fullWidth />
+                    </Box>
+                    <Box mt={2}>
+                      <Typography variant="h2" component="h5">Description</Typography>
+                      <Input placeholder="Description" fullWidth />
+                    </Box>
+                    <Box mt={2}>
+                      <Typography variant="h2" component="h5">Address</Typography>
+                      <Input placeholder="Address" fullWidth />
+                    </Box>
+                    <Box mt={2}>
+                      <Typography variant="h2" component="h5">City</Typography>
+                      <Input placeholder="City" fullWidth />
+                    </Box>
+                    <Box mt={2}>
+                      <Typography variant="h2" component="h5">Postal Code</Typography>
+                      <Input placeholder="Postal Code" fullWidth />
+                    </Box>
+                    <Box mt={2} sx={{ width: '100%', border: '1px solid #000' }}>Map</Box>
+                    <Box mt={2}>
+                      <Typography variant="h2" component="h5">Web</Typography>
+                      <Input placeholder="Web" fullWidth />
+                    </Box>
+                    {/* Social Media Links directly in JSX */}
+                    <Box display="flex" mt={2}>
+                      <Typography style={{ marginLeft: '8px' }}>+IG</Typography>
+                      <Typography style={{ marginLeft: '8px' }}>+FB</Typography>
+                      <Typography style={{ marginLeft: '8px' }}>+X</Typography>
+                      <Typography style={{ marginLeft: '8px' }}>+Threads</Typography>
+                    </Box>
+                    <Box mt={2} sx={{ width: '100%', border: '1px solid #000' }}>Upload Img</Box>
+                    {/* Action Buttons */}
+                    <Box display="flex" justifyContent="flex-end" mt={2}>
+                      <ButtonUniversal title="Cancel changes" color="#8000FF" textColor="white" actionDelegate={FuncCancel} />
+                      <ButtonUniversal title="Save changes" color="#F23CFF" textColor="white" actionDelegate={FuncSave} />
+                    </Box>
+                  {/*</Typography>*/}
                 </Box>
               </Modal>
           </React.Fragment>

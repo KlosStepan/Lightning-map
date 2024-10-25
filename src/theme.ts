@@ -49,14 +49,18 @@ export const theme = createTheme({
         MuiInput: {
             styleOverrides: {
                 root: {
-                    "&:after": {
-                        //borderBottomColor: "#F4005E", // Custom focus color for Input underline
-                        borderBottomColor: '#8000FF',
-                    },
-                    "&:before": {
-                        //borderBottomColor: "#CCCCCC", // Initial underline color
-                        borderBottomColor: '#F23CFF',
-                    },
+                    //width: '100%', // Global 100% width for Input components
+                    "&:after": { borderBottomColor: "#8000FF" },
+                    "&:before": { borderBottomColor: "#F23CFF" },
+                },
+            },
+        },
+        MuiModal: {
+            styleOverrides: {
+                root: {
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                 },
             },
         },
