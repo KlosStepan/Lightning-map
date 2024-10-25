@@ -5,44 +5,22 @@ const ibmPlexSansCondensed = require('@fontsource/ibm-plex-sans-condensed');
 
 export const theme = createTheme({
     typography: {
-        h1: {
-            fontFamily: 'PixGamer',
-            fontSize: '2em',
-        },
-        h2: {
-            fontFamily: 'PixGamer',
-            fontSize: '1.5em',
-        },
-        h3: {
-            fontFamily: 'PixGamer',
-            fontSize: '1.17em',
-        },
-        h4: {
-            fontFamily: 'PixGamer',
-            fontSize: '1em',
-        },
-        h5: {
-            fontFamily: 'PixGamer',
-            fontSize: '.83em',
-        },
-        h6: {
-            fontFamily: 'PixGamer',
-            fontSize: '.67em',
-        }
+        h1: { fontFamily: 'PixGamer', fontSize: '2em' },
+        h2: { fontFamily: 'PixGamer', fontSize: '1.5em' },
+        h3: { fontFamily: 'PixGamer', fontSize: '1.17em' },
+        h4: { fontFamily: 'PixGamer', fontSize: '1em' },
+        h5: { fontFamily: 'PixGamer', fontSize: '.83em' },
+        h6: { fontFamily: 'PixGamer', fontSize: '.67em' },
     },
     components: {
         MuiCssBaseline: {
             styleOverrides: {
                 "@font-face": {
                     fontFamily: "PixGamer",
-                    src: `url(${PixgamerRegularTtf}) format("truetype")`
+                    src: `url(${PixgamerRegularTtf}) format("truetype")`,
                 },
-                p: {
-                    fontFamily: "IBM Plex Sans Condensed"
-                },
-                body: {
-                    fontFamily: "IBM Plex Sans Condensed"
-                }
+                p: { fontFamily: "IBM Plex Sans Condensed" },
+                body: { fontFamily: "IBM Plex Sans Condensed" },
             },
         },
         MuiTypography: {
@@ -68,14 +46,24 @@ export const theme = createTheme({
                 },
             },
         },
+        MuiInput: {
+            styleOverrides: {
+                root: {
+                    "&:after": {
+                        //borderBottomColor: "#F4005E", // Custom focus color for Input underline
+                        borderBottomColor: '#8000FF',
+                    },
+                    "&:before": {
+                        //borderBottomColor: "#CCCCCC", // Initial underline color
+                        borderBottomColor: '#F23CFF',
+                    },
+                },
+            },
+        },
     },
     palette: {
-        primary: {
-            main: "#F4005E",
-        },
-        background: {
-            default: '#F0F0F0',
-        },
+        primary: { main: "#F4005E" },
+        background: { default: '#F0F0F0' },
     },
 });
 

@@ -18,9 +18,10 @@ import { useDispatch, useSelector } from 'react-redux';
 //
 import { setFiltering, setSelected } from "../redux-rtk/mapFilteringSlice";
 import IMerchant from "../ts/IMerchant";
-//
+//MUI stuff
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import Input from '@mui/material/Input';
 //
 const filters = ["Food & Drinks", "Shops", "Services"];
 
@@ -241,31 +242,63 @@ const Map: React.FC = () => {
               >
                 <Box
                   style={{
+                    borderRadius: '20px',
                     position: 'absolute',
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    width: 400,
+                    width: 450,
                     backgroundColor: 'white',  // Change bgcolor to backgroundColor for inline styles
-                    border: '2px solid #000',
+                    //border: '0px solid #FFFFFF',
                     //boxShadow: 24,
                     padding: '16px',  // Change p to padding for inline styles
                   }}
                 >
-                  <Typography id="modal-modal-title" variant="h6" component="h2">
+                  <Typography id="modal-modal-title" variant="h1" component="h2">
                     New spot
                   </Typography>
                   <Typography id="modal-modal-description" style={{ marginTop: '16px' }}>
-                    <div>Title</div>
-                    <div>Description</div>
-                    <div>Address</div>
-                    <div>City</div>
-                    <div>Postal code</div>
+                    <Typography variant="h2" component="h5">
+                      <span>Title</span>
+                    </Typography>
+                    <Input 
+                      placeholder="Enter your text" 
+                      sx={{
+                        width: '100%',
+                      }} 
+                    />
+                    <Typography variant="h2" component="h5">
+                      <span>Description</span>
+                    </Typography>
+                    <Typography variant="h2" component="h5">
+                      <span>Address</span>
+                    </Typography>
+                    <Typography variant="h2" component="h5">
+                      <span>City</span>
+                    </Typography>
+                    <Typography variant="h2" component="h5">
+                      <span>Postal code</span>
+                    </Typography>
                     <div>-map-</div>
-                    <div>web</div>
+                    <Typography variant="h2" component="h5">
+                      <span>Web</span>
+                    </Typography>
                     <div>IG/FB/X/Threads</div>
                     <div>^^Upload image</div>
-                    <div>Cancel changes | Save changes</div>
+                    <div>
+                      <ButtonUniversal
+                        title="Cancel"
+                        color={"#8000FF"}  // Purple if All is active
+                        textColor={"white"}
+                        //actionDelegate={() => FuncFilt("All")}
+                      />
+                      <ButtonUniversal
+                        title="Save"
+                        color={"#F23CFF"}  // Purple if All is active
+                        textColor={"white"}
+                        //actionDelegate={() => FuncFilt("All")}
+                      />
+                      </div>
                   </Typography>
                 </Box>
               </Modal>
