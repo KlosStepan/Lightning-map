@@ -27,6 +27,7 @@ type TileAddedEshopProps = {
     desc: string;
 }
 
+//TODO Implement TileEshop.tsx <TileEshop .../> as upper part of this
 const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ image, likes, title, desc }) => {
     const FuncEdit = (): Promise<void> => {
         console.log("Calling Edit")

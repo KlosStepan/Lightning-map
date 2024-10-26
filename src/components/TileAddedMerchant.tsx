@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardMedia, Container, Box, Typography } from '@mui/material';
 import TagMerchant from "./TagMerchant";
-import ButtonUniversal from "../components/ButtonUniversal";
+import ButtonUniversal from "./ButtonUniversal";
 
 //
 import IconEdit from '../icons/ico-btn-edit.png';
@@ -20,7 +20,7 @@ const imageStyle = {
     height: '50%',
 };
 
-type TileAddedSpotProps = {
+type TileAddedMerchantProps = {
     //id: string;
     image: string;
     likes: string;
@@ -29,7 +29,8 @@ type TileAddedSpotProps = {
     address: string;
 }
 
-const TileAddedSpot: React.FC<TileAddedSpotProps> = ({ image, likes, tags, title, address }) => {
+//TODO Implement TagMerchant.tsx <TagMerchant .../> as upper part of this
+const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ image, likes, tags, title, address }) => {
     const FuncEdit = (): Promise<void> => {
         console.log("Calling Edit")
         return Promise.resolve();
@@ -73,4 +74,4 @@ const TileAddedSpot: React.FC<TileAddedSpotProps> = ({ image, likes, tags, title
         </Container>
     )
 }
-export default TileAddedSpot;
+export default TileAddedMerchant;

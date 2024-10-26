@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import ButtonUniversal from "../components/ButtonUniversal";
 
 import ADMenu from "../components/ADMenu";
-import TileAddedSpot from "../components/TileAddedSpot";
+import TileAddedMerchant from "../components/TileAddedMerchant";
 
 import FotoBluePig from '../img/foto-blue-pig.png';
 import FotoPolis from '../img/foto-polis.png';
@@ -21,7 +21,30 @@ const ADMySpots: React.FC<ADMySpotsProps> = ({ }) => {
         console.log("AddSpot")
         return Promise.resolve();
     }
-
+    const spots = [
+        {
+          likes: "12",
+          image: FotoPolis,
+          tags: ["Food & Drinks", "Services"],
+          title: "Paralelní Polis",
+          address: "475/43, Dělnická, 170 00 Praha 7",
+        },
+        {
+          likes: "7",
+          image: FotoBluePig,
+          tags: ["Food & Drinks", "Services", "Idk"],
+          title: "Blue Vegal Pig Shop",
+          address: "Francouzská 420/76, 101 00 Praha 10-Vinohrady",
+        },
+        {
+          likes: "9",
+          image: FotoBluePig,
+          tags: ["Shops"],
+          title: "Another Spot",
+          address: "Example Street 123, 110 00 City",
+        },
+        // Add more spots as needed
+      ];
     return (
         <React.Fragment>
             <Grid container>
@@ -54,49 +77,19 @@ const ADMySpots: React.FC<ADMySpotsProps> = ({ }) => {
                             </Grid>
                         </Grid>
                         <Grid container spacing={2}>
-                            <Grid item xs={4}>
+                            {spots.map((spot, index) => (
+                                <Grid item xs={4} key={index}>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>
-                                    {/* First tile content */}
-                                    <TileAddedSpot
-                                        likes="12"
-                                        image={FotoPolis}
-                                        tags={['Food & Drinks', 'Services']}
-                                        title="Paralelní Polis"
-                                        address="475/43, Dělnická, 170 00 Praha 7"
+                                    <TileAddedMerchant
+                                    likes={spot.likes}
+                                    image={spot.image}
+                                    tags={spot.tags}
+                                    title={spot.title}
+                                    address={spot.address}
                                     />
                                 </Box>
-                                <Box sx={{ border: '1px solid #ddd', padding: 2, marginTop: 2, height: '100%' }}>
-                                    {/* Second tile content */}
-                                    Tile 2
-                                </Box>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>
-                                    {/* Third tile content */}
-                                    <TileAddedSpot
-                                        likes="7"
-                                        image={FotoBluePig}
-                                        tags={['Food & Drinks', 'Services', 'Idk']}
-                                        title="Blue Vegal Pig Shop"
-                                        address="Francouzská 420/76, 101 00 Praha 10-Vinohrady"
-                                    />
-
-                                </Box>
-                                <Box sx={{ border: '1px solid #ddd', padding: 2, marginTop: 2, height: '100%' }}>
-                                    {/* Fourth tile content */}
-                                    Tile 4
-                                </Box>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>
-                                    {/* Fifth tile content */}
-                                    Tile 5
-                                </Box>
-                                <Box sx={{ border: '1px solid #ddd', padding: 2, marginTop: 2, height: '100%' }}>
-                                    {/* Sixth tile content */}
-                                    Tile 6
-                                </Box>
-                            </Grid>
+                                </Grid>
+                            ))}
                         </Grid>
                     </Box>
                 </Grid>
