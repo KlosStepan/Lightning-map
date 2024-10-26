@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Typography from '@mui/material/Typography';
 import { Grid, Box } from '@mui/material';
 import ADMenu from "../components/ADMenu";
@@ -10,7 +10,10 @@ import TileTypeMerchant from '../components/TileTypeMerchant';
 import mapofspots from '../img/Interface-Essential-Map--Streamline-Pixel.png';
 import eshops from '../img/Shopping-Shipping-Bag-1--Streamline-Pixel.png';
 
-
+//Redux
+import { useDispatch, useSelector } from 'react-redux';
+//
+import { RootState } from "../redux-rtk/store";
 // 4x icon
 //import IcoADHome from '../icons/ad-home.png';
 //import IcoADPin from '../icons/ad-pin.png';
@@ -21,10 +24,21 @@ type ADHomeProps = {
 };
 
 const ADHome: React.FC<ADHomeProps> = ({ }) => {
+    //
+    const user = useSelector((state: RootState) => state.misc.user)
+    //
     const FuncAdd = (): Promise<void> => {
         console.log("Add")
         return Promise.resolve();
     }
+    const items = [
+        { caption: "My spots", numPlaces: 12, imageSrc: mapofspots, path: "" },
+        { caption: "My e-shops", numPlaces: 7, imageSrc: eshops, path: "" },
+        { caption: "My stores", numPlaces: 5, imageSrc: eshops, path: "" },
+        { caption: "My e-shops", numPlaces: 7, imageSrc: eshops, path: "" },
+        { caption: "My stores", numPlaces: 5, imageSrc: eshops, path: "" },
+        // Add additional items here as needed
+      ];
     return (
         <React.Fragment>
             <Grid container>
@@ -52,7 +66,7 @@ const ADHome: React.FC<ADHomeProps> = ({ }) => {
                                     Welcome back
                                 </Typography>
                                 <Typography variant="h1" component="h1">
-                                    Stepan Klos
+                                    {user?.displayName}
                                 </Typography>
                             </Grid>
                             <Grid item xs={2}>
@@ -60,39 +74,19 @@ const ADHome: React.FC<ADHomeProps> = ({ }) => {
                             </Grid>
                         </Grid>
                         <Grid container spacing={2}>
-                            <Grid item xs={4}>
+                        {items.map((item, index) => (
+                            <Grid item xs={4} key={index}>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>
-                                    {/* First tile content */}
-                                    <TileTypeMerchant caption="Map of Places" numPlaces={12} imageSrc={mapofspots} path="" />
-
-                                </Box>
-                                <Box sx={{ border: '1px solid #ddd', padding: 2, marginTop: 2, height: '100%' }}>
-                                    {/* Second tile content */}
-                                    Tile 2
+                                    <TileTypeMerchant
+                                    caption={item.caption}
+                                    numPlaces={item.numPlaces}
+                                    imageSrc={item.imageSrc}
+                                    path={item.path}
+                                    />
                                 </Box>
                             </Grid>
-                            <Grid item xs={4}>
-                                <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>
-                                    {/* Third tile content */}
-                                    <TileTypeMerchant caption="E-shops" numPlaces={7} imageSrc={eshops} path="" />
-
-                                </Box>
-                                <Box sx={{ border: '1px solid #ddd', padding: 2, marginTop: 2, height: '100%' }}>
-                                    {/* Fourth tile content */}
-                                    Tile 4
-                                </Box>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>
-                                    {/* Fifth tile content */}
-                                    Tile 5
-                                </Box>
-                                <Box sx={{ border: '1px solid #ddd', padding: 2, marginTop: 2, height: '100%' }}>
-                                    {/* Sixth tile content */}
-                                    Tile 6
-                                </Box>
-                            </Grid>
-                        </Grid>
+                        ))}
+                    </Grid>
                     </Box>
                 </Grid>
             </Grid>

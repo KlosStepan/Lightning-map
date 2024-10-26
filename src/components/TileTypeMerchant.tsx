@@ -47,7 +47,8 @@ const TileTypeMerchant: React.FC<TileTypeMerchantProps> = ({ caption, numPlaces,
         <React.Fragment>
             <Link style={{ color: "inherit", textDecoration: "inherit"/*, fontSize: '18px' */ }} to={path}>
                 <Container maxWidth="sm">
-                    <Box sx={{ ...purpleBoxStyle, width: '236px', height: '150px', position: 'relative' }}>
+                    {/*RODO width tuning goes here*/}
+                    <Box sx={{ ...purpleBoxStyle, /*width: '236px', height: '150px',*/width: '236px', height: '150px', position: 'relative' }}>
                         {/* Image */}
                         <div style={{ width: '77px', height: '77px', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
                             <CardMedia
