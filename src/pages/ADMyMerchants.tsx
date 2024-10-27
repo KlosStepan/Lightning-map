@@ -11,17 +11,29 @@ import FotoBluePig from '../img/foto-blue-pig.png';
 import FotoPolis from '../img/foto-polis.png';
 
 import IconPlus from '../icons/ico-btn-plus.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from "../redux-rtk/store";
 
-type ADMySpotsProps = {
+type ADMyMerchantsProps = {
 
 };
 
-const ADMySpots: React.FC<ADMySpotsProps> = ({ }) => {
+const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
+    // State
+    const user = useSelector((state: RootState) => state.misc.user)
+    const merchants = useSelector((state: RootState) => state.data.merchants)
+
+    // Data slicing
+    let uid = user?.uid
+    const myMerchants = merchants?.filter((merchant) => merchant.properties.owner === uid);
+
+    console.log("cnt(myMerchants): " + myMerchants?.length)
+
     const FuncAddSpot = (): Promise<void> => {
         console.log("AddSpot")
         return Promise.resolve();
     }
-    const spots = [
+    const merchantss = [
         {
           likes: "12",
           image: FotoPolis,
@@ -43,8 +55,9 @@ const ADMySpots: React.FC<ADMySpotsProps> = ({ }) => {
           title: "Another Spot",
           address: "Example Street 123, 110 00 City",
         },
-        // Add more spots as needed
+        // Add more merchants as needed
       ];
+    
     return (
         <React.Fragment>
             <Grid container>
@@ -77,15 +90,15 @@ const ADMySpots: React.FC<ADMySpotsProps> = ({ }) => {
                             </Grid>
                         </Grid>
                         <Grid container spacing={2}>
-                            {spots.map((spot, index) => (
+                            {merchantss.map((merchant, index) => (
                                 <Grid item xs={4} key={index}>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>
                                     <TileAddedMerchant
-                                    likes={spot.likes}
-                                    image={spot.image}
-                                    tags={spot.tags}
-                                    title={spot.title}
-                                    address={spot.address}
+                                        likes={merchant.likes}
+                                        image={merchant.image}
+                                        tags={merchant.tags}
+                                        title={merchant.title}
+                                        address={merchant.address}
                                     />
                                 </Box>
                                 </Grid>
@@ -97,4 +110,4 @@ const ADMySpots: React.FC<ADMySpotsProps> = ({ }) => {
         </React.Fragment>
     )
 }
-export default ADMySpots;
+export default ADMyMerchants;

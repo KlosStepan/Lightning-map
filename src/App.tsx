@@ -36,7 +36,7 @@ import About from './pages/About';
 import Login from './pages/Login';
 //
 import ADHome from './pages/ADHome';
-import ADMySpots from './pages/ADMySpots';
+import ADMyMerchants from './pages/ADMyMerchants';
 import ADMyEShops from './pages/ADMyEShops';
 import ADMyAccount from './pages/ADMyAccount';
 //Redux
@@ -153,7 +153,7 @@ function App() {
                             <Route path="/about" element={<About />} />
                             <Route path="/login" element={<Login />} />
                             <Route path="/admin/dashboard" element={<ADHome />} />
-                            <Route path="/admin/my-spots" element={<ADMySpots />} />
+                            <Route path="/admin/my-spots" element={<ADMyMerchants />} />
                             <Route path="/admin/my-eshops" element={<ADMyEShops />} />
                             <Route path="/admin/my-account" element={<ADMyAccount />} />
                         </Routes>

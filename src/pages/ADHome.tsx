@@ -4,11 +4,12 @@ import { Grid, Box } from '@mui/material';
 import ADMenu from "../components/ADMenu";
 //import ADMenuButton from "../components/ADMenuButton";
 import ButtonUniversal from "../components/ButtonUniversal";
+import { auth, db } from "../components/Firebase";
 
 import TileTypeMerchant from '../components/TileTypeMerchant';
 //
-import mapofspots from '../img/Interface-Essential-Map--Streamline-Pixel.png';
-import eshops from '../img/Shopping-Shipping-Bag-1--Streamline-Pixel.png';
+import mapofspotsimg from '../img/Interface-Essential-Map--Streamline-Pixel.png';
+import eshopsimg from '../img/Shopping-Shipping-Bag-1--Streamline-Pixel.png';
 
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,21 +25,33 @@ type ADHomeProps = {
 };
 
 const ADHome: React.FC<ADHomeProps> = ({ }) => {
-    //
+    // State
     const user = useSelector((state: RootState) => state.misc.user)
-    //
+    const merchants = useSelector((state: RootState) => state.data.merchants)
+    const eshops = useSelector((state: RootState) => state.data.eshops)
+
+    // Data slicing
+    let uid = user?.uid
+    const myMerchants = merchants?.filter((merchant) => merchant.properties.owner === uid);
+    const myEshops = eshops?.filter((eshop) => eshop.owner === uid);
+
+    console.log("cnt(myMerchants): " + myMerchants?.length)
+    console.log("cnt(myMerchants): " + myEshops?.length)
+
     const FuncAdd = (): Promise<void> => {
         console.log("Add")
         return Promise.resolve();
     }
+    
     const items = [
-        { caption: "My spots", numPlaces: 12, imageSrc: mapofspots, path: "" },
-        { caption: "My e-shops", numPlaces: 7, imageSrc: eshops, path: "" },
-        { caption: "My stores", numPlaces: 5, imageSrc: eshops, path: "" },
-        { caption: "My e-shops", numPlaces: 7, imageSrc: eshops, path: "" },
-        { caption: "My stores", numPlaces: 5, imageSrc: eshops, path: "" },
+        { caption: "My spots", numPlaces: myMerchants?.length, imageSrc: mapofspotsimg, path: "" },
+        { caption: "My e-shops", numPlaces: myEshops?.length, imageSrc: eshopsimg, path: "" },
+        //{ caption: "My stores", numPlaces: 5, imageSrc: eshops, path: "" },
+        //{ caption: "My e-shops", numPlaces: 7, imageSrc: eshops, path: "" },
+        //{ caption: "My stores", numPlaces: 5, imageSrc: eshops, path: "" },
         // Add additional items here as needed
       ];
+
     return (
         <React.Fragment>
             <Grid container>
@@ -81,6 +94,7 @@ const ADHome: React.FC<ADHomeProps> = ({ }) => {
                                     caption={item.caption}
                                     numPlaces={item.numPlaces}
                                     imageSrc={item.imageSrc}
+                                    //imageSrc={"null"}
                                     path={item.path}
                                     />
                                 </Box>

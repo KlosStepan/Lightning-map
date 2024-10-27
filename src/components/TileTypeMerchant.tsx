@@ -42,6 +42,7 @@ type TileTypeMerchantProps = {
     path: string;
 };
 
+//This is either E-shop or Merchant on Homepage / ADHome
 const TileTypeMerchant: React.FC<TileTypeMerchantProps> = ({ caption, numPlaces, imageSrc, path }) => {
     return (
         <React.Fragment>

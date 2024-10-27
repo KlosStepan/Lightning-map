@@ -1,15 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from 'firebase/auth'; // Import the Firebase User type
+import IMerchant from '../ts/IMerchant';
+import IEshop from '../ts/IEeshop';
 
 export interface IMiscSlice {
     debug: boolean;
     blog: boolean;
     user: User | null;  // The user will now be of type Firebase User or null
+    //userMerchants: IMerchant[] | null
+    //userEshops: IEshop[] | null
 }
 const initialState: IMiscSlice = {
     debug: process.env.REACT_APP_DEBUG === 'true' ? true : false,
     blog: process.env.REACT_APP_BLOG === 'false' ? false : true,
-    user: null,  // User is initially null, meaning no one is logged in
+    user: null,  // User is initially null, meaning no one is logged in]
+    //userMerchants: null,
+    //userEshops: null
 };
 
 export const miscSlice = createSlice({
@@ -22,10 +28,17 @@ export const miscSlice = createSlice({
         setBlog: (state, action: PayloadAction<boolean>) => {
             state.blog = action.payload
         },
-        //TODO - minimum User data only (to avoid User big chunk)
+        //TODO - minimum User data only (to avoid User big chunk) || mby?
         setUser: (state, action: PayloadAction<User | null>) => {
             state.user = action.payload;  // Set or unset the Firebase User object
         },
+        //Adding User related stuff
+        /*setUserMerchants: (state, action: PayloadAction<IMerchant[]>) => {
+            state.userMerchants = action.payload
+        },*/
+        /*setUserEshops: (state, action: PayloadAction<IEshop[]>) => {
+            state.userEshops = action.payload
+        }*/
     }
 })
 

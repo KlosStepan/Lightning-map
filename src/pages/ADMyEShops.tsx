@@ -4,6 +4,8 @@ import { Grid, Box } from '@mui/material';
 import ADMenu from "../components/ADMenu";
 import Button from '@mui/material/Button';
 import ButtonUniversal from "../components/ButtonUniversal";
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from "../redux-rtk/store";
 
 import TileAddedEshop from "../components/TileAddedEshop";
 
@@ -14,6 +16,16 @@ type ADMyEShopsProps = {
 };
 
 const ADMyEShops: React.FC<ADMyEShopsProps> = ({ }) => {
+        // State
+        const user = useSelector((state: RootState) => state.misc.user)
+        const eshops = useSelector((state: RootState) => state.data.eshops)
+    
+        // Data slicing
+        let uid = user?.uid
+        const myEshops = eshops?.filter((eshop) => eshop.owner === uid);
+    
+        console.log("cnt(myMerchants): " + myEshops?.length)
+    
     const FuncAddEshop = (): Promise<void> => {
         console.log("AddEshop")
         return Promise.resolve();

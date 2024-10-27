@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardMedia, Container, Box, Typography } from '@mui/material';
 import TagMerchant from "./TagMerchant";
 import ButtonUniversal from "./ButtonUniversal";
-
+import TileMerchant from "./TileMerchant";
 //
 import IconEdit from '../icons/ico-btn-edit.png';
 import IconTrash from '../icons/ico-btn-trash.png';
@@ -43,19 +43,18 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ image, likes, tag
     return (
         <Container /*maxWidth="sm"*/ sx={containerOuterStyle} disableGutters>
             {/*<Card sx={{ height: '100%' }}>*/}
-            <CardMedia
+            {/*<CardMedia
                 component="img"
                 image={image}// Replace with your image URL
                 alt={title}
                 sx={imageStyle}
             />
-            {/*<Box sx={{ padding: '16px' }}>*/}
             <Typography variant="body2" color="text.secondary">
                 {likes}
             </Typography>
             <Box sx={{ marginTop: '8px', marginBottom: '8px' }}>
                 {tags.map((tag, index) => (
-                    <span key={index} style={{ /*border: '1px solid black', padding: '4px',*/ marginRight: '4px' }}>
+                    <span key={index} style={{ marginRight: '4px' }}>
                         <TagMerchant tag={tag} />
                     </span>
                 ))}
@@ -64,7 +63,8 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ image, likes, tag
             </Typography>
             <Typography variant="body2" color="text.secondary">
                 {address}
-            </Typography>
+            </Typography>*/}
+            {/*TODO <TileMerchant likes= .../>*/}
             <div>
                 <ButtonUniversal icon={IconEdit} side="R" title="EDIT" color="#F23CFF" textColor="white" actionDelegate={FuncEdit} /> &nbsp;
                 <ButtonUniversal icon={IconTrash} side="R" title="DELETE" color="#8000FF" textColor="white" actionDelegate={FuncDelete} />
