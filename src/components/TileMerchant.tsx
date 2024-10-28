@@ -47,10 +47,11 @@ const containerInnerStyleDown = {
 
 //TODO - tile.image be base64
 type TileMerchantProps = {
+    likes: string
     tile: IMerchantTile
 };
 
-const TileMerchant: React.FC<TileMerchantProps> = ({ tile /*image, title, address, likes*/ }) => {
+const TileMerchant: React.FC<TileMerchantProps> = ({/*image, title, address, likes*/ likes, tile }) => {
     let img = null;
     if (tile.image=="dummyImgTile1") {
         img = dummyImgTile1;
@@ -67,7 +68,7 @@ const TileMerchant: React.FC<TileMerchantProps> = ({ tile /*image, title, addres
                     alt={tile.title}
                 />
                 <Box sx={{ ...topRight }}>
-                    <IconLightningNumber number="777" />
+                    <IconLightningNumber number={likes} />
                 </Box>
                 <Box sx={{ ...leftBottom }}>
                     {tile.tags.map((tag: string) => (

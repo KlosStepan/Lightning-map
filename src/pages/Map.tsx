@@ -235,7 +235,7 @@ const Map: React.FC = () => {
                               onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.5')} // Hover effect
                               onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}  // Reset on mouse leave
                             >
-                              <TileMerchant tile={merchant.properties} />
+                              <TileMerchant likes={"777"} tile={merchant.properties} />
                             </Box>
                             </Grid>
                           ))}

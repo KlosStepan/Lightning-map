@@ -5,6 +5,7 @@ import TileEshop from './TileEshop';
 //
 import IconEdit from '../icons/ico-btn-edit.png';
 import IconTrash from '../icons/ico-btn-trash.png';
+import IEshop from '../ts/IEeshop';
 
 const containerOuterStyle = {
     //padding: '16px 12px',
@@ -21,14 +22,17 @@ const imageStyle = {
 
 type TileAddedEshopProps = {
     //id: string;
-    image: string;
+    /*image: string;
     likes: string;
     title: string;
-    desc: string;
+    desc: string;*/
+    likes: string
+    tile: IEshop
 }
 
 //TODO Implement TileEshop.tsx <TileEshop .../> as upper part of this
-const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ image, likes, title, desc }) => {
+//TODO maybe pass flag "slim"/"viewing" to hide !report from Admin, etc. into <TileEshop .../>
+const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ /*image, likes, title, desc*/ likes, tile }) => {
     const FuncEdit = (): Promise<void> => {
         console.log("Calling Edit")
         return Promise.resolve();
@@ -57,10 +61,11 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ image, likes, title, de
                 {desc}
             </Typography>*/}
             {/*TODO <TileEshop likes= .../>*/}
-            <div>
+            <TileEshop likes={likes} tile={tile}/>
+            <Box display="flex" justifyContent="flex-end" mt={2}>
                 <ButtonUniversal icon={IconEdit} side="R" title="EDIT" color="#F23CFF" textColor="white" actionDelegate={FuncEdit} /> &nbsp;
                 <ButtonUniversal icon={IconTrash} side="R" title="DELETE" color="#8000FF" textColor="white" actionDelegate={FuncDelete} />
-            </div>
+            </Box>
             {/*</Box>*/}
             {/*</Card>*/}
         </Container>

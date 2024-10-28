@@ -6,6 +6,8 @@ import TileMerchant from "./TileMerchant";
 //
 import IconEdit from '../icons/ico-btn-edit.png';
 import IconTrash from '../icons/ico-btn-trash.png';
+import IMerchant from "../ts/IMerchant";
+import { IMerchantTile } from "../ts/IMerchant";
 
 const containerOuterStyle = {
     //padding: '16px 12px',
@@ -22,15 +24,17 @@ const imageStyle = {
 
 type TileAddedMerchantProps = {
     //id: string;
-    image: string;
+    /*image: string;
     likes: string;
     tags: string[];
     title: string;
-    address: string;
+    address: string;*/
+    likes: string
+    tile: IMerchantTile
 }
 
 //TODO Implement TagMerchant.tsx <TagMerchant .../> as upper part of this
-const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ image, likes, tags, title, address }) => {
+const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ /*image, likes, tags, title, address*/ likes, tile }) => {
     const FuncEdit = (): Promise<void> => {
         console.log("Calling Edit")
         return Promise.resolve();
@@ -65,10 +69,11 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ image, likes, tag
                 {address}
             </Typography>*/}
             {/*TODO <TileMerchant likes= .../>*/}
-            <div>
+            <TileMerchant likes={likes} tile={tile}/>
+            <Box display="flex" justifyContent="flex-end" mt={2}>
                 <ButtonUniversal icon={IconEdit} side="R" title="EDIT" color="#F23CFF" textColor="white" actionDelegate={FuncEdit} /> &nbsp;
                 <ButtonUniversal icon={IconTrash} side="R" title="DELETE" color="#8000FF" textColor="white" actionDelegate={FuncDelete} />
-            </div>
+            </Box>
             {/*</Box>*/}
             {/*</Card>*/}
         </Container>

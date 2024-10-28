@@ -33,31 +33,7 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
         console.log("AddSpot")
         return Promise.resolve();
     }
-    const merchantss = [
-        {
-          likes: "12",
-          image: FotoPolis,
-          tags: ["Food & Drinks", "Services"],
-          title: "Paralelní Polis",
-          address: "475/43, Dělnická, 170 00 Praha 7",
-        },
-        {
-          likes: "7",
-          image: FotoBluePig,
-          tags: ["Food & Drinks", "Services", "Idk"],
-          title: "Blue Vegal Pig Shop",
-          address: "Francouzská 420/76, 101 00 Praha 10-Vinohrady",
-        },
-        {
-          likes: "9",
-          image: FotoBluePig,
-          tags: ["Shops"],
-          title: "Another Spot",
-          address: "Example Street 123, 110 00 City",
-        },
-        // Add more merchants as needed
-      ];
-    
+
     return (
         <React.Fragment>
             <Grid container>
@@ -90,16 +66,17 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
                             </Grid>
                         </Grid>
                         <Grid container spacing={2}>
-                            {merchantss.map((merchant, index) => (
+                            {myMerchants?.map((merchant, index) => (
                                 <Grid item xs={4} key={index}>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>
-                                    <TileAddedMerchant
+                                    {/*<TileAddedMerchant
                                         likes={merchant.likes}
                                         image={merchant.image}
                                         tags={merchant.tags}
                                         title={merchant.title}
                                         address={merchant.address}
-                                    />
+                                    />*/}
+                                    <TileAddedMerchant likes={"12"} tile={merchant.properties}/>
                                 </Box>
                                 </Grid>
                             ))}
