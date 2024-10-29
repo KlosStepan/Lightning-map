@@ -1,9 +1,7 @@
 import React from "react";
 import Box from '@mui/material/Box';
-import { CardMedia, Container, Grid } from '@mui/material';
+import { CardMedia, Container } from '@mui/material';
 import Typography from '@mui/material/Typography';
-
-//
 import ButtonUniversal from "./ButtonUniversal";
 import IconExclamationMark from "../icons/warning-box.png";
 import IconLightningNumber from "../icons/IconLightningNumber";
@@ -23,18 +21,13 @@ const containerInnerStyle = {
     opacity: '0px',
 };
 
-//TODO - tile: IEshop, in props
-//TODO - logo be base64
 type TileEshopProps = {
     likes: string;
-    //logo: string;
-    //title: string;
-    //caption: string;
-    tile: IEshop
-}
+    tile: IEshop;
+    showReportButton?: boolean; // Optional prop, defaults to true
+};
 
-const TileEshop: React.FC<TileEshopProps> = ({ likes, tile /*, logo, title, caption*/ }) => {
-    //
+const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = true }) => {
     const FuncReport = (): Promise<void> => {
         console.log("Report");
         return Promise.resolve();
@@ -43,19 +36,21 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile /*, logo, title, capt
     return (
         <React.Fragment>
             <Container maxWidth="sm" sx={{ ...containerOuterStyle }}>
-                <Box sx={{  ...containerInnerStyle }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} >
-                        <div style={{ display: "flex", alignItems: "center", }}>
-                        <ButtonUniversal
+                <Box sx={{ ...containerInnerStyle }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                            {showReportButton && (
+                                <ButtonUniversal
                                     icon={IconExclamationMark}
                                     side="L"
                                     title="R."
                                     color="white"
                                     textColor="#BEBEBE"
-                                    actionDelegate={FuncReport} // Placeholder action; replace as needed
+                                    actionDelegate={FuncReport}
                                 />
+                            )}
                         </div>
-                        <IconLightningNumber number={likes} scale={0.85}/>
+                        <IconLightningNumber number={likes} scale={0.85} />
                     </div>
                     <CardMedia
                         component="img"
@@ -72,7 +67,7 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile /*, logo, title, capt
                 </Box>
             </Container>
         </React.Fragment>
-    )
-}
+    );
+};
 
 export default TileEshop;

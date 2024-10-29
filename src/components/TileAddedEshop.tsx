@@ -37,7 +37,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, tile }) => {
 
     return (
         <Container sx={containerOuterStyle} disableGutters>
-            <TileEshop likes={likes} tile={tile}/>
+            <TileEshop likes={likes} tile={tile} showReportButton={false}/>
             <Box sx={{ ...containerBottomInsideStyle, mt: 2 }}>
                 <ButtonUniversal icon={IconEdit} side="R" title="EDIT" color="#F23CFF" textColor="white" actionDelegate={FuncEdit} /> &nbsp;
                 <ButtonUniversal icon={IconTrash} side="R" title="DELETE" color="#8000FF" textColor="white" actionDelegate={FuncDelete} />
