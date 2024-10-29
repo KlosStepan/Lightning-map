@@ -44,8 +44,8 @@ const ADHome: React.FC<ADHomeProps> = ({ }) => {
     }
     
     const items = [
-        { caption: "My spots", numPlaces: myMerchants?.length, imageSrc: mapofspotsimg, path: "" },
-        { caption: "My e-shops", numPlaces: myEshops?.length, imageSrc: eshopsimg, path: "" },
+        { caption: "My spots", numPlaces: myMerchants?.length, imageSrc: mapofspotsimg, path: "/admin/my-spots" },
+        { caption: "My e-shops", numPlaces: myEshops?.length, imageSrc: eshopsimg, path: "/admin/my-eshops" },
         //{ caption: "My stores", numPlaces: 5, imageSrc: eshops, path: "" },
         //{ caption: "My e-shops", numPlaces: 7, imageSrc: eshops, path: "" },
         //{ caption: "My stores", numPlaces: 5, imageSrc: eshops, path: "" },

@@ -1,38 +1,31 @@
 import React from 'react';
-import { Card, CardMedia, Container, Box, Typography } from '@mui/material';
+import { Container, Box } from '@mui/material';
 import ButtonUniversal from "../components/ButtonUniversal";
+//TypeScript
+import IEshop from '../ts/IEeshop';
 import TileEshop from './TileEshop';
-//
+//Icon
 import IconEdit from '../icons/ico-btn-edit.png';
 import IconTrash from '../icons/ico-btn-trash.png';
-import IEshop from '../ts/IEeshop';
 
 const containerOuterStyle = {
-    //padding: '16px 12px',
-    //gap: '10px',
     borderRadius: '16px',
     backgroundColor: 'white',
-    //margin: '0px 0px 10px 0px',
-    //height: '500px', // Adjust height as needed
-};
+}
 
-const imageStyle = {
-    height: '50%',
-};
+const containerBottomInsideStyle = {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    // padding: top right bottom left
+    padding: '0px 12px 12px 12px',
+}
 
 type TileAddedEshopProps = {
-    //id: string;
-    /*image: string;
-    likes: string;
-    title: string;
-    desc: string;*/
     likes: string
     tile: IEshop
 }
 
-//TODO Implement TileEshop.tsx <TileEshop .../> as upper part of this
-//TODO maybe pass flag "slim"/"viewing" to hide !report from Admin, etc. into <TileEshop .../>
-const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ /*image, likes, title, desc*/ likes, tile }) => {
+const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, tile }) => {
     const FuncEdit = (): Promise<void> => {
         console.log("Calling Edit")
         return Promise.resolve();
@@ -43,33 +36,13 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ /*image, likes, title, 
     }
 
     return (
-        <Container /*maxWidth="sm"*/ sx={containerOuterStyle} disableGutters>
-            {/*<Card sx={{ height: '100%' }}>*/}
-            {/*<CardMedia
-                component="img"
-                image="https://upload.wikimedia.org/wikipedia/commons/f/f6/Alza_logo.png" // Replace with your image URL
-                alt={title}
-                sx={imageStyle}
-            />
-            <Typography variant="body2" color="text.secondary">
-                {likes}
-            </Typography>
-            <Typography variant="h5" component="div">
-                {title}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-                {desc}
-            </Typography>*/}
-            {/*TODO <TileEshop likes= .../>*/}
+        <Container sx={containerOuterStyle} disableGutters>
             <TileEshop likes={likes} tile={tile}/>
-            <Box display="flex" justifyContent="flex-end" mt={2}>
+            <Box sx={{ ...containerBottomInsideStyle, mt: 2 }}>
                 <ButtonUniversal icon={IconEdit} side="R" title="EDIT" color="#F23CFF" textColor="white" actionDelegate={FuncEdit} /> &nbsp;
                 <ButtonUniversal icon={IconTrash} side="R" title="DELETE" color="#8000FF" textColor="white" actionDelegate={FuncDelete} />
             </Box>
-            {/*</Box>*/}
-            {/*</Card>*/}
         </Container>
-    );
+    )
 }
-
 export default TileAddedEshop;

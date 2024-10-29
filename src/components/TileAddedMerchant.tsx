@@ -1,40 +1,31 @@
 import React from "react";
-import { Card, CardMedia, Container, Box, Typography } from '@mui/material';
-import TagMerchant from "./TagMerchant";
+import { Container, Box} from '@mui/material';
 import ButtonUniversal from "./ButtonUniversal";
+//TypeScript
+import { IMerchantTile } from "../ts/IMerchant";
 import TileMerchant from "./TileMerchant";
-//
+//Icon
 import IconEdit from '../icons/ico-btn-edit.png';
 import IconTrash from '../icons/ico-btn-trash.png';
-import IMerchant from "../ts/IMerchant";
-import { IMerchantTile } from "../ts/IMerchant";
 
 const containerOuterStyle = {
-    //padding: '16px 12px',
-    //gap: '10px',
     borderRadius: '16px',
     backgroundColor: 'white',
-    //margin: '0px 0px 10px 0px',
-    //height: '500px', // Adjust height as needed
-};
+}
 
-const imageStyle = {
-    height: '50%',
-};
+const containerBottomInsideStyle = {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    // padding: top right bottom left
+    padding: '0px 12px 12px 12px',
+}
 
 type TileAddedMerchantProps = {
-    //id: string;
-    /*image: string;
-    likes: string;
-    tags: string[];
-    title: string;
-    address: string;*/
     likes: string
     tile: IMerchantTile
 }
 
-//TODO Implement TagMerchant.tsx <TagMerchant .../> as upper part of this
-const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ /*image, likes, tags, title, address*/ likes, tile }) => {
+const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, tile }) => {
     const FuncEdit = (): Promise<void> => {
         console.log("Calling Edit")
         return Promise.resolve();
@@ -45,37 +36,12 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ /*image, likes, t
     }
 
     return (
-        <Container /*maxWidth="sm"*/ sx={containerOuterStyle} disableGutters>
-            {/*<Card sx={{ height: '100%' }}>*/}
-            {/*<CardMedia
-                component="img"
-                image={image}// Replace with your image URL
-                alt={title}
-                sx={imageStyle}
-            />
-            <Typography variant="body2" color="text.secondary">
-                {likes}
-            </Typography>
-            <Box sx={{ marginTop: '8px', marginBottom: '8px' }}>
-                {tags.map((tag, index) => (
-                    <span key={index} style={{ marginRight: '4px' }}>
-                        <TagMerchant tag={tag} />
-                    </span>
-                ))}
-            </Box>            <Typography variant="h5" component="div">
-                {title}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-                {address}
-            </Typography>*/}
-            {/*TODO <TileMerchant likes= .../>*/}
+        <Container sx={containerOuterStyle} disableGutters>
             <TileMerchant likes={likes} tile={tile}/>
-            <Box display="flex" justifyContent="flex-end" mt={2}>
+            <Box sx={{ ...containerBottomInsideStyle, mt: 2 }}>
                 <ButtonUniversal icon={IconEdit} side="R" title="EDIT" color="#F23CFF" textColor="white" actionDelegate={FuncEdit} /> &nbsp;
                 <ButtonUniversal icon={IconTrash} side="R" title="DELETE" color="#8000FF" textColor="white" actionDelegate={FuncDelete} />
             </Box>
-            {/*</Box>*/}
-            {/*</Card>*/}
         </Container>
     )
 }
