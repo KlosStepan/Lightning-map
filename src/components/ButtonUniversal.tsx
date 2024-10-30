@@ -40,7 +40,7 @@ type ButtonUniversalProps = {
     title: string;
     color: string;
     textColor: string;
-    actionDelegate?: () => Promise<void>;
+    actionDelegate?: () => Promise<void> | void;
 };
 
 const ButtonUniversal: React.FC<ButtonUniversalProps> = ({ icon, side, title, color, textColor, actionDelegate, }) => {
