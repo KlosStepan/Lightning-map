@@ -25,6 +25,7 @@ import Modal from "@mui/material/Modal";
 import Input from '@mui/material/Input';
 //
 import closeIcon from '../icons/close.png';
+import ToggleSocialInput from "../components/ToggleSocialInput";
 const iconStyle = {
   width: 18, // Adjust icon size as needed
   height: 18,
@@ -308,17 +309,22 @@ const Map: React.FC = () => {
                       <Input placeholder="Postal Code" fullWidth />
                     </Box>
                     <Box mt={2} sx={{ width: '100%', border: '1px solid #000' }}>Map</Box>
-                    <Box mt={2}>
-                      <Typography variant="h2" component="h5">Web</Typography>
-                      <Input placeholder="Web" fullWidth />
-                    </Box>
                     {/* Social Media Links directly in JSX */}
-                    <Box display="flex" mt={2}>
-                      <Typography style={{ marginLeft: '8px' }}>+IG</Typography>
+                    {/*<Box display="flex" mt={2}>*/}
+                    <hr/>
+                    {/*TODO - parametrized setter name->link to Dictionary up^ */}
+                    <Box mt={2}>
+                      <ToggleSocialInput name={"IG"}/>
+                      <ToggleSocialInput name={"FB"}/>
+                      <ToggleSocialInput name={"X"}/>
+                      <ToggleSocialInput name={"Threads"}/>
+                    </Box>
+                    <hr/>
+                      {/*<Typography style={{ marginLeft: '8px' }}>+IG</Typography>
                       <Typography style={{ marginLeft: '8px' }}>+FB</Typography>
                       <Typography style={{ marginLeft: '8px' }}>+X</Typography>
-                      <Typography style={{ marginLeft: '8px' }}>+Threads</Typography>
-                    </Box>
+                      <Typography style={{ marginLeft: '8px' }}>+Threads</Typography>*/}
+                    {/*</Box>*/}
                     <Box mt={2} sx={{ width: '100%', border: '1px solid #000' }}>Upload Img</Box>
                     {/* Action Buttons */}
                     <Box display="flex" justifyContent="flex-end" mt={2}>
