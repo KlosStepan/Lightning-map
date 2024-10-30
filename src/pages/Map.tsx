@@ -256,6 +256,7 @@ const Map: React.FC = () => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
               >
+                {/*<ModifTableMerchant />*/}
                 <Box
                   style={{
                     borderRadius: '20px',

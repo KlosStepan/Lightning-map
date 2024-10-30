@@ -25,6 +25,8 @@ type TileAddedEshopProps = {
     tile: IEshop
 }
 
+//TODO - Modal Edit -> <ModifTableEshop edit={true} eshop={eshop}/>
+//TODO - Modal Delete -> <Delete docID={"docID"}/>
 const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, tile }) => {
     const FuncEdit = (): Promise<void> => {
         console.log("Calling Edit")

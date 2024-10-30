@@ -25,6 +25,8 @@ type TileAddedMerchantProps = {
     tile: IMerchantTile
 }
 
+//TODO - Modal Edit -> <ModifTableMerchant edit={true} merchant={merchant} />
+//TODO - Modal Delete -> <Delete docID={"docId"} />
 const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, tile }) => {
     const FuncEdit = (): Promise<void> => {
         console.log("Calling Edit")

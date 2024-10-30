@@ -24,10 +24,10 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "./components/Firebase";
 //Admin - Add/Edit imports
 import Dashboard from './pages/_Dashboard';
-import AddEshop from './pages/AddEshop';
-import EditEshop from './pages/EditEshop';
-import AddMerchant from './pages/AddMerchant';
-import EditMerchant from './pages/EditMerchant';
+import AddEshop from './pages/_AddEshop';
+import EditEshop from './pages/_EditEshop';
+import AddMerchant from './pages/_AddMerchant';
+import EditMerchant from './pages/_EditMerchant';
 
 function App() {
   const dispatch = useDispatch()

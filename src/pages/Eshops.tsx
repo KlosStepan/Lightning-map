@@ -127,6 +127,7 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
               >
+                {/*<ModifTableEshop/>*/}
                 <Box
                   style={{
                     borderRadius: '20px',
