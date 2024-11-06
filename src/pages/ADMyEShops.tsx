@@ -10,6 +10,7 @@ import { RootState } from "../redux-rtk/store";
 import TileAddedEshop from "../components/TileAddedEshop";
 
 import IconPlus from '../icons/ico-btn-plus.png';
+import Modal from "@mui/material/Modal";
 
 type ADMyEShopsProps = {
 
@@ -28,8 +29,14 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = ({ }) => {
     
     const FuncAddEshop = (): Promise<void> => {
         console.log("AddEshop")
+        handleOpen()
         return Promise.resolve();
     }
+
+    //Modal Stuff
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     return (
         <React.Fragment>
@@ -83,6 +90,14 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = ({ }) => {
                     </Box>
                 </Grid>
             </Grid>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <span>FormAddEshop</span>
+            </Modal>
         </React.Fragment>
     )
 }
