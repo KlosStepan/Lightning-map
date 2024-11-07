@@ -20,6 +20,9 @@ import { RootState } from "../redux-rtk/store";
 //import IcoADPin from '../icons/ad-pin.png';
 //import IcoADShoppingBag from '../icons/ad-shopping-bag.png';
 //import IcoADUser from '../icons/ad-user.png';
+
+import Modal from "@mui/material/Modal";
+
 type ADHomeProps = {
 
 };
@@ -39,7 +42,8 @@ const ADHome: React.FC<ADHomeProps> = ({ }) => {
     console.log("cnt(myMerchants): " + myEshops?.length)
 
     const FuncAdd = (): Promise<void> => {
-        console.log("Add")
+        console.log("Add");
+        handleOpen();
         return Promise.resolve();
     }
     
@@ -51,6 +55,11 @@ const ADHome: React.FC<ADHomeProps> = ({ }) => {
         //{ caption: "My stores", numPlaces: 5, imageSrc: eshops, path: "" },
         // Add additional items here as needed
       ];
+      
+    //Modal Stuff
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     return (
         <React.Fragment>
@@ -104,6 +113,15 @@ const ADHome: React.FC<ADHomeProps> = ({ }) => {
                     </Box>
                 </Grid>
             </Grid>
+            {/*MODAL ZONE*/}
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <span>FormADAdd</span>
+            </Modal>
         </React.Fragment>
     );
 }

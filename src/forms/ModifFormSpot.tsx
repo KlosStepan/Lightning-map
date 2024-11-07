@@ -5,7 +5,7 @@ type ModifFormSpotProps = {
     //eshop: IMerchant   
 }
 
-const ModifFormSpot: React.FC<any> = ({ }) => {
+const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ }) => {
     //references
     //states
     //etc.
