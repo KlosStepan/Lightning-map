@@ -120,7 +120,7 @@ const ADHome: React.FC<ADHomeProps> = ({ }) => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
               >
-                <span>FormADAdd</span>
+                <span>FormADAdd: |E| |M|</span>
             </Modal>
         </React.Fragment>
     );

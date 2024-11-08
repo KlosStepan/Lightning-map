@@ -96,7 +96,7 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = ({ }) => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
               >
-                <span>FormAddEshop</span>
+                <span>FormAdd Eshop</span>
             </Modal>
         </React.Fragment>
     )

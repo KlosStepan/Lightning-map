@@ -14,6 +14,8 @@ import IconPlus from '../icons/ico-btn-plus.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
 
+import Modal from "@mui/material/Modal";
+
 type ADMyMerchantsProps = {
 
 };
@@ -31,8 +33,14 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
 
     const FuncAddSpot = (): Promise<void> => {
         console.log("AddSpot")
+        handleOpen();
         return Promise.resolve();
     }
+
+    //Modal Stuff
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     return (
         <React.Fragment>
@@ -84,6 +92,14 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
                     </Box>
                 </Grid>
             </Grid>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <span>FormAdd Merchant</span>
+            </Modal>
         </React.Fragment>
     )
 }
