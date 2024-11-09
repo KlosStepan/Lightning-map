@@ -16,7 +16,7 @@ type ModifFormSpotProps = {
     //FuncCancel (vv insert function from parent component to swap modalOpen to false in ^^ component)
 }
 
-const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false }) => {
+const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant }) => {
     //references
     //states
     //etc.

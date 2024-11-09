@@ -1,4 +1,5 @@
 import React from "react";
+import ModifFormEshop from "./ModifFormEshop";
 
 type FormEditEshopProps = {
 
@@ -8,7 +9,7 @@ const FormEditEshop: React.FC<FormEditEshopProps> = ({ }) => {
     //Send stuff in here
     return (
         <React.Fragment>
-            {/*<ModifTableEshop />*/}
+            {/*<ModifFormEshop />*/}
         </React.Fragment>
     )
 }
