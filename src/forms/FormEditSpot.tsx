@@ -9,7 +9,7 @@ const FormEditSpot: React.FC<FormEditSpotProps> = ({ closeModal }) => {
     //Send stuff in here
     return (
         <React.Fragment>
-            <ModifFormSpot edit={true} />
+            <ModifFormSpot edit={true} FuncCancel={closeModal} />
         </React.Fragment>
     )
 }

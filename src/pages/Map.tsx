@@ -28,6 +28,7 @@ import closeIcon from '../icons/close.png';
 import ToggleSocialInput from "../components/ToggleSocialInput";
 //ADD SPOT 
 import FormAddSpot from "../forms/FormAddSpot";
+import ModifFormMerchant from "../components/ModifFormMerchant";
 
 const iconStyle = {
   width: 18, // Adjust icon size as needed
@@ -259,84 +260,7 @@ const Map: React.FC = () => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
               >
-                {/*<ModifTableMerchant />*/}
-                <Box
-                  style={{
-                    borderRadius: '20px',
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: 450,
-                    backgroundColor: 'white',
-                    padding: '16px',
-                  }}
-                >
-                  <Typography id="modal-modal-title" variant="h1" component="h2" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    New spot
-                    <span
-                        onClick={() => handleClose()}
-                    >
-                        <Box
-                            component="img"
-                            src={closeIcon}
-                            alt="Custom Search Icon"
-                            sx={iconStyle}
-                            style={{
-                                cursor: 'pointer',    // Shows pointer cursor on hover
-                                //transition: 'opacity 0.3s ease', // Smooth transition effect for hover
-                                opacity: 1,
-                            }}
-                          />
-                    </span>
-                  </Typography>
-                  {/*<div>&nbsp;</div>*/}
-                  {/*<Typography id="modal-modal-description" style={{ marginTop: '16px' }}>*/}
-                    <Box mt={2}>
-                      <Typography variant="h2" component="h5">Title</Typography>
-                      <Input placeholder="Title" fullWidth />
-                    </Box>
-                    <Box mt={2}>
-                      <Typography variant="h2" component="h5">Description</Typography>
-                      <Input placeholder="Description" fullWidth />
-                    </Box>
-                    <Box mt={2}>
-                      <Typography variant="h2" component="h5">Address</Typography>
-                      <Input placeholder="Address" fullWidth />
-                    </Box>
-                    <Box mt={2}>
-                      <Typography variant="h2" component="h5">City</Typography>
-                      <Input placeholder="City" fullWidth />
-                    </Box>
-                    <Box mt={2}>
-                      <Typography variant="h2" component="h5">Postal Code</Typography>
-                      <Input placeholder="Postal Code" fullWidth />
-                    </Box>
-                    <Box mt={2} sx={{ width: '100%', border: '1px solid #000' }}>Map</Box>
-                    {/* Social Media Links directly in JSX */}
-                    {/*<Box display="flex" mt={2}>*/}
-                    <hr/>
-                    {/*TODO - parametrized setter name->link to Dictionary up^ */}
-                    <Box mt={2}>
-                      <ToggleSocialInput name={"IG"}/>
-                      <ToggleSocialInput name={"FB"}/>
-                      <ToggleSocialInput name={"X"}/>
-                      <ToggleSocialInput name={"Threads"}/>
-                    </Box>
-                    <hr/>
-                      {/*<Typography style={{ marginLeft: '8px' }}>+IG</Typography>
-                      <Typography style={{ marginLeft: '8px' }}>+FB</Typography>
-                      <Typography style={{ marginLeft: '8px' }}>+X</Typography>
-                      <Typography style={{ marginLeft: '8px' }}>+Threads</Typography>*/}
-                    {/*</Box>*/}
-                    <Box mt={2} sx={{ width: '100%', border: '1px solid #000' }}>Upload Img</Box>
-                    {/* Action Buttons */}
-                    <Box display="flex" justifyContent="flex-end" mt={2}>
-                      <ButtonUniversal title="Cancel changes" color="#8000FF" textColor="white" actionDelegate={FuncCancel} />
-                      <ButtonUniversal title="Save changes" color="#F23CFF" textColor="white" actionDelegate={FuncSave} />
-                    </Box>
-                  {/*</Typography>*/}
-                </Box>
+                <FormAddSpot closeModal={handleClose}/>
               </Modal>
           </React.Fragment>
     );
