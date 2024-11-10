@@ -98,7 +98,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, tile }) =>
                             alignItems: 'center',
                         }}
                     >
-                        Edit Merchant
+                        Edit Merchant (FormEditMerchant edit=true, merchant=tile vv)
                         <span onClick={handleCloseEdit}>
                             <Box
                                 component="img"

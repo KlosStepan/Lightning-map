@@ -86,7 +86,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, tile }) => {
                             alignItems: 'center',
                         }}
                     >
-                        Edit Eshop
+                        Edit Eshop (FormEditEshop edit=true, eshop=tile vv)
                         <span onClick={handleCloseEdit}>
                             <Box
                                 component="img"
