@@ -2,14 +2,14 @@ import React from "react";
 import ModifFormEshop from "./ModifFormEshop";
 
 type FormEditEshopProps = {
-
+    closeModal: () => void;  // Add this prop
 }
 
-const FormEditEshop: React.FC<FormEditEshopProps> = ({ }) => {
+const FormEditEshop: React.FC<FormEditEshopProps> = ({ closeModal }) => {
     //Send stuff in here
     return (
         <React.Fragment>
-            {/*<ModifFormEshop />*/}
+            <ModifFormEshop edit={true} />
         </React.Fragment>
     )
 }

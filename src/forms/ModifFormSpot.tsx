@@ -10,7 +10,7 @@ import IMerchant from "../ts/IMerchant";
 
 type ModifFormSpotProps = {
     //bool edit //true - loading stuff
-    edit: boolean;
+    edit?: boolean;
     //merchant: IMerchant
     merchant?: IMerchant
     //FuncCancel (vv insert function from parent component to swap modalOpen to false in ^^ component)

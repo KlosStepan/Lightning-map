@@ -26,6 +26,9 @@ import Input from '@mui/material/Input';
 //
 import closeIcon from '../icons/close.png';
 import ToggleSocialInput from "../components/ToggleSocialInput";
+//ADD SPOT 
+import FormAddSpot from "../forms/FormAddSpot";
+
 const iconStyle = {
   width: 18, // Adjust icon size as needed
   height: 18,
