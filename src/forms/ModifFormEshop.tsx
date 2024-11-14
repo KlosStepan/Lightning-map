@@ -1,15 +1,14 @@
 import React, { useRef } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Input from "@mui/material/Input";
+import TextField from "@mui/material/TextField";
 import ButtonUniversal from "../components/ButtonUniversal";
 import IEshop from "../ts/IEeshop";
 
 type ModifFormEshopProps = {
     edit?: boolean;
     eshop?: IEshop;
-    // FuncCancel (optional function to close modal from parent component)
-    FuncCancel?: () => void;
+    FuncCancel?: () => void; // Optional function to close modal from parent component
 };
 
 const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, FuncCancel }) => {
@@ -17,17 +16,15 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
     const titleRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLInputElement>(null);
     const webRef = useRef<HTMLInputElement>(null);
-    const logoRef = useRef<HTMLInputElement>(null); // Example for a file input or URL
+    const logoRef = useRef<HTMLInputElement>(null);
 
     // Function to collect data and create an IEshop object for submission
-    const createEshopData = (): any => { //any - IEshop sliced
-        return {
-            name: titleRef.current?.value || "",
-            description: descriptionRef.current?.value || "",
-            url: webRef.current?.value || "",
-            logo: logoRef.current?.value || "" // Assuming logo is a URL or base64 string
-        };
-    };
+    const createEshopData = (): any => ({ //todo IEshop
+        name: titleRef.current?.value || "",
+        description: descriptionRef.current?.value || "",
+        url: webRef.current?.value || "",
+        logo: logoRef.current?.value || "" 
+    });
 
     // Add Eshop
     const AddEshop = () => {
@@ -45,12 +42,13 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
 
     return (
         <React.Fragment>
-            <div>-table of items of datatype IEshop goes here-</div>
+            {/*<div>-table of items of datatype IEshop goes here-</div>*/}
             <Typography id="modal-modal-description" style={{ marginTop: "16px" }}>
                 <Box mt={2}>
                     <Typography variant="h2" component="h5">Title</Typography>
-                    <Input 
-                        placeholder="Title"
+                    <TextField
+                        //label=""
+                        //variant="outlined"
                         fullWidth
                         inputRef={titleRef}
                         defaultValue={edit ? eshop?.name : ""}
@@ -58,47 +56,53 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
                 </Box>
                 <Box mt={2}>
                     <Typography variant="h2" component="h5">Description</Typography>
-                    <Input 
-                        placeholder="Description"
+                    <TextField
+                        //label=""
+                        variant="outlined"
                         fullWidth
                         inputRef={descriptionRef}
                         defaultValue={edit ? eshop?.description : ""}
+                        multiline // Enable multiline for the description field
+                        minRows={3} // Set the default number of rows to 3
+                        maxRows={5} // Optionally, set a maximum number of rows to expand to
                     />
                 </Box>
                 <Box mt={2}>
                     <Typography variant="h2" component="h5">Web</Typography>
-                    <Input 
-                        placeholder="Web"
+                    <TextField
+                        //label=""
+                        //variant="outlined"
                         fullWidth
                         inputRef={webRef}
                         defaultValue={edit ? eshop?.url : ""}
                     />
                 </Box>
-                <Box mt={2}>
+                {/*<Box mt={2}>
                     <Typography variant="h2" component="h5">Logo</Typography>
-                    <Input 
-                        placeholder="Logo URL" 
-                        fullWidth 
+                    <TextField
+                        //label=""
+                        variant="outlined"
+                        fullWidth
                         inputRef={logoRef}
                         defaultValue={edit ? eshop?.logo : ""}
                     />
                 </Box>
                 <Box mt={2} sx={{ width: "100%", border: "1px solid #000" }}>
-                    Upload Img {/* Placeholder for image upload */}
-                </Box>
+                    Upload Img 
+                </Box>*/}
                 {/* Action Buttons */}
                 <Box display="flex" justifyContent="flex-end" mt={2}>
                     {FuncCancel && (
                         <ButtonUniversal 
-                            title="Cancel changes" 
+                            title="Cancel" 
                             color="#8000FF" 
                             textColor="white" 
                             actionDelegate={FuncCancel} 
                         />
                     )}
                     <ButtonUniversal
-                        title={edit ? "Save changes" : "Add Eshop"}
-                        color={edit ? "#F23CFF" : "#8000FF"}
+                        title={edit ? "Save" : "Add"}
+                        color="#F23CFF"
                         textColor="white"
                         actionDelegate={edit ? UpdateEshop : AddEshop}
                     />

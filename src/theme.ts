@@ -46,12 +46,27 @@ export const theme = createTheme({
                 },
             },
         },
-        MuiInput: {
+        MuiOutlinedInput: {
             styleOverrides: {
                 root: {
-                    //width: '100%', // Global 100% width for Input components
-                    "&:after": { borderBottomColor: "#8000FF" },
-                    "&:before": { borderBottomColor: "#F23CFF" },
+                    backgroundColor: "white", // Set background color to white for input
+                    borderRadius: "10px", // Set rounded corners for input border
+                    padding: "3px 6px 3px 6px !important",
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "white",
+                    },
+                    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "white",
+                    },
+                    "& .MuiInputBase-input": {
+                        fontFamily: "PixGamer", // Set font for input text
+                        fontSize: "18px",
+                        padding: "3px 6px 3px 6px !important",
+                    },
+                },
+                notchedOutline: {
+                    borderRadius: "10px", // Set rounded corners for input border
+                    borderColor: "white",
                 },
             },
         },
@@ -70,4 +85,3 @@ export const theme = createTheme({
         background: { default: '#F0F0F0' },
     },
 });
-

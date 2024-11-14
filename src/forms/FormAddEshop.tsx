@@ -26,7 +26,7 @@ const FormAddEshop: React.FC<FormAddEshopProps> = ({ closeModal }) => {
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
                 width: 450,
-                backgroundColor: 'white',
+                backgroundColor: '#F0F0F0',
                 padding: '16px',
               }}
             >
