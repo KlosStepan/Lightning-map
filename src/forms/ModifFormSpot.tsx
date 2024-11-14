@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Input from "@mui/material/Input";
+import TextField from "@mui/material/TextField";
 import ButtonUniversal from "../components/ButtonUniversal";
 import ToggleSocialInput from "../components/ToggleSocialInput";
 import IMerchant from "../ts/IMerchant";
@@ -10,10 +10,9 @@ type ModifFormSpotProps = {
     edit?: boolean;
     merchant?: IMerchant;
     FuncCancel: () => void;
-    //onSave: (merchant: IMerchant) => void;
 };
 
-const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, FuncCancel /*, onSave*/ }) => {
+const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, FuncCancel }) => {
     // useRef hooks for each input field
     const titleRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLInputElement>(null);
@@ -26,7 +25,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
         const newMerchant: IMerchant = {
             type: "Feature",
             geometry: {
-                coordinates: [0, 0], // Replace with actual coordinates if needed
+                coordinates: [0, 0],
                 type: "Point",
             },
             properties: {
@@ -40,11 +39,12 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                     city: cityRef.current?.value || "",
                     postalCode: postalCodeRef.current?.value || "",
                 },
-                tags: [], // Populate as needed
-                socials: [], // Set socials as needed or via ToggleSocialInput
+                tags: [],
+                socials: [],
             },
         };
-        //onSave(newMerchant);
+        console.log("Adding spot:", newMerchant);
+        // Insert logic to add the spot here
     };
 
     const UpdateSpot = () => {
@@ -60,65 +60,60 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                         city: cityRef.current?.value || merchant.properties.address.city,
                         postalCode: postalCodeRef.current?.value || merchant.properties.address.postalCode,
                     },
-                    // Update socials if needed through ToggleSocialInput refs or state
                 },
             };
-            //onSave(updatedMerchant);
+            console.log("Updating spot:", updatedMerchant);
+            // Insert logic to update the spot here
         }
     };
 
     return (
         <React.Fragment>
-            <div>-table of items of datatype IMerchant(/props) goes here-</div>
-            <Typography variant="h2">{edit ? "Edit Spot" : "Add New Spot"}</Typography>
-
             <Box mt={2}>
-                <Typography variant="h6">Title</Typography>
-                <Input
-                    placeholder="Title"
-                    defaultValue={edit ? merchant?.properties.title : ""}
+            <Typography variant="h2" component="h5">Title</Typography>
+                <TextField
+                    fullWidth
                     inputRef={titleRef}
-                    fullWidth
+                    defaultValue={edit ? merchant?.properties.title : ""}
                 />
             </Box>
 
             <Box mt={2}>
-                <Typography variant="h6">Description</Typography>
-                <Input
-                    placeholder="Description"
-                    defaultValue={edit ? merchant?.properties.description : ""}
+            <Typography variant="h2" component="h5">Description</Typography>
+                <TextField
+                    fullWidth
                     inputRef={descriptionRef}
-                    fullWidth
+                    defaultValue={edit ? merchant?.properties.description : ""}
+                    multiline
+                    minRows={3}
+                    maxRows={5}
                 />
             </Box>
 
             <Box mt={2}>
-                <Typography variant="h6">Address</Typography>
-                <Input
-                    placeholder="Address"
-                    defaultValue={edit ? merchant?.properties.address.address : ""}
+            <Typography variant="h2" component="h5">Address</Typography>
+                <TextField
+                    fullWidth
                     inputRef={addressRef}
-                    fullWidth
+                    defaultValue={edit ? merchant?.properties.address.address : ""}
                 />
             </Box>
 
             <Box mt={2}>
-                <Typography variant="h6">City</Typography>
-                <Input
-                    placeholder="City"
-                    defaultValue={edit ? merchant?.properties.address.city : ""}
+            <Typography variant="h2" component="h5">City</Typography>
+                <TextField
+                    fullWidth
                     inputRef={cityRef}
-                    fullWidth
+                    defaultValue={edit ? merchant?.properties.address.city : ""}
                 />
             </Box>
 
             <Box mt={2}>
-                <Typography variant="h6">Postal Code</Typography>
-                <Input
-                    placeholder="Postal Code"
-                    defaultValue={edit ? merchant?.properties.address.postalCode : ""}
-                    inputRef={postalCodeRef}
+            <Typography variant="h2" component="h5">Postal Code</Typography>
+                <TextField
                     fullWidth
+                    inputRef={postalCodeRef}
+                    defaultValue={edit ? merchant?.properties.address.postalCode : ""}
                 />
             </Box>
 
@@ -127,10 +122,9 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
             <hr />
 
             <Box mt={2}>
-                {/*<ToggleSocialInput name="IG" defaultValue={edit ? merchant?.properties.socials.find(s => s.network === "instagram")?.link || "" : ""} />
-                <ToggleSocialInput name="FB" defaultValue={edit ? merchant?.properties.socials.find(s => s.network === "facebook")?.link || "" : ""} />
-                <ToggleSocialInput name="X" defaultValue={edit ? merchant?.properties.socials.find(s => s.network === "twitter")?.link || "" : ""} />
-                <ToggleSocialInput name="Threads" defaultValue={edit ? merchant?.properties.socials.find(s => s.network === "web")?.link || "" : ""} />*/}
+                {/* Example ToggleSocialInput fields */}
+                {/* <ToggleSocialInput name="IG" defaultValue={edit ? merchant?.properties.socials.find(s => s.network === "instagram")?.link || "" : ""} />
+                <ToggleSocialInput name="FB" defaultValue={edit ? merchant?.properties.socials.find(s => s.network === "facebook")?.link || "" : ""} /> */}
             </Box>
 
             <Box mt={2} sx={{ width: "100%", border: "1px solid #000" }}>Upload Img</Box>
@@ -146,8 +140,8 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                     />
                 )}
                 <ButtonUniversal
-                    title={edit ? "Save Changes" : "Add Spot"}
-                    color={edit ? "#F23CFF" : "#8000FF"}
+                    title={edit ? "Save" : "Add"}
+                    color="#F23CFF"
                     textColor="white"
                     actionDelegate={edit ? UpdateSpot : AddSpot}
                 />
