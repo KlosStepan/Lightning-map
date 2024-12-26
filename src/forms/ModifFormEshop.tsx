@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import ButtonUniversal from "../components/ButtonUniversal";
 import IEshop from "../ts/IEeshop";
+import {useDropzone} from 'react-dropzone';
 
 type ModifFormEshopProps = {
     edit?: boolean;
@@ -18,6 +19,20 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
     const webRef = useRef<HTMLInputElement>(null);
     const logoRef = useRef<HTMLInputElement>(null);
 
+    //Upload imgs
+    //AUX stuff
+    const onDrop = (acceptedFiles: any) => {
+        console.log(acceptedFiles);
+    };
+    //AUX
+    const {acceptedFiles, getRootProps, getInputProps} = useDropzone({onDrop, multiple: false });
+
+    const files = acceptedFiles.map(file => (
+        <li key={file.path}>
+            {file.path} - {file.size} bytes
+        </li>
+    ));
+    
     // Function to collect data and create an IEshop object for submission
     const createEshopData = (): any => ({ //todo IEshop
         name: titleRef.current?.value || "",
@@ -90,6 +105,19 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
                 <Box mt={2} sx={{ width: "100%", border: "1px solid #000" }}>
                     Upload Img 
                 </Box>*/}
+                <Box mt={2}>
+                    <Typography variant="h2" component="h5">Logo</Typography>
+                    <section className="container">
+                        <div {...getRootProps({className: 'dropzone'})} style={{border: '1px solid #000', margin: '1px 1px !important'}}>
+                            <input {...getInputProps()} />
+                            <p>&nbsp; Drag 'n' drop logo file here, or click to select file</p>
+                        </div>
+                        <aside>
+                            <h4>Selected file</h4>
+                            <ol>{files}</ol>
+                        </aside>
+                    </section>
+                </Box>
                 {/* Action Buttons */}
                 <Box display="flex" justifyContent="flex-end" mt={2}>
                     {FuncCancel && (

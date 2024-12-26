@@ -5,6 +5,8 @@ import TextField from "@mui/material/TextField";
 import ButtonUniversal from "../components/ButtonUniversal";
 import ToggleSocialInput from "../components/ToggleSocialInput";
 import IMerchant from "../ts/IMerchant";
+import {useDropzone} from 'react-dropzone';
+import uploadIcon from '../icons/upload.png';
 
 type ModifFormSpotProps = {
     edit?: boolean;
@@ -19,6 +21,20 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
     const addressRef = useRef<HTMLInputElement>(null);
     const cityRef = useRef<HTMLInputElement>(null);
     const postalCodeRef = useRef<HTMLInputElement>(null);
+
+    //Upload imgs
+    //AUX stuff
+    const onDrop = (acceptedFiles: any) => {
+        console.log(acceptedFiles);
+    };
+    //AUX
+    const {acceptedFiles, getRootProps, getInputProps} = useDropzone({onDrop/*, multiple: false*/ });
+    //
+    const files = acceptedFiles.map(file => (
+        <li key={file.path}>
+            {file.path} - {file.size} bytes
+        </li>
+    ));
 
     // Add and Update functions
     const AddSpot = () => {
@@ -122,13 +138,39 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
             <hr />
 
             <Box mt={2}>
+                <div>-socials-</div>
                 {/* Example ToggleSocialInput fields */}
-                {/* <ToggleSocialInput name="IG" defaultValue={edit ? merchant?.properties.socials.find(s => s.network === "instagram")?.link || "" : ""} />
-                <ToggleSocialInput name="FB" defaultValue={edit ? merchant?.properties.socials.find(s => s.network === "facebook")?.link || "" : ""} /> */}
+                {/*
+                <ToggleSocialInput name="IG" defaultValue={edit ? merchant?.properties.socials.find(s => s.network === "instagram")?.link || "" : ""} />
+                <ToggleSocialInput name="FB" defaultValue={edit ? merchant?.properties.socials.find(s => s.network === "facebook")?.link || "" : ""} />
+                */}
+                <span>-/socials-</span>
             </Box>
 
-            <Box mt={2} sx={{ width: "100%", border: "1px solid #000" }}>Upload Img</Box>
-
+            {/*
+                <Box mt={2} sx={{ width: "100%", border: "1px solid #000" }}>Upload Img</Box>
+            */}
+            <Box mt={2}>
+                <Typography variant="h2" component="h5"></Typography>
+                <section className="container">
+                    <div {...getRootProps({className: 'dropzone'})} style={{border: '1px solid #000', margin: '1px 1px !important'}}>
+                        <input {...getInputProps()} />
+                        {/*<p>&nbsp; Drag 'n' drop logo file here, or click to select file</p>*/}
+                        <span>
+                            <Box
+                                component="img"
+                                src={uploadIcon}
+                                alt="Upload Icon"
+                                //sx={closeIconStyle}
+                            />
+                        <span style={{fontFamily: 'PixGamer', fontSize: '18px'}}>Upload image</span></span>
+                    </div>
+                    <aside>
+                        <h4>Selected file</h4>
+                        <ol>{files}</ol>
+                    </aside>
+                </section>
+            </Box>
             {/* Action Buttons */}
             <Box display="flex" justifyContent="flex-end" mt={2}>
                 {FuncCancel && (
