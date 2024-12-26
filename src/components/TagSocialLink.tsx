@@ -1,6 +1,6 @@
 import React from "react";
 import { Box } from "@mui/material";
-import { ISocial } from "../ts/IMerchant";
+import ISocial from "../ts/ISocial";
 
 const styleTagSocialLink = {
     fontFamily: 'PixGamer',
@@ -25,6 +25,11 @@ type TagSocialLinkProps = {
 };
 
 const TagSocialLink: React.FC<TagSocialLinkProps> = ({ social }) => {
+    
+    if (!social.link) {
+        return <></>;
+    }
+
     return (
         <a href={social.link} style={{ textDecoration: 'none' }} target="_blank" rel="noopener noreferrer">
             <Box sx={styleTagSocialLink}>

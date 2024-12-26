@@ -7,7 +7,8 @@ import IconExclamationMark from "../icons/warning-box.png";
 import IconLightningNumber from "../icons/IconLightningNumber";
 import TagMerchant from "./TagMerchant";
 import TagSocialLink from "./TagSocialLink";
-import { IMerchantTile, ISocial } from "../ts/IMerchant"; // Import the IMerchantTile type
+import { IMerchantTile/*, ISocial*/ } from "../ts/IMerchant"; // Import the IMerchantTile type
+import ISocial from "../ts/ISocial";
 import dummyImgBigTile from '../img/image-1-3.png';
 import closeIcon from '../icons/close.png';
 //Redux

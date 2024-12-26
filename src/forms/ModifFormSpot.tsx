@@ -7,6 +7,7 @@ import ToggleSocialInput from "../components/ToggleSocialInput";
 import IMerchant from "../ts/IMerchant";
 import {useDropzone} from 'react-dropzone';
 import uploadIcon from '../icons/upload.png';
+import ISocial from "../ts/ISocial";
 
 type ModifFormSpotProps = {
     edit?: boolean;
@@ -21,7 +22,34 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
     const addressRef = useRef<HTMLInputElement>(null);
     const cityRef = useRef<HTMLInputElement>(null);
     const postalCodeRef = useRef<HTMLInputElement>(null);
-
+    const socials: ISocial[] = [
+        {
+          "network": "web",
+          "label": "Web",
+          "link": null
+        },
+        {
+          "network": "facebook",
+          "label": "FB",
+          "link": null
+        },
+        {
+          "network": "instagram",
+          "label": "IG",
+          "link": null
+        },
+        {
+          "network": "twitter",
+          "label": "X",
+          "link": null
+        },
+        {
+          "network": "threads",
+          "label": "@",
+          "link": null
+        }
+    ]
+      
     //Upload imgs
     //AUX stuff
     const onDrop = (acceptedFiles: any) => {

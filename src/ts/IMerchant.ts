@@ -1,9 +1,10 @@
+import ISocial from "./ISocial";
 // Define the ISocial type for individual social links
-interface ISocial {
+/*interface ISocial {
   network: 'web' | 'facebook' | 'instagram' | 'twitter'; // Supported networks
   label: string; // Label like "Web", "FB", "IG", "X"
   link: string; // URL of the social link
-}
+}*/
 
 // Define the IAddress type for the merchant's address details
 interface IAddress {
@@ -35,4 +36,4 @@ interface IMerchant {
 }
 
 export default IMerchant;
-export type { ISocial, IMerchantTile, IAddress };
+export type { /*ISocial,*/ IMerchantTile, IAddress };
