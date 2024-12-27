@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
-import circle from '../icons/circle.png';
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import circleplus from '../icons/circleplus.png';
 import closeIcon from '../icons/close.png';
+import ISocial from '../ts/ISocial';
 
 const iconStyle = {
     width: 18,
@@ -9,20 +12,29 @@ const iconStyle = {
 }
 
 type ToggleSocialInputProps = {
-    //sach mat, transform ISocial
-    name: string;
+    social: ISocial;
+    switchLinkTo: (link: string | null) => void;
 }
 
-const ToggleSocialInput: React.FC<ToggleSocialInputProps> = ({ name }) => {
-    const [opened, setOpened] = useState<boolean>(false);
-    
+const capitalizeFirst = (str: string) => str ? str[0].toUpperCase() + str.slice(1) : '';
+
+
+const ToggleSocialInput: React.FC<ToggleSocialInputProps> = ({ social, switchLinkTo }) => {
+    //const [opened, setOpened] = useState<boolean>(false);
+    const isOpen = social.link !== null;
+
     return (
         <React.Fragment>
-            {opened ? (
+            {isOpen ? (
                 <React.Fragment>
-                    <div>
-                        {name} |FIELD| 
-                        &nbsp; <span onClick={() => setOpened(false)}>
+                    <Typography variant="h3" component="h5">{capitalizeFirst(social.network)}</Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <TextField
+                            fullWidth
+                            defaultValue={isOpen ? social.link : ""}
+                            sx={{ flex: 1 }} // Ensures the TextField takes the available space
+                        />
+                        <span onClick={() => switchLinkTo(null)}>
                             <Box
                                 component="img"
                                 src={closeIcon}
@@ -34,15 +46,15 @@ const ToggleSocialInput: React.FC<ToggleSocialInputProps> = ({ name }) => {
                                 }}
                             />
                         </span>
-                    </div>
+                    </Box>
                 </React.Fragment>
             ) : (
                 <React.Fragment>
                     <div>
-                        <span onClick={() => setOpened(true)}>
+                        <span onClick={() => switchLinkTo('')}>
                             <Box
                                 component="img"
-                                src={circle}
+                                src={circleplus}
                                 alt="Custom Search Icon"
                                 sx={iconStyle}
                                 style={{
@@ -51,7 +63,7 @@ const ToggleSocialInput: React.FC<ToggleSocialInputProps> = ({ name }) => {
                                 }}
                                 />
                         </span>
-                    &nbsp; {name}
+                    &nbsp; {capitalizeFirst(social.network)}
                     </div>
                 </React.Fragment>
             )}
