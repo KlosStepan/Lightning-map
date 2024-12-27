@@ -3,6 +3,8 @@ import PixgamerRegularTtf from './fonts/PixgamerRegular-OVD6A.ttf';
 
 const ibmPlexSansCondensed = require('@fontsource/ibm-plex-sans-condensed');
 
+//FONTS 'IBM Plex Sans Condensed'
+//      'PixGamer'
 export const theme = createTheme({
     typography: {
         h1: { fontFamily: 'PixGamer', fontSize: '2em' },
