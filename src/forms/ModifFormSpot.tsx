@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
@@ -8,6 +9,11 @@ import IMerchant from "../ts/IMerchant";
 import {useDropzone} from 'react-dropzone';
 import uploadIcon from '../icons/upload.png';
 import ISocial from "../ts/ISocial";
+
+//
+import L from "leaflet";
+import group10 from '../icons/group10.png';
+import group13 from '../icons/group13.png';
 
 type ModifFormSpotProps = {
     edit?: boolean;
@@ -38,6 +44,13 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
             )
         );
     };
+    //Map stuff misc
+    const mapRef2 = useRef(null);
+    const latitude = 50.0755;
+    const longitude = 14.4378;
+    //
+    const [position, setPosition] = useState<[number, number]>([50.0755, 14.4378]); // Default position
+
     /*const socials: ISocial[] = [
         {
           "network": "web",
@@ -65,7 +78,17 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
           "link": null
         }
     ]*/
-
+    const handleDragEnd = (event: L.DragEndEvent) => {
+        const marker = event.target as L.Marker;
+        const newPosition = marker.getLatLng();
+        setPosition([newPosition.lat, newPosition.lng]);
+    };
+    
+    const saveToDatabase = () => {
+        console.log("Saving position to database:", position);
+        // Add logic to save latitude and longitude to your database
+    };
+    
     //handleLinkOpened <- TODO function that would switch for ex. network: instagram to link: '' or link :'' and also .slice array so state gets updated and stuff
       
     //Upload imgs
@@ -180,11 +203,29 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                     defaultValue={edit ? merchant?.properties.address.postalCode : ""}
                 />
             </Box>
-
-            <Box mt={2} sx={{ width: "100%", border: "1px solid #000" }}>Map</Box>
-            <div  style={{fontFamily: 'PixGamer', textAlign: 'center', fontSize: '22px'}}>Drag pin to more precise location</div>
+            &nbsp;
+            <MapContainer center={[latitude, longitude]} zoom={13} ref={mapRef2} style={{ height: "22vh", width: "100%" }}>
+                <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <Marker
+                    position={position}
+                    draggable={true}
+                    eventHandlers={{
+                        dragend: handleDragEnd,
+                    }}
+                    icon={L.icon({
+                        iconUrl: group13, // Replace with your icon's path
+                        //iconSize: [32, 32], // Customize size
+                        //iconAnchor: [16, 32], // Adjust anchor to center-bottom
+                        //popupAnchor: [0, -32], // Adjust popup anchor
+                    })}
+                />
+            </MapContainer>
+            <div  style={{fontFamily: 'PixGamer', textAlign: 'center', fontSize: '18px'}}>Drag pin to more precise location</div>
             
-            <hr />
+            {/*<hr />*/}
 
             <Box mt={2}>
                 {/* Example ToggleSocialInput fields */}
@@ -206,7 +247,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                 <Box mt={2} sx={{ width: "100%", border: "1px solid #000" }}>Upload Img</Box>
             */}
 
-            <hr />
+            {/*<hr />*/}
 
             <Box mt={2}>
                 <Typography variant="h2" component="h5"></Typography>
