@@ -97,7 +97,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
         console.log(acceptedFiles);
     };
     //AUX
-    const {acceptedFiles, getRootProps, getInputProps} = useDropzone({onDrop/*, multiple: false*/ });
+    const {acceptedFiles, getRootProps, getInputProps,isDragActive, isDragAccept, isDragReject} = useDropzone({onDrop/*, multiple: false*/ });
     //
     const files = acceptedFiles.map(file => (
         <li key={file.path}>
@@ -255,7 +255,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                     <div {...getRootProps({className: 'dropzone'})} style={{border: '1px solid #000', margin: '1px 1px !important', textAlign: 'center'}}>
                         <input {...getInputProps()} />
                         {/*<p>&nbsp; Drag 'n' drop logo file here, or click to select file</p>*/}
-                        <Box
+                        {/*<Box
                             component="img"
                             src={uploadIcon}
                             alt="Upload Icon"
@@ -265,7 +265,28 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                             }}
                         />
                         &nbsp;
-                        <span style={{fontFamily: 'PixGamer', fontSize: '22px'}}>Upload image</span>
+                        <span style={{fontFamily: 'PixGamer', fontSize: '22px'}}>Upload image</span>*/}
+                        {isDragAccept && (<p>All files will be accepted</p>)}
+                        {isDragReject && (<p>Some files will be rejected</p>)}
+                        {/*!isDragActive && (
+                            <p>
+                                <Box
+                                    component="img"
+                                    src={uploadIcon}
+                                    alt="Upload Icon"
+                                    sx={{
+                                        width: 18,
+                                        height: 18,
+                                        margin: 0,
+                                    }}
+                                />
+                                &nbsp;
+                                <span style={{ fontFamily: 'PixGamer', fontSize: '22px' }}>
+                                    Upload image
+                                </span>
+                            </p>
+                        )*/}
+                        {!isDragActive && (<p><img src={uploadIcon} height={18} width={18}/> &nbsp; Drop some files here ...</p>)}
                     </div>
                     <aside>
                         <h4>Selected file</h4>
