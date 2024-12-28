@@ -10,21 +10,35 @@ import group13 from '../icons/group13.png';
 //import { RootState } from "../redux-rtk/store";
 import { useSelector } from "react-redux";
 
-// Function to create a custom icon
-const createCustomIconWithText = (iconUrl, text) => {
-  //TODO - swap if Selected - 13 : 10
-  //let iconUrl = group10;
+// Function to create a custom icon with styled text
+const createCustomIconWithText = (iconUrl, text, selected = false) => {
+  const purple = '#F23CFF';
+  const purpleSelected = '#8000FF';
+
+  // Default textDiv
+  const textDiv = `
+    <div style="font-size: 14px; font-weight: 500; line-height: 18.2px; color: black; border: 1px solid ${purple}; border-radius: 100px; background-color: white; padding: 4px 10px 4px 10px; margin-top: 5px; text-align: center; display: inline-block; white-space: nowrap; font-family: 'IBM Plex Sans Condensed', sans-serif;">
+      ${text}
+    </div>`;
+
+  // Selected textDiv2
+  const textDiv2 = `
+    <div style="font-size: 14px; font-weight: 500; line-height: 18.2px; color: white; border: 1px solid ${purpleSelected}; border-radius: 100px; background-color: ${purpleSelected}; padding: 4px 10px 4px 10px; margin-top: 5px; text-align: center; display: inline-block; white-space: nowrap; font-family: 'IBM Plex Sans Condensed', sans-serif;">
+      ${text}
+    </div>`;
+
+  // Decide which div to use based on selected
+  const chosenTextDiv = selected ? textDiv2 : textDiv;
+
   return L.divIcon({
     html: `
       <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
         <img src="${iconUrl}" style="width: 25px; height: 41px;" />
-        <div style="font-size: 12px; color: black; width: auto; border: 1px solid black; border-radius: 5px; padding: 2px; margin-top: 5px; text-align: center;">
-          ${text}
-        </div>
+        ${chosenTextDiv}
       </div>`,
-    className: 'custom-div-icon',  // Add a class for any custom styling
+    className: 'custom-div-icon',  // Add a class for additional custom styling
     iconSize: [25, 41],  // Adjust the size as necessary
-    iconAnchor: [12.5, 41],  // Adjust to ensure the icon is centered on the coordinates (half width, full height)
+    iconAnchor: [12.5, 41],  // Adjust to center the icon on the coordinates
   });
 };
 
@@ -48,8 +62,11 @@ const LeafletMapTwo = ({ data, onMerchantSelect }) => {
         <MapContainer center={[latitude, longitude]} zoom={13} ref={mapRef} style={{height: "50vh", width: "25vw"}}>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
           />
+          {/* url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" */ /* OG */}
+          {/* url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png" */ /* Good, not sure about usage. */}
+          {/* url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" */ /* prolly good */}
           {data?.map((merchant, index) => (
               <Marker 
                   key={index} 
@@ -58,7 +75,7 @@ const LeafletMapTwo = ({ data, onMerchantSelect }) => {
                   icon={
                     selected?.properties.title !== merchant.properties.title 
                     ? createCustomIconWithText(group13, merchant.properties.title)
-                    : createCustomIconWithText(group10, merchant.properties.title)
+                    : createCustomIconWithText(group10, merchant.properties.title, true)
                   }
                   eventHandlers={{
                       click: () => handleMarkerClick(merchant),  // Set selected merchant in parent
