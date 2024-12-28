@@ -31,7 +31,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
     const [socials, setSocials] = useState<ISocial[]>([
         { network: "web", label: "Web", link: 'www.something.com' },
         { network: "facebook", label: "FB", link: null },
-        { network: "instagram", label: "IG", link: null },
+        { network: "instagram", label: "IG", link: 'www.instagram.com/something' },
         { network: "twitter", label: "X", link: null },
         { network: "threads", label: "@", link: null },
     ]);
@@ -153,7 +153,9 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
     };
 
     //TODO AddSpot and UpdateSpot - if link!==null -> ref HTML replace instead of '' when wrapping
-
+    const HrGreyCustomSeparator = () => (
+        <div style={{ borderTop: '1px solid #D3D3D3', width: '100%', margin: '20px 0' }} />
+    );
     return (
         <React.Fragment>
             <Box mt={2}>
@@ -176,6 +178,8 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                     maxRows={5}
                 />
             </Box>
+
+            <HrGreyCustomSeparator />
 
             <Box mt={2}>
             <Typography variant="h2" component="h5">Address</Typography>
@@ -225,11 +229,11 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
             </MapContainer>
             <div  style={{fontFamily: 'PixGamer', textAlign: 'center', fontSize: '18px'}}>Drag pin to more precise location</div>
             
-            {/*<hr />*/}
+            <HrGreyCustomSeparator />
 
             <Box mt={2}>
                 {/* Example ToggleSocialInput fields */}
-                {/*
+                {/*rag pin to more pre
                 <ToggleSocialInput name="IG" defaultValue={edit ? merchant?.properties.socials.find(s => s.network === "instagram")?.link || "" : ""} />
                 <ToggleSocialInput name="FB" defaultValue={edit ? merchant?.properties.socials.find(s => s.network === "facebook")?.link || "" : ""} />
                 */}
@@ -243,50 +247,16 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                 ))}
             </Box>
 
-            {/*
-                <Box mt={2} sx={{ width: "100%", border: "1px solid #000" }}>Upload Img</Box>
-            */}
-
-            {/*<hr />*/}
+            <HrGreyCustomSeparator />
 
             <Box mt={2}>
                 <Typography variant="h2" component="h5"></Typography>
                 <section className="container">
-                    <div {...getRootProps({className: 'dropzone'})} style={{border: '1px solid #000', margin: '1px 1px !important', textAlign: 'center'}}>
+                    <div {...getRootProps({className: 'dropzone'})} style={{border: '1px solid #FFF', borderRadius: '10px', backgroundColor: 'white', margin: '1px 1px !important', textAlign: 'center', fontFamily: 'PixGamer'}}>
                         <input {...getInputProps()} />
-                        {/*<p>&nbsp; Drag 'n' drop logo file here, or click to select file</p>*/}
-                        {/*<Box
-                            component="img"
-                            src={uploadIcon}
-                            alt="Upload Icon"
-                            sx={{
-                                width: 20,
-                                height: 20,
-                            }}
-                        />
-                        &nbsp;
-                        <span style={{fontFamily: 'PixGamer', fontSize: '22px'}}>Upload image</span>*/}
                         {isDragAccept && (<p>All files will be accepted</p>)}
                         {isDragReject && (<p>Some files will be rejected</p>)}
-                        {/*!isDragActive && (
-                            <p>
-                                <Box
-                                    component="img"
-                                    src={uploadIcon}
-                                    alt="Upload Icon"
-                                    sx={{
-                                        width: 18,
-                                        height: 18,
-                                        margin: 0,
-                                    }}
-                                />
-                                &nbsp;
-                                <span style={{ fontFamily: 'PixGamer', fontSize: '22px' }}>
-                                    Upload image
-                                </span>
-                            </p>
-                        )*/}
-                        {!isDragActive && (<p><img src={uploadIcon} height={18} width={18}/> &nbsp; Drop some files here ...</p>)}
+                        {!isDragActive && (<p><img src={uploadIcon} height={18} width={18}/> &nbsp; Upload image</p>)}
                     </div>
                     <aside>
                         <h4>Selected file</h4>

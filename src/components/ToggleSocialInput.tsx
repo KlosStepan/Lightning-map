@@ -20,18 +20,23 @@ const capitalizeFirst = (str: string) => str ? str[0].toUpperCase() + str.slice(
 
 
 const ToggleSocialInput: React.FC<ToggleSocialInputProps> = ({ social, switchLinkTo }) => {
-    //const [opened, setOpened] = useState<boolean>(false);
     const isOpen = social.link !== null;
-
     return (
         <React.Fragment>
             {isOpen ? (
                 <React.Fragment>
-                    <Typography variant="h3" component="h5">{capitalizeFirst(social.network)}</Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Typography variant="h3" component="h5" fontFamily="PixGamer">
+                        {capitalizeFirst(social.network)}
+                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', marginBottom:'4px' }}>
                         <TextField
                             fullWidth
                             defaultValue={isOpen ? social.link : ""}
+                            onBlur={(event) => {
+                                const newLink = event.target.value.trim();
+                                console.log(newLink);
+                                switchLinkTo(newLink || null);
+                            }} // Inline onBlur logic
                             sx={{ flex: 1 }} // Ensures the TextField takes the available space
                         />
                         <span onClick={() => switchLinkTo(null)}>
@@ -43,6 +48,7 @@ const ToggleSocialInput: React.FC<ToggleSocialInputProps> = ({ social, switchLin
                                 style={{
                                     cursor: 'pointer',
                                     opacity: 1,
+                                    marginLeft: '8px',
                                 }}
                             />
                         </span>
@@ -50,7 +56,7 @@ const ToggleSocialInput: React.FC<ToggleSocialInputProps> = ({ social, switchLin
                 </React.Fragment>
             ) : (
                 <React.Fragment>
-                    <div>
+                    <div style={{fontFamily: 'PixGamer', fontSize: '22px'}}>
                         <span onClick={() => switchLinkTo('')}>
                             <Box
                                 component="img"

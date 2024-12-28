@@ -5,6 +5,7 @@ import TextField from "@mui/material/TextField";
 import ButtonUniversal from "../components/ButtonUniversal";
 import IEshop from "../ts/IEeshop";
 import {useDropzone} from 'react-dropzone';
+import uploadIcon from '../icons/upload.png';
 
 type ModifFormEshopProps = {
     edit?: boolean;
@@ -19,14 +20,13 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
     const webRef = useRef<HTMLInputElement>(null);
     const logoRef = useRef<HTMLInputElement>(null);
 
-    //Upload imgs
-    //AUX stuff
+    //Upload img
     const onDrop = (acceptedFiles: any) => {
         console.log(acceptedFiles);
     };
-    //AUX
-    const {acceptedFiles, getRootProps, getInputProps} = useDropzone({onDrop, multiple: false });
-
+    
+    const {acceptedFiles, getRootProps, getInputProps,isDragActive, isDragAccept, isDragReject} = useDropzone({onDrop, multiple: false });
+    
     const files = acceptedFiles.map(file => (
         <li key={file.path}>
             {file.path} - {file.size} bytes
@@ -62,8 +62,6 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
                 <Box mt={2}>
                     <Typography variant="h2" component="h5">Title</Typography>
                     <TextField
-                        //label=""
-                        //variant="outlined"
                         fullWidth
                         inputRef={titleRef}
                         defaultValue={edit ? eshop?.name : ""}
@@ -72,7 +70,6 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
                 <Box mt={2}>
                     <Typography variant="h2" component="h5">Description</Typography>
                     <TextField
-                        //label=""
                         variant="outlined"
                         fullWidth
                         inputRef={descriptionRef}
@@ -85,32 +82,19 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
                 <Box mt={2}>
                     <Typography variant="h2" component="h5">Web</Typography>
                     <TextField
-                        //label=""
-                        //variant="outlined"
                         fullWidth
                         inputRef={webRef}
                         defaultValue={edit ? eshop?.url : ""}
                     />
                 </Box>
-                {/*<Box mt={2}>
-                    <Typography variant="h2" component="h5">Logo</Typography>
-                    <TextField
-                        //label=""
-                        variant="outlined"
-                        fullWidth
-                        inputRef={logoRef}
-                        defaultValue={edit ? eshop?.logo : ""}
-                    />
-                </Box>
-                <Box mt={2} sx={{ width: "100%", border: "1px solid #000" }}>
-                    Upload Img 
-                </Box>*/}
                 <Box mt={2}>
                     <Typography variant="h2" component="h5">Logo</Typography>
                     <section className="container">
-                        <div {...getRootProps({className: 'dropzone'})} style={{border: '1px solid #000', margin: '1px 1px !important'}}>
+                        <div {...getRootProps({className: 'dropzone'})} style={{border: '1px solid #FFF', borderRadius: '10px', backgroundColor: 'white', margin: '1px 1px !important', textAlign: 'center', fontFamily: 'PixGamer'}}>
                             <input {...getInputProps()} />
-                            <p>&nbsp; Drag 'n' drop logo file here, or click to select file</p>
+                            {isDragAccept && (<p>All files will be accepted</p>)}
+                            {isDragReject && (<p>Some files will be rejected</p>)}
+                            {!isDragActive && (<p><img src={uploadIcon} height={18} width={18}/> &nbsp; Upload image</p>)}
                         </div>
                         <aside>
                             <h4>Selected file</h4>
