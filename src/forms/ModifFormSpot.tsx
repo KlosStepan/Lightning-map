@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -9,11 +9,43 @@ import IMerchant from "../ts/IMerchant";
 import {useDropzone} from 'react-dropzone';
 import uploadIcon from '../icons/upload.png';
 import ISocial from "../ts/ISocial";
-
+//
+import { CSSProperties } from 'react';
 //
 import L from "leaflet";
 import group10 from '../icons/group10.png';
 import group13 from '../icons/group13.png';
+
+const thumbsContainer: CSSProperties = {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 16
+  };
+  
+  const thumb: CSSProperties = {
+    display: 'inline-flex',
+    borderRadius: 2,
+    border: '1px solid #eaeaea',
+    marginBottom: 8,
+    marginRight: 8,
+    width: 100,
+    height: 100,
+    padding: 4,
+    boxSizing: 'border-box'
+  };
+  
+  const thumbInner: CSSProperties = {
+    display: 'flex',
+    minWidth: 0,
+    overflow: 'hidden'
+  };
+  
+  const img: CSSProperties = {
+    display: 'block',
+    width: 'auto',
+    height: '100%'
+  };
 
 type ModifFormSpotProps = {
     edit?: boolean;
@@ -22,6 +54,42 @@ type ModifFormSpotProps = {
 };
 
 const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, FuncCancel }) => {
+    //NEW DROPZONE
+    const [files, setFiles] = useState<Array<File & { preview: string }>>([]);
+    //const { getRootProps, getInputProps } = useDropzone({
+    const { acceptedFiles, getRootProps, getInputProps,isDragActive, isDragAccept, isDragReject } = useDropzone({
+      accept: {
+        'image/*': []
+      },
+      onDrop: (acceptedFiles) => {
+        setFiles(
+          acceptedFiles.map((file) =>
+            Object.assign(file, {
+              preview: URL.createObjectURL(file)
+            })
+          )
+        );
+      }
+    });
+  
+    const thumbs = files.map((file) => (
+      <div style={thumb} key={file.name}>
+        <div style={thumbInner}>
+          <img
+            src={file.preview}
+            style={img}
+            onLoad={() => {
+              URL.revokeObjectURL(file.preview);
+            }}
+          />
+        </div>
+      </div>
+    ));
+  
+    useEffect(() => {
+      return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
+    }, [files]);
+  
     // useRef hooks for each input field
     const titleRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLInputElement>(null);
@@ -96,14 +164,16 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
     const onDrop = (acceptedFiles: any) => {
         console.log(acceptedFiles);
     };
-    //AUX
-    const {acceptedFiles, getRootProps, getInputProps,isDragActive, isDragAccept, isDragReject} = useDropzone({onDrop/*, multiple: false*/ });
-    //
-    const files = acceptedFiles.map(file => (
+
+    //AUX DROP
+    //const {acceptedFiles, getRootProps, getInputProps,isDragActive, isDragAccept, isDragReject} = useDropzone({onDrop/*, multiple: false*/ });
+    
+    /*const files = acceptedFiles.map(file => (
         <li key={file.path}>
             {file.path} - {file.size} bytes
         </li>
-    ));
+    ));*/
+
 
     // Add and Update functions
     const AddSpot = () => {
@@ -210,8 +280,9 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
             &nbsp;
             <MapContainer center={[latitude, longitude]} zoom={13} ref={mapRef2} style={{ height: "22vh", width: "100%" }}>
                 <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    //url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
                 />
                 <Marker
                     position={position}
@@ -251,7 +322,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
 
             <Box mt={2}>
                 <Typography variant="h2" component="h5"></Typography>
-                <section className="container">
+                {/*<section className="container">
                     <div {...getRootProps({className: 'dropzone'})} style={{border: '1px solid #FFF', borderRadius: '10px', backgroundColor: 'white', margin: '1px 1px !important', textAlign: 'center', fontFamily: 'PixGamer'}}>
                         <input {...getInputProps()} />
                         {isDragAccept && (<p>All files will be accepted</p>)}
@@ -262,6 +333,22 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                         <h4>Selected file</h4>
                         <ol>{files}</ol>
                     </aside>
+                </section>*/}
+                {/*<section className="container">
+                    <div {...getRootProps({ className: 'dropzone' })}>
+                        <input {...getInputProps()} />
+                        <p>Drag 'n' drop some files here, or click to select files</p>
+                    </div>
+                    <aside style={thumbsContainer}>{thumbs}</aside>
+                </section>*/}
+                <section className="container">
+                    <div {...getRootProps({className: 'dropzone'})} style={{border: '1px solid #FFF', borderRadius: '10px', backgroundColor: 'white', margin: '1px 1px !important', textAlign: 'center', fontFamily: 'PixGamer'}}>
+                        <input {...getInputProps()} />
+                        {isDragAccept && (<p>All files will be accepted</p>)}
+                        {isDragReject && (<p>Some files will be rejected</p>)}
+                        {!isDragActive && (<p><img src={uploadIcon} height={18} width={18}/> &nbsp; Upload images</p>)}
+                    </div>
+                    <aside style={thumbsContainer}>{thumbs}</aside>
                 </section>
             </Box>
             {/* Action Buttons */}
