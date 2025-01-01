@@ -97,6 +97,7 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
+                style={{overflow: 'scroll'}}
               >
                 <span>FormAdd Merchant</span>
             </Modal>

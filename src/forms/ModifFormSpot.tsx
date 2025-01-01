@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
-import Box from "@mui/material/Box";
+import { Grid, Box } from '@mui/material';
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import ButtonUniversal from "../components/ButtonUniversal";
@@ -26,10 +26,12 @@ const thumbsContainer: CSSProperties = {
   const thumb: CSSProperties = {
     display: 'inline-flex',
     borderRadius: 2,
-    border: '1px solid #eaeaea',
+    //border: '1px solid #eaeaea',
+    border: '1px solid #000000',
     marginBottom: 8,
     marginRight: 8,
-    width: 100,
+    //width: 100,
+    width: '49%',
     height: 100,
     padding: 4,
     boxSizing: 'border-box'
@@ -73,18 +75,46 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
     });
   
     const thumbs = files.map((file) => (
-      <div style={thumb} key={file.name}>
-        <div style={thumbInner}>
-          <img
-            src={file.preview}
-            style={img}
-            onLoad={() => {
-              URL.revokeObjectURL(file.preview);
+        <Grid item xs={6} key={file.name}> {/* 50% of the width */}
+          <Box
+            sx={{
+              border: '1px solid #ccc', // Slightly darker border for better visibility
+              borderRadius: 4, // Rounded corners for the tile
+              padding: 2, // Padding around the image container
+              //marginBottom: 2, // Space between tiles
+              margin: 1,
+              textAlign: 'center',
+              backgroundColor: '#f9f9f9', // Light background for better contrast
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', // Subtle shadow for depth
             }}
-          />
-        </div>
-      </div>
-    ));
+          >
+            <Box
+              sx={{
+                padding: 1, // Padding inside the container
+                border: '1px dashed #ddd', // Dashed border for inner container
+                borderRadius: 2, // Slight rounding for the inner box
+                overflow: 'hidden',
+                backgroundColor: '#fff', // White background for the inner box
+              }}
+            >
+              <img
+                src={file.preview}
+                alt="Preview"
+                style={{
+                  width: '90%', // Smaller image size inside the container
+                  height: 'auto',
+                  display: 'block',
+                  margin: '0 auto', // Center the image horizontally
+                }}
+                onLoad={() => {
+                  URL.revokeObjectURL(file.preview);
+                }}
+              />
+            </Box>
+          </Box>
+        </Grid>
+      ));
+      
   
     useEffect(() => {
       return () => files.forEach((file) => URL.revokeObjectURL(file.preview));

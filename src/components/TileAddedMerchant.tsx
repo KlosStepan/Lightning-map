@@ -75,7 +75,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, tile }) =>
                     />
             </Box>
             {/* Edit Modal */}
-            <Modal open={openEdit} onClose={handleCloseEdit}>
+            <Modal open={openEdit} onClose={handleCloseEdit} style={{overflow: 'scroll'}}>
                 <Box
                     style={{
                         borderRadius: '20px',
@@ -115,7 +115,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, tile }) =>
                 </Box>
             </Modal>
             {/* Delete Modal */}
-            <Modal open={openDelete} onClose={handleCloseDelete}>
+            <Modal open={openDelete} onClose={handleCloseDelete} style={{overflow: 'scroll'}}>
                 <Box
                     style={{
                         borderRadius: '20px',

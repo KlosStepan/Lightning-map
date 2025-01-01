@@ -95,6 +95,7 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = ({ }) => {
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
+                style={{overflow: 'scroll'}}
               >
                 <span>FormAdd Eshop</span>
             </Modal>

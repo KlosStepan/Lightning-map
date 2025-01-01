@@ -129,6 +129,7 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
+                style={{overflow: 'scroll'}}
             >
                 <FormAddEshop closeModal={handleClose} />
             </Modal>

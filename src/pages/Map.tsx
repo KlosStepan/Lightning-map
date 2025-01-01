@@ -259,6 +259,7 @@ const Map: React.FC = () => {
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
+                style={{overflow: 'scroll'}}
               >
                 <FormAddSpot closeModal={handleClose}/>
               </Modal>
