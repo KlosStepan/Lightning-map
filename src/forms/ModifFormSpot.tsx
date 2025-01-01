@@ -79,8 +79,8 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
           <Box
             sx={{
               border: '1px solid #ccc', // Slightly darker border for better visibility
-              borderRadius: 4, // Rounded corners for the tile
-              padding: 2, // Padding around the image container
+              borderRadius: 2, // Rounded corners for the tile
+              //padding: 2, // Padding around the image container
               //marginBottom: 2, // Space between tiles
               margin: 1,
               textAlign: 'center',
@@ -88,20 +88,20 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
               boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', // Subtle shadow for depth
             }}
           >
-            <Box
+            {/*<Box
               sx={{
-                padding: 1, // Padding inside the container
-                border: '1px dashed #ddd', // Dashed border for inner container
+                padding: 0, // Padding inside the container
+                //border: '1px dashed #ddd', // Dashed border for inner container
                 borderRadius: 2, // Slight rounding for the inner box
                 overflow: 'hidden',
                 backgroundColor: '#fff', // White background for the inner box
               }}
-            >
+            >*/}
               <img
                 src={file.preview}
                 alt="Preview"
                 style={{
-                  width: '90%', // Smaller image size inside the container
+                  width: '100%', // Smaller image size inside the container
                   height: 'auto',
                   display: 'block',
                   margin: '0 auto', // Center the image horizontally
@@ -110,7 +110,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                   URL.revokeObjectURL(file.preview);
                 }}
               />
-            </Box>
+            {/*</Box>*/}
           </Box>
         </Grid>
       ));
