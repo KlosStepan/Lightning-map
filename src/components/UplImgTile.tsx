@@ -66,31 +66,12 @@ const UplImgTile: React.FC<UplImgTileProps> = ({ previewSrc, first = false, last
 
     // Hover effect for icons (only active when not first or last)
     const handleHoverIn = (e: React.MouseEvent<HTMLImageElement>) => {
-        if (e.currentTarget.style.filter !== 'brightness(0.7)' && !(first || last)) {
-            e.currentTarget.style.filter = 'brightness(0.7)';
-        }
+        e.currentTarget.style.filter = 'brightness(0.7)';
     };
 
     const handleHoverOut = (e: React.MouseEvent<HTMLImageElement>) => {
-        if (e.currentTarget.style.filter !== 'brightness(1)' && !(first || last)) {
-            e.currentTarget.style.filter = 'brightness(1)';
-        }
+        e.currentTarget.style.filter = 'brightness(1)';
     };
-
-    // Dynamically update icon style based on first and last props
-    const getIconStyleFirst = () => ({
-        cursor: first  ? 'default' : 'pointer',  // Don't apply pointer cursor if first or last
-        width: 25,
-        height: 25,
-        transition: 'filter 0.3s ease',
-    });
-
-    const getIconStyleLast = () => ({
-        cursor:  last ? 'default' : 'pointer',  // Don't apply pointer cursor if first or last
-        width: 25,
-        height: 25,
-        transition: 'filter 0.3s ease',
-    });
 
     const getIconStyle = (exclude: string = '') => ({
         cursor: exclude ? 'default' : 'pointer', // Apply 'default' cursor if 'exclude' is passed, else 'pointer'
@@ -107,7 +88,6 @@ const UplImgTile: React.FC<UplImgTileProps> = ({ previewSrc, first = false, last
                 <img 
                     src={first ? arrowMoveUpInactive : arrowMoveUpActive} 
                     alt="Move Up" 
-                    //style={getIconStyleFirst()} 
                     style={first ? getIconStyle('first'): getIconStyle()}
                     onClick={first ? undefined : handleMoveUp} 
                     onMouseEnter={first ? undefined : handleHoverIn} 
@@ -116,7 +96,6 @@ const UplImgTile: React.FC<UplImgTileProps> = ({ previewSrc, first = false, last
                 <img 
                     src={last ? arrowMoveDownInactive : arrowMoveDownActive} 
                     alt="Move Down" 
-                    //style={getIconStyleLast()} 
                     style={last ? getIconStyle('last') : getIconStyle()}
                     onClick={last ? undefined : handleMoveDown} 
                     onMouseEnter={last ? undefined : handleHoverIn} 
