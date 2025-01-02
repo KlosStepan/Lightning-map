@@ -9,6 +9,7 @@ import IMerchant from "../ts/IMerchant";
 import {useDropzone} from 'react-dropzone';
 import uploadIcon from '../icons/upload.png';
 import ISocial from "../ts/ISocial";
+import UploadingImagesSpot from "../components/UploadingImagesSpot";
 //
 import { CSSProperties } from 'react';
 //
@@ -74,43 +75,31 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
       }
     });
   
-    const thumbs = files.map((file) => (
-        <Grid item xs={6} key={file.name}> {/* 50% of the width */}
+    const thumbs = files.map((file, index) => (
+        <Grid item xs={index === 0 ? 12 : 6} key={file.name}> {/* Full width for the first image */}
           <Box
             sx={{
               border: '1px solid #ccc', // Slightly darker border for better visibility
               borderRadius: 2, // Rounded corners for the tile
-              //padding: 2, // Padding around the image container
-              //marginBottom: 2, // Space between tiles
-              margin: 1,
+              margin: 1, // Margin around each tile
               textAlign: 'center',
               backgroundColor: '#f9f9f9', // Light background for better contrast
               boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', // Subtle shadow for depth
             }}
           >
-            {/*<Box
-              sx={{
-                padding: 0, // Padding inside the container
-                //border: '1px dashed #ddd', // Dashed border for inner container
-                borderRadius: 2, // Slight rounding for the inner box
-                overflow: 'hidden',
-                backgroundColor: '#fff', // White background for the inner box
+            <img
+              src={file.preview}
+              alt="Preview"
+              style={{
+                width: '100%', // Image spans the full width of its container
+                height: 'auto',
+                display: 'block',
+                margin: '0 auto', // Center the image horizontally
               }}
-            >*/}
-              <img
-                src={file.preview}
-                alt="Preview"
-                style={{
-                  width: '100%', // Smaller image size inside the container
-                  height: 'auto',
-                  display: 'block',
-                  margin: '0 auto', // Center the image horizontally
-                }}
-                onLoad={() => {
-                  URL.revokeObjectURL(file.preview);
-                }}
-              />
-            {/*</Box>*/}
+              onLoad={() => {
+                URL.revokeObjectURL(file.preview);
+              }}
+            />
           </Box>
         </Grid>
       ));
@@ -371,7 +360,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                     </div>
                     <aside style={thumbsContainer}>{thumbs}</aside>
                 </section>*/}
-                <section className="container">
+                {/*<section className="container">
                     <div {...getRootProps({className: 'dropzone'})} style={{border: '1px solid #FFF', borderRadius: '10px', backgroundColor: 'white', margin: '1px 1px !important', textAlign: 'center', fontFamily: 'PixGamer'}}>
                         <input {...getInputProps()} />
                         {isDragAccept && (<p>All files will be accepted</p>)}
@@ -379,7 +368,8 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                         {!isDragActive && (<p><img src={uploadIcon} height={18} width={18}/> &nbsp; Upload images</p>)}
                     </div>
                     <aside style={thumbsContainer}>{thumbs}</aside>
-                </section>
+                </section>*/}
+                <UploadingImagesSpot files={files} setFiles={setFiles} />
             </Box>
             {/* Action Buttons */}
             <Box display="flex" justifyContent="flex-end" mt={2}>
