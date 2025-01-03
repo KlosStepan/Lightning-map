@@ -8,9 +8,10 @@ import uploadIcon from '../icons/upload.png';
 type UploadingImagesSpotProps = {
     files: Array<File & { preview: string }>;
     setFiles: React.Dispatch<React.SetStateAction<Array<File & { preview: string }>>>;
+    multipleImages?: boolean;
 };
 
-const UploadingImagesSpot: React.FC<UploadingImagesSpotProps> = ({ files, setFiles }) => {
+const UploadingImagesSpot: React.FC<UploadingImagesSpotProps> = ({ files, setFiles, multipleImages = true }) => {
     const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
         accept: {
             "image/*": [],
@@ -24,6 +25,7 @@ const UploadingImagesSpot: React.FC<UploadingImagesSpotProps> = ({ files, setFil
                 )
             );
         },
+        multiple: multipleImages,
     });
 
     useEffect(() => {
@@ -55,9 +57,14 @@ const UploadingImagesSpot: React.FC<UploadingImagesSpotProps> = ({ files, setFil
                 }}
             >
                 <input {...getInputProps()} />
-                    {isDragAccept && (<p>All files will be accepted</p>)}
-                    {isDragReject && (<p>Some files will be rejected</p>)}
-                    {!isDragActive && (<p><img src={uploadIcon} height={18} width={18}/> &nbsp; Upload images</p>)}
+                    {isDragAccept && (<p>File(s) will be accepted</p>)} {/* All files will be accepted */}
+                    {isDragReject && (<p>File(s) will be rejected</p>)} {/* Some files will be rejected */}
+                    {!isDragActive && (
+                        <p>
+                            <img src={uploadIcon} height={18} width={18} /> &nbsp; 
+                            {multipleImages ? "Upload images" : "Upload image"}
+                        </p>
+                    )}
             </div>
             <aside style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", marginTop: 16 }}>{thumbs}</aside>
         </section>

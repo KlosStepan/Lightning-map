@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
@@ -21,9 +21,10 @@ const capitalizeFirst = (str: string) => str ? str[0].toUpperCase() + str.slice(
 
 const ToggleSocialInput: React.FC<ToggleSocialInputProps> = ({ social, switchLinkTo }) => {
     const isOpen = social.link !== null;
+    //
     return (
         <React.Fragment>
-            {isOpen ? (
+            { isOpen ? (
                 <React.Fragment>
                     <Typography variant="h3" component="h5" fontFamily="PixGamer">
                         {capitalizeFirst(social.network)}
@@ -36,8 +37,8 @@ const ToggleSocialInput: React.FC<ToggleSocialInputProps> = ({ social, switchLin
                                 const newLink = event.target.value.trim();
                                 console.log(newLink);
                                 switchLinkTo(newLink || null);
-                            }} // Inline onBlur logic
-                            sx={{ flex: 1 }} // Ensures the TextField takes the available space
+                            }}
+                            sx={{ flex: 1 }}
                         />
                         <span onClick={() => switchLinkTo(null)}>
                             <Box
@@ -67,7 +68,7 @@ const ToggleSocialInput: React.FC<ToggleSocialInputProps> = ({ social, switchLin
                                     cursor: 'pointer',
                                     opacity: 1,
                                 }}
-                                />
+                            />
                         </span>
                     &nbsp; {capitalizeFirst(social.network)}
                     </div>
