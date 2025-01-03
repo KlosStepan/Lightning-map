@@ -38,6 +38,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
     const mapRef2 = useRef(null);
     const latitude = 50.0755; //<- TODO dynamically in the city (?)
     const longitude = 14.4378; //<- TODO dynamically in the city (?)
+    //
     const [position, setPosition] = useState<[number, number]>([50.0755, 14.4378]); // Default position
     const handleDragEnd = (event: L.DragEndEvent) => {
         const marker = event.target as L.Marker;
@@ -85,7 +86,19 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                 socials: [],
             },
         };
-        console.log("Adding spot:", newMerchant);
+        //console.log("Adding spot:", newMerchant);
+        //New Merchant 2 - for debugging (1 - normal store w/ geoJSON, 2 - as in form)
+        const nM2: any = {
+            title: titleRef.current?.value || "",
+            description: descriptionRef.current?.value || "",
+            address: addressRef.current?.value || "",
+            city: cityRef.current?.value || "",
+            postalCode: postalCodeRef.current?.value || "",
+            position: position,
+            socials: socials,
+            images: files,
+        }
+        console.log("New Merchant 2:", nM2);
         // Insert logic to add the spot here
     };
     const UpdateSpot = () => {
@@ -157,6 +170,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                 />
             </Box>
             <Box mt={2}>
+                {/* Map  picker */}
                 <MapContainer center={[latitude, longitude]} zoom={13} ref={mapRef2} style={{ height: "22vh", width: "100%" }}>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -181,6 +195,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
             </Box>
             <HrGreyCustomSeparator />
             <Box mt={2}>
+                {/* Socials */}
                 {socials.map((social) => (
                     <ToggleSocialInput
                         key={social.network}
@@ -191,6 +206,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
             </Box>
             <HrGreyCustomSeparator />
             <Box mt={2}>
+                {/* Upload images */}
                 <Typography variant="h2" component="h5"></Typography>
                 <UploadingImagesSpot files={files} setFiles={setFiles} />
             </Box>
