@@ -48,20 +48,23 @@ const deleteIconWrapperStyle = {
 
 const UplImgTile: React.FC<UplImgTileProps> = ({ previewSrc, first = false, last = false }) => {
 
-    const handleMoveUp = () => {
+    const handleMoveUp = (e: React.MouseEvent<HTMLImageElement>) => {
         if (!first) {
             console.log('Move Up Clicked');
         }
+        console.log(e);
     };
 
-    const handleMoveDown = () => {
+    const handleMoveDown = (e: React.MouseEvent<HTMLImageElement>) => {
         if (!last) {
             console.log('Move Down Clicked');
         }
+        console.log(e);
     };
 
-    const handleDelete = () => {
+    const handleDelete = (e: React.MouseEvent<HTMLImageElement>) => {
         console.log('Delete Clicked');
+        console.log(e);
     };
 
     // Hover effect for icons (only active when not first or last)
