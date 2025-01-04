@@ -15,12 +15,22 @@ const UploadingImagesSpot: React.FC<UploadingImagesSpotProps> = ({ files, setFil
     const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
         accept: { "image/*": [] },
         onDrop: (acceptedFiles) => {
-            setFiles([
-                ...files,
-                ...acceptedFiles.map((file) =>
-                    Object.assign(file, { preview: URL.createObjectURL(file) })
-                ),
-            ]);
+            if (!multipleImages && files.length === 1) {
+                // Replace the existing image
+                setFiles(
+                    acceptedFiles.map((file) =>
+                        Object.assign(file, { preview: URL.createObjectURL(file) })
+                    )
+                );
+            } else {
+                // Add new images to the existing list
+                setFiles([
+                    ...files,
+                    ...acceptedFiles.map((file) =>
+                        Object.assign(file, { preview: URL.createObjectURL(file) })
+                    ),
+                ]);
+            }
         },
         multiple: multipleImages,
     });

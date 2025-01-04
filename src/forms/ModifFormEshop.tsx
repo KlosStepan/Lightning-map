@@ -21,7 +21,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
     const titleRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLInputElement>(null);
     const webRef = useRef<HTMLInputElement>(null);
-    const logoRef = useRef<HTMLInputElement>(null);
+    //const logoRef = useRef<HTMLInputElement>(null);
     //Upload image
     const [files, setFiles] = useState<Array<File & { preview: string }>>([]);
     
@@ -41,7 +41,8 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
         name: titleRef.current?.value || "",
         description: descriptionRef.current?.value || "",
         url: webRef.current?.value || "",
-        logo: logoRef.current?.value || "" 
+        //logo: logoRef.current?.value || ""
+        logo: files,
     });
 
     return (
