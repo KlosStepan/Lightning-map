@@ -13,17 +13,14 @@ type UploadingImagesSpotProps = {
 
 const UploadingImagesSpot: React.FC<UploadingImagesSpotProps> = ({ files, setFiles, multipleImages = true }) => {
     const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
-        accept: {
-            "image/*": [],
-        },
+        accept: { "image/*": [] },
         onDrop: (acceptedFiles) => {
-            setFiles(
-                acceptedFiles.map((file) =>
-                    Object.assign(file, {
-                        preview: URL.createObjectURL(file),
-                    })
-                )
-            );
+            setFiles([
+                ...files,
+                ...acceptedFiles.map((file) =>
+                    Object.assign(file, { preview: URL.createObjectURL(file) })
+                ),
+            ]);
         },
         multiple: multipleImages,
     });
@@ -32,16 +29,39 @@ const UploadingImagesSpot: React.FC<UploadingImagesSpotProps> = ({ files, setFil
         return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
     }, [files]);
 
+    const handleMoveUp = (index: number) => {
+        if (index > 0) {
+            const updatedFiles = [...files];
+            [updatedFiles[index - 1], updatedFiles[index]] = [updatedFiles[index], updatedFiles[index - 1]];
+            setFiles(updatedFiles);
+        }
+    };
+
+    const handleMoveDown = (index: number) => {
+        if (index < files.length - 1) {
+            const updatedFiles = [...files];
+            [updatedFiles[index], updatedFiles[index + 1]] = [updatedFiles[index + 1], updatedFiles[index]];
+            setFiles(updatedFiles);
+        }
+    };
+
+    const handleDelete = (index: number) => {
+        const updatedFiles = files.filter((_, i) => i !== index);
+        setFiles(updatedFiles);
+    };
+
     const thumbs = files.map((file, index) => (
         <Grid item xs={index === 0 ? 12 : 6} key={file.name}>
-            <UplImgTile 
-                previewSrc={file.preview} 
-                first={index === 0} 
-                last={index === files.length - 1} 
+            <UplImgTile
+                previewSrc={file.preview}
+                first={index === 0}
+                last={index === files.length - 1}
+                onMoveUp={() => handleMoveUp(index)}
+                onMoveDown={() => handleMoveDown(index)}
+                onDelete={() => handleDelete(index)}
             />
         </Grid>
     ));
-    
 
     return (
         <section className="container">

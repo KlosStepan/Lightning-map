@@ -11,6 +11,9 @@ type UplImgTileProps = {
     previewSrc: string; // URL for the image preview
     first?: boolean; // Optional, defaults to false
     last?: boolean;  // Optional, defaults to false
+    onMoveUp: () => void;
+    onMoveDown: () => void;
+    onDelete: () => void;
 };
 
 // Define the styles as objects
@@ -46,32 +49,11 @@ const deleteIconWrapperStyle = {
     right: 8,
 };
 
-const UplImgTile: React.FC<UplImgTileProps> = ({ previewSrc, first = false, last = false }) => {
-
-    const handleMoveUp = (e: React.MouseEvent<HTMLImageElement>) => {
-        if (!first) {
-            console.log('Move Up Clicked');
-        }
-        console.log(e);
-    };
-
-    const handleMoveDown = (e: React.MouseEvent<HTMLImageElement>) => {
-        if (!last) {
-            console.log('Move Down Clicked');
-        }
-        console.log(e);
-    };
-
-    const handleDelete = (e: React.MouseEvent<HTMLImageElement>) => {
-        console.log('Delete Clicked');
-        console.log(e);
-    };
-
+const UplImgTile: React.FC<UplImgTileProps> = ({ previewSrc, first = false, last = false, onMoveUp, onMoveDown, onDelete }) => {
     // Hover effect for icons (only active when not first or last)
     const handleHoverIn = (e: React.MouseEvent<HTMLImageElement>) => {
         e.currentTarget.style.filter = 'brightness(0.7)';
     };
-
     const handleHoverOut = (e: React.MouseEvent<HTMLImageElement>) => {
         e.currentTarget.style.filter = 'brightness(1)';
     };
@@ -92,7 +74,8 @@ const UplImgTile: React.FC<UplImgTileProps> = ({ previewSrc, first = false, last
                     src={first ? arrowMoveUpInactive : arrowMoveUpActive} 
                     alt="Move Up" 
                     style={first ? getIconStyle('first'): getIconStyle()}
-                    onClick={first ? undefined : handleMoveUp} 
+                    onClick={first ? undefined : onMoveUp}
+                    //onClick={!first ? onMoveUp : undefined}
                     onMouseEnter={first ? undefined : handleHoverIn} 
                     onMouseLeave={first ? undefined : handleHoverOut} 
                 />
@@ -100,7 +83,8 @@ const UplImgTile: React.FC<UplImgTileProps> = ({ previewSrc, first = false, last
                     src={last ? arrowMoveDownInactive : arrowMoveDownActive} 
                     alt="Move Down" 
                     style={last ? getIconStyle('last') : getIconStyle()}
-                    onClick={last ? undefined : handleMoveDown} 
+                    onClick={last ? undefined : onMoveDown}
+                    //onClick={!last ? onMoveDown : undefined}
                     onMouseEnter={last ? undefined : handleHoverIn} 
                     onMouseLeave={last ? undefined : handleHoverOut} 
                 />
@@ -111,7 +95,7 @@ const UplImgTile: React.FC<UplImgTileProps> = ({ previewSrc, first = false, last
                     src={binDelete} 
                     alt="Delete" 
                     style={getIconStyle()} 
-                    onClick={handleDelete} 
+                    onClick={onDelete} 
                     onMouseEnter={handleHoverIn} 
                     onMouseLeave={handleHoverOut} 
                 />
