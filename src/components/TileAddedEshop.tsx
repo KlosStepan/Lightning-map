@@ -6,6 +6,7 @@ import TileEshop from './TileEshop';
 import IconEdit from '../icons/ico-btn-edit.png';
 import IconTrash from '../icons/ico-btn-trash.png';
 import closeIcon from '../icons/close.png';
+import FormEditEshop from '../forms/FormEditEshop';
 
 const containerOuterStyle = {
     borderRadius: '16px',
@@ -63,8 +64,16 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, tile }) => {
                 </Box>
             </Container>
             {/* Edit Modal */}
-            <Modal open={openEdit} onClose={handleCloseEdit} style={{overflow: 'scroll'}}>
-                <Box
+            {/*Edit Eshop (FormEditEshop edit=true, eshop=tile vv)*/}
+            <Modal
+                open={openEdit}
+                onClose={handleCloseEdit}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                style={{overflow: 'scroll'}}
+            >
+                <FormEditEshop closeModal={handleCloseEdit} eshop={tile}/>
+                {/*<Box
                     style={{
                         borderRadius: '20px',
                         position: 'absolute',
@@ -86,7 +95,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, tile }) => {
                             alignItems: 'center',
                         }}
                     >
-                        Edit Eshop (FormEditEshop edit=true, eshop=tile vv)
+                        
                         <span onClick={handleCloseEdit}>
                             <Box
                                 component="img"
@@ -100,7 +109,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, tile }) => {
                             />
                         </span>
                     </Typography>
-                </Box>
+                </Box>*/}
             </Modal>
             {/* Delete Modal */}
             <Modal open={openDelete} onClose={handleCloseDelete} style={{overflow: 'scroll'}}>

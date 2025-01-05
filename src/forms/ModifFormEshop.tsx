@@ -9,12 +9,13 @@ import UploadingImagesSpot from "../components/UploadingImagesSpot";
 //TypeScript
 import IEshop from "../ts/IEeshop";
 
-//ModifFormEshop <- props
 type ModifFormEshopProps = {
-    edit?: boolean;
-    eshop?: IEshop;
     FuncCancel?: () => void; // Optional function to close modal from parent component
-};
+} & (
+    | { edit: true; eshop: IEshop } // When edit is true, eshop is required
+    | { edit?: false; eshop?: undefined } // When edit is false or undefined, eshop is optional
+);
+
 
 const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, FuncCancel }) => {
     //Fields
