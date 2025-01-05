@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Box, Typography } from '@mui/material';
 import Slider from 'react-slick';
-import TileExplainer from './TileExplainer'; // Assuming this is your component
+import TileExplainer from './TileExplainer';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
@@ -10,13 +10,18 @@ import lowfees from '../img/Business-Products-Cash-User-Man-Message--Streamline-
 import privacyanddecentralization from '../img/Interface-Essential-Lock--Streamline-Pixel.png';
 
 const WhyLightning = () => {
-  const carouselSettings = {
+  const desktopCarouselSettings = {
     dots: true,
     infinite: false,
     speed: 500,
-    slidesToShow: 1.2, // Show a part of the next slide
+    slidesToShow: 1, // Default for desktop
     slidesToScroll: 1,
     arrows: false,
+  };
+
+  const mobileCarouselSettings = {
+    ...desktopCarouselSettings,
+    slidesToShow: 1.2, // Show part of the next slide on mobile
   };
 
   const tiles = [
@@ -39,32 +44,51 @@ const WhyLightning = () => {
 
   return (
     <Grid container spacing={2}>
-      {/* Full-width stripe for "Why Lightning?" */}
-      <Grid item xs={12}>
-        <Box sx={{ textAlign: 'center', backgroundColor: '#f5f5f5', py: 4 }}>
-          <Typography variant="h1" component="h2">
-            Why Lightning?
-          </Typography>
-        </Box>
-      </Grid>
-
-      {/* Desktop: Four boxes in a row */}
+      {/* Desktop: "Why Lightning?" and Tiles */}
       <Grid
         item
+        container
         xs={12}
-        sx={{ display: { xs: 'none', md: 'flex' }, justifyContent: 'space-between' }}
+        spacing={2}
+        sx={{ display: { xs: 'none', md: 'flex' } }}
       >
-        {tiles.map(({ image, title, paragraph }, index) => (
-          <Box key={index} sx={{ flex: 1, px: 1 }}>
-            <TileExplainer image={image} title={title} paragraph={paragraph} />
+        {/* "Why Lightning?" as the first box */}
+        <Grid item xs={3}>
+          <Box
+            sx={{
+              textAlign: 'center',
+              backgroundColor: '#f5f5f5',
+              py: 4,
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Typography variant="h1" component="h2">
+              Why Lightning?
+            </Typography>
           </Box>
+        </Grid>
+
+        {/* Tiles */}
+        {tiles.map(({ image, title, paragraph }, index) => (
+          <Grid item xs={3} key={index}>
+            <TileExplainer image={image} title={title} paragraph={paragraph} />
+          </Grid>
         ))}
       </Grid>
 
-      {/* Mobile: Carousel */}
+      {/* Mobile: "Why Lightning?" Heading + Carousel */}
       <Grid item xs={12} sx={{ display: { xs: 'block', md: 'none' } }}>
+        {/* "Why Lightning?" Heading */}
+        <Box sx={{ textAlign: 'center', backgroundColor: '#f5f5f5', py: 4 }}>
+          <Typography variant="h1" component="h2">Why Lightning?</Typography>
+        </Box>
+
+        {/* Carousel */}
         <Box sx={{ maxWidth: '100%', overflow: 'hidden' }}>
-          <Slider {...carouselSettings}>
+          <Slider {...mobileCarouselSettings}>
             {tiles.map(({ image, title, paragraph }, index) => (
               <Box key={index} sx={{ px: 2 }}>
                 <TileExplainer image={image} title={title} paragraph={paragraph} />
