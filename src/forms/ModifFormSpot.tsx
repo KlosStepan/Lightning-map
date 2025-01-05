@@ -9,6 +9,7 @@ import ToggleSocialInput from "../components/ToggleSocialInput";
 import UploadingImagesSpot from "../components/UploadingImagesSpot";
 //TypeScript
 import IMerchant from "../ts/IMerchant";
+import { IMerchantTile } from "../ts/IMerchant";
 import ISocial from "../ts/ISocial";
 //Map stuff
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
@@ -21,11 +22,19 @@ const HrGreyCustomSeparator = () => (
 );
 
 //ModifFormSpot <- props
-type ModifFormSpotProps = {
+/*type ModifFormSpotProps = {
+    FuncCancel: () => void;
     edit?: boolean;
     merchant?: IMerchant;
+};*/
+
+type ModifFormSpotProps = {
     FuncCancel: () => void;
-};
+} & (
+    | { edit: true; merchant: IMerchantTile } // When edit is true, merchant is required
+    | { edit?: false; merchant?: undefined } // When edit is false or undefined, merchant is optional
+);
+
 
 const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, FuncCancel }) => {
     //Fields
@@ -102,7 +111,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
         // Insert logic to add the spot here
     };
     const UpdateSpot = () => {
-        if (merchant) {
+        /*if (merchant) {
             const updatedMerchant: IMerchant = {
                 ...merchant,
                 properties: {
@@ -117,8 +126,8 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                 },
             };
             console.log("Updating spot:", updatedMerchant);
-            // Insert logic to update the spot here
-        }
+            //Insert logic to update the spot here
+        }*/
     };
 
     //TODO AddSpot and UpdateSpot - if link!==null -> ref HTML replace instead of '' when wrapping
@@ -130,7 +139,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                 <TextField
                     fullWidth
                     inputRef={titleRef}
-                    defaultValue={edit ? merchant?.properties.title : ""}
+                    defaultValue={edit ? merchant?.title : ""}
                 />
             </Box>
             <Box mt={2}>
@@ -138,7 +147,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                 <TextField
                     fullWidth
                     inputRef={descriptionRef}
-                    defaultValue={edit ? merchant?.properties.description : ""}
+                    defaultValue={edit ? merchant?.description : ""}
                     multiline
                     minRows={3}
                     maxRows={5}
@@ -150,7 +159,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                 <TextField
                     fullWidth
                     inputRef={addressRef}
-                    defaultValue={edit ? merchant?.properties.address.address : ""}
+                    defaultValue={edit ? merchant?.address.address : ""}
                 />
             </Box>
             <Box mt={2}>
@@ -158,7 +167,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                 <TextField
                     fullWidth
                     inputRef={cityRef}
-                    defaultValue={edit ? merchant?.properties.address.city : ""}
+                    defaultValue={edit ? merchant?.address.city : ""}
                 />
             </Box>
             <Box mt={2}>
@@ -166,7 +175,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                 <TextField
                     fullWidth
                     inputRef={postalCodeRef}
-                    defaultValue={edit ? merchant?.properties.address.postalCode : ""}
+                    defaultValue={edit ? merchant?.address.postalCode : ""}
                 />
             </Box>
             <Box mt={2}>

@@ -8,6 +8,7 @@ import TileMerchant from "./TileMerchant";
 import IconEdit from '../icons/ico-btn-edit.png';
 import IconTrash from '../icons/ico-btn-trash.png';
 import closeIcon from '../icons/close.png';
+import FormEditSpot from "../forms/FormEditSpot";
 
 const containerOuterStyle = {
     borderRadius: '16px',
@@ -75,8 +76,16 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, tile }) =>
                     />
             </Box>
             {/* Edit Modal */}
-            <Modal open={openEdit} onClose={handleCloseEdit} style={{overflow: 'scroll'}}>
-                <Box
+            {/* Edit Merchant (FormEditMerchant edit=true, merchant=tile vv) */}
+            <Modal
+                open={openEdit}
+                onClose={handleCloseEdit}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                style={{overflow: 'scroll'}}
+            >
+                <FormEditSpot closeModal={handleCloseEdit} merchant={tile}/>
+                {/*<Box
                     style={{
                         borderRadius: '20px',
                         position: 'absolute',
@@ -98,7 +107,6 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, tile }) =>
                             alignItems: 'center',
                         }}
                     >
-                        Edit Merchant (FormEditMerchant edit=true, merchant=tile vv)
                         <span onClick={handleCloseEdit}>
                             <Box
                                 component="img"
@@ -112,7 +120,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, tile }) =>
                             />
                         </span>
                     </Typography>
-                </Box>
+                </Box>*/}
             </Modal>
             {/* Delete Modal */}
             <Modal open={openDelete} onClose={handleCloseDelete} style={{overflow: 'scroll'}}>
