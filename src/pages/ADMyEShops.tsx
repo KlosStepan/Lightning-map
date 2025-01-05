@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
 
 import TileAddedEshop from "../components/TileAddedEshop";
+import FormAddEshop from "../forms/FormAddEshop";
 
 import IconPlus from '../icons/ico-btn-plus.png';
 import Modal from "@mui/material/Modal";
@@ -73,16 +74,7 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = ({ }) => {
                             {myEshops?.map((eshop, index) => (
                                 <Grid item xs={4} key={index}>
                                     <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>
-                                        {/*<TileAddedEshop
-                                            image={eshop.logo} 
-                                            likes={"12"} 
-                                            title={eshop.name} 
-                                            desc={eshop.description} 
-                                        />*/}
-                                        <TileAddedEshop
-                                            likes={"12"}
-                                            tile={eshop}
-                                        />
+                                        <TileAddedEshop likes={"12"} tile={eshop} />
                                     </Box>
                                 </Grid>
                             ))}
@@ -97,7 +89,7 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = ({ }) => {
                 aria-describedby="modal-modal-description"
                 style={{overflow: 'scroll'}}
               >
-                <span>FormAdd Eshop</span>
+                <FormAddEshop closeModal={handleClose}/>
             </Modal>
         </React.Fragment>
     )

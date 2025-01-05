@@ -44,12 +44,12 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, tile }) =>
     const handleOpenDelete = () => setOpenDelete(true);
     const handleCloseDelete = () => setOpenDelete(false);
 
-    const FuncEdit = (): Promise<void> => {
+    /*const FuncEdit = (): Promise<void> => {
         console.log("Calling Edit")
         return Promise.resolve();
-    }
-    const FuncDelete = (): Promise<void> => {
-        console.log("Calling Delete")
+    }*/
+    const FuncDelete = (_merchant: string): Promise<void> => {
+        console.log("Calling Delete on Merchant. ", _merchant)
         return Promise.resolve();
     }
 
@@ -146,7 +146,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, tile }) =>
                             alignItems: 'center',
                         }}
                     >
-                        Delete Merchant
+                        Delete spot {tile.title}
                         <span onClick={handleCloseDelete}>
                             <Box
                                 component="img"
@@ -160,6 +160,20 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, tile }) =>
                             />
                         </span>
                     </Typography>
+                    <Box display="flex" justifyContent="flex-end" mt={2}>
+                        <ButtonUniversal 
+                            title="Cancel" 
+                            color="#8000FF" 
+                            textColor="white" 
+                            actionDelegate={handleCloseDelete} 
+                        />
+                        <ButtonUniversal
+                            title={"Delete"}
+                            color="#F23CFF"
+                            textColor="white"
+                            actionDelegate={ () => { FuncDelete(tile.title); } }
+                        />
+                    </Box>
                 </Box>
             </Modal>
         </Container>

@@ -39,6 +39,11 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, tile }) => {
     const handleOpenDelete = () => setOpenDelete(true);
     const handleCloseDelete = () => setOpenDelete(false);
 
+    const FuncDelete = (_eshop: string): Promise<void> => {
+        console.log("Calling Delete on E-shop. ", _eshop)
+        return Promise.resolve();
+    }
+
     return (
         <React.Fragment>
             <Container sx={containerOuterStyle} disableGutters>
@@ -135,7 +140,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, tile }) => {
                             alignItems: 'center',
                         }}
                     >
-                        Delete Eshop
+                        Delete e-shop {tile.name}
                         <span onClick={handleCloseDelete}>
                             <Box
                                 component="img"
@@ -149,6 +154,20 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, tile }) => {
                             />
                         </span>
                     </Typography>
+                    <Box display="flex" justifyContent="flex-end" mt={2}>
+                        <ButtonUniversal 
+                            title="Cancel" 
+                            color="#8000FF" 
+                            textColor="white" 
+                            actionDelegate={handleCloseDelete} 
+                        />
+                        <ButtonUniversal
+                            title={"Delete"}
+                            color="#F23CFF"
+                            textColor="white"
+                            actionDelegate={ () => { FuncDelete(tile.name); } }
+                        />
+                    </Box>
                 </Box>
             </Modal>
         </React.Fragment>

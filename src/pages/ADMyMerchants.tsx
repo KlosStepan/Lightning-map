@@ -6,6 +6,7 @@ import ButtonUniversal from "../components/ButtonUniversal";
 
 import ADMenu from "../components/ADMenu";
 import TileAddedMerchant from "../components/TileAddedMerchant";
+import FormAddSpot from "../forms/FormAddSpot";
 
 import FotoBluePig from '../img/foto-blue-pig.png';
 import FotoPolis from '../img/foto-polis.png';
@@ -77,13 +78,6 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
                             {myMerchants?.map((merchant, index) => (
                                 <Grid item xs={4} key={index}>
                                 <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>
-                                    {/*<TileAddedMerchant
-                                        likes={merchant.likes}
-                                        image={merchant.image}
-                                        tags={merchant.tags}
-                                        title={merchant.title}
-                                        address={merchant.address}
-                                    />*/}
                                     <TileAddedMerchant likes={"12"} tile={merchant.properties}/>
                                 </Box>
                                 </Grid>
@@ -99,7 +93,7 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
                 aria-describedby="modal-modal-description"
                 style={{overflow: 'scroll'}}
               >
-                <span>FormAdd Merchant</span>
+                <FormAddSpot closeModal={handleClose}/>
             </Modal>
         </React.Fragment>
     )
