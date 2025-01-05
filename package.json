@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@fontsource/ibm-plex-sans-condensed": "^5.0.13",
     "@material-ui/core": "^4.12.4",
     "@mui/icons-material": "^5.15.18",
-    "@mui/material": "^5.15.17",
+    "@mui/material": "^5.16.13",
     "@reduxjs/toolkit": "^2.2.7",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
@@ -36,8 +36,10 @@
     "react-redux": "^8.0.2",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "react-slick": "^0.30.3",
     "reactstrap": "^9.1.4",
     "redux": "^4.2.0",
+    "slick-carousel": "^1.8.1",
     "typescript": "^4.8.2",
     "web-vitals": "^2.1.4",
     "worker-loader": "^3.0.8"
@@ -67,6 +69,7 @@
     ]
   },
   "devDependencies": {
-    "@types/leaflet": "^1.9.13"
+    "@types/leaflet": "^1.9.13",
+    "@types/react-slick": "^0.23.13"
   }
 }

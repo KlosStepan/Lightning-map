@@ -27,6 +27,7 @@ import dummyImg from '../img/dummy512x288.png';
 import dummyImg1 from '../img/rectangle_149.png';
 import dummyImg2 from '../img/rectangle_150.png';
 import dummyImg3 from '../img/rectangle_151.png';
+import WhyLightning from "../components/WhyLightning";
 
 type HomepageProps = {
 
@@ -78,6 +79,10 @@ const Homepage: React.FC<HomepageProps> = ({ }) => {
                 </Container>
             </React.Fragment>
             <React.Fragment>
+                <WhyLightning/>
+            </React.Fragment>
+            {/*
+            <React.Fragment>
                 <Grid container spacing={2}>
                     <Grid item xs={3}>
                         <Typography variant="h1" component="h2">
@@ -107,6 +112,7 @@ const Homepage: React.FC<HomepageProps> = ({ }) => {
                     </Grid>
                 </Grid>
             </React.Fragment>
+            */}
             <React.Fragment>
                 <MiddleOfHomepage />
             </React.Fragment>
