@@ -5,16 +5,18 @@ import Typography from '@mui/material/Typography';
 
 // Styles for the outer and inner containers
 const containerOuterStyle = {
-  padding: '32px 0px 10px 0px',
+  //padding: '32px 16px 10px 16px', // Ensure padding applies on all breakpoints
+  padding: '32px 16px 10px 16px',
   gap: '10px',
   borderRadius: '24px',
   backgroundColor: 'white',
-  margin: '0px 0px 10px 0px',
+  margin: '10px 0', // Consistent margin
 };
 
 const containerInnerStyle = {
-  gap: '20px',
-  opacity: '0px',
+  //gap: '20px',
+  display: 'flex',
+  flexDirection: 'column', // Ensures stacking
 };
 
 // Define the type for the props

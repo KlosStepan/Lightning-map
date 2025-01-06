@@ -54,21 +54,9 @@ const WhyLightning = () => {
       >
         {/* "Why Lightning?" as the first box */}
         <Grid item xs={3}>
-          <Box
-            sx={{
-              textAlign: 'center',
-              backgroundColor: '#f5f5f5',
-              py: 4,
-              height: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
             <Typography variant="h1" component="h2">
-              Why Lightning?
+                Why Lightning?
             </Typography>
-          </Box>
         </Grid>
 
         {/* Tiles */}
@@ -82,7 +70,7 @@ const WhyLightning = () => {
       {/* Mobile: "Why Lightning?" Heading + Carousel */}
       <Grid item xs={12} sx={{ display: { xs: 'block', md: 'none' } }}>
         {/* "Why Lightning?" Heading */}
-        <Box sx={{ textAlign: 'center', backgroundColor: '#f5f5f5', py: 4 }}>
+        <Box sx={{ textAlign: 'center'/*, backgroundColor: '#f5f5f5'*/, py: 4 }}>
           <Typography variant="h1" component="h2">Why Lightning?</Typography>
         </Box>
 
