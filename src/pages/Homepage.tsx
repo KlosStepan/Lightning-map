@@ -10,6 +10,7 @@ import TileBlogpost from '../components/TileBlogpost';
 import TileExplainer from '../components/TileExplainer';
 import TileTypeMerchant from '../components/TileTypeMerchant';
 import MiddleOfHomepage from "../components/MiddleOfHomepage";
+import HomepageEvidenceSection from "../components/HomepageEvidenceSection";
 //
 import transactionspeed from '../img/Interface-Essential-Flash--Streamline-Pixel.png';
 import lowfees from '../img/Business-Products-Cash-User-Man-Message--Streamline-Pixel.png';
@@ -28,7 +29,6 @@ import dummyImg1 from '../img/rectangle_149.png';
 import dummyImg2 from '../img/rectangle_150.png';
 import dummyImg3 from '../img/rectangle_151.png';
 import WhyLightning from "../components/WhyLightning";
-
 type HomepageProps = {
 
 };
@@ -57,7 +57,7 @@ const Homepage: React.FC<HomepageProps> = ({ }) => {
                         <p>Discover spots and e-shops accepting payments via the Lightning Network and enjoy instant transactions without unnecessary waiting or high fees.</p>
 
                     </Box>
-                    <Grid container spacing={2}>
+                    {/*<Grid container spacing={2}>
                         <Grid item xs={6}>
                             <TileTypeMerchant
                                 caption="Map of Places"
@@ -74,7 +74,12 @@ const Homepage: React.FC<HomepageProps> = ({ }) => {
                                 path="/e-shops"
                             />
                         </Grid>
-                    </Grid>
+                    </Grid>*/}
+                    {/* HomepageEvidenceSection */}
+                    <HomepageEvidenceSection
+                        merchants={merchants ? merchants.length : undefined}
+                        eshops={eshops ? eshops.length : undefined}
+                    />
                     <p>&nbsp;</p>
                 </Container>
             </React.Fragment>

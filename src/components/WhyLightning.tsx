@@ -70,15 +70,15 @@ const WhyLightning = () => {
       {/* Mobile: "Why Lightning?" Heading + Carousel */}
       <Grid item xs={12} sx={{ display: { xs: 'block', md: 'none' } }}>
         {/* "Why Lightning?" Heading */}
-        <Box sx={{ textAlign: 'center'/*, backgroundColor: '#f5f5f5'*/, py: 4 }}>
+        <Box sx={{ textAlign: 'left' }}>
           <Typography variant="h1" component="h2">Why Lightning?</Typography>
         </Box>
 
         {/* Carousel */}
-        <Box sx={{ maxWidth: '100%', overflow: 'hidden' }}>
+        <Box sx={{ maxWidth: '100%', overflow: 'hidden'}} >
           <Slider {...mobileCarouselSettings}>
             {tiles.map(({ image, title, paragraph }, index) => (
-              <Box key={index} sx={{ px: 2 }}>
+              <Box key={index} sx={{ /*px: 2*/ paddingRight: 2 }}>
                 <TileExplainer image={image} title={title} paragraph={paragraph} />
               </Box>
             ))}
