@@ -228,7 +228,7 @@ const Map: React.FC = () => {
                         </Grid>
                       )}
                       <Grid container spacing={2}>
-                        {filteredMerchants?.map((merchant: IMerchant) => (
+                        {filteredMerchants?.map((merchant: IMerchant, index: number) => (
                           <Grid item xs={4} key={merchant.properties.owner}>
                             <Box
                               onClick={() => dispatch(setSelected(merchant))}
@@ -240,7 +240,7 @@ const Map: React.FC = () => {
                               onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.5')} // Hover effect
                               onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}  // Reset on mouse leave
                             >
-                              <TileMerchant likes={"777"} tile={merchant.properties} />
+                              <TileMerchant likes={"777"} tile={merchant.properties} /*index={index}*/ />
                             </Box>
                             </Grid>
                           ))}

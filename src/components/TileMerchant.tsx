@@ -51,7 +51,7 @@ type TileMerchantProps = {
     tile: IMerchantTile
 };
 
-const TileMerchant: React.FC<TileMerchantProps> = ({/*image, title, address, likes*/ likes, tile }) => {
+const TileMerchant: React.FC<TileMerchantProps> = ({likes, tile }) => {
     let img = null;
     if (tile.image=="dummyImgTile1") {
         img = dummyImgTile1;
@@ -59,7 +59,8 @@ const TileMerchant: React.FC<TileMerchantProps> = ({/*image, title, address, lik
         img = dummyImgTile2;
     }
     return (
-        <Container maxWidth="sm" sx={containerOuterStyle}>
+        <>
+        <Container disableGutters maxWidth="sm" sx={containerOuterStyle} >
             <Box sx={{ ...containerInnerStyleUp}}>
                 <CardMedia
                     component="img"
@@ -83,6 +84,7 @@ const TileMerchant: React.FC<TileMerchantProps> = ({/*image, title, address, lik
                 <p style={{ fontSize: '12px' }}>{tile.address.address + ' ' + tile.address.city + ' ' + tile.address.postalCode}</p>
             </Box>
         </Container>
+        </>
     );
 };
 
