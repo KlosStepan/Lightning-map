@@ -1,14 +1,15 @@
 import React from "react";
+//MUI
 import Box from '@mui/material/Box';
 import { CardMedia, Container, Typography } from '@mui/material';
-//
-import IconExclamationMark from "../icons/IconExclamationMark";
+//Components
+import TagMerchant from "./TagMerchant";
+//TypeScript
+import { IMerchantTile } from "../ts/IMerchant";
+//Icons
 import IconLightningNumber from "../icons/IconLightningNumber";
 
-import TagMerchant from "./TagMerchant";
-import { IMerchantTile } from "../ts/IMerchant";
-
-//
+//Fake images
 import dummyImgTile1 from '../img/image-1-4.png';
 import dummyImgTile2 from '../img/image-1-5.png';
 
@@ -61,12 +62,7 @@ const TileMerchant: React.FC<TileMerchantProps> = ({likes, tile, index }) => {
     }
 
     return (
-        <Container
-            maxWidth="sm"
-            sx={{ 
-                ...containerOuterStyle, 
-            }}
-        >
+        <Container maxWidth="sm" sx={{  ...containerOuterStyle }}>
             <Box sx={{ ...containerInnerStyleUp}}>
                 <CardMedia
                     component="img"

@@ -1,131 +1,35 @@
 import React from "react";
-//import { Grid } from '@material-ui/core';
-//import Box from '@mui/material/Box';
-import { Grid, Box } from "@mui/material";
-import { Container } from "@mui/material";
-import ButtonUniversal from "../components/ButtonUniversal";
-import SearchFiddle from "../components/SearchFiddle";
-import Footer from "../components/Footer";
-import TileMerchantBig from "../components/TileMerchantBig";
-import TileMerchant from "../components/TileMerchant";
-import IconPlus from '../icons/ico-btn-plus.png';
-import GMap from "../components/GMap";
-import { Link, useNavigate } from "react-router-dom";
-//import LeafletMap from "../components/LeafletMapOne";
-import LeafletMapTwo from "../components/LeafletMapTwo";
-
-//Redux
-import { RootState } from "../redux-rtk/store";
-import { useDispatch, useSelector } from 'react-redux';
-//
-import { setFiltering, setSelected } from "../redux-rtk/mapFilteringSlice";
-import IMerchant from "../ts/IMerchant";
-//MUI stuff
-import Typography from "@mui/material/Typography";
+//MUI
+import { Box, Container, Grid } from "@mui/material";
 import Modal from "@mui/material/Modal";
-import Input from '@mui/material/Input';
-//
-import closeIcon from '../icons/close.png';
-import ToggleSocialInput from "../components/ToggleSocialInput";
-//ADD SPOT 
+//Components
+import ButtonUniversal from "../components/ButtonUniversal";
+import LeafletMapTwo from "../components/LeafletMapTwo";
+import SearchFiddle from "../components/SearchFiddle";
+import TileMerchant from "../components/TileMerchant";
+import TileMerchantBig from "../components/TileMerchantBig";
+import Footer from "../components/Footer";
+//Router
+import {  useNavigate } from "react-router-dom";
+//Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from "../redux-rtk/store";
+import { setFiltering, setSelected } from "../redux-rtk/mapFilteringSlice";
+//TypeScript
+import IMerchant from "../ts/IMerchant";
+//Forms - our custom
 import FormAddSpot from "../forms/FormAddSpot";
-import ModifFormMerchant from "../components/ModifFormMerchant";
+//Icons
+import IconPlus from '../icons/ico-btn-plus.png';
 
-const iconStyle = {
-  width: 18, // Adjust icon size as needed
-  height: 18,
-};
 
 const filters = ["Food & Drinks", "Shops", "Services"];
 
-const merchants2: IMerchant[] = [
-    {
-      "geometry": {
-        "coordinates": [14.4483471, 50.1033561],
-        "type": "Point"
-      },
-      "properties": {
-        "owner": "OxMuB2PyqsM3pUtwTEmB86EzM9p1",
-        "visible": true,
-        "image": "dummyImgTile1",
-        "title": "Paralelní Polis",
-        "description": "lorem ipsum2",
-        address: {
-          address: "Dělnická 43",
-          city: "Praha 7",
-          postalCode: "170 00",
-        },
-        "tags": ["Shops", "Services"],
-        "socials": [
-          {
-            "network": "web",
-            "label": "Web",
-            "link": "https://www.paralelnipolis.com"
-          },
-          {
-            "network": "facebook",
-            "label": "FB",
-            "link": "https://www.facebook.com/paralelnipolis"
-          },
-          {
-            "network": "instagram",
-            "label": "IG",
-            "link": "https://www.instagram.com/paralelnipolis"
-          },
-          {
-            "network": "twitter",
-            "label": "X",
-            "link": "https://www.twitter.com/paralelnipolis"
-          }
-        ]
-      },
-      "type": "Feature"
-    },
-    {
-      "geometry": {
-        "coordinates": [14.4440644, 50.0719584],
-        "type": "Point"
-      },
-      "properties": {
-        "owner": "7G9IT4IfBBV2JV8UJDhiMPzYWOq2",
-        "visible": true,
-        "image": "dummyImgTile2",
-        "title": "Blue Vegan Pig Shop",
-        "description": "lorem ipsum",
-        address: {
-          address: "Štefánikova 6",
-          city: "Praha 5",
-          postalCode: "150 00",
-        },
-        "tags": ["Food & Drinks", "Shops"],
-        "socials": [
-          {
-            "network": "web",
-            "label": "Web",
-            "link": "https://www.blueveganpigshop.com"
-          },
-          {
-            "network": "facebook",
-            "label": "FB",
-            "link": "https://www.facebook.com/blueveganpigshop"
-          },
-          {
-            "network": "instagram",
-            "label": "IG",
-            "link": "https://www.instagram.com/blueveganpigshop"
-          },
-          {
-            "network": "twitter",
-            "label": "X",
-            "link": "https://www.twitter.com/blueveganpigshop"
-          }
-        ]
-      },
-      "type": "Feature"
-    }
-  ];
+type MapProps = {
+  //
+};
 
-const Map: React.FC = () => {
+const Map: React.FC<MapProps> = ({ }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     //
@@ -133,15 +37,13 @@ const Map: React.FC = () => {
     //
     const merchants = useSelector((state: RootState) => state.data.merchants)
     const selected = useSelector((state: RootState) => state.mapFiltering.selected)
-    ////console.log("merchants")
-    ////console.log(merchants)
     const activeFilters = useSelector((state: RootState) => state.mapFiltering?.filters || {});
     //
     const FuncFilt = (filter: string): Promise<void> => {
         dispatch(setFiltering(filter));
         return Promise.resolve();
     };
-  
+    //
     const FuncAddSpot = (): Promise<void> => {
       console.log("AddSpot");
       if(!user) {
@@ -174,19 +76,9 @@ const Map: React.FC = () => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    //
-    const FuncCancel = (): Promise<void> => {
-      handleClose()
-      return Promise.resolve();
-    };
-    const FuncSave = (): Promise<void> => {
-      console.log("Saving")
-      return Promise.resolve();
-    };
 
     const dynamicPadding = (index: number) => {
-      const paddingValue = 24; // Hardcoded padding value
-  
+      const paddingValue = 24; // between tiles space
       switch (index % 3) {
         case 0:
           return { padding: `${paddingValue}px 8px ${paddingValue}px 0px !important` }; // Left tile
@@ -198,6 +90,7 @@ const Map: React.FC = () => {
           return {};
       }
     };
+    
     return (
           <React.Fragment>
               <Container>
@@ -242,23 +135,14 @@ const Map: React.FC = () => {
                       <span style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>{filteredMerchants?.length ? filteredMerchants?.length : 'X'} results</span>
                     </Grid>
                     <Grid>&nbsp;</Grid>
-                      {/*<p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>{filteredMerchants?.length} results</p>*/}
-                      {selected && ( // If selected & not null or undefined
+                      {selected && ( // If selected & not null or not undefined
                         <Grid container spacing={2}>
                           <TileMerchantBig tile={selected.properties} />
                         </Grid>
                       )}
                       <Grid container spacing={2}>
                         {filteredMerchants?.map((merchant: IMerchant, index: number) => (
-                          <Grid
-                          //item
-                          xs={12}
-                          sm={4}
-                          key={index}
-                          sx={{
-                            ...dynamicPadding(index), // Apply dynamic margins based on index
-                          }}
-                        > {/*<- TODO here */}
+                          <Grid xs={12} sm={4} key={index} sx={{ ...dynamicPadding(index) }} >
                             <Box
                               onClick={() => dispatch(setSelected(merchant))}
                               style={{
@@ -276,13 +160,12 @@ const Map: React.FC = () => {
                       </Grid>
                   </Grid>
                   <Grid item xs={5}>
-                      <Box style={{ /*height: 100,*/ textAlign: 'center' }}>
+                      <Box style={{ textAlign: 'center' }}>
                           <LeafletMapTwo data={filteredMerchants} onMerchantSelect={handleMerchantSelect} />
                       </Box>
                   </Grid>
               </Grid>
               <Footer />
-              {/*MODAL*/}
               <Modal
                 open={open}
                 onClose={handleClose}

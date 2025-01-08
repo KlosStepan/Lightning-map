@@ -1,16 +1,17 @@
 import React from 'react';
+//MUI
 import { Grid, Typography, CardMedia, Box } from "@mui/material";
-
-// Importing images
+//Components
+import Footer from '../components/Footer';
+//Images for funky body of Our Mission
 import img1Magnet from '../img/Interface-Essential-Magnet--Streamline-Pixel-2.png';
 import img2Comeback from '../img/Hand-Love--Streamline-Pixel-2.png';
 
-import Footer from '../components/Footer';
-// Define the common height as a constant
+// Define the common height
 const COMMON_HEIGHT = '250px';
 
 type AboutProps = {
-
+    //
 };
 
 const About: React.FC<AboutProps> = ({ }) => {
@@ -79,6 +80,6 @@ const About: React.FC<AboutProps> = ({ }) => {
             <Footer/>
         </React.Fragment>
     );
-}
+};
 
 export default About;

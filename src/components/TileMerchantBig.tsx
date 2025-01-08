@@ -1,20 +1,25 @@
 import React from "react";
+//MUI
 import Box from '@mui/material/Box';
 import { CardMedia, Container, Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
+//Components
 import ButtonUniversal from "./ButtonUniversal";
-import IconExclamationMark from "../icons/warning-box.png";
-import IconLightningNumber from "../icons/IconLightningNumber";
 import TagMerchant from "./TagMerchant";
 import TagSocialLink from "./TagSocialLink";
-import { IMerchantTile/*, ISocial*/ } from "../ts/IMerchant"; // Import the IMerchantTile type
+//TypeScript
+import { IMerchantTile } from "../ts/IMerchant";
 import ISocial from "../ts/ISocial";
-import dummyImgBigTile from '../img/image-1-3.png';
+//Icons
 import closeIcon from '../icons/close.png';
+import IconExclamationMark from "../icons/warning-box.png";
+import IconLightningNumber from "../icons/IconLightningNumber";
 //Redux
 import { useDispatch } from 'react-redux';
-//
 import { setSelected } from "../redux-rtk/mapFilteringSlice";
+
+//Fake images
+import dummyImgBigTile from '../img/image-1-3.png';
 
 const containerOuterStyle = {
     padding: '16px 12px',
@@ -26,12 +31,12 @@ const containerOuterStyle = {
 };
 
 const containerInnerStyle = {
+    bgcolor: '#ffffff',
     gap: '20px',
-
 };
 
 const iconStyle = {
-    width: 18, // Adjust icon size as needed
+    width: 18,
     height: 18,
 };
 
@@ -44,14 +49,14 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ tile }) => {
     const dispatch = useDispatch();
 
     const FuncReport = (): Promise<void> => {
-        console.log("Report");
+        console.log("Report merchant");
         return Promise.resolve();
     };
 
     return (
         <React.Fragment>
             <Container maxWidth="sm" sx={containerOuterStyle}>
-                <Box sx={{ bgcolor: '#ffffff', ...containerInnerStyle }}>
+                <Box sx={{ ...containerInnerStyle }}>
                     <Grid container spacing={2}>
                         {/* Image section - 40% width */}
                         <Grid item xs={6}>

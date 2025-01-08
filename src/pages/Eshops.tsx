@@ -1,39 +1,26 @@
 import React from "react";
-//import {  Grid } from '@material-ui/core';
-//import Box from '@mui/material/Box';
-import { Grid, Box } from "@mui/material";
-import Footer from "../components/Footer";
-import { Container, CssBaseline, Paper } from "@mui/material";
-import Typography from '@mui/material/Typography';
+//MUI
+import { Container, Grid } from "@mui/material";
 import Modal from "@mui/material/Modal";
-import ButtonUniversal from "../components/ButtonUniversal";
-import { Link, useNavigate } from "react-router-dom";
-import Input from '@mui/material/Input';
-//Redux
-import { RootState } from "../redux-rtk/store";
-import { useDispatch, useSelector } from 'react-redux';
-
-import IEshop from "../ts/IEeshop";
-//
+//Components
 import SearchFiddle from "../components/SearchFiddle";
-import SearchFiddle2 from "../components/SearchFiddle2";
-//
+import ButtonUniversal from "../components/ButtonUniversal";
 import TileEshop from "../components/TileEshop";
-
-import IconPlus from '../icons/ico-btn-plus.png';
-//
-import closeIcon from '../icons/close.png';
-//
+import Footer from "../components/Footer";
+//Router
+import { useNavigate } from "react-router-dom";
+//Redux
+import { useSelector } from 'react-redux';
+import { RootState } from "../redux-rtk/store";
+//TypeScript
+import IEshop from "../ts/IEeshop";
+//Forms - our custom
 import FormAddEshop from "../forms/FormAddEshop";
-import ExampleGrid from "../components/_ExampleGrid";
-const iconStyle = {
-  width: 18, // Adjust icon size as needed
-  height: 18,
-};
+//Icons
+import IconPlus from '../icons/ico-btn-plus.png';
 
-//
 type EshopsProps = {
-
+    //
 };
 
 const Eshops: React.FC<EshopsProps> = ({ }) => {
@@ -42,9 +29,7 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
     const user = useSelector((state: RootState) => state.misc.user)
     //
     const eshops = useSelector((state: RootState) => state.data.eshops)
-    //Mby to put blog flag check and write if debug
-    ////console.log("eshops")
-    ////console.log(eshops)
+    //
     const FuncAddEshop = (): Promise<void> => {
         console.log("AddEshop")
         if(!user) {
@@ -61,27 +46,19 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     //
-    const FuncCancel = (): Promise<void> => {
-      handleClose()
-      return Promise.resolve();
-    };
-    const FuncSave = (): Promise<void> => {
-      console.log("Saving")
-      return Promise.resolve();
-    };
-    //
     const dynamicPadding = (index: number) => {
-        const spaceBetween = 8; // Hardcoded padding value
-        const spaceTile = 8;
+        const spaceBetween = 8; // up and down space
+        const spaceTile = 8; // between tiles space
         switch (index % 6) {
           case 0:
-            return { padding: `${spaceBetween}px ${spaceTile}px ${spaceBetween}px 0px !important` }; // Left tile
+            return { padding: `${spaceBetween}px ${spaceTile}px ${spaceBetween}px 0px !important` }; // Left-most tile
           case 5:
-            return { padding: `${spaceBetween}px 0px ${spaceBetween}px ${spaceTile}px !important` }; // Right tile
+            return { padding: `${spaceBetween}px 0px ${spaceBetween}px ${spaceTile}px !important` }; // Right-most tile
           default:
-            return { padding: `${spaceBetween}px ${spaceTile}px ${spaceBetween}px ${spaceTile}px !important` }; // Middle tile
+            return { padding: `${spaceBetween}px ${spaceTile}px ${spaceBetween}px ${spaceTile}px !important` }; // Middle tiles
         }
-      };
+    };
+
     return (
         <React.Fragment>
             <div style={{ textAlign: 'center' }}>
@@ -106,18 +83,10 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                     <Grid
                         container
                         spacing={2}
-                        sx={{ marginRight: 0, marginLeft: 0 }} // Ensure no margins on the container
+                        sx={{ marginRight: 0, marginLeft: 0 }}
                     >
                         {eshops?.map((eshop: IEshop, index) => (
-                            <Grid
-                            //item
-                            xs={12}
-                            sm={2}
-                            key={index}
-                            sx={{
-                                ...dynamicPadding(index), // Apply dynamic margins based on index
-                            }}
-                            >
+                            <Grid xs={12} sm={2} key={index} sx={{ ...dynamicPadding(index)}}>
                                 <TileEshop 
                                     likes={"7"} 
                                     tile={eshop}
@@ -125,32 +94,9 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                             </Grid>
                         ))}
                     </Grid>
-                    {/* tile={eshop} */}
-                    {/*<Grid container spacing={2}>
-                        <Grid item xs={2}>
-                            <TileEshop likes="7" logo="https://cdn.alza.cz/images/web-static/eshop-logos/alza_cz.svg" title="Alza.cz" caption="Nejvetsi prodejce elektroniky v CR" />
-                        </Grid>
-                        <Grid item xs={2}>
-                            <TileEshop likes="7" logo="https://cdn.alza.cz/images/web-static/eshop-logos/alza_cz.svg" title="Alza.cz" caption="Nejvetsi prodejce elektroniky v CR" />
-                        </Grid>
-                        <Grid item xs={2}>
-                            <TileEshop likes="7" logo="https://cdn.alza.cz/images/web-static/eshop-logos/alza_cz.svg" title="Alza.cz" caption="Nejvetsi prodejce elektroniky v CR" />
-                        </Grid>
-                        <Grid item xs={2}>
-                            <TileEshop likes="7" logo="https://cdn.alza.cz/images/web-static/eshop-logos/alza_cz.svg" title="Alza.cz" caption="Nejvetsi prodejce elektroniky v CR" />
-                        </Grid>
-                        <Grid item xs={2}>
-                            <TileEshop likes="7" logo="https://cdn.alza.cz/images/web-static/eshop-logos/alza_cz.svg" title="Alza.cz" caption="Nejvetsi prodejce elektroniky v CR" />
-                        </Grid>
-                        <Grid item xs={2}>
-                            <TileEshop likes="7" logo="https://cdn.alza.cz/images/web-static/eshop-logos/alza_cz.svg" title="Alza.cz" caption="Nejvetsi prodejce elektroniky v CR" />
-                        </Grid>
-                    </Grid>*/}
-                    <ExampleGrid/>
                 </div>
-                <Footer />
+            <Footer />
             </div>
-            {/*MODAL ATTEMPT*/}
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -163,4 +109,5 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
         </React.Fragment>
     )
 }
+
 export default Eshops;

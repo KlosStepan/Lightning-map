@@ -1,34 +1,24 @@
 import React from "react";
-import { Container, CssBaseline, Paper } from "@mui/material";
+//MUI
+import { Container, Grid } from "@mui/material";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { Card, CardMedia, Grid } from '@mui/material';
-import Footer from "../components/Footer";
-// New Components
-import MenuHeader from '../components/MenuHeader';
-import TileBlogpost from '../components/TileBlogpost';
-import TileExplainer from '../components/TileExplainer';
-import TileTypeMerchant from '../components/TileTypeMerchant';
-import MiddleOfHomepage from "../components/MiddleOfHomepage";
+//Components
 import HomepageEvidenceSection from "../components/HomepageEvidenceSection";
-//
-import transactionspeed from '../img/Interface-Essential-Flash--Streamline-Pixel.png';
-import lowfees from '../img/Business-Products-Cash-User-Man-Message--Streamline-Pixel.png';
-import privacyanddecentralization from '../img/Interface-Essential-Lock--Streamline-Pixel.png';
-//
-import mapofspotsPic from '../img/Interface-Essential-Map--Streamline-Pixel.png';
-import eshopsPic from '../img/Shopping-Shipping-Bag-1--Streamline-Pixel.png';
+import WhyLightning from "../components/WhyLightning";
+import MiddleOfHomepage from "../components/MiddleOfHomepage";
+import TileBlogpost from '../components/TileBlogpost';
+import Footer from "../components/Footer";
 //Redux
 import { RootState } from "../redux-rtk/store";
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 //
 import { Link } from 'react-router-dom';
-//
-import dummyImg from '../img/dummy512x288.png';
+//Fake images
 import dummyImg1 from '../img/rectangle_149.png';
 import dummyImg2 from '../img/rectangle_150.png';
 import dummyImg3 from '../img/rectangle_151.png';
-import WhyLightning from "../components/WhyLightning";
+
 type HomepageProps = {
 
 };
@@ -55,27 +45,7 @@ const Homepage: React.FC<HomepageProps> = ({ }) => {
                             Experience the Power of
                             Lightning Network Everywhere </Typography>
                         <p>Discover spots and e-shops accepting payments via the Lightning Network and enjoy instant transactions without unnecessary waiting or high fees.</p>
-
                     </Box>
-                    {/*<Grid container spacing={2}>
-                        <Grid item xs={6}>
-                            <TileTypeMerchant
-                                caption="Map of Places"
-                                numPlaces={merchants ? merchants.length : undefined}
-                                imageSrc={mapofspotsPic}
-                                path="/map"
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <TileTypeMerchant
-                                caption="E-shops"
-                                numPlaces={eshops ? eshops.length : undefined}
-                                imageSrc={eshopsPic}
-                                path="/e-shops"
-                            />
-                        </Grid>
-                    </Grid>*/}
-                    {/* HomepageEvidenceSection */}
                     <HomepageEvidenceSection
                         merchants={merchants ? merchants.length : undefined}
                         eshops={eshops ? eshops.length : undefined}
@@ -86,38 +56,6 @@ const Homepage: React.FC<HomepageProps> = ({ }) => {
             <React.Fragment>
                 <WhyLightning/>
             </React.Fragment>
-            {/*
-            <React.Fragment>
-                <Grid container spacing={2}>
-                    <Grid item xs={3}>
-                        <Typography variant="h1" component="h2">
-                            Why Lightning?
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <TileExplainer
-                            image={transactionspeed}
-                            title="Transaction Speed"
-                            paragraph="Bitcoin Lightning enables instant microtransactions off the main Bitcoin blockchain. This means users can make payments practically instantly, which is much faster than traditional blockchain transactions that can take several minutes to hours."
-                        />
-                    </Grid>
-                    <Grid item xs={3}>
-                        <TileExplainer
-                            image={lowfees}
-                            title="Low Fees"
-                            paragraph="Transaction fees with Bitcoin Lightning are typically much lower than with traditional on-chain transactions. This means that even when conducting frequent and small transactions, you can save on fees."
-                        />
-                    </Grid>
-                    <Grid item xs={3}>
-                        <TileExplainer
-                            image={privacyanddecentralization}
-                            title="Privacy and Decentralization"
-                            paragraph="Bitcoin Lightning enhances privacy and decentralization by allowing users to make more anonymous payments off the main blockchain. This boosts security and trust while reducing reliance on central authorities, making it more resistant to censorship and manipulation."
-                        />
-                    </Grid>
-                </Grid>
-            </React.Fragment>
-            */}
             <React.Fragment>
                 <MiddleOfHomepage />
             </React.Fragment>
@@ -165,9 +103,9 @@ const Homepage: React.FC<HomepageProps> = ({ }) => {
                     <div>&nbsp;</div>
                 </React.Fragment>
             )}
-
             <Footer />
         </React.Fragment>
-    )
-}
+    );
+};
+
 export default Homepage;

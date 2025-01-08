@@ -1,29 +1,29 @@
 import React from "react";
+//MUI
 import { Grid, Typography, CardMedia, Box } from "@mui/material";
-import Footer from "../components/Footer";
-//import MiddleOfHomepage from "../components/MiddleOfHomepage";
+//Components
 import TileExplainer from "../components/TileExplainer";
-//
+import Footer from "../components/Footer";
+//Images for body - funky
+import img1_magnet from '../img/Interface-Essential-Magnet--Streamline-Pixel.png';
+import imgs2Overlap1 from '../img/rectangle_145.png'; // Image 145
+import imgs2Overlap2 from '../img/rectangle_147.png'; // Image 147
+import img3Comeback from '../img/Hand-Love--Streamline-Pixel.png';
+//Images for Explainer Tile
 import transactionspeed from '../img/Interface-Essential-Flash--Streamline-Pixel.png';
 import lowfees from '../img/Business-Products-Cash-User-Man-Message--Streamline-Pixel.png';
 import scalability from '../img/Business-Product-Startup-1--Streamline-Pixel.png';
 import security from '../img/Interface-Essential-Lock--Streamline-Pixel-2.png';
 import privacy from '../img/Coding-Apps-Websites-Shield-Lock--Streamline-Pixel.png'
 
-// Importing images
-import img1_magnet from '../img/Interface-Essential-Magnet--Streamline-Pixel.png';
-import imgs2Overlap1 from '../img/rectangle_145.png'; // Image 145
-import imgs2Overlap2 from '../img/rectangle_147.png'; // Image 147
-import img3Comeback from '../img/Hand-Love--Streamline-Pixel.png';
-
-
 // Define the common height
 const COMMON_HEIGHT = '450px';
 
-type WhyLightningProps = {};
+type WhyLightningProps = {
+  //
+};
 
-const WhyLightning: React.FC<WhyLightningProps> = () =>{
-//function WhyLightning() {
+const WhyLightning: React.FC<WhyLightningProps> = ({ }) =>{
     return (
         <React.Fragment>
         <Box sx={{ minHeight: COMMON_HEIGHT, display: 'flex', alignItems: 'center' }}>
@@ -211,5 +211,6 @@ const WhyLightning: React.FC<WhyLightningProps> = () =>{
         <Footer />
         </React.Fragment>
     )
-}
+};
+
 export default WhyLightning;

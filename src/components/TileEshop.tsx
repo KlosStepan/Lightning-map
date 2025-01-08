@@ -1,11 +1,15 @@
 import React from "react";
+//MUI
 import Box from '@mui/material/Box';
 import { CardMedia, Container } from '@mui/material';
 import Typography from '@mui/material/Typography';
+//Components
 import ButtonUniversal from "./ButtonUniversal";
+//TypeScript
+import IEshop from "../ts/IEeshop";
+//Icons
 import IconExclamationMark from "../icons/warning-box.png";
 import IconLightningNumber from "../icons/IconLightningNumber";
-import IEshop from "../ts/IEeshop";
 
 const containerOuterStyle = {
     padding: '10px 16px 10px 16px !important',
@@ -24,12 +28,12 @@ const containerInnerStyle = {
 type TileEshopProps = {
     likes: string;
     tile: IEshop;
-    showReportButton?: boolean; // Optional prop, defaults to true
+    showReportButton?: boolean;
 };
 
 const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = true }) => {
     const FuncReport = (): Promise<void> => {
-        console.log("Report");
+        console.log("Report eshop");
         return Promise.resolve();
     };
 
