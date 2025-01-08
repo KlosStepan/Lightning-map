@@ -13,11 +13,13 @@ import dummyImgTile1 from '../img/image-1-4.png';
 import dummyImgTile2 from '../img/image-1-5.png';
 
 const containerOuterStyle = {
+    //padding: 0px 8px 0px 0px !important; //L ... index%3 = 0
+    //padding: 0px 4px 0px 4px !important; //mid . index%3 = 1
+    //padding: 0px 0px 0px 8px !important; //R ... index%3 = 2
     padding: '0px 0px 0px 0px !important',
     gap: '10px',
     borderRadius: '16px',
     backgroundColor: 'white',
-    margin: '0px 0px 10px 0px',
 };
 
 //Upper part of Tile
@@ -49,18 +51,24 @@ const containerInnerStyleDown = {
 type TileMerchantProps = {
     likes: string
     tile: IMerchantTile
+    index: number
 };
 
-const TileMerchant: React.FC<TileMerchantProps> = ({likes, tile }) => {
+const TileMerchant: React.FC<TileMerchantProps> = ({likes, tile, index }) => {
     let img = null;
     if (tile.image=="dummyImgTile1") {
         img = dummyImgTile1;
     } else if(tile.image=="dummyImgTile2") {
         img = dummyImgTile2;
     }
+
     return (
-        <>
-        <Container disableGutters maxWidth="sm" sx={containerOuterStyle} >
+        <Container
+            maxWidth="sm"
+            sx={{ 
+                ...containerOuterStyle, 
+            }}
+        >
             <Box sx={{ ...containerInnerStyleUp}}>
                 <CardMedia
                     component="img"
@@ -84,7 +92,6 @@ const TileMerchant: React.FC<TileMerchantProps> = ({likes, tile }) => {
                 <p style={{ fontSize: '12px' }}>{tile.address.address + ' ' + tile.address.city + ' ' + tile.address.postalCode}</p>
             </Box>
         </Container>
-        </>
     );
 };
 

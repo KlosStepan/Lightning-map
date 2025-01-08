@@ -1,6 +1,7 @@
 import React from "react";
-import { Grid } from '@material-ui/core';
-import Box from '@mui/material/Box';
+//import { Grid } from '@material-ui/core';
+//import Box from '@mui/material/Box';
+import { Grid, Box } from "@mui/material";
 import { Container } from "@mui/material";
 import ButtonUniversal from "../components/ButtonUniversal";
 import SearchFiddle from "../components/SearchFiddle";
@@ -182,6 +183,21 @@ const Map: React.FC = () => {
       console.log("Saving")
       return Promise.resolve();
     };
+
+    const dynamicPadding = (index: number) => {
+      const paddingValue = 24; // Hardcoded padding value
+  
+      switch (index % 3) {
+        case 0:
+          return { padding: `${paddingValue}px 8px ${paddingValue}px 0px !important` }; // Left tile
+        case 1:
+          return { padding: `${paddingValue}px 4px ${paddingValue}px 4px !important` }; // Middle tile
+        case 2:
+          return { padding: `${paddingValue}px 0px ${paddingValue}px 8px !important` }; // Right tile
+        default:
+          return {};
+      }
+    };
     return (
           <React.Fragment>
               <Container>
@@ -221,7 +237,12 @@ const Map: React.FC = () => {
               </Container>
               <Grid container spacing={3}>
                   <Grid item xs={7}>
-                      <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>{filteredMerchants?.length} results</p>
+                  <Grid>&nbsp;</Grid>
+                    <Grid container spacing={2}>
+                      <span style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>{filteredMerchants?.length ? filteredMerchants?.length : 'X'} results</span>
+                    </Grid>
+                    <Grid>&nbsp;</Grid>
+                      {/*<p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>{filteredMerchants?.length} results</p>*/}
                       {selected && ( // If selected & not null or undefined
                         <Grid container spacing={2}>
                           <TileMerchantBig tile={selected.properties} />
@@ -229,7 +250,15 @@ const Map: React.FC = () => {
                       )}
                       <Grid container spacing={2}>
                         {filteredMerchants?.map((merchant: IMerchant, index: number) => (
-                          <Grid item xs={4} key={merchant.properties.owner}>
+                          <Grid
+                          //item
+                          xs={12}
+                          sm={4}
+                          key={index}
+                          sx={{
+                            ...dynamicPadding(index), // Apply dynamic margins based on index
+                          }}
+                        > {/*<- TODO here */}
                             <Box
                               onClick={() => dispatch(setSelected(merchant))}
                               style={{
@@ -240,9 +269,9 @@ const Map: React.FC = () => {
                               onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.5')} // Hover effect
                               onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}  // Reset on mouse leave
                             >
-                              <TileMerchant likes={"777"} tile={merchant.properties} /*index={index}*/ />
+                              <TileMerchant likes={"777"} tile={merchant.properties} index={index} />
                             </Box>
-                            </Grid>
+                        </Grid>
                           ))}
                       </Grid>
                   </Grid>

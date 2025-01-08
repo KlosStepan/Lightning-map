@@ -9,8 +9,8 @@ const styleTagSocialLink = {
     color: '#000000',
     padding: '4px 12px',
     margin: '0px 2px',
-    borderRadius: '16px',
-    fontSize: '18px',
+    borderRadius: '100px',
+    fontSize: '22px',
     textAlign: 'center',
     textDecoration: 'none', // Remove underline from link
     //transition: 'background-color 0.2s', // Smooth transition for hover

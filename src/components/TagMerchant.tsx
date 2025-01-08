@@ -6,11 +6,13 @@ const tagStyle = {
     display: 'inline-block',
     backgroundColor: '#8000FF',
     color: 'white',
-    padding: '4px 8px',
-    margin: '0 2px', // Add 2px margin to the left and right
-    borderRadius: '12px',
-    fontSize: '10px',
+    //padding: '4px 8px',
+    padding: '4px 10px 4px 10px',
+    margin: '0px 4px 0px 0px', // Right 4px
+    borderRadius: '100px',
+    fontSize: '14px',
     textAlign: 'center',
+    fontFamily: 'IBM Plex Sans Condensed'
 };
 
 type TagMerchantProps = {

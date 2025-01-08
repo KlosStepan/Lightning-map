@@ -65,7 +65,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ tile }) => {
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <div>
                                 {tile.tags.map((tag: string) => (
-                                <TagMerchant key={tag} tag={tag} />
+                                    <TagMerchant key={tag} tag={tag} />
                                 ))}
                             </div>
 
@@ -86,16 +86,16 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ tile }) => {
                             </div>
 
                         </div>
-                            <Typography variant="h2" component="h2" style={{ textAlign: 'left' }}>
+                            <Typography variant="h2" component="h2" style={{ textAlign: 'left', marginTop: '10px' }}>
                                 {tile.title}
                             </Typography>
-                            <p style={{ textAlign: 'left', fontSize: '12px' }}>
+                            <p style={{ textAlign: 'left', fontSize: '16px', marginTop:'10px' }}>
                                 {`${tile.address.address} ${tile.address.city} ${tile.address.postalCode}`}
                             </p>
-                            <p style={{ fontSize: '14px' }}>
+                            <p style={{ fontSize: '16px', fontFamily: 'IBM Plex Sans Condensed' }}>
                                 {tile.description}
                             </p>
-                            <div>Socials &nbsp;
+                            <div><span style={{fontFamily: 'PixGamer', fontSize:'24px', color:'#6B7280'}}>Socials</span> &nbsp;
                                 {tile.socials.map((social: ISocial) => (
                                     <TagSocialLink social={social}/>
                                 ))}

@@ -59,7 +59,7 @@ const LeafletMapTwo = ({ data, onMerchantSelect }) => {
     };
 
     return ( 
-        <MapContainer center={[latitude, longitude]} zoom={13} ref={mapRef} style={{height: "50vh", width: "25vw"}}>
+        <MapContainer center={[latitude, longitude]} zoom={13} ref={mapRef} style={{height: "75vh", width: "25vw"}}>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
