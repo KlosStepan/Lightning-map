@@ -2,18 +2,18 @@ import React from "react";
 import { Grid, Box } from "@mui/material";
 
 const ExampleGrid: React.FC = () => {
-  const items = Array.from({ length: 9 }, (_, index) => `Item ${index }`);
+  const items = Array.from({ length: 18 }, (_, index) => `Item ${index }`);
 
   const dynamicPadding = (index: number) => {
-    switch (index % 3) {
+    const spaceBetween = 8; // Hardcoded padding value
+    const spaceTile = 8;
+    switch (index % 6) {
       case 0:
-        return { padding: "0px 8px 0px 0px !important" }; // Left tile
-      case 1:
-        return { padding: "0px 4px 0px 4px !important" }; // Middle tile
-      case 2:
-        return { padding: "0px 0px 0px 8px !important" }; // Right tile
+        return { padding: `${spaceBetween}px ${spaceTile}px ${spaceBetween}px 0px !important` }; // Left tile
+      case 5:
+        return { padding: `${spaceBetween}px 0px ${spaceBetween}px ${spaceTile}px !important` }; // Right tile
       default:
-        return {};
+        return { padding: `${spaceBetween}px ${spaceTile}px ${spaceBetween}px ${spaceTile}px !important` }; // Middle tile
     }
   };
 
@@ -27,7 +27,7 @@ const ExampleGrid: React.FC = () => {
         <Grid
           //item
           xs={12}
-          sm={4}
+          sm={2}
           key={index}
           sx={{
             ...dynamicPadding(index), // Apply dynamic margins based on index

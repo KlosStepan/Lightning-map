@@ -8,7 +8,7 @@ import IconLightningNumber from "../icons/IconLightningNumber";
 import IEshop from "../ts/IEeshop";
 
 const containerOuterStyle = {
-    padding: '10px 10px 10px 10px !important',
+    padding: '10px 16px 10px 16px !important',
     borderRadius: '16px',
     opacity: '0px',
     backgroundColor: 'white',
@@ -61,7 +61,7 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
                     <Typography variant="h2" component="h2" style={{ textAlign: 'left' }}>
                         {tile.name}
                     </Typography>
-                    <p style={{ textAlign: 'left', fontSize: '12px' }}>
+                    <p  style={{ textAlign: 'left', fontSize: '16px', marginTop:'10px', color: '#6B7280' }}>
                         {tile.description}
                     </p>
                 </Box>
