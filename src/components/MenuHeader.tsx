@@ -166,7 +166,7 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                             key={page.title}
                             onClick={handleCloseNavMenu}
                         >
-                            <Link style={{ color: "inherit", textDecoration: "inherit" }} to={page.link}>
+                            <Link style={{ color: "inherit", textDecoration: "inherit", textTransform: "none", fontFamily: "PixGamer", fontSize: "24px" }} to={page.link}>
                                 / {page.title}
                             </Link>
                         </Button>
