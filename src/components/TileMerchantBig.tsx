@@ -22,10 +22,12 @@ const containerOuterStyle = {
     borderRadius: '16px',
     backgroundColor: 'white',
     margin: '0px 0px 10px 0px',
+    maxWidth: '100% !important'
 };
 
 const containerInnerStyle = {
     gap: '20px',
+
 };
 
 const iconStyle = {
@@ -86,13 +88,13 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ tile }) => {
                             </div>
 
                         </div>
-                            <Typography variant="h2" component="h2" style={{ textAlign: 'left', marginTop: '10px' }}>
+                            <Typography variant="h1" component="h2" style={{ textAlign: 'left', marginTop: '10px' }}>
                                 {tile.title}
                             </Typography>
-                            <p style={{ textAlign: 'left', fontSize: '16px', marginTop:'10px' }}>
+                            <p style={{ textAlign: 'left', fontSize: '16px', marginTop:'10px', color: '#6B7280' }}>
                                 {`${tile.address.address} ${tile.address.city} ${tile.address.postalCode}`}
                             </p>
-                            <p style={{ fontSize: '16px', fontFamily: 'IBM Plex Sans Condensed' }}>
+                            <p style={{ fontSize: '16px', fontFamily: 'IBM Plex Sans Condensed', color: '#404040' }}>
                                 {tile.description}
                             </p>
                             <div><span style={{fontFamily: 'PixGamer', fontSize:'24px', color:'#6B7280'}}>Socials</span> &nbsp;
@@ -109,7 +111,17 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ tile }) => {
                                     textColor="#BEBEBE"
                                     actionDelegate={FuncReport} // Placeholder action; replace as needed
                                 />
-                                <IconLightningNumber number={"777"} scale={0.9} /> {/* Replace "777" with actual likes if available */}
+                                <span style={{ display: 'flex', justifyContent: 'right', alignItems: 'center' }}>
+                                <IconLightningNumber number={"777"} scale={1.1} /> {/* Replace "777" with actual likes if available */}
+                                <span>&nbsp; &nbsp;</span>
+                                <ButtonUniversal
+                                    //icon={IconExclamationMark}
+                                    side="L"
+                                    title="Navigate"
+                                    color="#F23CFF"
+                                    textColor="white"
+                                    actionDelegate={ () => { console.log("TODO NAVIGATE funct()");}} // Placeholder action; replace as needed
+                                /></span>
                             </div>
                         </Grid>
                     </Grid>

@@ -13,9 +13,6 @@ import dummyImgTile1 from '../img/image-1-4.png';
 import dummyImgTile2 from '../img/image-1-5.png';
 
 const containerOuterStyle = {
-    //padding: 0px 8px 0px 0px !important; //L ... index%3 = 0
-    //padding: 0px 4px 0px 4px !important; //mid . index%3 = 1
-    //padding: 0px 0px 0px 8px !important; //R ... index%3 = 2
     padding: '0px 0px 0px 0px !important',
     gap: '10px',
     borderRadius: '16px',
@@ -44,6 +41,7 @@ const leftBottom = {
 //Bottom part of Tile
 const containerInnerStyleDown = {
     padding: '6px 10px 2px 10px',
+    margin: '8px 0px 0px 0px',
     textAlign: 'left',
 };
 
@@ -86,10 +84,10 @@ const TileMerchant: React.FC<TileMerchantProps> = ({likes, tile, index }) => {
                 </Box>
             </Box>
             <Box sx={{ ...containerInnerStyleDown }}>
-                <Typography variant="h3" component="h2" >
+                <Typography variant="h2" component="h2" >
                     {tile.title}
                 </Typography>
-                <p style={{ fontSize: '12px' }}>{tile.address.address + ' ' + tile.address.city + ' ' + tile.address.postalCode}</p>
+                <p style={{ fontSize: '16px',  color:'#6B7280', fontFamily: 'IBM Plex Sans Condensed', marginTop:'2px' }}>{tile.address.address + ' ' + tile.address.city + ' ' + tile.address.postalCode}</p>
             </Box>
         </Container>
     );
