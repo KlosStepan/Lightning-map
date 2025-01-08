@@ -8,6 +8,7 @@ import LeafletMapTwo from "../components/LeafletMapTwo";
 import SearchFiddle from "../components/SearchFiddle";
 import TileMerchant from "../components/TileMerchant";
 import TileMerchantBig from "../components/TileMerchantBig";
+import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
 import Footer from "../components/Footer";
 //Router
 import {  useNavigate } from "react-router-dom";
@@ -96,6 +97,7 @@ const Map: React.FC<MapProps> = ({ }) => {
               <Container>
                   <div>&nbsp;</div>
                   <Grid container spacing={2}>
+                    <HrGreyCustomSeparator marginTop='0px' marginBottom='0px'/>
                       <Grid item xs={4}>
                           <SearchFiddle />
                       </Grid>
@@ -126,6 +128,7 @@ const Map: React.FC<MapProps> = ({ }) => {
                             actionDelegate={FuncAddSpot}
                         />
                       </Grid>
+                    <HrGreyCustomSeparator marginTop='16px' marginBottom='16px'/>
                   </Grid>
               </Container>
               <Grid container spacing={3}>

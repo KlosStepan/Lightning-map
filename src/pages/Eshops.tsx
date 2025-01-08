@@ -6,6 +6,7 @@ import Modal from "@mui/material/Modal";
 import SearchFiddle from "../components/SearchFiddle";
 import ButtonUniversal from "../components/ButtonUniversal";
 import TileEshop from "../components/TileEshop";
+import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
 import Footer from "../components/Footer";
 //Router
 import { useNavigate } from "react-router-dom";
@@ -65,6 +66,7 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                 <Container>
                     <div>&nbsp;</div>
                     <Grid container spacing={2}>
+                    <HrGreyCustomSeparator marginTop='0px' marginBottom='0px'/>
                         <Grid item xs={4}>
                             <SearchFiddle />
                         </Grid>
@@ -74,6 +76,7 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                         <Grid item xs={4}>
                             <ButtonUniversal icon={IconPlus} side="L" title="Add e-shop" color="#F23CFF" textColor="white" actionDelegate={FuncAddEshop} />
                         </Grid>
+                    <HrGreyCustomSeparator marginTop='16px' marginBottom='16px'/>
                     </Grid>
                 </Container>
                 <div>

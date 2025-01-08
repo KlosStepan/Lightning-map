@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 //Components
 import ButtonUniversal from "../components/ButtonUniversal";
+import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
 import ToggleSocialInput from "../components/ToggleSocialInput";
 import UploadingImagesSpot from "../components/UploadingImagesSpot";
 //TypeScript
@@ -17,7 +18,7 @@ import L from "leaflet";
 import group13 from '../icons/group13.png';
 
 //Separator instead of <hr/>
-const HrGreyCustomSeparator = () => (
+const HrGreyCustomSeparator2 = () => (
     <div style={{ borderTop: '1px solid #D3D3D3', width: '100%', margin: '20px 0' }} />
 );
 
@@ -153,7 +154,8 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                     maxRows={5}
                 />
             </Box>
-            <HrGreyCustomSeparator />
+            {/*<HrGreyCustomSeparator2 />*/}
+            <HrGreyCustomSeparator/>
             <Box mt={2}>
                 <Typography variant="h2" component="h5">Address</Typography>
                 <TextField
@@ -202,7 +204,8 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                 </MapContainer>
                 <div  style={{fontFamily: 'PixGamer', textAlign: 'center', fontSize: '18px'}}>Drag pin to more precise location</div>
             </Box>
-            <HrGreyCustomSeparator />
+            {/*<HrGreyCustomSeparator2 />*/}
+            <HrGreyCustomSeparator/>
             <Box mt={2}>
                 {/* Socials */}
                 {socials.map((social) => (
@@ -213,7 +216,8 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                     />
                 ))}
             </Box>
-            <HrGreyCustomSeparator />
+            {/*<HrGreyCustomSeparator2 />*/}
+            <HrGreyCustomSeparator/>
             <Box mt={2}>
                 {/* Upload images */}
                 <Typography variant="h2" component="h5"></Typography>
