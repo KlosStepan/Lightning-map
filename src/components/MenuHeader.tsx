@@ -1,25 +1,27 @@
 import React from "react"
+//MUI
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { Card, CardMedia, Grid } from '@mui/material';
+import { CardMedia } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+//MUI prolly del
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
 
 //Images imports
 import logo from '../img/lightning-everywhere.png';
-//
-import IconKey from "../icons/IconKey";
-//
+import IconKey from "../icons/IconKey"; //Key for login account
+//Router
 import { Link } from 'react-router-dom';
-import ILink from "../ts/ILink";
 //Redux
 import { RootState } from "../redux-rtk/store";
 import { useSelector } from "react-redux";
+//TypeScript
+import ILink from "../ts/ILink";
 
 type MenuHeaderProps = {
     pages: ILink[];
@@ -167,7 +169,7 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                             onClick={handleCloseNavMenu}
                         >
                             <Link style={{ color: "inherit", textDecoration: "inherit", textTransform: "none", fontFamily: "PixGamer", fontSize: "24px" }} to={page.link}>
-                                / {page.title}
+                                /&nbsp;{page.title}
                             </Link>
                         </Button>
                     );
