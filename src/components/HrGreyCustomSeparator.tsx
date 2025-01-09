@@ -10,7 +10,7 @@ const HrGreyCustomSeparator: React.FC<HrGreyCustomSeparatorProps> = ({
     marginBottom = '20px',
 }) => {
     const separatorStyle = {
-        borderTop: '1px solid #D3D3D3',
+        borderTop: '1px solid #DEDEDE',
         width: '100%',
         marginTop,
         marginBottom,
