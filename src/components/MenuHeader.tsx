@@ -22,6 +22,9 @@ import { RootState } from "../redux-rtk/store";
 import { useSelector } from "react-redux";
 //TypeScript
 import ILink from "../ts/ILink";
+//Icons
+import hamburger from '../icons/hamburger.png';
+import closeIcon2 from '../icons/close2.png';
 
 type MenuHeaderProps = {
     pages: ILink[];
@@ -177,44 +180,9 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
 
             </Box>
 
-            {/*<Box sx={{ flexGrow: 0 }}>
-                <Tooltip title="Open settings">
-                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                        <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                    </IconButton>
-                </Tooltip>
-                <Menu
-                    sx={{ mt: '45px' }}
-                    id="menu-appbar"
-                    anchorEl={anchorElUser}
-                    anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                    }}
-                    open={Boolean(anchorElUser)}
-                    onClose={handleCloseUserMenu}
-                >
-                    {settings.map((setting) => (
-                        <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                            <Typography textAlign="center">{setting}</Typography>
-                        </MenuItem>
-                    ))}
-                </Menu>
-            </Box>*/}
-
             <Box sx={{ flexGrow: 0, color: 'black' }}>
                 <div style={{ fontFamily: 'PixGamer' }}>
                     {user ? (
-                        // Render user displayName if user is logged in
-                        //<Link style={{ color: "inherit", textDecoration: "inherit", fontSize: '18px' }} to="/login">
-                        //    {user.photoURL && <img src={user.photoURL} alt={user.displayName ?? 'User'} />} &nbsp;
-                        //    {user.displayName}
-                        //</Link>
                         <Link style={{ color: "inherit", textDecoration: "inherit", fontSize: '18px', display: 'flex', alignItems: 'center' }} to="/login">
                             {user.photoURL && (
                                 <img 
@@ -234,7 +202,60 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                     )}
                 </div>
             </Box>
+            
+            <Box>&nbsp;</Box>
+
+            {/* here only on mobile vv */}
+            <Box sx={{ display: { xs: 'flex', md: 'none' }, flexGrow: 0 }}>
+                {/* If anchorElUser is not null, show a CloseIcon */}
+                {anchorElUser ? (
+                    <Tooltip title="Close settings">
+                        <IconButton onClick={handleCloseUserMenu} sx={{ p: 0 }}>
+                            <Box
+                                component="img"
+                                src={closeIcon2}
+                                alt="Open menu"
+                            />
+                        </IconButton>
+                    </Tooltip>
+                ) : (
+                    <Tooltip title="Open settings">
+                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                            <Box
+                                component="img"
+                                src={hamburger}
+                                alt="Open menu"
+                            />
+                        </IconButton>
+                    </Tooltip>
+                )}
+                <Menu
+                    sx={{ mt: '45px' }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                >
+                    {pages.map((page) => (
+                        <MenuItem key={page.title} onClick={handleCloseUserMenu}>
+                            <Typography textAlign="center">/{page.title}</Typography>
+                        </MenuItem>
+                    ))}
+                </Menu>
+            </Box>
+            {/* here only on mobile ^^ */}
+
         </Toolbar>
     )
-}
+};
+
 export default MenuHeader;
