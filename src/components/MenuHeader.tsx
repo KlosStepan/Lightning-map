@@ -249,7 +249,16 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                     </Tooltip>
                 )}
                 <Menu
-                    sx={{ mt: '45px' }}
+                    sx={{
+                        mt: '45px',
+                        width: { xs: '100%', md: 'auto' }, // Full width on mobile
+                        '& .MuiPaper-root': {
+                            width: { xs: '100%', md: 'auto' }, // Menu paper width
+                            left: 0, // Ensure it aligns to the left on mobile
+                            marginTop: { xs: '10px', md: '0' }, // Adjust top margin on mobile
+                            borderRadius: { xs: 0, md: '4px' }, // Remove border radius on mobile for a seamless look
+                        },
+                    }}
                     id="menu-appbar"
                     anchorEl={anchorElUser}
                     anchorOrigin={{
@@ -264,11 +273,29 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                 >
-                    {pages.map((page) => (
-                        <MenuItem key={page.title} onClick={handleCloseUserMenu}>
-                            <Typography textAlign="center">/{page.title}</Typography>
-                        </MenuItem>
-                    ))}
+                    {pages.map((page) => {
+                        // Conditionally render the Blog item
+                        if (page.title === "Blog" && !blogEnabled) return null;
+
+                        return(
+                            <MenuItem
+                                key={page.title}
+                                onClick={handleCloseUserMenu}
+                                sx={{
+                                    justifyContent: 'center', // Centers text horizontally
+                                    alignItems: 'center', // Centers text vertically
+                                    fontFamily: 'PixGamer', // Apply PixGamer font
+                                    textAlign: 'center', // Ensure text alignment
+                                    display: 'flex', // Use flexbox for centering
+                                    height: '100%', // Ensure full height usage
+                                }}
+                            >
+                                <Link style={{ color: "inherit", textDecoration: "inherit", textTransform: "none", fontFamily: "PixGamer", fontSize: "24px" }} to={page.link}>
+                                    /&nbsp;{page.title}
+                                </Link>
+                            </MenuItem>
+                        );
+                })}
                 </Menu>
             </Box>
             {/* here only on mobile ^^ */}
