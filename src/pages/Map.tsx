@@ -104,10 +104,23 @@ const Map: React.FC<MapProps> = ({ }) => {
             <GlobalStyles
               styles={`@import "https://unpkg.com/swiper/swiper-bundle.min.css";`}
             />
+              <>
+                {isPhone && (
+                  <Grid item xs={12} sm={0} // Hide on larger screens
+                    sx={{
+                      display: { xs: 'block', sm: 'none' }, // Show only on mobile, hide on larger screens
+                    }}
+                  >
+                    <Box style={{ textAlign: 'center' }}>
+                      <LeafletMapTwo data={filteredMerchants} onMerchantSelect={handleMerchantSelect} w={'80vw'} h={'30vh'} />
+                    </Box>
+                  </Grid>
+                )}
+              </>
               <Container>
                   <div>&nbsp;</div>
                   <Grid container spacing={2}>
-                <HrGreyCustomSeparator marginTop="0px" marginBottom="0px" />
+                {!isPhone&&<HrGreyCustomSeparator marginTop="0px" marginBottom="0px" />}
                 
                 {/* Search Bar */}
                 <Grid item xs={12} sm={4}>
@@ -117,35 +130,34 @@ const Map: React.FC<MapProps> = ({ }) => {
                 {/* Filters */}
                 <Grid item xs={12} sm={5}>
                 <Box sx={{ /*width: "100%",*/ overflow: "hidden" }}>
-      <Swiper
-        modules={[]} // Exclude Scrollbar module
-        spaceBetween={8} // Space between slides
-        slidesPerView="auto" // Dynamically calculate based on content width
-        freeMode={true} // Enable free scrolling without snapping
-        //scrollbar={{ draggable: true }} // Explicitly disable it if included
-      >
-        <SwiperSlide style={{ width: "auto" }}>
-          <ButtonUniversal
-            title="All"
-            color={activeFilters["All"] ? "#8000FF" : "#FFFFFF"}
-            textColor={activeFilters["All"] ? "white" : "black"}
-            actionDelegate={() => FuncFilt("All")}
-          />
-        </SwiperSlide>
-        {filters.map((filter) => (
-          <SwiperSlide key={filter} style={{ width: "auto" }}>
-            <ButtonUniversal
-              title={filter}
-              color={activeFilters[filter] ? "#8000FF" : "#FFFFFF"}
-              textColor={activeFilters[filter] ? "white" : "black"}
-              actionDelegate={() => FuncFilt(filter)}
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </Box>
-
-    </Grid>
+                <Swiper
+                  modules={[]} // Exclude Scrollbar module
+                  spaceBetween={8} // Space between slides
+                  slidesPerView="auto" // Dynamically calculate based on content width
+                  freeMode={true} // Enable free scrolling without snapping
+                  //scrollbar={{ draggable: true }} // Explicitly disable it if included
+                >
+                  <SwiperSlide style={{ width: "auto" }}>
+                    <ButtonUniversal
+                      title="All"
+                      color={activeFilters["All"] ? "#8000FF" : "#FFFFFF"}
+                      textColor={activeFilters["All"] ? "white" : "black"}
+                      actionDelegate={() => FuncFilt("All")}
+                    />
+                  </SwiperSlide>
+                  {filters.map((filter) => (
+                    <SwiperSlide key={filter} style={{ width: "auto" }}>
+                      <ButtonUniversal
+                        title={filter}
+                        color={activeFilters[filter] ? "#8000FF" : "#FFFFFF"}
+                        textColor={activeFilters[filter] ? "white" : "black"}
+                        actionDelegate={() => FuncFilt(filter)}
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </Box>
+              </Grid>
                 
                 {/* Add Spot Button */}
                 <Grid
@@ -172,41 +184,51 @@ const Map: React.FC<MapProps> = ({ }) => {
               </Grid>
               </Container>
               <Grid container spacing={3}>
-                  <Grid item xs={7}>
+                <Grid item xs={12} sm={7}>
                   <Grid>&nbsp;</Grid>
-                    <Grid container spacing={2}>
-                      <span style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>{filteredMerchants?.length ? filteredMerchants?.length : 'X'} results</span>
-                    </Grid>
-                    <Grid>&nbsp;</Grid>
-                      {selected && ( // If selected & not null or not undefined
-                        <Grid container spacing={2}>
-                          <TileMerchantBig tile={selected.properties} />
-                        </Grid>
-                      )}
+                  <Grid container spacing={2}>
+                    <span style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>
+                      {filteredMerchants?.length ? filteredMerchants?.length : 'X'} results
+                    </span>
+                  </Grid>
+                  <Grid>&nbsp;</Grid>
+                  {!isPhone && (
+                    selected && (
                       <Grid container spacing={2}>
-                        {filteredMerchants?.map((merchant: IMerchant, index: number) => (
-                          <Grid xs={12} sm={4} key={index} sx={{ ...dynamicPadding(index) }} >
-                            <Box
-                              onClick={() => dispatch(setSelected(merchant))}
-                              style={{
-                                cursor: 'pointer',    // Shows pointer cursor on hover
-                                transition: 'opacity 0.3s ease', // Smooth transition effect for hover
-                                opacity: 1,
-                              }}
-                              onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.5')} // Hover effect
-                              onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}  // Reset on mouse leave
-                            >
-                              <TileMerchant likes={"777"} tile={merchant.properties} index={index} />
-                            </Box>
-                        </Grid>
-                          ))}
+                        <TileMerchantBig tile={selected.properties} />
                       </Grid>
+                    )
+                  )}
+                  <Grid container spacing={2}>
+                    {filteredMerchants?.map((merchant: IMerchant, index: number) => (
+                      <Grid xs={12} sm={4} key={index} sx={{ ...dynamicPadding(index) }}>
+                        <Box
+                          onClick={() => dispatch(setSelected(merchant))}
+                          style={{
+                            cursor: 'pointer',
+                            transition: 'opacity 0.3s ease',
+                            opacity: 1,
+                          }}
+                          onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.5')}
+                          onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+                        >
+                          <TileMerchant likes={"777"} tile={merchant.properties} index={index} />
+                        </Box>
+                      </Grid>
+                    ))}
                   </Grid>
-                  <Grid item xs={5}>
-                      <Box style={{ textAlign: 'center' }}>
-                          <LeafletMapTwo data={filteredMerchants} onMerchantSelect={handleMerchantSelect} />
-                      </Box>
+                </Grid>
+                {!isPhone && (
+                  <Grid item xs={12} sm={5}
+                    sx={{
+                      display: { xs: 'none', sm: 'block' }, // Hide on mobile, show on larger screens
+                    }}
+                  >
+                    <Box style={{ textAlign: 'center' }}>
+                      <LeafletMapTwo data={filteredMerchants} onMerchantSelect={handleMerchantSelect} />
+                    </Box>
                   </Grid>
+                )}
               </Grid>
               <Footer />
               <Modal
