@@ -1,6 +1,7 @@
 import React from "react";
 //MUI
 import { Container, Grid } from "@mui/material";
+import { useTheme, useMediaQuery } from '@mui/material';
 import Modal from "@mui/material/Modal";
 //Components
 import SearchFiddle from "../components/SearchFiddle";
@@ -42,6 +43,10 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
         }
         return Promise.resolve();
     }
+    const FuncLoadMore = (): Promise<void> => {
+        console.log("Load More");
+        return Promise.resolve();
+    }
     //Modal Stuff
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -59,44 +64,60 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
             return { padding: `${spaceBetween}px ${spaceTile}px ${spaceBetween}px ${spaceTile}px !important` }; // Middle tiles
         }
     };
-
+    //
+    const theme = useTheme();
+    const isPhone = useMediaQuery(theme.breakpoints.down('sm')); // true for xs and sm screens  
+    //
     return (
         <React.Fragment>
             <div style={{ textAlign: 'center' }}>
                 <Container>
                     <div>&nbsp;</div>
                     <Grid container spacing={2}>
-                    <HrGreyCustomSeparator marginTop='0px' marginBottom='0px'/>
-                        <Grid item xs={4}>
+                        <HrGreyCustomSeparator marginTop="0px" marginBottom="0px" />
+                        <Grid item xs={12}  sm={4}>
                             <SearchFiddle />
                         </Grid>
-                        <Grid item xs={4}>
-                            <div>&nbsp;</div>
+                        <Grid item xs={12} sm={8}
+                            sx={{
+                                display: 'flex',
+                                justifyContent: { xs: 'center', sm: 'flex-end' }, // Center on mobile, align right on larger screens
+                            }}
+                        >
+                            <ButtonUniversal 
+                                icon={IconPlus} 
+                                side="L" 
+                                title="Add e-shop" 
+                                color="#F23CFF" 
+                                textColor="white" 
+                                actionDelegate={FuncAddEshop} 
+                                fullWidth={isPhone ? true :  false }
+                            />
                         </Grid>
-                        <Grid item xs={4}>
-                            <ButtonUniversal icon={IconPlus} side="L" title="Add e-shop" color="#F23CFF" textColor="white" actionDelegate={FuncAddEshop} />
-                        </Grid>
-                    <HrGreyCustomSeparator marginTop='16px' marginBottom='16px'/>
+                        <HrGreyCustomSeparator marginTop="16px" marginBottom="16px" />
                     </Grid>
                 </Container>
                 <div>
-                    <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>
+                    <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer', color: '#6B7280' }}>
                         {eshops?.length ? eshops?.length : 'X'} results
                     </p>
-                    <Grid
-                        container
-                        spacing={2}
-                        sx={{ marginRight: 0, marginLeft: 0 }}
-                    >
+                    <Grid container spacing={2} sx={{ marginRight: 0, marginLeft: 0 }}>
                         {eshops?.map((eshop: IEshop, index) => (
-                            <Grid xs={12} sm={2} key={index} sx={{ ...dynamicPadding(index)}}>
-                                <TileEshop 
-                                    likes={"7"} 
-                                    tile={eshop}
-                                />
+                            <Grid xs={12} sm={2} key={index} sx={isPhone ? {} : { ...dynamicPadding(index) }}>  {/* Apply padding only if not on a phone*/}
+                                <TileEshop likes="7" tile={eshop} />
                             </Grid>
                         ))}
                     </Grid>
+                    {/* Ready |Load More| btn for partial loding other stuff */}
+                    {/*<div>
+                        <ButtonUniversal 
+                            title="Load more" 
+                            color="#F23CFF" 
+                            textColor="white" 
+                            actionDelegate={FuncLoadMore} 
+                            //fullWidth={isPhone ? true :  false }
+                        />
+                    </div>*/}
                 </div>
             <Footer />
             </div>
@@ -111,6 +132,6 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
             </Modal>
         </React.Fragment>
     )
-}
+};
 
 export default Eshops;
