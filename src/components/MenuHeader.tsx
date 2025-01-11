@@ -1,6 +1,7 @@
 import React from "react"
 //MUI
-import Box from '@mui/material/Box';
+//import Box from '@mui/material/Box';
+import { Box } from "@mui/material";
 import Button from '@mui/material/Button';
 import { CardMedia } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
@@ -70,8 +71,7 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
 
     return (
         <Toolbar disableGutters>
-            {/*<AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />*/}
-            <Typography
+            {/*<Typography
                 variant="h6"
                 noWrap
                 component="a"
@@ -93,7 +93,26 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                         alt="Lightning Everywhere"
                     />
                 </Link>
-            </Typography>
+            </Typography>*/}
+
+            {/* Mobile logo sizing here vv */}
+            <Box
+                sx={{
+                    display: { /*xs: "none", md: "none"*/ },
+                    color: "inherit",
+                    textDecoration: "inherit",
+                }}
+            >
+                <Link style={{ color: "inherit", textDecoration: "inherit" }} to="/">
+                    <CardMedia
+                        component="img"
+                        image={logo}
+                        alt="Lightning Everywhere"
+                        width="118"
+                        height="40"
+                    />
+                </Link>
+            </Box>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                 <IconButton
@@ -136,7 +155,6 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                     })}
                 </Menu>
             </Box>
-            {/*<AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />*/}
             <Typography
                 variant="h5"
                 noWrap
@@ -144,7 +162,8 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                 href="#app-bar-with-responsive-menu"
                 sx={{
                     mr: 2,
-                    display: { xs: 'flex', md: 'none' },
+                    //display: { xs: 'flex', md: 'none' },
+                    display: { xs: 'none', md: 'none' },
                     flexGrow: 1,
                     fontFamily: 'monospace',
                     fontWeight: 700,
