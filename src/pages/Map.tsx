@@ -1,6 +1,7 @@
 import React from "react";
 //MUI
 import { Box, Container, Grid } from "@mui/material";
+import { useTheme, useMediaQuery } from '@mui/material';
 import Modal from "@mui/material/Modal";
 //Components
 import ButtonUniversal from "../components/ButtonUniversal";
@@ -22,7 +23,10 @@ import IMerchant from "../ts/IMerchant";
 import FormAddSpot from "../forms/FormAddSpot";
 //Icons
 import IconPlus from '../icons/ico-btn-plus.png';
-
+//Slider
+import { Swiper, SwiperSlide } from "swiper/react";
+//import "swiper/swiper-bundle.min.css";
+import { GlobalStyles } from "@mui/material";
 
 const filters = ["Food & Drinks", "Shops", "Services"];
 
@@ -91,45 +95,81 @@ const Map: React.FC<MapProps> = ({ }) => {
           return {};
       }
     };
-    
+    //
+    const theme = useTheme();
+    const isPhone = useMediaQuery(theme.breakpoints.down('sm')); // true for xs and sm screens  
+    //
     return (
           <React.Fragment>
+            <GlobalStyles
+              styles={`@import "https://unpkg.com/swiper/swiper-bundle.min.css";`}
+            />
               <Container>
                   <div>&nbsp;</div>
                   <Grid container spacing={2}>
-                    <HrGreyCustomSeparator marginTop='0px' marginBottom='0px'/>
-                      <Grid item xs={4}>
-                          <SearchFiddle />
-                      </Grid>
-                      <Grid item xs={5}>
-                          <ButtonUniversal
-                              title="All"
-                              color={activeFilters["All"] ? "#8000FF" : "#FFFFFF"}  // Purple if All is active
-                              textColor={activeFilters["All"] ? "white" : "black"}
-                              actionDelegate={() => FuncFilt("All")}
-                          />
-                          {filters.map((filter) => (
-                              <ButtonUniversal
-                                  key={filter}
-                                  title={filter}
-                                  color={activeFilters[filter] ? "#8000FF" : "#FFFFFF"}  // Purple if filter is active
-                                  textColor={activeFilters[filter] ? "white" : "black"}
-                                  actionDelegate={() => FuncFilt(filter)}
-                              />
-                          ))}
-                      </Grid>
-                      <Grid item xs={3}>
-                        <ButtonUniversal
-                            icon={IconPlus}
-                            side="L"
-                            title="Add spot"
-                            color="#F23CFF"
-                            textColor="white"
-                            actionDelegate={FuncAddSpot}
-                        />
-                      </Grid>
-                    <HrGreyCustomSeparator marginTop='16px' marginBottom='16px'/>
-                  </Grid>
+                <HrGreyCustomSeparator marginTop="0px" marginBottom="0px" />
+                
+                {/* Search Bar */}
+                <Grid item xs={12} sm={4}>
+                  <SearchFiddle />
+                </Grid>
+                
+                {/* Filters */}
+                <Grid item xs={12} sm={5}>
+                <Box sx={{ /*width: "100%",*/ overflow: "hidden" }}>
+      <Swiper
+        modules={[]} // Exclude Scrollbar module
+        spaceBetween={8} // Space between slides
+        slidesPerView="auto" // Dynamically calculate based on content width
+        freeMode={true} // Enable free scrolling without snapping
+        //scrollbar={{ draggable: true }} // Explicitly disable it if included
+      >
+        <SwiperSlide style={{ width: "auto" }}>
+          <ButtonUniversal
+            title="All"
+            color={activeFilters["All"] ? "#8000FF" : "#FFFFFF"}
+            textColor={activeFilters["All"] ? "white" : "black"}
+            actionDelegate={() => FuncFilt("All")}
+          />
+        </SwiperSlide>
+        {filters.map((filter) => (
+          <SwiperSlide key={filter} style={{ width: "auto" }}>
+            <ButtonUniversal
+              title={filter}
+              color={activeFilters[filter] ? "#8000FF" : "#FFFFFF"}
+              textColor={activeFilters[filter] ? "white" : "black"}
+              actionDelegate={() => FuncFilt(filter)}
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </Box>
+
+    </Grid>
+                
+                {/* Add Spot Button */}
+                <Grid
+                  item
+                  xs={12}
+                  sm={3}
+                  sx={{
+                    display: 'flex',
+                    justifyContent: { xs: 'center', sm: 'flex-end' }, // Center on mobile, align right on larger screens
+                  }}
+                >
+                  <ButtonUniversal
+                    icon={IconPlus}
+                    side="L"
+                    title="Add spot"
+                    color="#F23CFF"
+                    textColor="white"
+                    actionDelegate={FuncAddSpot}
+                    fullWidth={isPhone ? true :  false }
+                  />
+                </Grid>
+                
+                <HrGreyCustomSeparator marginTop="16px" marginBottom="16px" />
+              </Grid>
               </Container>
               <Grid container spacing={3}>
                   <Grid item xs={7}>
