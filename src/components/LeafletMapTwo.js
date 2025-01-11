@@ -43,7 +43,7 @@ const createCustomIconWithText = (iconUrl, text, selected = false) => {
 };
 
 
-const LeafletMapTwo = ({ data, onMerchantSelect }) => {
+const LeafletMapTwo = ({ data, onMerchantSelect, w='25vw', h ='75vh' }) => {
     const mapRef = useRef(null);
     //retrieve merchant
     const selected = useSelector((state/*: RootState*/) => state.mapFiltering.selected)
@@ -58,8 +58,10 @@ const LeafletMapTwo = ({ data, onMerchantSelect }) => {
         }
     };
 
-    return ( 
-        <MapContainer center={[latitude, longitude]} zoom={13} ref={mapRef} style={{height: "75vh", width: "25vw"}}>
+    return (
+      <React.Fragment>
+        {/*        <MapContainer center={[latitude, longitude]} zoom={13} ref={mapRef} style={{height: '75vh', width: '25vw'}}>*/}
+        <MapContainer center={[latitude, longitude]} zoom={13} ref={mapRef} style={{height: h, width: w}}>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
@@ -83,6 +85,7 @@ const LeafletMapTwo = ({ data, onMerchantSelect }) => {
               />
           ))}
         </MapContainer>
+      </React.Fragment>
     );
 }
 
