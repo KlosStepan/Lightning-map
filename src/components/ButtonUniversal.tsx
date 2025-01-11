@@ -41,14 +41,16 @@ type ButtonUniversalProps = {
     color: string;
     textColor: string;
     actionDelegate?: () => Promise<void> | void;
+    fullWidth?: boolean
 };
 
-const ButtonUniversal: React.FC<ButtonUniversalProps> = ({ icon, side, title, color, textColor, actionDelegate, }) => {
+const ButtonUniversal: React.FC<ButtonUniversalProps> = ({ icon, side, title, color, textColor, actionDelegate, fullWidth=false }) => {
     return (
         <Button
             color="primary"
             onClick={actionDelegate}
             sx={{ ...buttonStyles, backgroundColor: color }}
+            fullWidth={fullWidth}
         >
             <Box sx={{ ...boxContainerStyles }}>
                 {side === 'L' && icon && (
