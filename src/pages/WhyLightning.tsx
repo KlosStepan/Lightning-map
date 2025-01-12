@@ -25,7 +25,7 @@ type WhyLightningProps = {
 
 const WhyLightning: React.FC<WhyLightningProps> = ({ }) =>{
     return (
-        <React.Fragment>
+      <React.Fragment>
         <Box sx={{ minHeight: COMMON_HEIGHT, display: 'flex', alignItems: 'center' }}>
         <Grid container spacing={2} alignItems="center" justifyContent="center">
           {/* First 1 unit */}
@@ -128,88 +128,92 @@ const WhyLightning: React.FC<WhyLightningProps> = ({ }) =>{
         </Grid>
         </Box>
         <React.Fragment>
+          <div>&nbsp;</div>
+        </React.Fragment>
+        <React.Fragment>
+          <Grid container spacing={2}>
+              <Grid item xs={12} md={3}>
+                  <Typography variant="h1" component="h2">
+                      How it works
+                  </Typography>
+              </Grid>
+
+              <Grid item xs={12} sm={6} md={3}>
+                  <TileExplainer
+                      //image={transactionspeed}
+                      title="Opening a Channel"
+                      paragraph="Two parties open a payment channel by creating a multi-signature address on the Bitcoin blockchain. This address holds a certain amount of Bitcoin deposited by both parties."
+                  />
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                  <TileExplainer
+                      //image={lowfees}
+                      title="Conducting Transactions"
+                      paragraph="Once the channel is open, the parties can conduct an unlimited number of transactions off-chain. These transactions are almost instantaneous and incur negligible fees since they do not need to be recorded on the blockchain immediately."
+                  />
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                  <TileExplainer
+                      //image={privacyanddecentralization}
+                      title="Closing the Channel"
+                      paragraph="When the parties decide to close the channel, the final balance of each party is recorded on the Bitcoin blockchain. This ensures that the integrity and security of the transactions are maintained."
+                  />
+              </Grid>
+          </Grid>
+        </React.Fragment>
+
+        <React.Fragment>
             <div>&nbsp;</div>
         </React.Fragment>
         <React.Fragment>
-                <Grid container spacing={2}>
-                    <Grid item xs={3}>
-                        <Typography variant="h1" component="h2">
-                            How it works
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <TileExplainer
-                            //image={transactionspeed}
-                            title="Opening a Channel"
-                            paragraph="Two parties open a payment channel by creating a multi-signature address on the Bitcoin blockchain. This address holds a certain amount of Bitcoin deposited by both parties."
-                        />
-                    </Grid>
-                    <Grid item xs={3}>
-                        <TileExplainer
-                            //image={lowfees}
-                            title="Conducting Transactions"
-                            paragraph="Once the channel is open, the parties can conduct an unlimited number of transactions off-chain. These transactions are almost instantaneous and incur negligible fees since they do not need to be recorded on the blockchain immediately."
-                        />
-                    </Grid>
-                    <Grid item xs={3}>
-                        <TileExplainer
-                            //image={privacyanddecentralization}
-                            title="Closing the Channel"
-                            paragraph="When the parties decide to close the channel, the final balance of each party is recorded on the Bitcoin blockchain. This ensures that the integrity and security of the transactions are maintained."
-                        />
-                    </Grid>
-                </Grid>
-        </React.Fragment>
-        <React.Fragment>
-            <div>&nbsp;</div>
-        </React.Fragment>
-        <React.Fragment>
-            <Grid container spacing={2}>
-                <Grid item xs={6}>
-                    <Typography variant="h1" component="h2">
-                        Benefits of Lightning <br/>
-                        Bitcoin Lightning Bitcoin <br/>
-                        offers several advantages <br/>
-                        over traditional Bitcoin <br/>
-                        transactions <br/>
-                    </Typography>
-                </Grid>
-                <Grid item xs={6}>
-                    <TileExplainer
-                            image={transactionspeed}
-                            title="Speed"
-                            breakImageAndTitle={false}
-                            paragraph="When the parties decide to close the channel, the final balance of each party is recorded on the Bitcoin blockchain. This ensures that the integrity and security of the transactions are maintained."
-                    />
-                    <TileExplainer
-                            image={lowfees}
-                            title="Low Fees"
-                            breakImageAndTitle={false}
-                            paragraph="By minimizing the number of transactions recorded on the blockchain, Lightning Bitcoin reduces transaction fees, making microtransactions feasible."
-                    />
-                    <TileExplainer
-                            image={scalability}
-                            title="Scalability"
-                            breakImageAndTitle={false}
-                            paragraph="The Lightning Network can handle a significantly higher number of transactions per second compared to the Bitcoin blockchain, making it more scalable for widespread use."
-                    />
-                    <TileExplainer
-                            image={security}
-                            title="Security"
-                            breakImageAndTitle={false}
-                            paragraph="Despite being conducted off-chain, Lightning Bitcoin transactions retain the security features of the Bitcoin blockchain. The final settlement on the blockchain ensures the integrity and immutability of transactions."
-                    />
-                    <TileExplainer
-                            image={privacy}
-                            title="Privacy"
-                            breakImageAndTitle={false}
-                            paragraph="Since most transactions occur off-chain, users enjoy a higher degree of privacy compared to on-chain transaction."
-                    />
-                </Grid>
-            </Grid>
+          <Grid container spacing={2}>
+              {/* Caption */}
+              <Grid item xs={12} md={6}>
+                  <Typography variant="h1" component="h2">
+                      Benefits of Lightning <br/>
+                      Bitcoin Lightning Bitcoin <br/>
+                      offers several advantages <br/>
+                      over traditional Bitcoin <br/>
+                      transactions <br/>
+                  </Typography>
+              </Grid>
+              {/* Tiles */}
+              <Grid item xs={12} md={6}>
+                  <TileExplainer
+                      image={transactionspeed}
+                      title="Speed"
+                      breakImageAndTitle={false}
+                      paragraph="When the parties decide to close the channel, the final balance of each party is recorded on the Bitcoin blockchain. This ensures that the integrity and security of the transactions are maintained."
+                  />
+                  <TileExplainer
+                      image={lowfees}
+                      title="Low Fees"
+                      breakImageAndTitle={false}
+                      paragraph="By minimizing the number of transactions recorded on the blockchain, Lightning Bitcoin reduces transaction fees, making microtransactions feasible."
+                  />
+                  <TileExplainer
+                      image={scalability}
+                      title="Scalability"
+                      breakImageAndTitle={false}
+                      paragraph="The Lightning Network can handle a significantly higher number of transactions per second compared to the Bitcoin blockchain, making it more scalable for widespread use."
+                  />
+                  <TileExplainer
+                      image={security}
+                      title="Security"
+                      breakImageAndTitle={false}
+                      paragraph="Despite being conducted off-chain, Lightning Bitcoin transactions retain the security features of the Bitcoin blockchain. The final settlement on the blockchain ensures the integrity and immutability of transactions."
+                  />
+                  <TileExplainer
+                      image={privacy}
+                      title="Privacy"
+                      breakImageAndTitle={false}
+                      paragraph="Since most transactions occur off-chain, users enjoy a higher degree of privacy compared to on-chain transaction."
+                  />
+              </Grid>
+          </Grid>
         </React.Fragment>
         <Footer />
-        </React.Fragment>
+      </React.Fragment>
     )
 };
 
