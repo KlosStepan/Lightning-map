@@ -133,6 +133,8 @@ const Map: React.FC<MapProps> = ({ }) => {
                 {/* Filters */}
                 <Grid item xs={12} sm={5}>
                 <Box sx={{ /*width: "100%",*/ overflow: "hidden" }}>
+                {/* TODO FIX - hotfix of blicking buttons in slider */}
+                <div style={{height:'40px'}}>
                 <Swiper
                   modules={[]} // Exclude Scrollbar module
                   spaceBetween={8} // Space between slides
@@ -148,6 +150,7 @@ const Map: React.FC<MapProps> = ({ }) => {
                       actionDelegate={() => FuncFilt("All")}
                     />
                   </SwiperSlide>
+
                   {filters.map((filter) => (
                     <SwiperSlide key={filter} style={{ width: "auto" }}>
                       <ButtonUniversal
@@ -159,6 +162,7 @@ const Map: React.FC<MapProps> = ({ }) => {
                     </SwiperSlide>
                   ))}
                 </Swiper>
+                </div>
               </Box>
               </Grid>
                 
