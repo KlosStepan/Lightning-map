@@ -28,3 +28,13 @@ export const closeIconStyle: SxProps<Theme> = {
     cursor: 'pointer',
     opacity: 1,
 };
+
+// Define style for the Modal
+export const cardStyle: SxProps<Theme> = {
+    display: 'flex',
+    alignItems: 'flex-end', // Align modal content to the bottom
+    justifyContent: 'center', // Center modal content horizontally
+    '& .MuiBackdrop-root': {
+      backgroundColor: 'rgba(0, 0, 0, 0.5)', // Optional backdrop color
+    },
+  };

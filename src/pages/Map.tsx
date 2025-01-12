@@ -27,6 +27,8 @@ import IconPlus from '../icons/ico-btn-plus.png';
 import { Swiper, SwiperSlide } from "swiper/react";
 //import "swiper/swiper-bundle.min.css";
 import { GlobalStyles } from "@mui/material";
+import CardSpot from "../forms/mobilecontentcards/CardSpot";
+import { cardStyle } from '../forms/stylesForm';
 
 const filters = ["Food & Drinks", "Shops", "Services"];
 
@@ -81,6 +83,7 @@ const Map: React.FC<MapProps> = ({ }) => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    //
 
     const dynamicPadding = (index: number) => {
       const paddingValue = 24; // between tiles space
@@ -239,6 +242,17 @@ const Map: React.FC<MapProps> = ({ }) => {
                 style={{overflow: 'scroll'}}
               >
                 <FormAddSpot closeModal={handleClose}/>
+              </Modal>
+              <Modal
+                open={isPhone && selected != null}
+                onClose={() => dispatch(setSelected(null))}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                sx={cardStyle} // Use the imported style
+              >
+                <React.Fragment>
+                  {selected && <CardSpot tile={selected.properties} />}
+                </React.Fragment>
               </Modal>
           </React.Fragment>
     );

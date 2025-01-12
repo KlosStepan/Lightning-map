@@ -3,6 +3,7 @@ import React from "react";
 import Box from '@mui/material/Box';
 import { CardMedia, Container, Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
+import { useMediaQuery, useTheme } from "@mui/material";
 //Components
 import ButtonUniversal from "./ButtonUniversal";
 import TagMerchant from "./TagMerchant";
@@ -40,6 +41,7 @@ const iconStyle = {
     height: 18,
 };
 
+
 //TODO - tile.image be base64
 type TileMerchantBigProps = {
     tile: IMerchantTile; 
@@ -52,84 +54,83 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ tile }) => {
         console.log("Report merchant");
         return Promise.resolve();
     };
-
+    // Inside the component
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     return (
         <React.Fragment>
             <Container maxWidth="sm" sx={containerOuterStyle}>
                 <Box sx={{ ...containerInnerStyle }}>
-                    <Grid container spacing={2}>
-                        {/* Image section - 40% width */}
-                        <Grid item xs={6}>
-                            <CardMedia
-                                component="img"
-                                //TODO 
-                                image={dummyImgBigTile}
-                                alt={tile.title}
-                            />
-                        </Grid>
-                        {/* Content section - 60% width */}
-                        <Grid item xs={6}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <div>
-                                {tile.tags.map((tag: string) => (
-                                    <TagMerchant key={tag} tag={tag} />
-                                ))}
-                            </div>
+                <Grid container spacing={2}>
+                {/* Image section */}
+                <Grid item xs={12} sm={6}>
+                    <CardMedia
+                    component="img"
+                    image={dummyImgBigTile}
+                    alt={tile.title}
+                    />
+                </Grid>
 
-                            <div
-                                onClick={() => dispatch(setSelected(null))}
-                            >
-                                <Box
-                                    component="img"
-                                    src={closeIcon}
-                                    alt="Custom Search Icon"
-                                    sx={iconStyle}
-                                    style={{
-                                        cursor: 'pointer',    // Shows pointer cursor on hover
-                                        //transition: 'opacity 0.3s ease', // Smooth transition effect for hover
-                                        opacity: 1,
-                                    }}
-                                />
-                            </div>
-
-                        </div>
-                            <Typography variant="h1" component="h2" style={{ textAlign: 'left', marginTop: '10px' }}>
-                                {tile.title}
-                            </Typography>
-                            <p style={{ textAlign: 'left', fontSize: '16px', marginTop:'10px', color: '#6B7280' }}>
-                                {`${tile.address.address} ${tile.address.city} ${tile.address.postalCode}`}
-                            </p>
-                            <p style={{ fontSize: '16px', fontFamily: 'IBM Plex Sans Condensed', color: '#404040' }}>
-                                {tile.description}
-                            </p>
-                            <div><span style={{fontFamily: 'PixGamer', fontSize:'24px', color:'#6B7280'}}>Socials</span> &nbsp;
-                                {tile.socials.map((social: ISocial) => (
-                                    <TagSocialLink social={social}/>
-                                ))}
-                            </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <ButtonUniversal
-                                    icon={IconExclamationMark}
-                                    side="L"
-                                    title="Report"
-                                    color="white"
-                                    textColor="#BEBEBE"
-                                    actionDelegate={FuncReport} // Placeholder action; replace as needed
-                                />
-                                <span style={{ display: 'flex', justifyContent: 'right', alignItems: 'center' }}>
-                                <IconLightningNumber number={"777"} scale={1.1} /> {/* Replace "777" with actual likes if available */}
-                                <span>&nbsp; &nbsp;</span>
-                                <ButtonUniversal
-                                    //icon={IconExclamationMark}
-                                    side="L"
-                                    title="Navigate"
-                                    color="#F23CFF"
-                                    textColor="white"
-                                    actionDelegate={ () => { console.log("TODO NAVIGATE funct()");}} // Placeholder action; replace as needed
-                                /></span>
-                            </div>
-                        </Grid>
-                    </Grid>
+                {/* Content section */}
+                <Grid item xs={12} sm={6}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                        {tile.tags.map((tag: string) => (
+                        <TagMerchant key={tag} tag={tag} />
+                        ))}
+                    </div>
+                    {!isMobile && (
+                    <div onClick={() => dispatch(setSelected(null))}>
+                        <Box
+                        component="img"
+                        src={closeIcon}
+                        alt="Close Icon"
+                        sx={iconStyle}
+                        style={{ cursor: 'pointer', opacity: 1 }}
+                        />
+                    </div>)}
+                    </div>
+                    <Typography variant="h1" component="h2" sx={{ textAlign: 'left', mt: 1 }}>
+                    {tile.title}
+                    </Typography>
+                    <Typography sx={{ textAlign: 'left', fontSize: '16px', mt: 1, color: '#6B7280' }}>
+                    {`${tile.address.address} ${tile.address.city} ${tile.address.postalCode}`}
+                    </Typography>
+                    <Typography sx={{ fontSize: '16px', fontFamily: 'IBM Plex Sans Condensed', color: '#404040' }}>
+                    {tile.description}
+                    </Typography>
+                    <div>
+                    <Typography variant="subtitle1" sx={{ fontFamily: 'PixGamer', fontSize: 24, color: '#6B7280', display: 'inline' }}>
+                        Socials
+                    </Typography>
+                    &nbsp;
+                    {tile.socials.map((social: ISocial, index: number) => (
+                        <TagSocialLink key={index} social={social} />
+                    ))}
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
+                    <ButtonUniversal
+                        icon={IconExclamationMark}
+                        side="L"
+                        title="Report"
+                        color="white"
+                        textColor="#BEBEBE"
+                        actionDelegate={FuncReport}
+                    />
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <IconLightningNumber number="777" scale={1.1} />
+                        <span>&nbsp; &nbsp;</span>
+                        <ButtonUniversal
+                        side="L"
+                        title="Navigate"
+                        color="#F23CFF"
+                        textColor="white"
+                        actionDelegate={() => console.log("TODO NAVIGATE funct()")}
+                        />
+                    </div>
+                    </div>
+                </Grid>
+                </Grid>
                 </Box>
             </Container>
         </React.Fragment>
