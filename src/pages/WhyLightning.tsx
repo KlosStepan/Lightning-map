@@ -1,6 +1,6 @@
 import React from "react";
 //MUI
-import { Grid, Typography, CardMedia, Box } from "@mui/material";
+import { Grid, Typography, CardMedia, Box, useMediaQuery, useTheme } from "@mui/material";
 //Components
 import TileExplainer from "../components/TileExplainer";
 import Footer from "../components/Footer";
@@ -18,16 +18,113 @@ import privacy from '../img/Coding-Apps-Websites-Shield-Lock--Streamline-Pixel.p
 
 // Define the common height
 const COMMON_HEIGHT = '450px';
+const COMMON_HEIGHT_2 = '225px';
 
 type WhyLightningProps = {
   //
 };
 
 const WhyLightning: React.FC<WhyLightningProps> = ({ }) =>{
+    const theme = useTheme();
+    const isPhone = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is small
+  
     return (
       <React.Fragment>
         <Box sx={{ minHeight: COMMON_HEIGHT, display: 'flex', alignItems: 'center' }}>
         <Grid container spacing={2} alignItems="center" justifyContent="center">
+        {isPhone ? (
+            <>
+              <div>&nbsp;</div>
+              {/* Row 3: Typography */}
+              <Grid item xs={12}>
+                <Typography
+                  variant="h1"
+                  component="h1"
+                  sx={{
+                    fontSize: '2.5rem', // Adjust font size for phone screens
+                    textAlign: 'left',
+                  }}
+                >
+                  Bitcoin Lightning Network is a
+                  second-layer technology
+                  designed to facilitate faster and
+                  cheaper transactions on the
+                  Bitcoin blockchain.
+                </Typography>
+              </Grid>
+              {/* Row 1: First column images (img1_magnet and imgs2Overlap2) */}
+              <Grid container item xs={12} spacing={2}>
+                <Grid item xs={5} sx={{ position: 'relative', top:'-20px'}}>
+                  <CardMedia
+                    component="img"
+                    image={img1_magnet}
+                    alt="Magnet Image"
+                    style={{
+                      width: '90px',
+                      height: '90px',
+                      objectFit: 'cover',
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={7}>
+                  <CardMedia
+                    component="img"
+                    image={imgs2Overlap2}
+                    alt="Image 147"
+                    style={{
+                      width: '199px',
+                      height: '308px',
+                      objectFit: 'cover',
+                      //top: '100px',
+                      //top: 0,
+                      //left: 0,
+                    }}
+                  />
+                </Grid>
+              </Grid>
+
+              {/* Row 2: Second column images (imgs2Overlap1 and img3Comeback) */}
+              <Grid container item xs={12} spacing={2} sx={{ position: 'relative', top:'-125px'}}>
+                <Grid item xs={7}>
+                  <CardMedia
+                    component="img"
+                    image={imgs2Overlap1}
+                    alt="Image 145"
+                    style={{
+                      width: '242px',
+                      height: '385px',
+                      objectFit: 'cover',
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={5} sx={{ position: 'relative', height: '100%' }}>
+                  <div
+                    style={{
+                      position: 'relative',
+                      height: COMMON_HEIGHT_2,
+                    }}
+                  >
+                    <CardMedia
+                      component="img"
+                      image={img3Comeback}
+                      alt="Comeback Image"
+                      style={{
+                        width: '90px',
+                        height: '90px',
+                        position: 'absolute',
+                        bottom: 0,
+                        right: 0,
+                        objectFit: 'cover',
+                      }}
+                    />
+                  </div>
+                </Grid>
+
+              </Grid>
+
+            </>
+          ) : (
+          <>
           {/* First 1 unit */}
           <Grid item xs={1}>
             <div
@@ -125,11 +222,10 @@ const WhyLightning: React.FC<WhyLightningProps> = ({ }) =>{
               />
             </div>
           </Grid>
+          </>
+            )}
         </Grid>
         </Box>
-        <React.Fragment>
-          <div>&nbsp;</div>
-        </React.Fragment>
         <React.Fragment>
           <Grid container spacing={2}>
               <Grid item xs={12} md={3}>
