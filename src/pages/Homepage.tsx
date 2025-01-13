@@ -57,6 +57,7 @@ const Homepage: React.FC<HomepageProps> = ({ }) => {
                 <WhyLightning/>
             </React.Fragment>
             <React.Fragment>
+                <div>&nbsp;</div>
                 <MiddleOfHomepage />
             </React.Fragment>
             
