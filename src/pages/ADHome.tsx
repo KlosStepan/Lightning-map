@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Typography from '@mui/material/Typography';
-import { Grid, Box } from '@mui/material';
+import { Grid, Box, useMediaQuery, useTheme } from '@mui/material';
 import ADMenu from "../components/ADMenu";
 //import ADMenuButton from "../components/ADMenuButton";
 import ButtonUniversal from "../components/ButtonUniversal";
@@ -60,12 +60,14 @@ const ADHome: React.FC<ADHomeProps> = ({ }) => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
+    //Phone detect section 
+    const theme = useTheme();
+    const isPhone = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is small
     return (
         <React.Fragment>
             <Grid container>
                 {/* Sidebar */}
-                <Grid item xs={3}>
+                {!isPhone && <Grid item xs={3}>
                     <Box
                         sx={{
                             padding: 2,
@@ -73,10 +75,10 @@ const ADHome: React.FC<ADHomeProps> = ({ }) => {
                     >
                         <ADMenu />
                     </Box>
-                </Grid>
+                </Grid>}
 
                 {/* Main Content */}
-                <Grid item xs={9}>
+                <Grid item xs={12} md={9}>
                     <Box
                         sx={{
                             padding: 3,
@@ -92,13 +94,13 @@ const ADHome: React.FC<ADHomeProps> = ({ }) => {
                                 </Typography>
                             </Grid>
                             <Grid item xs={2}>
-                                {/*<ButtonUniversal title="+ Add" color="#F23CFF" textColor="white" actionDelegate={FuncAdd} />*/}
+                                <ButtonUniversal title="+ Add" color="#F23CFF" textColor="white" actionDelegate={FuncAdd} />
                             </Grid>
                         </Grid>
                         <Grid container spacing={2}>
                         {items.map((item, index) => (
-                            <Grid item xs={4} key={index}>
-                                <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>
+                            <Grid item md={4} xs={6} key={index}>
+                                <Box sx={{ border: '1px solid #ddd', /*padding: 2,*/ height: '100%' }}>
                                     <TileTypeMerchant
                                     caption={item.caption}
                                     numPlaces={item.numPlaces}
@@ -111,8 +113,10 @@ const ADHome: React.FC<ADHomeProps> = ({ }) => {
                         ))}
                     </Grid>
                     </Box>
+
                 </Grid>
             </Grid>
+
             {/*MODAL ZONE*/}
             <Modal
                 open={open}
@@ -123,6 +127,7 @@ const ADHome: React.FC<ADHomeProps> = ({ }) => {
               >
                 <span>FormADAdd: |E| |M|</span>
             </Modal>
+            {isPhone && <ADMenu/>}
         </React.Fragment>
     );
 }
