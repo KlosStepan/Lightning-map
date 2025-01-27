@@ -1,6 +1,6 @@
 import React from "react";
 import Typography from '@mui/material/Typography';
-import { Grid, Box } from '@mui/material';
+import { Grid, Box, useMediaQuery, useTheme } from '@mui/material';
 import Button from '@mui/material/Button';
 import ADMenu from "../components/ADMenu";
 import ButtonUniversal from "../components/ButtonUniversal";
@@ -14,11 +14,14 @@ const ADMyAccount: React.FC<ADMyAccountProps> = ({ }) => {
         console.log("Edit")
         return Promise.resolve();
     }
+    //Phone detect section 
+    const theme = useTheme();
+    const isPhone = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is small
     return (
         <React.Fragment>
             <Grid container>
                 {/* Sidebar */}
-                <Grid item xs={3}>
+                {!isPhone && <Grid item xs={3}>
                     <Box
                         sx={{
                             padding: 2,
@@ -26,10 +29,10 @@ const ADMyAccount: React.FC<ADMyAccountProps> = ({ }) => {
                     >
                         <ADMenu />
                     </Box>
-                </Grid>
+                </Grid>}
 
                 {/* Main Content */}
-                <Grid item xs={9}>
+                <Grid item md={9} xs={12}>
                     <Box
                         sx={{
                             padding: 3,
@@ -50,6 +53,7 @@ const ADMyAccount: React.FC<ADMyAccountProps> = ({ }) => {
                     </Box>
                 </Grid>
             </Grid>
+            {isPhone && <ADMenu/>}
         </React.Fragment>
     )
 }
