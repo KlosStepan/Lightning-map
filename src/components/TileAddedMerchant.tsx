@@ -10,10 +10,16 @@ import IconTrash from '../icons/ico-btn-trash.png';
 import closeIcon from '../icons/close.png';
 import FormEditSpot from "../forms/FormEditSpot";
 
-const containerOuterStyle = {
+/*const containerOuterStyle = {
     borderRadius: '16px',
     backgroundColor: 'white',
-}
+}*/
+const containerOuterStyle = {
+    padding: '0px 0px 0px 0px !important',
+    gap: '10px',
+    borderRadius: '16px',
+    backgroundColor: 'white',
+};
 
 const containerBottomInsideStyle = {
     display: 'flex',
@@ -57,23 +63,23 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, tile }) =>
         <Container sx={containerOuterStyle} disableGutters>
             <TileMerchant likes={likes} tile={tile} index={1}/>
             <Box sx={{ ...containerBottomInsideStyle, mt: 2 }}>
-            <ButtonUniversal
+                <ButtonUniversal
                         icon={IconEdit}
                         side="R"
                         title="EDIT"
                         color="#F23CFF"
                         textColor="white"
                         actionDelegate={handleOpenEdit}
-                    />{' '}
-                    &nbsp;
-                    <ButtonUniversal
-                        icon={IconTrash}
-                        side="R"
-                        title="DELETE"
-                        color="#8000FF"
-                        textColor="white"
-                        actionDelegate={handleOpenDelete}
-                    />
+                />{' '}
+                &nbsp;
+                <ButtonUniversal
+                    icon={IconTrash}
+                    side="R"
+                    title="DELETE"
+                    color="#8000FF"
+                    textColor="white"
+                    actionDelegate={handleOpenDelete}
+                />
             </Box>
             {/* Edit Modal */}
             {/* Edit Merchant (FormEditMerchant edit=true, merchant=tile vv) */}

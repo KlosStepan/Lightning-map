@@ -8,9 +8,17 @@ import IconTrash from '../icons/ico-btn-trash.png';
 import closeIcon from '../icons/close.png';
 import FormEditEshop from '../forms/FormEditEshop';
 
-const containerOuterStyle = {
+/*const containerOuterStyle = {
     borderRadius: '16px',
     backgroundColor: 'white',
+};*/
+
+const containerOuterStyle = {
+    padding: '10px 16px 10px 16px !important',
+    borderRadius: '16px',
+    opacity: '0px',
+    backgroundColor: 'white',
+    margin: '0px 0px 10px 0px',
 };
 
 const containerBottomInsideStyle = {
@@ -45,29 +53,27 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, tile }) => {
     }
 
     return (
-        <React.Fragment>
-            <Container sx={containerOuterStyle} disableGutters>
-                <TileEshop likes={likes} tile={tile} showReportButton={false} />
-                <Box sx={{ ...containerBottomInsideStyle, mt: 2 }}>
-                    <ButtonUniversal
-                        icon={IconEdit}
-                        side="R"
-                        title="EDIT"
-                        color="#F23CFF"
-                        textColor="white"
-                        actionDelegate={handleOpenEdit}
-                    />{' '}
-                    &nbsp;
-                    <ButtonUniversal
-                        icon={IconTrash}
-                        side="R"
-                        title="DELETE"
-                        color="#8000FF"
-                        textColor="white"
-                        actionDelegate={handleOpenDelete}
-                    />
-                </Box>
-            </Container>
+        <Container sx={containerOuterStyle} disableGutters>
+            <TileEshop likes={likes} tile={tile} showReportButton={false} />
+            <Box sx={{ ...containerBottomInsideStyle, mt: 2 }}>
+                <ButtonUniversal
+                    icon={IconEdit}
+                    side="R"
+                    title="EDIT"
+                    color="#F23CFF"
+                    textColor="white"
+                    actionDelegate={handleOpenEdit}
+                />{' '}
+                &nbsp;
+                <ButtonUniversal
+                    icon={IconTrash}
+                    side="R"
+                    title="DELETE"
+                    color="#8000FF"
+                    textColor="white"
+                    actionDelegate={handleOpenDelete}
+                />
+            </Box>
             {/* Edit Modal */}
             {/*Edit Eshop (FormEditEshop edit=true, eshop=tile vv)*/}
             <Modal
@@ -170,7 +176,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, tile }) => {
                     </Box>
                 </Box>
             </Modal>
-        </React.Fragment>
+        </Container>
     );
 };
 

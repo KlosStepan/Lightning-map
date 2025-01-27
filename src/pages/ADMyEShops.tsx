@@ -102,7 +102,7 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = ({ }) => {
                         <Grid container spacing={2} sx={{ marginRight: 0, marginLeft: 0 }}>
                         {eshops?.map((eshop: IEshop, index) => (
                             <Grid xs={12} sm={4} key={index} sx={isPhone ? {} : { ...dynamicPadding(index) }}>  {/* Apply padding only if not on a phone*/}
-                                <TileEshop likes="7" tile={eshop} />
+                                <TileAddedEshop likes="7" tile={eshop} />
                             </Grid>
                         ))}
                     </Grid>

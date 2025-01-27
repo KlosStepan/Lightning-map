@@ -102,24 +102,13 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
                                 </Grid>
                             ))}
                         </Grid>*/}
-                    <Grid container spacing={2}>
-                        {myMerchants?.map((merchant: IMerchant, index: number) => (
-                        <Grid xs={12} sm={4} key={index} sx={{ ...dynamicPadding(index) }}>
-                            <Box
-                            //onClick={() => dispatch(setSelected(merchant))}
-                            style={{
-                                cursor: 'pointer',
-                                transition: 'opacity 0.3s ease',
-                                opacity: 1,
-                            }}
-                            onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.5')}
-                            onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
-                            >
-                            <TileMerchant likes={"777"} tile={merchant.properties} index={index} />
-                            </Box>
+                        <Grid container spacing={2}>
+                            {myMerchants?.map((merchant: IMerchant, index: number) => (
+                            <Grid xs={12} sm={4} key={index} sx={{ ...dynamicPadding(index) }}>
+                                <TileAddedMerchant likes={"777"} tile={merchant.properties} /*index={index}*/ />
+                            </Grid>
+                            ))}
                         </Grid>
-                        ))}
-                    </Grid>
                     </Box>
                 </Grid>
             </Grid>
