@@ -1,72 +1,61 @@
 import React, { useEffect, useState } from "react";
+//MUI
 import Typography from '@mui/material/Typography';
+import Modal from "@mui/material/Modal";
 import { Grid, Box, useMediaQuery, useTheme } from '@mui/material';
+//Components
 import ADMenu from "../components/ADMenu";
-//import ADMenuButton from "../components/ADMenuButton";
 import ButtonUniversal from "../components/ButtonUniversal";
-import { auth, db } from "../components/Firebase";
-
 import TileTypeMerchant from '../components/TileTypeMerchant';
-//
+//Redux+RTK
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from "../redux-rtk/store";
+//Images
 import mapofspotsimg from '../img/Interface-Essential-Map--Streamline-Pixel.png';
 import eshopsimg from '../img/Shopping-Shipping-Bag-1--Streamline-Pixel.png';
 
-//Redux
-import { useDispatch, useSelector } from 'react-redux';
-//
-import { RootState } from "../redux-rtk/store";
-// 4x icon
-//import IcoADHome from '../icons/ad-home.png';
-//import IcoADPin from '../icons/ad-pin.png';
-//import IcoADShoppingBag from '../icons/ad-shopping-bag.png';
-//import IcoADUser from '../icons/ad-user.png';
-
-import Modal from "@mui/material/Modal";
-
 type ADHomeProps = {
-
+    //
 };
 
 const ADHome: React.FC<ADHomeProps> = ({ }) => {
-    // State
-    const user = useSelector((state: RootState) => state.misc.user)
-    const merchants = useSelector((state: RootState) => state.data.merchants)
-    const eshops = useSelector((state: RootState) => state.data.eshops)
-
-    // Data slicing
+    //State
+    const user = useSelector((state: RootState) => state.misc.user);
+    const merchants = useSelector((state: RootState) => state.data.merchants);
+    const eshops = useSelector((state: RootState) => state.data.eshops);
+    //Data slicing
     let uid = user?.uid
     const myMerchants = merchants?.filter((merchant) => merchant.properties.owner === uid);
     const myEshops = eshops?.filter((eshop) => eshop.owner === uid);
-
-    console.log("cnt(myMerchants): " + myMerchants?.length)
-    console.log("cnt(myMerchants): " + myEshops?.length)
-
+    //Debug
+    const debug = useSelector((state: RootState) => state.misc.debug);
+    if (debug) {
+        console.log("cnt(myMerchants): " + myMerchants?.length)
+        console.log("cnt(myMerchants): " + myEshops?.length)
+    }
+    //Functions
     const FuncAdd = (): Promise<void> => {
         console.log("Add");
         handleOpen();
         return Promise.resolve();
     }
-    
     const items = [
         { caption: "My spots", numPlaces: myMerchants?.length, imageSrc: mapofspotsimg, path: "/admin/my-spots" },
         { caption: "My e-shops", numPlaces: myEshops?.length, imageSrc: eshopsimg, path: "/admin/my-eshops" },
         //{ caption: "My stores", numPlaces: 5, imageSrc: eshops, path: "" },
         //{ caption: "My e-shops", numPlaces: 7, imageSrc: eshops, path: "" },
         //{ caption: "My stores", numPlaces: 5, imageSrc: eshops, path: "" },
-        // Add additional items here as needed
       ];
-      
     //Modal Stuff
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    //Phone detect section 
+    //Phone detection 
     const theme = useTheme();
-    const isPhone = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is small
+    const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
     return (
         <React.Fragment>
             <Grid container>
-                {/* Sidebar */}
                 {!isPhone && <Grid item xs={3}>
                     <Box
                         sx={{
@@ -116,8 +105,7 @@ const ADHome: React.FC<ADHomeProps> = ({ }) => {
 
                 </Grid>
             </Grid>
-
-            {/*MODAL ZONE*/}
+            {/* Modal */}
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -125,11 +113,13 @@ const ADHome: React.FC<ADHomeProps> = ({ }) => {
                 aria-describedby="modal-modal-description"
                 style={{overflow: 'scroll'}}
               >
+                {/* TODO Modal content */}
                 <span>FormADAdd: |E| |M|</span>
             </Modal>
+            {/* Menu down - for phone */}
             {isPhone && <ADMenu/>}
         </React.Fragment>
-    );
+    )
 }
 
 export default ADHome;

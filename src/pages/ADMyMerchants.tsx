@@ -1,53 +1,47 @@
 import React from "react";
+//MUI
 import Typography from '@mui/material/Typography';
 import { Grid, Box, useMediaQuery, useTheme } from '@mui/material';
-import Button from '@mui/material/Button';
-import ButtonUniversal from "../components/ButtonUniversal";
+import Modal from "@mui/material/Modal";
 //Components
 import ADMenu from "../components/ADMenu";
 import TileAddedMerchant from "../components/TileAddedMerchant";
-import FormAddSpot from "../forms/FormAddSpot";
-import TileMerchant from "../components/TileMerchant";
-
-import FotoBluePig from '../img/foto-blue-pig.png';
-import FotoPolis from '../img/foto-polis.png';
-
-import IconPlus from '../icons/ico-btn-plus.png';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from "../redux-rtk/store";
+import ButtonUniversal from "../components/ButtonUniversal";
 //TypeScript
 import IMerchant from "../ts/IMerchant";
-
-import Modal from "@mui/material/Modal";
+//Redux+RTK
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from "../redux-rtk/store";
+//Forms
+import FormAddSpot from "../forms/FormAddSpot";
+//Icons
+import IconPlus from '../icons/ico-btn-plus.png';
 
 type ADMyMerchantsProps = {
     //
 };
 
 const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
-    // State
+    //State
     const user = useSelector((state: RootState) => state.misc.user)
     const merchants = useSelector((state: RootState) => state.data.merchants)
-
-    // Data slicing
+    //Data slicing
     let uid = user?.uid
     const myMerchants = merchants?.filter((merchant) => merchant.properties.owner === uid);
-
-    console.log("cnt(myMerchants): " + myMerchants?.length)
-
+    //Debug
+    const debug = useSelector((state: RootState) => state.misc.debug);
+    if (debug) {
+        console.log("cnt(myMerchants): " + myMerchants?.length)
+    }
+    //Functions for Merchants
     const FuncAddSpot = (): Promise<void> => {
         console.log("AddSpot")
         handleOpen();
         return Promise.resolve();
     }
-
-    //Modal Stuff
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-
+    //Function for dynamicPadding(index)
     const dynamicPadding = (index: number) => {
-        const paddingValue = 24; // between tiles space
+        const paddingValue = 24; // Between tiles space
         switch (index % 3) {
           case 0:
             return { padding: `${paddingValue}px 8px ${paddingValue}px 0px !important` }; // Left tile
@@ -56,12 +50,16 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
           case 2:
             return { padding: `${paddingValue}px 0px ${paddingValue}px 8px !important` }; // Right tile
           default:
-            return {};
+            return { };
         }
-      };
-    //Phone detect section 
+    };
+    //Modal Stuff
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    //Phone detection 
     const theme = useTheme();
-    const isPhone = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is small
+    const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
     return (
         <React.Fragment>
             <Grid container>
@@ -93,25 +91,17 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
                                 <ButtonUniversal icon={IconPlus} side="L" title="Add spot" color="#F23CFF" textColor="white" actionDelegate={FuncAddSpot} />
                             </Grid>
                         </Grid>
-                        {/*<Grid container spacing={2}>
-                            {myMerchants?.map((merchant, index) => (
-                                <Grid item xs={4} key={index}>
-                                <Box sx={{ border: '1px solid #ddd', padding: 2, height: '100%' }}>
-                                    <TileAddedMerchant likes={"12"} tile={merchant.properties}/>
-                                </Box>
-                                </Grid>
-                            ))}
-                        </Grid>*/}
                         <Grid container spacing={2}>
                             {myMerchants?.map((merchant: IMerchant, index: number) => (
                             <Grid xs={12} sm={4} key={index} sx={{ ...dynamicPadding(index) }}>
-                                <TileAddedMerchant likes={"777"} tile={merchant.properties} /*index={index}*/ />
+                                <TileAddedMerchant likes={"777"} tile={merchant.properties} />
                             </Grid>
                             ))}
                         </Grid>
                     </Box>
                 </Grid>
             </Grid>
+            {/* Modal */}
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -121,8 +111,10 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
               >
                 <FormAddSpot closeModal={handleClose}/>
             </Modal>
+            {/* Menu down - for phone */}
             {isPhone && <ADMenu/>}
         </React.Fragment>
     )
 }
+
 export default ADMyMerchants;

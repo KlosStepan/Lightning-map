@@ -1,26 +1,40 @@
 import React from "react";
+//MUI
 import Typography from '@mui/material/Typography';
+import Modal from "@mui/material/Modal";
 import { Grid, Box, useMediaQuery, useTheme } from '@mui/material';
-import Button from '@mui/material/Button';
+//Components
 import ADMenu from "../components/ADMenu";
 import ButtonUniversal from "../components/ButtonUniversal";
+//Redux+RTK
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from "../redux-rtk/store";
 
 type ADMyAccountProps = {
-
+    //
 };
-//function ADMyAccount() {
+
 const ADMyAccount: React.FC<ADMyAccountProps> = ({ }) => {
+    //Debug
+    //const debug = useSelector((state: RootState) => state.misc.debug);
+    //if (debug) {
+    //    console.log("debug")
+    //}
+    //Functions for MyAccount
     const FuncEdit = (): Promise<void> => {
         console.log("Edit")
         return Promise.resolve();
     }
-    //Phone detect section 
+    //Modal Stuff
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    //Phone detection
     const theme = useTheme();
-    const isPhone = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is small
+    const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
     return (
         <React.Fragment>
             <Grid container>
-                {/* Sidebar */}
                 {!isPhone && <Grid item xs={3}>
                     <Box
                         sx={{
@@ -30,8 +44,6 @@ const ADMyAccount: React.FC<ADMyAccountProps> = ({ }) => {
                         <ADMenu />
                     </Box>
                 </Grid>}
-
-                {/* Main Content */}
                 <Grid item md={9} xs={12}>
                     <Box
                         sx={{
@@ -45,7 +57,7 @@ const ADMyAccount: React.FC<ADMyAccountProps> = ({ }) => {
                                 </Typography>
                             </Grid>
                             <Grid item xs={6} container justifyContent="flex-end">
-                                <ButtonUniversal title="Edit" color="#F23CFF" textColor="white" actionDelegate={FuncEdit} />
+                                <ButtonUniversal title="Edit" color="#F23CFF" textColor="white" actionDelegate={handleOpen} />
 
                             </Grid>
                         </Grid>
@@ -53,6 +65,17 @@ const ADMyAccount: React.FC<ADMyAccountProps> = ({ }) => {
                     </Box>
                 </Grid>
             </Grid>
+            {/* Modal */}
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                style={{overflow: 'scroll'}}
+              >
+                <div>Edit Modal stuff</div>
+            </Modal>
+            {/* Menu down - for phone */}
             {isPhone && <ADMenu/>}
         </React.Fragment>
     )
