@@ -7,6 +7,8 @@ import { Grid, Box, useMediaQuery, useTheme } from '@mui/material';
 import ADMenu from "../components/ADMenu";
 import ButtonUniversal from "../components/ButtonUniversal";
 import TileTypeMerchant from '../components/TileTypeMerchant';
+//Forms
+import FormADAdd from "../forms/FormADAdd";
 //Redux+RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
@@ -31,11 +33,11 @@ const ADHome: React.FC<ADHomeProps> = ({ }) => {
     const debug = useSelector((state: RootState) => state.misc.debug);
     if (debug) {
         console.log("cnt(myMerchants): " + myMerchants?.length)
-        console.log("cnt(myMerchants): " + myEshops?.length)
+        console.log("cnt(myEshops): " + myEshops?.length)
     }
     //Functions
     const FuncAdd = (): Promise<void> => {
-        console.log("Add");
+        //console.log("Add");
         handleOpen();
         return Promise.resolve();
     }
@@ -105,16 +107,17 @@ const ADHome: React.FC<ADHomeProps> = ({ }) => {
 
                 </Grid>
             </Grid>
-            {/* Modal */}
+            {/* Modal - ESC Closable */}
             <Modal
                 open={open}
-                onClose={handleClose}
+                onClose={handleClose} // Ensures ESC works
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
-                style={{overflow: 'scroll'}}
-              >
-                {/* TODO Modal content */}
-                <span>FormADAdd: |E| |M|</span>
+                style={{ overflow: 'scroll' }}
+            >
+                <Box>
+                    <FormADAdd closeModal={handleClose} />
+                </Box>
             </Modal>
             {/* Menu down - for phone */}
             {isPhone && <ADMenu/>}
