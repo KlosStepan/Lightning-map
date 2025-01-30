@@ -73,7 +73,9 @@ const ADMyAccount: React.FC<ADMyAccountProps> = ({ }) => {
                 aria-describedby="modal-modal-description"
                 style={{overflow: 'scroll'}}
               >
-                <div>Edit Modal stuff</div>
+                <Box>
+                    <div>Edit Modal stuff</div>
+                </Box>
             </Modal>
             {/* Menu down - for phone */}
             {isPhone && <ADMenu/>}

@@ -83,44 +83,9 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, tile }) => {
                 aria-describedby="modal-modal-description"
                 style={{overflow: 'scroll'}}
             >
-                <FormEditEshop closeModal={handleCloseEdit} eshop={tile}/>
-                {/*<Box
-                    style={{
-                        borderRadius: '20px',
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        width: 450,
-                        backgroundColor: 'white',
-                        padding: '16px',
-                    }}
-                >
-                    <Typography
-                        id="modal-modal-title"
-                        variant="h1"
-                        component="h2"
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                        }}
-                    >
-                        
-                        <span onClick={handleCloseEdit}>
-                            <Box
-                                component="img"
-                                src={closeIcon}
-                                alt="Close icon"
-                                sx={iconStyle}
-                                style={{
-                                    cursor: 'pointer',
-                                    opacity: 1,
-                                }}
-                            />
-                        </span>
-                    </Typography>
-                </Box>*/}
+                <Box>
+                    <FormEditEshop closeModal={handleCloseEdit} eshop={tile}/>
+                </Box>
             </Modal>
             {/* Delete Modal */}
             <Modal open={openDelete} onClose={handleCloseDelete} style={{overflow: 'scroll'}}>

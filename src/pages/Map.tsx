@@ -245,7 +245,9 @@ const Map: React.FC<MapProps> = ({ }) => {
                 aria-describedby="modal-modal-description"
                 style={{overflow: 'scroll'}}
               >
-                <FormAddSpot closeModal={handleClose}/>
+                <Box>
+                  <FormAddSpot closeModal={handleClose}/>
+                </Box>
               </Modal>
               <Modal
                 open={isPhone && selected != null}

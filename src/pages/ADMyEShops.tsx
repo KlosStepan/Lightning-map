@@ -108,7 +108,9 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = ({ }) => {
                 aria-describedby="modal-modal-description"
                 style={{overflow: 'scroll'}}
               >
-                <FormAddEshop closeModal={handleClose}/>
+                <Box>
+                    <FormAddEshop closeModal={handleClose}/>
+                </Box>
             </Modal>
             {/* Menu down - for phone */}
             {isPhone && <ADMenu/>}

@@ -1,6 +1,6 @@
 import React from "react";
 //MUI
-import { Container, Grid } from "@mui/material";
+import { Box, Container, Grid } from "@mui/material";
 import { useTheme, useMediaQuery } from '@mui/material';
 import Modal from "@mui/material/Modal";
 //Components
@@ -128,7 +128,9 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                 aria-describedby="modal-modal-description"
                 style={{overflow: 'scroll'}}
             >
-                <FormAddEshop closeModal={handleClose} />
+                <Box>
+                    <FormAddEshop closeModal={handleClose} />
+                </Box>
             </Modal>
         </React.Fragment>
     )

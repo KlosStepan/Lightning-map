@@ -109,7 +109,9 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
                 aria-describedby="modal-modal-description"
                 style={{overflow: 'scroll'}}
               >
-                <FormAddSpot closeModal={handleClose}/>
+                <Box>
+                    <FormAddSpot closeModal={handleClose}/>
+                </Box>
             </Modal>
             {/* Menu down - for phone */}
             {isPhone && <ADMenu/>}

@@ -16,8 +16,8 @@ const CardSpot: React.FC<CardSpotProps> = ({ tile }) => {
   const dispatch = useDispatch();
   return (  
     <React.Fragment>
-                      {/* Modal Content */}
-                      <Box
+              {/* Modal Content */}
+                <Box
                   onClick={(e) => e.stopPropagation()} // Prevent clicks inside modal from closing it
                   sx={{
                     backgroundColor: 'white',
