@@ -13,7 +13,7 @@ type FormADAddProps = {
 
 const FormADAdd: React.FC<FormADAddProps> = ({ closeModal }) => {
     return (
-        <Box  sx={modalContainerStyle}>
+        <Box sx={modalContainerStyle}>
             <Typography id="modal-modal-title" variant="h1" component="h2" style={modalTitleStyle}>
                 <span>Add</span>
                 <span onClick={closeModal}>
