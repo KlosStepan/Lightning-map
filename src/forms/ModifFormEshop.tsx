@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
 //MUI
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 //Components
 import ButtonUniversal from "../components/ButtonUniversal";
 import UploadingImagesSpot from "../components/UploadingImagesSpot";
@@ -12,39 +12,44 @@ import IEshop from "../ts/IEeshop";
 type ModifFormEshopProps = {
     FuncCancel?: () => void; // Optional function to close modal from parent component
 } & (
-    | { edit: true; eshop: IEshop } // When edit is true, eshop is required
-    | { edit?: false; eshop?: undefined } // When edit is false or undefined, eshop is optional
+    | { edit: true; eshop: IEshop } // When (edit=true), eshop is required
+    | { edit?: false; eshop?: undefined } // When (edit=false)/undefined, eshop is optional
 );
 
-
 const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, FuncCancel }) => {
-    //Fields
+    //Fields - 3x input
     const titleRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLInputElement>(null);
     const webRef = useRef<HTMLInputElement>(null);
-    //const logoRef = useRef<HTMLInputElement>(null);
-    //Upload image
+    //Upload image - 1x comp
     const [files, setFiles] = useState<Array<File & { preview: string }>>([]);
     
-    // Add and Update functions
+    // Functions - Add(), Update(), _bundleInput(), //TODO _prepLogo() (/Update - checks for pic update)
     const AddEshop = () => {
+        //this vv: eshop <- createEshopData();
         const newEshopData = createEshopData();
         console.log("Adding eshop:", newEshopData);
         // Insert logic to add the e-shop here
     };
     const UpdateEshop = () => {
+        //this vv: eshop <- createEshopData();
         const updatedEshopData = createEshopData();
         console.log("Updating eshop:", updatedEshopData);
-        // Insert logic to update the e-shop here
+        //Insert logic to update the e-shop here
+        //verify logo change vv
+        //Promise (data, (/logo) )
     };
-    // Function to collect data and create an IEshop object for submission
     const createEshopData = (): any => ({ //todo IEshop
+        //bundle logic vv
         name: titleRef.current?.value || "",
         description: descriptionRef.current?.value || "",
         url: webRef.current?.value || "",
-        //logo: logoRef.current?.value || ""
-        logo: files,
+        //logo: files,
     });
+    const prepLogo = (): any => ({
+        //take photos[0] -> ModifyPic via the extension
+        //https://www.npmjs.com/package/browser-image-compression
+    })
 
     return (
         <React.Fragment>

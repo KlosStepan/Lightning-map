@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
 //MUI
 import { Box } from '@mui/material';
-import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 //Components
 import ButtonUniversal from "../components/ButtonUniversal";
 import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
@@ -13,49 +13,41 @@ import IMerchant from "../ts/IMerchant";
 import { IMerchantTile } from "../ts/IMerchant";
 import ISocial from "../ts/ISocial";
 //Map stuff
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import L from "leaflet";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import group13 from '../icons/group13.png';
 
-//Separator instead of <hr/>
-const HrGreyCustomSeparator2 = () => (
-    <div style={{ borderTop: '1px solid #D3D3D3', width: '100%', margin: '20px 0' }} />
-);
-
-//ModifFormSpot <- props
 /*type ModifFormSpotProps = {
     FuncCancel: () => void;
     edit?: boolean;
     merchant?: IMerchant;
 };*/
-
 type ModifFormSpotProps = {
     FuncCancel: () => void;
 } & (
-    | { edit: true; merchant: IMerchantTile } // When edit is true, merchant is required
-    | { edit?: false; merchant?: undefined } // When edit is false or undefined, merchant is optional
+    | { edit: true; merchant: IMerchantTile } // When (edit=true), merchant is required
+    | { edit?: false; merchant?: undefined } // When (edit=false)/undefined, merchant is optional
 );
 
-
 const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, FuncCancel }) => {
-    //Fields
+    //Fields - 5x input
     const titleRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLInputElement>(null);
     const addressRef = useRef<HTMLInputElement>(null);
     const cityRef = useRef<HTMLInputElement>(null);
     const postalCodeRef = useRef<HTMLInputElement>(null);
-    //Map
+    //Map - 1x map
     const mapRef2 = useRef(null);
     const latitude = 50.0755; //<- TODO dynamically in the city (?)
     const longitude = 14.4378; //<- TODO dynamically in the city (?)
-    //
+    //  |- picker stuff
     const [position, setPosition] = useState<[number, number]>([50.0755, 14.4378]); // Default position
     const handleDragEnd = (event: L.DragEndEvent) => {
         const marker = event.target as L.Marker;
         const newPosition = marker.getLatLng();
         setPosition([newPosition.lat, newPosition.lng]);
     };
-    //Socials
+    //Socials - 1x comp w/ 5 Socials
     const [socials, setSocials] = useState<ISocial[]>([
         { network: "web", label: "Web", link: null },
         { network: "facebook", label: "FB", link: null },
@@ -63,6 +55,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
         { network: "twitter", label: "X", link: null },
         { network: "threads", label: "@", link: null },
     ]);
+    //Upload images - 1x comp, f_handle()
     const handleLinkOpened = (network: string, newLink: string | null) => {
         setSocials((prevSocials) =>
             prevSocials.map((social) =>
@@ -70,11 +63,11 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
             )
         );
     };
-    //Upload images
     const [files, setFiles] = useState<Array<File & { preview: string }>>([]);
 
-    // Add and Update functions
+    // Functions - Add(), Update(), _bundleInput(), //TODO _prepPics() (/Update - checks for pic update)
     const AddSpot = () => {
+        //mby: let spot <- createSpotData();
         const newMerchant: IMerchant = {
             type: "Feature",
             geometry: {
@@ -112,6 +105,8 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
         // Insert logic to add the spot here
     };
     const UpdateSpot = () => {
+        //mby: let spot <- createSpotData();
+
         /*if (merchant) {
             const updatedMerchant: IMerchant = {
                 ...merchant,
@@ -127,61 +122,71 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                 },
             };
             console.log("Updating spot:", updatedMerchant);
-            //Insert logic to update the spot here
-        }*/
+            }*/
+       //Insert logic to update the spot here
+       //verify photos change vv
+       //Promise (data, (/photos) )
     };
+    const createSpotData = (): any => ({
+        //bundle logic goes here
+    });
+    const prepPics = (): any => ({
+        //dadada, do after E-shop is prototyped for all (in loop 3x) via the ext.
+        //https://www.npmjs.com/package/browser-image-compression
+    })
 
     //TODO AddSpot and UpdateSpot - if link!==null -> ref HTML replace instead of '' when wrapping
-
     return (
         <React.Fragment>
+            <React.Fragment>
+                {/* 5 Fields */}
+                <Box mt={2}>
+                    <Typography variant="h2" component="h5">Title</Typography>
+                    <TextField
+                        fullWidth
+                        inputRef={titleRef}
+                        defaultValue={edit ? merchant?.title : ""}
+                    />
+                </Box>
+                <Box mt={2}>
+                    <Typography variant="h2" component="h5">Description</Typography>
+                    <TextField
+                        fullWidth
+                        inputRef={descriptionRef}
+                        defaultValue={edit ? merchant?.description : ""}
+                        multiline
+                        minRows={3}
+                        maxRows={5}
+                    />
+                </Box>
+                <HrGreyCustomSeparator/>
+                <Box mt={2}>
+                    <Typography variant="h2" component="h5">Address</Typography>
+                    <TextField
+                        fullWidth
+                        inputRef={addressRef}
+                        defaultValue={edit ? merchant?.address.address : ""}
+                    />
+                </Box>
+                <Box mt={2}>
+                    <Typography variant="h2" component="h5">City</Typography>
+                    <TextField
+                        fullWidth
+                        inputRef={cityRef}
+                        defaultValue={edit ? merchant?.address.city : ""}
+                    />
+                </Box>
+                <Box mt={2}>
+                    <Typography variant="h2" component="h5">Postal Code</Typography>
+                    <TextField
+                        fullWidth
+                        inputRef={postalCodeRef}
+                        defaultValue={edit ? merchant?.address.postalCode : ""}
+                    />
+                </Box>
+            </React.Fragment>
             <Box mt={2}>
-                <Typography variant="h2" component="h5">Title</Typography>
-                <TextField
-                    fullWidth
-                    inputRef={titleRef}
-                    defaultValue={edit ? merchant?.title : ""}
-                />
-            </Box>
-            <Box mt={2}>
-                <Typography variant="h2" component="h5">Description</Typography>
-                <TextField
-                    fullWidth
-                    inputRef={descriptionRef}
-                    defaultValue={edit ? merchant?.description : ""}
-                    multiline
-                    minRows={3}
-                    maxRows={5}
-                />
-            </Box>
-            {/*<HrGreyCustomSeparator2 />*/}
-            <HrGreyCustomSeparator/>
-            <Box mt={2}>
-                <Typography variant="h2" component="h5">Address</Typography>
-                <TextField
-                    fullWidth
-                    inputRef={addressRef}
-                    defaultValue={edit ? merchant?.address.address : ""}
-                />
-            </Box>
-            <Box mt={2}>
-            <Typography variant="h2" component="h5">City</Typography>
-                <TextField
-                    fullWidth
-                    inputRef={cityRef}
-                    defaultValue={edit ? merchant?.address.city : ""}
-                />
-            </Box>
-            <Box mt={2}>
-            <Typography variant="h2" component="h5">Postal Code</Typography>
-                <TextField
-                    fullWidth
-                    inputRef={postalCodeRef}
-                    defaultValue={edit ? merchant?.address.postalCode : ""}
-                />
-            </Box>
-            <Box mt={2}>
-                {/* Map  picker */}
+                {/* Map - picker */}
                 <MapContainer center={[latitude, longitude]} zoom={13} ref={mapRef2} style={{ height: "22vh", width: "100%" }}>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -202,9 +207,8 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                         })}
                     />
                 </MapContainer>
-                <div  style={{fontFamily: 'PixGamer', textAlign: 'center', fontSize: '18px'}}>Drag pin to more precise location</div>
+                <div style={{fontFamily: 'PixGamer', textAlign: 'center', fontSize: '18px'}}>Drag pin to more precise location</div>
             </Box>
-            {/*<HrGreyCustomSeparator2 />*/}
             <HrGreyCustomSeparator/>
             <Box mt={2}>
                 {/* Socials */}
@@ -216,7 +220,6 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                     />
                 ))}
             </Box>
-            {/*<HrGreyCustomSeparator2 />*/}
             <HrGreyCustomSeparator/>
             <Box mt={2}>
                 {/* Upload images */}
@@ -224,6 +227,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
                 <UploadingImagesSpot files={files} setFiles={setFiles} />
             </Box>
             <Box display="flex" justifyContent="flex-end" mt={2}>
+                { /* Buttons down the form */}
                 {FuncCancel && (
                     <ButtonUniversal
                         title="Cancel"
