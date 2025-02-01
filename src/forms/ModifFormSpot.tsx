@@ -101,8 +101,10 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
             socials: socials,
             images: files,
         }
-        console.log("New Merchant 2:", nM2);
+        //console.log("New Merchant 2:", nM2);
         // Insert logic to add the spot here
+        const newObjct = createSpotData();
+        console.log("new objct", newObjct)
     };
     const UpdateSpot = () => {
         //mby: let spot <- createSpotData();
@@ -128,7 +130,18 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
        //Promise (data, (/photos) )
     };
     const createSpotData = (): any => ({
-        //bundle logic goes here
+        coordinates: position || [0.0, 0.0],
+        //first 5 fields
+        name: titleRef.current?.value || "",
+        description: descriptionRef.current?.value || "",
+        address: addressRef.current?.value || "",
+        city: cityRef.current?.value || "",
+        postalCodeRef: postalCodeRef.current?.value || "",
+        //
+        socials: socials || [],
+        tags: [], //TODO implement FE
+        //"under the hood" stuff
+        visible: true
     });
     const prepPics = (): any => ({
         //dadada, do after E-shop is prototyped for all (in loop 3x) via the ext.

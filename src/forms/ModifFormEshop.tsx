@@ -40,11 +40,16 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
         //Promise (data, (/logo) )
     };
     const createEshopData = (): any => ({ //todo IEshop
-        //bundle logic vv
+        //6+1 fields (7th logo:)
         name: titleRef.current?.value || "",
         description: descriptionRef.current?.value || "",
         url: webRef.current?.value || "",
-        //logo: files,
+        //"under the hood" stuff
+        country: "CZ",
+        owner: "firebase.profile.id",
+        visible: true,
+        // logo: vv
+        logo: "some logo (ref?) TODO"
     });
     const prepLogo = (): any => ({
         //take photos[0] -> ModifyPic via the extension
