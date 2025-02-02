@@ -1,19 +1,17 @@
 import React from "react";
 import { Container, Box, Modal, Typography } from '@mui/material';
+//Components
 import ButtonUniversal from "./ButtonUniversal";
 //TypeScript
 import { IMerchantTile } from "../ts/IMerchant";
 import TileMerchant from "./TileMerchant";
+//Forms
+import FormEditSpot from "../forms/FormEditSpot";
 //Icon
 import IconEdit from '../icons/ico-btn-edit.png';
 import IconTrash from '../icons/ico-btn-trash.png';
 import closeIcon from '../icons/close.png';
-import FormEditSpot from "../forms/FormEditSpot";
 
-/*const containerOuterStyle = {
-    borderRadius: '16px',
-    backgroundColor: 'white',
-}*/
 const containerOuterStyle = {
     padding: '0px 0px 0px 0px !important',
     gap: '10px',
@@ -38,8 +36,6 @@ type TileAddedMerchantProps = {
     tile: IMerchantTile
 }
 
-//TODO - Modal Edit -> <ModifTableMerchant edit={true} merchant={merchant} />
-//TODO - Modal Delete -> <Delete docID={"docId"} />
 const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, tile }) => {
     // Modal State
     const [openEdit, setOpenEdit] = React.useState(false);
@@ -50,12 +46,9 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, tile }) =>
     const handleOpenDelete = () => setOpenDelete(true);
     const handleCloseDelete = () => setOpenDelete(false);
 
-    /*const FuncEdit = (): Promise<void> => {
-        console.log("Calling Edit")
-        return Promise.resolve();
-    }*/
     const FuncDelete = (_merchant: string): Promise<void> => {
-        console.log("Calling Delete on Merchant. ", _merchant)
+        console.log("Calling Delete on Merchant. ", _merchant);
+        //TODO Firebase -> HTTP DELETE, check against user UID (& OK|FAIL delete) //merchant's ref&/ID + DEL photos too
         return Promise.resolve();
     }
 
@@ -81,8 +74,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, tile }) =>
                     actionDelegate={handleOpenDelete}
                 />
             </Box>
-            {/* Edit Modal */}
-            {/* Edit Merchant (FormEditMerchant edit=true, merchant=tile vv) */}
+            {/* Modal 1/2 - Edit Merchant (FormEditMerchant edit=true, merchant={tile} vv /drill-down tile) */}
             <Modal
                 open={openEdit}
                 onClose={handleCloseEdit}
@@ -94,7 +86,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, tile }) =>
                     <FormEditSpot closeModal={handleCloseEdit} merchant={tile}/>
                 </Box>
             </Modal>
-            {/* Delete Modal */}
+            {/* Modal 2/2 - Delete Merchant (popup w/ function to DEL stuff) */}
             <Modal open={openDelete} onClose={handleCloseDelete} style={{overflow: 'scroll'}}>
                 <Box
                     style={{
@@ -149,6 +141,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, tile }) =>
                 </Box>
             </Modal>
         </Container>
-    )
-}
+    );
+};
+
 export default TileAddedMerchant;

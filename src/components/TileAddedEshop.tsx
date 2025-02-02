@@ -1,17 +1,17 @@
 import React from 'react';
+//MUI
 import { Container, Box, Modal, Typography } from '@mui/material';
+//Components
 import ButtonUniversal from "../components/ButtonUniversal";
-import IEshop from '../ts/IEeshop';
 import TileEshop from './TileEshop';
+//TypeScript
+import IEshop from '../ts/IEeshop';
+//Forms
+import FormEditEshop from '../forms/FormEditEshop';
+//Icons
 import IconEdit from '../icons/ico-btn-edit.png';
 import IconTrash from '../icons/ico-btn-trash.png';
 import closeIcon from '../icons/close.png';
-import FormEditEshop from '../forms/FormEditEshop';
-
-/*const containerOuterStyle = {
-    borderRadius: '16px',
-    backgroundColor: 'white',
-};*/
 
 const containerOuterStyle = {
     padding: '10px 16px 10px 16px !important',
@@ -48,7 +48,8 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, tile }) => {
     const handleCloseDelete = () => setOpenDelete(false);
 
     const FuncDelete = (_eshop: string): Promise<void> => {
-        console.log("Calling Delete on E-shop. ", _eshop)
+        console.log("Calling Delete on E-shop. ", _eshop);
+        //TODO Firebase -> HTTP DELETE, check against user UID (& OK|FAIL delete) //eshop's ref&/ID + DEL photos too
         return Promise.resolve();
     }
 
@@ -74,8 +75,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, tile }) => {
                     actionDelegate={handleOpenDelete}
                 />
             </Box>
-            {/* Edit Modal */}
-            {/*Edit Eshop (FormEditEshop edit=true, eshop=tile vv)*/}
+            {/* Modal 1/2 - Edit Eshop (FormEditEshop edit=true, eshop={tile} vv /drill-down tile) */}
             <Modal
                 open={openEdit}
                 onClose={handleCloseEdit}
@@ -87,7 +87,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, tile }) => {
                     <FormEditEshop closeModal={handleCloseEdit} eshop={tile}/>
                 </Box>
             </Modal>
-            {/* Delete Modal */}
+            {/* Modal 2/2 - Delete Eshop (popup w/ function to DEL stuff) */}
             <Modal open={openDelete} onClose={handleCloseDelete} style={{overflow: 'scroll'}}>
                 <Box
                     style={{
