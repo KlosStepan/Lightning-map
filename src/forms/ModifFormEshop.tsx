@@ -26,30 +26,25 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
     
     // Functions - Add(), Update(), _bundleInput(), //TODO _prepLogo() (/Update - checks for pic update)
     const AddEshop = () => {
-        //this vv: eshop <- createEshopData();
-        const newEshopData = createEshopData();
-        console.log("Adding eshop:", newEshopData);
-        // Insert logic to add the e-shop here
+        const newEshopWrapped = createEshopData({ updStatus: false });
+        console.log("Adding eshop:", newEshopWrapped);
+        //Promise(data, logo) -> Firebase (& OK|FAIL)
     };
     const UpdateEshop = () => {
-        //this vv: eshop <- createEshopData();
-        const updatedEshopData = createEshopData();
-        console.log("Updating eshop:", updatedEshopData);
-        //Insert logic to update the e-shop here
+        const updatedEshopWrapped = createEshopData({ updStatus: true });
+        console.log("Updating eshop:", updatedEshopWrapped);
         //verify logo change vv
-        //Promise (data, (/logo) )
+        //|- run process logo processing
+        //Promise (data, (/logo) ) -> Firebase (& OK|FAIL)
     };
-    const createEshopData = (): any => ({ //todo IEshop
-        //6+1 fields (7th logo:)
-        name: titleRef.current?.value || "",
+    const createEshopData = ({ updStatus }: { updStatus: boolean }): IEshop => ({
+        country: "CZ", //[ ] TODO - implement FE on form (TLD/IP)
         description: descriptionRef.current?.value || "",
+        logo: "N/A", //[ ] TODO - some ref (?) into Storage/S3
+        name: titleRef.current?.value || "",
+        owner: "EM6jd7CDU4PdHgF7LJTTvyMPNrJ3", //[ ] TODO fill from Firebase profile
         url: webRef.current?.value || "",
-        //"under the hood" stuff
-        country: "CZ",
-        owner: "firebase.profile.id",
-        visible: true,
-        // logo: vv
-        logo: "some logo (ref?) TODO"
+        visible: updStatus, //[ ] Add->false, Update->true
     });
     const prepLogo = (): any => ({
         //take photos[0] -> ModifyPic via the extension

@@ -67,81 +67,37 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
 
     // Functions - Add(), Update(), _bundleInput(), //TODO _prepPics() (/Update - checks for pic update)
     const AddSpot = () => {
-        //mby: let spot <- createSpotData();
-        const newMerchant: IMerchant = {
-            type: "Feature",
-            geometry: {
-                coordinates: [0, 0],
-                type: "Point",
-            },
-            properties: {
-                owner: undefined,
-                visible: true,
-                image: "",
-                title: titleRef.current?.value || "",
-                description: descriptionRef.current?.value || "",
-                address: {
-                    address: addressRef.current?.value || "",
-                    city: cityRef.current?.value || "",
-                    postalCode: postalCodeRef.current?.value || "",
-                },
-                tags: [],
-                socials: [],
-            },
-        };
-        //console.log("Adding spot:", newMerchant);
-        //New Merchant 2 - for debugging (1 - normal store w/ geoJSON, 2 - as in form)
-        const nM2: any = {
-            title: titleRef.current?.value || "",
-            description: descriptionRef.current?.value || "",
-            address: addressRef.current?.value || "",
-            city: cityRef.current?.value || "",
-            postalCode: postalCodeRef.current?.value || "",
-            position: position,
-            socials: socials,
-            images: files,
-        }
-        //console.log("New Merchant 2:", nM2);
-        // Insert logic to add the spot here
-        const newObjct = createSpotData();
-        console.log("new objct", newObjct)
+        const newSpotWrapped = createSpotData({ updStatus: false });
+        console.log("new objct", newSpotWrapped)
+        //Promise(data, photos) -> Firebase (& OK|FAIL)
     };
     const UpdateSpot = () => {
-        //mby: let spot <- createSpotData();
-
-        /*if (merchant) {
-            const updatedMerchant: IMerchant = {
-                ...merchant,
-                properties: {
-                    ...merchant.properties,
-                    title: titleRef.current?.value || merchant.properties.title,
-                    description: descriptionRef.current?.value || merchant.properties.description,
-                    address: {
-                        address: addressRef.current?.value || merchant.properties.address.address,
-                        city: cityRef.current?.value || merchant.properties.address.city,
-                        postalCode: postalCodeRef.current?.value || merchant.properties.address.postalCode,
-                    },
-                },
-            };
-            console.log("Updating spot:", updatedMerchant);
-            }*/
-       //Insert logic to update the spot here
-       //verify photos change vv
-       //Promise (data, (/photos) )
+        const updatedSpotWrapped = createSpotData({ updStatus: true });
+        console.log("new objct", updatedSpotWrapped)
+        //verify photos change vv
+        //|- run process photos processing
+        //Promise (data, (/photos) ) -> Firebase (& OK|FAIL)
     };
-    const createSpotData = (): any => ({
-        coordinates: position || [0.0, 0.0],
-        //first 5 fields
-        name: titleRef.current?.value || "",
-        description: descriptionRef.current?.value || "",
-        address: addressRef.current?.value || "",
-        city: cityRef.current?.value || "",
-        postalCodeRef: postalCodeRef.current?.value || "",
-        //
-        socials: socials || [],
-        tags: [], //TODO implement FE
-        //"under the hood" stuff
-        visible: true
+    const createSpotData = ({ updStatus }: { updStatus: boolean }): IMerchant => ({
+        geometry: {
+            coordinates: position || [0.0, 0.0],
+            type: "Point" //[x] Always Point
+        },
+        properties:{
+            address: {
+                address: addressRef.current?.value || "",
+                city: cityRef.current?.value || "",
+                postalCode: postalCodeRef.current?.value || "",
+            },
+            description: descriptionRef.current?.value || "",
+            image: "N/A", //[ ] TODO some ref (?) into Storage/S3
+            owner: "N/A", //[ ] TODO fill from Firebase profile
+            socials: socials || [],
+            tags: [], //[ ] TODO Implement FE on Form 
+            title: titleRef.current?.value || "",
+            visible: updStatus, //[ ] Add->false, Update->true
+        },
+        type: "Feature" //[x] Always Feature
     });
     const prepPics = (): any => ({
         //dadada, do after E-shop is prototyped for all (in loop 3x) via the ext.
