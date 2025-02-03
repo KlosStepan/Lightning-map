@@ -1,13 +1,17 @@
 import React from "react";
+//MUI
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+//Forms
 import ModifFormEshop from "./ModifFormEshop";
+//TypeScript
+import IEshop from "../ts/IEeshop";
+//Icons + Styles
 import closeIcon from '../icons/close.png';
 import { modalContainerStyle, modalTitleStyle, closeIconStyle } from "./stylesForm";
-import IEshop from "../ts/IEeshop";
 
 type FormEditEshopProps = {
-    closeModal: () => void;  // Add this prop
+    closeModal: () => void;
     eshop: IEshop;
 }
 
@@ -16,7 +20,7 @@ const FormEditEshop: React.FC<FormEditEshopProps> = ({ closeModal, eshop }) => {
         <React.Fragment>
             <Box sx={modalContainerStyle}>
                 <Typography id="modal-modal-title" variant="h1" component="h2" style={modalTitleStyle}>
-                    <span>New spot</span>
+                    <span>Edit e-shop</span>
                     <span onClick={closeModal}>
                         <Box
                             component="img"
@@ -30,6 +34,6 @@ const FormEditEshop: React.FC<FormEditEshopProps> = ({ closeModal, eshop }) => {
             </Box>
         </React.Fragment>
     );
-}
-//<ModifFormEshop edit={true} />
+};
+
 export default FormEditEshop;

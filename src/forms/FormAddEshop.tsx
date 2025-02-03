@@ -1,7 +1,10 @@
 import React from "react";
+//MUI
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+//Forms
 import ModifFormEshop from "./ModifFormEshop";
+//Icons + Styles
 import closeIcon from '../icons/close.png';
 import { modalContainerStyle, modalTitleStyle, closeIconStyle } from './stylesForm';
 
