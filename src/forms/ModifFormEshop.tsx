@@ -6,6 +6,9 @@ import Typography from "@mui/material/Typography";
 //Components
 import ButtonUniversal from "../components/ButtonUniversal";
 import UploadingImagesSpot from "../components/UploadingImagesSpot";
+//Redux+RTK
+import { RootState } from "../redux-rtk/store";
+import { useSelector } from "react-redux";
 //TypeScript
 import IEshop from "../ts/IEeshop";
 
@@ -27,14 +30,14 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
     // Functions - Add(), Update(), _bundleInput(), //TODO _prepLogo() (/Update - checks for pic update)
     const AddEshop = () => {
         const newEshopWrapped = createEshopData({ updStatus: false });
-        console.log("Adding eshop:", newEshopWrapped);
-        //Promise(data, logo) -> Firebase (& OK|FAIL)
+        console.log("Adding newEshopWrapped: ", newEshopWrapped);
+        //Promise(data, logo) -> Firebase (& OK|FAIL transact.)
     };
     const UpdateEshop = () => {
         const updatedEshopWrapped = createEshopData({ updStatus: true });
-        console.log("Updating eshop:", updatedEshopWrapped);
-        //verify logo change vv
-        //|- run process logo processing
+        console.log("Updating updatedEshopWrapped: ", updatedEshopWrapped);
+        //verify logo changed(/not) vv
+        //|- run process prepLogo
         //Promise (data, (/logo) ) -> Firebase (& OK|FAIL)
     };
     const createEshopData = ({ updStatus }: { updStatus: boolean }): IEshop => ({
@@ -42,15 +45,17 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
         description: descriptionRef.current?.value || "",
         logo: "N/A", //[ ] TODO - some ref (?) into Storage/S3
         name: titleRef.current?.value || "",
-        owner: "EM6jd7CDU4PdHgF7LJTTvyMPNrJ3", //[ ] TODO fill from Firebase profile
+        owner: user?.uid || "", //[x] TODO fill from Firebase profile
         url: webRef.current?.value || "",
-        visible: updStatus, //[ ] Add->false, Update->true
+        visible: updStatus, //[x] Add->false, Update->true
     });
     const prepLogo = (): any => ({
         //take photos[0] -> ModifyPic via the extension
         //https://www.npmjs.com/package/browser-image-compression
-    })
+    });
 
+    //
+    const user = useSelector((state: RootState) => state.misc.user);
     return (
         <React.Fragment>
             <Box mt={2}>

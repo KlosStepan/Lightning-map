@@ -8,6 +8,9 @@ import ButtonUniversal from "../components/ButtonUniversal";
 import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
 import ToggleSocialInput from "../components/ToggleSocialInput";
 import UploadingImagesSpot from "../components/UploadingImagesSpot";
+//Redux+RTK
+import { RootState } from "../redux-rtk/store";
+import { useSelector } from "react-redux";
 //TypeScript
 import IMerchant from "../ts/IMerchant";
 import { IMerchantTile } from "../ts/IMerchant";
@@ -17,11 +20,6 @@ import L from "leaflet";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import group13 from '../icons/group13.png';
 
-/*type ModifFormSpotProps = {
-    FuncCancel: () => void;
-    edit?: boolean;
-    merchant?: IMerchant;
-};*/
 type ModifFormSpotProps = {
     FuncCancel: () => void;
 } & (
@@ -68,14 +66,14 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
     // Functions - Add(), Update(), _bundleInput(), //TODO _prepPics() (/Update - checks for pic update)
     const AddSpot = () => {
         const newSpotWrapped = createSpotData({ updStatus: false });
-        console.log("new objct", newSpotWrapped)
-        //Promise(data, photos) -> Firebase (& OK|FAIL)
+        console.log("Adding newSpotWrapped: ", newSpotWrapped)
+        //Promise(data, photos) -> Firebase (& OK|FAIL transact.)
     };
     const UpdateSpot = () => {
         const updatedSpotWrapped = createSpotData({ updStatus: true });
-        console.log("new objct", updatedSpotWrapped)
-        //verify photos change vv
-        //|- run process photos processing
+        console.log("Updating updatedSpotWrapped: ", updatedSpotWrapped)
+        //verify photos changed(/not) vv
+        //|- run process prepPics
         //Promise (data, (/photos) ) -> Firebase (& OK|FAIL)
     };
     const createSpotData = ({ updStatus }: { updStatus: boolean }): IMerchant => ({
@@ -83,7 +81,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
             coordinates: position || [0.0, 0.0],
             type: "Point" //[x] Always Point
         },
-        properties:{
+        properties: {
             address: {
                 address: addressRef.current?.value || "",
                 city: cityRef.current?.value || "",
@@ -91,20 +89,22 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
             },
             description: descriptionRef.current?.value || "",
             image: "N/A", //[ ] TODO some ref (?) into Storage/S3
-            owner: "N/A", //[ ] TODO fill from Firebase profile
+            owner: user?.uid  || "", //[x] TODO fill from Firebase profile
             socials: socials || [],
             tags: [], //[ ] TODO Implement FE on Form 
             title: titleRef.current?.value || "",
-            visible: updStatus, //[ ] Add->false, Update->true
+            visible: updStatus, //[x] Add->false, Update->true
         },
         type: "Feature" //[x] Always Feature
     });
     const prepPics = (): any => ({
         //dadada, do after E-shop is prototyped for all (in loop 3x) via the ext.
         //https://www.npmjs.com/package/browser-image-compression
-    })
+    });
 
-    //TODO AddSpot and UpdateSpot - if link!==null -> ref HTML replace instead of '' when wrapping
+    //
+    const user = useSelector((state: RootState) => state.misc.user);
+    //TODO |mby solved| AddSpot and UpdateSpot - if link!==null -> ref HTML replace instead of '' when wrapping
     return (
         <React.Fragment>
             <React.Fragment>
