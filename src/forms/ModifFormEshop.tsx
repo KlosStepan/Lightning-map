@@ -11,6 +11,7 @@ import { RootState } from "../redux-rtk/store";
 import { useSelector } from "react-redux";
 //TypeScript
 import IEshop from "../ts/IEeshop";
+import imageCompression from 'browser-image-compression';
 
 type ModifFormEshopProps = {
     FuncCancel?: () => void; // Optional function to close modal from parent component
@@ -28,9 +29,12 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
     const [files, setFiles] = useState<Array<File & { preview: string }>>([]);
     
     // Functions - Add(), Update(), _bundleInput(), //TODO _prepLogo() (/Update - checks for pic update)
-    const AddEshop = () => {
+    const AddEshop = async () => {
         const newEshopWrapped = createEshopData({ updStatus: false });
         console.log("Adding newEshopWrapped: ", newEshopWrapped);
+        //prepped logos here <- in some list (?) or single file
+        const logo = await prepLogo();
+        console.log("Compressed logo: ", logo);
         //Promise(data, logo) -> Firebase (& OK|FAIL transact.)
     };
     const UpdateEshop = () => {
@@ -49,11 +53,38 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
         url: webRef.current?.value || "",
         visible: updStatus, //[x] Add->false, Update->true
     });
-    const prepLogo = (): any => ({
-        //take photos[0] -> ModifyPic via the extension
-        //https://www.npmjs.com/package/browser-image-compression
-    });
-
+    const prepLogo = async (): Promise<Blob | null> => {
+        console.log("prepLogo() called");
+    
+        if (!files.length) {
+            console.error("No file selected.");
+            return null;
+        }
+    
+        const imageFile = files[0];
+        console.log("Original File:", imageFile);
+        console.log("originalFile instanceof Blob:", imageFile instanceof Blob);
+        console.log(`originalFile size: ${(imageFile.size / 1024 / 1024).toFixed(2)} MB`);
+    
+        const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 100,
+            useWebWorker: true,
+        };
+    
+        try {
+            const compressedFile: Blob = await imageCompression(imageFile, options);
+            console.log("Compressed File:", compressedFile);
+            console.log("compressedFile instanceof Blob:", compressedFile instanceof Blob);
+            console.log(`compressedFile size: ${(compressedFile.size / 1024 / 1024).toFixed(2)} MB`);
+    
+            return compressedFile; // ✅ Return the compressed Blob
+        } catch (error) {
+            console.error("Error during image compression:", error);
+            return null; // ✅ Return null if compression fails
+        }
+    };
+    
     //
     const user = useSelector((state: RootState) => state.misc.user);
     return (
