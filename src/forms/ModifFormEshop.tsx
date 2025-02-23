@@ -30,21 +30,29 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
     
     // Functions - Add(), Update(), _bundleInput(), //TODO _prepLogo() (/Update - checks for pic update)
     const AddEshop = async () => {
-        const newEshopWrapped = createEshopData({ updStatus: false });
+        const newEshopWrapped = wrapEshopData({ updStatus: false });
         console.log("Adding newEshopWrapped: ", newEshopWrapped);
         //prepped logos here <- in some list (?) or single file
         const logo = await prepLogo();
         console.log("Compressed logo: ", logo);
-        //Promise(data, logo) -> Firebase (& OK|FAIL transact.)
+        ////Promise(data, logo) -> Firebase (& OK|FAIL transact.) //<- prolly out this approach, rewrite with nested promises
+
+        //Add E-Shop, wait, retrieve E-shop ID and upload image named like it.
+
+        //https://stackoverflow.com/questions/58844095/how-to-get-firestore-document-id
+
+        //https://www.youtube.com/watch?v=YOAeBSCkArA
+        //https://github.com/machadop1407/firebase-file-upload
     };
     const UpdateEshop = () => {
-        const updatedEshopWrapped = createEshopData({ updStatus: true });
+        //I already know Eshop.documentID (thus, can upload)
+        const updatedEshopWrapped = wrapEshopData({ updStatus: true });
         console.log("Updating updatedEshopWrapped: ", updatedEshopWrapped);
         //verify logo changed(/not) vv
         //|- run process prepLogo
         //Promise (data, (/logo) ) -> Firebase (& OK|FAIL)
     };
-    const createEshopData = ({ updStatus }: { updStatus: boolean }): IEshop => ({
+    const wrapEshopData = ({ updStatus }: { updStatus: boolean }): IEshop => ({
         country: "CZ", //[ ] TODO - implement FE on form (TLD/IP)
         description: descriptionRef.current?.value || "",
         logo: "N/A", //[ ] TODO - some ref (?) into Storage/S3
