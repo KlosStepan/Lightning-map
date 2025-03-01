@@ -12,6 +12,8 @@ import { useSelector } from "react-redux";
 //TypeScript
 import IEshop from "../ts/IEeshop";
 import imageCompression from 'browser-image-compression';
+//
+import { v4 as uuidv4 } from 'uuid';
 
 type ModifFormEshopProps = {
     FuncCancel?: () => void; // Optional function to close modal from parent component
@@ -36,13 +38,13 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
         const logo = await prepLogo();
         console.log("Compressed logo: ", logo);
         ////Promise(data, logo) -> Firebase (& OK|FAIL transact.) //<- prolly out this approach, rewrite with nested promises
-
+        console.log("uuidv4(): ", uuidv4());
         //Add E-Shop, wait, retrieve E-shop ID and upload image named like it.
 
         //https://stackoverflow.com/questions/58844095/how-to-get-firestore-document-id
 
         //https://www.youtube.com/watch?v=YOAeBSCkArA
-        //https://github.com/machadop1407/firebase-file-upload
+        //https://github.com/machadop140 7/firebase-file-upload
     };
     const UpdateEshop = () => {
         //I already know Eshop.documentID (thus, can upload)
@@ -53,6 +55,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
         //Promise (data, (/logo) ) -> Firebase (& OK|FAIL)
     };
     const wrapEshopData = ({ updStatus }: { updStatus: boolean }): IEshop => ({
+        id: updStatus ? eshop?.id || "" : uuidv4(), 
         country: "CZ", //[ ] TODO - implement FE on form (TLD/IP)
         description: descriptionRef.current?.value || "",
         logo: "N/A", //[ ] TODO - some ref (?) into Storage/S3

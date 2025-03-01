@@ -19,6 +19,8 @@ import ISocial from "../ts/ISocial";
 import L from "leaflet";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import group13 from '../icons/group13.png';
+//
+import { v4 as uuidv4 } from 'uuid';
 
 type ModifFormSpotProps = {
     FuncCancel: () => void;
@@ -82,6 +84,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
             type: "Point" //[x] Always Point
         },
         properties: {
+            id: updStatus ? merchant?.id || "" : uuidv4(), 
             address: {
                 address: addressRef.current?.value || "",
                 city: cityRef.current?.value || "",

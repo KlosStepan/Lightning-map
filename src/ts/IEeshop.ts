@@ -1,4 +1,5 @@
 interface IEshop {
+    id: string // js lib uuidv4()
     name: string
     description: string
     logo: string

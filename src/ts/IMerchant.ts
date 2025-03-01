@@ -15,6 +15,7 @@ interface IAddress {
 
 // Define the IMerchantTile type for the properties of a merchant
 interface IMerchantTile {
+  id: string; // js lib uuidv4()
   owner: string | undefined; // Owner ID, can be undefined
   visible: boolean; // Visibility status
   image: string;
