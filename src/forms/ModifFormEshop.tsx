@@ -6,6 +6,10 @@ import Typography from "@mui/material/Typography";
 //Components
 import ButtonUniversal from "../components/ButtonUniversal";
 import UploadingImagesSpot from "../components/UploadingImagesSpot";
+//Firebase
+import { db/*, storage*/ } from "../components/Firebase"; // Ensure Firebase is correctly initialized
+import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 //Redux+RTK
 import { RootState } from "../redux-rtk/store";
 import { useSelector } from "react-redux";
@@ -40,17 +44,26 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
     
     // Functions - Add(), Update(), _bundleInput(), //TODO _prepLogo() (/Update - checks for pic update)
     const AddEshop = async () => {
-        const newEshopWrapped = WrapEshopData({ updStatus: false });
-        console.log("Adding newEshopWrapped: ", newEshopWrapped);
+        try {
+            // Step 1: Prepare e-shop data without logo
+            const newEshop = WrapEshopData({ updStatus: false });
+            const id :string = newEshop.id;
+            //console.log("Adding newEshopWrapped: ", newEshopWrapped);
+
+            // Step 2: Add the e-shop to Firestore and get the generated document ID
+            const docRef = await addDoc(collection(db, "eshops"), newEshop);
+            console.log("E-shop added with ID: ", docRef.id);
+
+        } catch (error) {
+            console.error("Error adding e-shop: ", error);
+        }
+        //NOTES + info TODO
         //prepped logos here <- in some list (?) or single file
-        const logo = await PrepLogo();
-        console.log("Compressed logo: ", logo);
+        //const logo = await PrepLogo();
+        //console.log("Compressed logo: ", logo);
         ////Promise(data, logo) -> Firebase (& OK|FAIL transact.) //<- prolly out this approach, rewrite with nested promises
-        console.log("uuidv4(): ", uuidv4());
         //Add E-Shop, wait, retrieve E-shop ID and upload image named like it.
-
         //https://stackoverflow.com/questions/58844095/how-to-get-firestore-document-id
-
         //https://www.youtube.com/watch?v=YOAeBSCkArA
         //https://github.com/machadop140 7/firebase-file-upload
     };
