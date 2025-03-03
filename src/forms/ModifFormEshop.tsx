@@ -23,6 +23,14 @@ type ModifFormEshopProps = {
 );
 
 const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, FuncCancel }) => {
+    // DEBUG
+    const debug = useSelector((state: RootState) => state.misc.debug);
+    // Conditionally log debug information
+    if (debug) {
+        console.log("<DEBUG> ModifFormEshop.tsx");
+        console.log("--debugging on--")
+        console.log("</DEBUG> ModifFormEshop.tsx")
+    }
     //Fields - 3x input
     const titleRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLInputElement>(null);
@@ -32,10 +40,10 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
     
     // Functions - Add(), Update(), _bundleInput(), //TODO _prepLogo() (/Update - checks for pic update)
     const AddEshop = async () => {
-        const newEshopWrapped = wrapEshopData({ updStatus: false });
+        const newEshopWrapped = WrapEshopData({ updStatus: false });
         console.log("Adding newEshopWrapped: ", newEshopWrapped);
         //prepped logos here <- in some list (?) or single file
-        const logo = await prepLogo();
+        const logo = await PrepLogo();
         console.log("Compressed logo: ", logo);
         ////Promise(data, logo) -> Firebase (& OK|FAIL transact.) //<- prolly out this approach, rewrite with nested promises
         console.log("uuidv4(): ", uuidv4());
@@ -48,13 +56,13 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
     };
     const UpdateEshop = () => {
         //I already know Eshop.documentID (thus, can upload)
-        const updatedEshopWrapped = wrapEshopData({ updStatus: true });
+        const updatedEshopWrapped = WrapEshopData({ updStatus: true });
         console.log("Updating updatedEshopWrapped: ", updatedEshopWrapped);
         //verify logo changed(/not) vv
         //|- run process prepLogo
         //Promise (data, (/logo) ) -> Firebase (& OK|FAIL)
     };
-    const wrapEshopData = ({ updStatus }: { updStatus: boolean }): IEshop => ({
+    const WrapEshopData = ({ updStatus }: { updStatus: boolean }): IEshop => ({
         id: updStatus ? eshop?.id || "" : uuidv4(), 
         country: "CZ", //[ ] TODO - implement FE on form (TLD/IP)
         description: descriptionRef.current?.value || "",
@@ -64,7 +72,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
         url: webRef.current?.value || "",
         visible: updStatus, //[x] Add->false, Update->true
     });
-    const prepLogo = async (): Promise<Blob | null> => {
+    const PrepLogo = async (): Promise<Blob | null> => {
         console.log("prepLogo() called");
     
         if (!files.length) {
@@ -94,6 +102,14 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
             console.error("Error during image compression:", error);
             return null; // ✅ Return null if compression fails
         }
+    };
+    const DebugPopulateDummyEshop = () => {
+        console.log("DebugPopulateDummyEshop() called");
+    
+        if (titleRef.current) titleRef.current.value = "Sample E-shop";
+        if (descriptionRef.current) descriptionRef.current.value = "This is a dummy description for testing.";
+        if (webRef.current) webRef.current.value = "https://www.example.com";
+        //...TODO logo
     };
     
     //
@@ -133,6 +149,14 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
                 <UploadingImagesSpot files={files} setFiles={setFiles} multipleImages={false} />
             </Box>
             <Box display="flex" justifyContent="flex-end" mt={2}>
+                {debug && (
+                    <ButtonUniversal
+                        title={"Populate-dummy-eshop ^"}
+                        color="#F23CFF"
+                        textColor="white"
+                        actionDelegate={DebugPopulateDummyEshop}
+                    />
+                )}
                 {FuncCancel && (
                     <ButtonUniversal 
                         title="Cancel" 
@@ -147,6 +171,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
                     textColor="white"
                     actionDelegate={edit ? UpdateEshop : AddEshop}
                 />
+
             </Box>
         </React.Fragment>
     );

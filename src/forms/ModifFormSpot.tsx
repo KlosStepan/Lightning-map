@@ -30,6 +30,15 @@ type ModifFormSpotProps = {
 );
 
 const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, FuncCancel }) => {
+    // DEBUG
+    const debug = useSelector((state: RootState) => state.misc.debug);
+    // Conditionally log debug information
+    if (debug) {
+        console.log("<DEBUG> ModifFormSpot.tsx");
+        console.log("--debugging on--")
+        console.log("</DEBUG> ModifFormSpot.tsx")
+    }
+
     //Fields - 5x input
     const titleRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLInputElement>(null);
@@ -67,18 +76,18 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
 
     // Functions - Add(), Update(), _bundleInput(), //TODO _prepPics() (/Update - checks for pic update)
     const AddSpot = () => {
-        const newSpotWrapped = createSpotData({ updStatus: false });
+        const newSpotWrapped = WrapSpotData({ updStatus: false });
         console.log("Adding newSpotWrapped: ", newSpotWrapped)
         //Promise(data, photos) -> Firebase (& OK|FAIL transact.)
     };
     const UpdateSpot = () => {
-        const updatedSpotWrapped = createSpotData({ updStatus: true });
+        const updatedSpotWrapped = WrapSpotData({ updStatus: true });
         console.log("Updating updatedSpotWrapped: ", updatedSpotWrapped)
         //verify photos changed(/not) vv
         //|- run process prepPics
         //Promise (data, (/photos) ) -> Firebase (& OK|FAIL)
     };
-    const createSpotData = ({ updStatus }: { updStatus: boolean }): IMerchant => ({
+    const WrapSpotData = ({ updStatus }: { updStatus: boolean }): IMerchant => ({
         geometry: {
             coordinates: position || [0.0, 0.0],
             type: "Point" //[x] Always Point
@@ -100,10 +109,21 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
         },
         type: "Feature" //[x] Always Feature
     });
-    const prepPics = (): any => ({
+    const PrepPics = (): any => ({
         //dadada, do after E-shop is prototyped for all (in loop 3x) via the ext.
         //https://www.npmjs.com/package/browser-image-compression
     });
+    const DebugPopulateDummySpot = () => {
+        console.log("DebugPopulateDummySpot() called");
+    
+        if (titleRef.current) titleRef.current.value = "Sample Spot";
+        if (descriptionRef.current) descriptionRef.current.value = "This is a dummy description for a spot.";
+        if (addressRef.current) addressRef.current.value = "123 Sample Street";
+        if (cityRef.current) cityRef.current.value = "Sample City";
+        if (postalCodeRef.current) postalCodeRef.current.value = "12345";
+        //...TODO rest vv
+        //...TODO images & socials
+    };
 
     //
     const user = useSelector((state: RootState) => state.misc.user);
@@ -200,6 +220,14 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
             </Box>
             <Box display="flex" justifyContent="flex-end" mt={2}>
                 { /* Buttons down the form */}
+                {debug && (
+                    <ButtonUniversal
+                        title={"Populate-dummy-spot ^"}
+                        color="#F23CFF"
+                        textColor="white"
+                        actionDelegate={DebugPopulateDummySpot}
+                    />
+                )}
                 {FuncCancel && (
                     <ButtonUniversal
                         title="Cancel"
