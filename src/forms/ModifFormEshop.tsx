@@ -43,6 +43,15 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
     const [files, setFiles] = useState<Array<File & { preview: string }>>([]);
     
     // Functions - Add(), Update(), _bundleInput(), //TODO _prepLogo() (/Update - checks for pic update)
+    //NOTES + info TODO
+    //prepped logos here <- in some list (?) or single file
+    //const logo = await PrepLogo();
+    //console.log("Compressed logo: ", logo);
+    ////Promise(data, logo) -> Firebase (& OK|FAIL transact.) //<- prolly out this approach, rewrite with nested promises
+    //Add E-Shop, wait, retrieve E-shop ID and upload image named like it.
+    //https://stackoverflow.com/questions/58844095/how-to-get-firestore-document-id
+    //https://www.youtube.com/watch?v=YOAeBSCkArA
+    //https://github.com/machadop140 7/firebase-file-upload
     const AddEshop = async () => {
         try {
             // Step 1: Prepare e-shop data without logo
@@ -57,23 +66,14 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
         } catch (error) {
             console.error("Error adding e-shop: ", error);
         }
-        //NOTES + info TODO
-        //prepped logos here <- in some list (?) or single file
-        //const logo = await PrepLogo();
-        //console.log("Compressed logo: ", logo);
-        ////Promise(data, logo) -> Firebase (& OK|FAIL transact.) //<- prolly out this approach, rewrite with nested promises
-        //Add E-Shop, wait, retrieve E-shop ID and upload image named like it.
-        //https://stackoverflow.com/questions/58844095/how-to-get-firestore-document-id
-        //https://www.youtube.com/watch?v=YOAeBSCkArA
-        //https://github.com/machadop140 7/firebase-file-upload
     };
+    //verify logo changed(/not) vv
+    //|- run process prepLogo
+    //Promise (data, (/logo) ) -> Firebase (& OK|FAIL)
     const UpdateEshop = () => {
         //I already know Eshop.documentID (thus, can upload)
         const updatedEshopWrapped = WrapEshopData({ updStatus: true });
         console.log("Updating updatedEshopWrapped: ", updatedEshopWrapped);
-        //verify logo changed(/not) vv
-        //|- run process prepLogo
-        //Promise (data, (/logo) ) -> Firebase (& OK|FAIL)
     };
     const WrapEshopData = ({ updStatus }: { updStatus: boolean }): IEshop => ({
         id: updStatus ? eshop?.id || "" : uuidv4(), 
