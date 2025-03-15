@@ -68,6 +68,8 @@ import { theme } from "./theme"
 import MiddleOfHomepage from './components/MiddleOfHomepage';
 import MenuHeader from './components/MenuHeader';
 import ILink from './ts/ILink';
+import ADManageUsers from "./pages/ADManageUsers";
+import ADApproveNewEntries from "./pages/ADApproveNewEntries";
 //
 //const pages = ["Map", "E-shops", "Why Lightning", "Blog", "About"];
 const pages: ILink[] = [
@@ -156,6 +158,9 @@ function App() {
                             <Route path="/admin/my-spots" element={<ADMyMerchants />} />
                             <Route path="/admin/my-eshops" element={<ADMyEShops />} />
                             <Route path="/admin/my-account" element={<ADMyAccount />} />
+                            {/*Admin only*/}
+                            <Route path="/admin/manage-users" element={<ADManageUsers/>} />
+                            <Route path="/admin/new-entries" element={<ADApproveNewEntries/>} />
                         </Routes>
                     </React.Fragment>
                 </Grid>

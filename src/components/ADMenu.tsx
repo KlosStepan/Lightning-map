@@ -5,11 +5,17 @@ import { Link } from 'react-router-dom';
 //MUI
 import { Box, Grid, useMediaQuery, useTheme } from "@mui/material";
 
+//Redux+RTK
+import { RootState } from "../redux-rtk/store";
+import { useSelector } from "react-redux";
+
 // 4x icon
 import IcoADHome from '../icons/ad-home.png';
 import IcoADPin from '../icons/ad-pin.png';
 import IcoADShoppingBag from '../icons/ad-shopping-bag.png';
 import IcoADUser from '../icons/ad-user.png';
+//
+import HrGreyCustomSeparator from "./HrGreyCustomSeparator";
 
 type ADMenuProps = { 
     //ADMenuProps
@@ -37,6 +43,12 @@ const ADMenu: React.FC<ADMenuProps> = ({ }) => {
         { icon: IcoADShoppingBag, title: "My e-shops", path: "/admin/my-eshops" },
         { icon: IcoADUser, title: "My account", path: "/admin/my-account" }
     ];
+    const menuAdminLinks = [
+        { icon: IcoADUser, title: "Manage users", path: "/admin/manage-users"},
+        { icon: IcoADUser, title: "Approve new entries", path: "/admin/new-entries"}
+    ];
+    //
+    const user = useSelector((state: RootState) => state.misc.user);
     return (
         <React.Fragment>
         {!isPhone ?  (
@@ -48,6 +60,16 @@ const ADMenu: React.FC<ADMenuProps> = ({ }) => {
                 {menuLinks.map(({ icon, title, path }, index) => (
                     <ADMenuButton icon={icon} title={title} path={path} />
                 ))}
+                
+                {/* Only show admin menu if user is logged in and has the specific email */}
+                {user && user.email === "stepanklos@gmail.com" && (
+                    <>
+                        <span>&nbsp;</span>
+                        {menuAdminLinks.map(({ icon, title, path }, index) => (
+                            <ADMenuButton key={index} icon={icon} title={title} path={path} />
+                        ))}
+                    </>
+                )}
             </React.Fragment>)
             : (
                 <Box
@@ -62,16 +84,29 @@ const ADMenu: React.FC<ADMenuProps> = ({ }) => {
                     }}
                 >
                     <Grid container spacing={2}>
+                        {/* Show admin menu at the top if user is admin */}
+                        {user && user.email === "stepanklos@gmail.com" && (
+                            <>
+                                {menuAdminLinks.map(({ icon, title, path }, index) => (
+                                    <Grid item xs={3} key={index}>
+                                        <Link to={path} style={{ textDecoration: 'none' }}>
+                                            <Box sx={{ textAlign: 'center' }}>
+                                                <Box component="img" src={icon} alt={title} sx={{ width: 24, height: 24 }} />
+                                            </Box>
+                                        </Link>
+                                    </Grid>
+                                ))}
+                                <Grid item xs={12}>
+                                    <HrGreyCustomSeparator marginTop="0px" marginBottom="0px" />
+                                </Grid>
+                            </>
+                        )}
+    
+                        {/* Normal menu below admin menu */}
                         {menuLinks.map(({ icon, title, path }, index) => (
                             <Grid item xs={3} key={index}>
                                 <Link to={path} style={{ textDecoration: 'none' }}>
-                                    <Box
-                                        sx={{
-                                            backgroundColor: 'white',
-                                            //paddingBottom: 2,
-                                            textAlign: 'center',
-                                        }}
-                                    >
+                                    <Box sx={{ textAlign: 'center' }}>
                                         <Box component="img" src={icon} alt={title} sx={{ width: 24, height: 24 }} />
                                     </Box>
                                 </Link>
