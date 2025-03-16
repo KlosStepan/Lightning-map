@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 //MUI
 import Typography from '@mui/material/Typography';
 import { Grid, Box, useMediaQuery, useTheme } from '@mui/material';
@@ -7,13 +7,17 @@ import Modal from "@mui/material/Modal";
 import ADMenu from "../components/ADMenu";
 import TileAddedMerchant from "../components/TileAddedMerchant";
 import ButtonUniversal from "../components/ButtonUniversal";
+//Firebase
+import { Firestore, QuerySnapshot, DocumentData, collection, getDocs, query, where } from "firebase/firestore";
+import { auth, db } from "../components/Firebase";
+//Forms
+import FormAddSpot from "../forms/FormAddSpot";
 //TypeScript
 import IMerchant from "../ts/IMerchant";
 //Redux+RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
-//Forms
-import FormAddSpot from "../forms/FormAddSpot";
+import { setUserMerchants, setUserEshops } from "../redux-rtk/miscSlice";
 //Icons
 import IconPlus from '../icons/ico-btn-plus.png';
 
@@ -22,12 +26,13 @@ type ADMyMerchantsProps = {
 };
 
 const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
+    const dispatch = useDispatch();
+
     //State
     const user = useSelector((state: RootState) => state.misc.user)
-    const merchants = useSelector((state: RootState) => state.data.merchants)
-    //Data slicing
     let uid = user?.uid
-    const myMerchants = merchants?.filter((merchant) => merchant.properties.owner === uid);
+    const myMerchants = useSelector((state: RootState) => state.misc.userMerchants);
+    
     //Debug
     const debug = useSelector((state: RootState) => state.misc.debug);
     if (debug) {
@@ -39,6 +44,21 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
         handleOpen();
         return Promise.resolve();
     }
+    useEffect(() => {
+        if (!uid) return; // Ensure uid is available before querying
+    
+        const getMerchants = async (db: Firestore) => {
+            const merchantsSnapshot: QuerySnapshot<DocumentData> = await getDocs(
+                query(
+                    collection(db, 'merchants'),
+                    where('properties.owner', '==', uid) // Filter by owner only
+                )
+            );
+            const merchantsList = merchantsSnapshot.docs.map((doc: DocumentData) => doc.data());
+            dispatch(setUserMerchants(merchantsList));
+        };
+        getMerchants(db);
+    }, [uid])
     //Function for dynamicPadding(index)
     const dynamicPadding = (index: number) => {
         const paddingValue = 24; // Between tiles space

@@ -7,11 +7,15 @@ import { Grid, Box, useMediaQuery, useTheme } from '@mui/material';
 import ADMenu from "../components/ADMenu";
 import ButtonUniversal from "../components/ButtonUniversal";
 import TileTypeMerchant from '../components/TileTypeMerchant';
+//Firebase
+import { collection, DocumentData, Firestore, getDocs, query, QuerySnapshot, where } from "firebase/firestore";
+import { auth, db } from "../components/Firebase";
 //Forms
 import FormADAdd from "../forms/FormADAdd";
 //Redux+RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
+import { setUserMerchants, setUserEshops } from "../redux-rtk/miscSlice";
 //Images
 import mapofspotsimg from '../img/Interface-Essential-Map--Streamline-Pixel.png';
 import eshopsimg from '../img/Shopping-Shipping-Bag-1--Streamline-Pixel.png';
@@ -21,20 +25,51 @@ type ADHomeProps = {
 };
 
 const ADHome: React.FC<ADHomeProps> = ({ }) => {
+    const dispatch = useDispatch();
+
     //State
     const user = useSelector((state: RootState) => state.misc.user);
-    const merchants = useSelector((state: RootState) => state.data.merchants);
-    const eshops = useSelector((state: RootState) => state.data.eshops);
-    //Data slicing
     let uid = user?.uid
-    const myMerchants = merchants?.filter((merchant) => merchant.properties.owner === uid);
-    const myEshops = eshops?.filter((eshop) => eshop.owner === uid);
+    const myMerchants = useSelector((state: RootState) => state.misc.userMerchants);
+    const myEshops = useSelector((state: RootState) => state.misc.userEshops);
+    //Data slicing
+    //const myMerchants = merchants?.filter((merchant) => merchant.properties.owner === uid);
+    //const myEshops = eshops?.filter((eshop) => eshop.owner === uid);
     //Debug
     const debug = useSelector((state: RootState) => state.misc.debug);
     if (debug) {
         console.log("cnt(myMerchants): " + myMerchants?.length)
         console.log("cnt(myEshops): " + myEshops?.length)
     }
+    useEffect(() => {
+        if (!uid) return; // Ensure uid is available before querying
+    
+        const getMerchants = async (db: Firestore) => {
+            const merchantsSnapshot: QuerySnapshot<DocumentData> = await getDocs(
+                query(
+                    collection(db, 'merchants'),
+                    where('properties.owner', '==', uid) // Filter by owner only
+                )
+            );
+            const merchantsList = merchantsSnapshot.docs.map((doc: DocumentData) => doc.data());
+            dispatch(setUserMerchants(merchantsList));
+        };
+    
+        const getEshops = async (db: Firestore) => {
+            const eshopsCZSnapshot: QuerySnapshot<DocumentData> = await getDocs(
+                query(
+                    collection(db, 'eshops'),
+                    where('owner', '==', uid) // Filter by owner only
+                )
+            );
+            const listsEshopsCZ = eshopsCZSnapshot.docs.map((doc: DocumentData) => doc.data());
+            dispatch(setUserEshops(listsEshopsCZ));
+        };
+    
+        getMerchants(db);
+        getEshops(db);
+    }, [uid]); // Re-run when `uid` changes
+    
     //Functions
     const FuncAdd = (): Promise<void> => {
         //console.log("Add");

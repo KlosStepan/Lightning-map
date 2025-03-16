@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 //MUI
 import Typography from '@mui/material/Typography';
 import { Grid, Box, useMediaQuery, useTheme } from '@mui/material';
@@ -7,13 +7,17 @@ import Modal from "@mui/material/Modal";
 import ADMenu from "../components/ADMenu";
 import ButtonUniversal from "../components/ButtonUniversal";
 import TileAddedEshop from "../components/TileAddedEshop";
+//Firebase
+import { Firestore, QuerySnapshot, DocumentData, collection, getDocs, query, where } from "firebase/firestore";
+import { auth, db } from "../components/Firebase";
+//Forms
+import FormAddEshop from "../forms/FormAddEshop";
 //TypeScript
 import IEshop from "../ts/IEeshop";
 //Redux+RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
-//Forms
-import FormAddEshop from "../forms/FormAddEshop";
+import { setUserMerchants, setUserEshops } from "../redux-rtk/miscSlice";
 //Icons
 import IconPlus from '../icons/ico-btn-plus.png';
 
@@ -22,12 +26,13 @@ type ADMyEShopsProps = {
 };
 
 const ADMyEShops: React.FC<ADMyEShopsProps> = ({ }) => {
+    const dispatch = useDispatch();
+
     //State
     const user = useSelector((state: RootState) => state.misc.user);
-    const eshops = useSelector((state: RootState) => state.data.eshops);
-    //Data slicing
     let uid = user?.uid
-    const myEshops = eshops?.filter((eshop) => eshop.owner === uid);
+    const myEshops = useSelector((state: RootState) => state.misc.userEshops);
+
     //Debug
     const debug = useSelector((state: RootState) => state.misc.debug);
     if (debug) {
@@ -39,6 +44,21 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = ({ }) => {
         handleOpen()
         return Promise.resolve();
     }
+    useEffect(() => {
+        if (!uid) return; // Ensure uid is available before querying
+
+        const getEshops = async (db: Firestore) => {
+            const eshopsCZSnapshot: QuerySnapshot<DocumentData> = await getDocs(
+                query(
+                    collection(db, 'eshops'),
+                    where('owner', '==', uid) // Filter by owner only
+                )
+            );
+            const listsEshopsCZ = eshopsCZSnapshot.docs.map((doc: DocumentData) => doc.data());
+            dispatch(setUserEshops(listsEshopsCZ));
+        };
+        getEshops(db); 
+    }, [uid])
     //Function for dynamicPadding(index)
     const dynamicPadding = (index: number) => {
         const spaceBetween = 8; // Up and Down space
@@ -91,7 +111,7 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = ({ }) => {
                             {/*eshops?.length ? eshops?.length : 'X'*/} {/*results*/}
                         </p>
                         <Grid container spacing={2} sx={{ marginRight: 0, marginLeft: 0 }}>
-                        {eshops?.map((eshop: IEshop, index) => (
+                        {myEshops?.map((eshop: IEshop, index) => (
                             <Grid xs={12} sm={4} key={index} sx={isPhone ? {} : { ...dynamicPadding(index) }}>  {/* Apply padding only if not on a phone*/}
                                 <TileAddedEshop likes="7" tile={eshop} />
                             </Grid>

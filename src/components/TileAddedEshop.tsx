@@ -56,6 +56,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, tile }) => {
     return (
         <Container sx={containerOuterStyle} disableGutters>
             <TileEshop likes={likes} tile={tile} showReportButton={false} />
+            <div>visible={tile?.visible ? 1 : 0}</div>
             <Box sx={{ ...containerBottomInsideStyle, mt: 2 }}>
                 <ButtonUniversal
                     icon={IconEdit}

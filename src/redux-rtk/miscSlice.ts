@@ -7,15 +7,15 @@ export interface IMiscSlice {
     debug: boolean;
     blog: boolean;
     user: User | null;  // The user will now be of type Firebase User or null
-    //userMerchants: IMerchant[] | null
-    //userEshops: IEshop[] | null
+    userMerchants: IMerchant[] | null
+    userEshops: IEshop[] | null
 }
 const initialState: IMiscSlice = {
     debug: process.env.REACT_APP_DEBUG === 'true' ? true : false,
     blog: process.env.REACT_APP_BLOG === 'false' ? false : true,
     user: null,  // User is initially null, meaning no one is logged in]
-    //userMerchants: null,
-    //userEshops: null
+    userMerchants: null,
+    userEshops: null
 };
 
 export const miscSlice = createSlice({
@@ -33,14 +33,14 @@ export const miscSlice = createSlice({
             state.user = action.payload;  // Set or unset the Firebase User object
         },
         //Adding User related stuff
-        /*setUserMerchants: (state, action: PayloadAction<IMerchant[]>) => {
+        setUserMerchants: (state, action: PayloadAction<IMerchant[]>) => {
             state.userMerchants = action.payload
-        },*/
-        /*setUserEshops: (state, action: PayloadAction<IEshop[]>) => {
+        },
+        setUserEshops: (state, action: PayloadAction<IEshop[]>) => {
             state.userEshops = action.payload
-        }*/
+        }
     }
 })
 
-export const { setDebug, setBlog, setUser } = miscSlice.actions;
+export const { setDebug, setBlog, setUser, setUserMerchants, setUserEshops } = miscSlice.actions;
 export default miscSlice.reducer; 

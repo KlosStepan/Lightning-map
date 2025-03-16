@@ -55,6 +55,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, tile }) =>
     return (
         <Container sx={containerOuterStyle} disableGutters>
             <TileMerchant likes={likes} tile={tile} index={1}/>
+            <div>visible={tile?.visible ? 1 : 0}</div>
             <Box sx={{ ...containerBottomInsideStyle, mt: 2 }}>
                 <ButtonUniversal
                         icon={IconEdit}
