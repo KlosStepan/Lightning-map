@@ -117,12 +117,27 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, Fu
         }
     };
     const DebugPopulateDummyEshop = () => {
-        console.log("DebugPopulateDummyEshop() called");
-    
-        if (titleRef.current) titleRef.current.value = "Sample E-shop";
-        if (descriptionRef.current) descriptionRef.current.value = "This is a dummy description for testing.";
-        if (webRef.current) webRef.current.value = "https://www.example.com";
-        //...TODO logo
+        const randomNumber = Math.floor(Math.random() * 10000) + 1;
+
+        // Using string interpolation for cleaner code
+        console.log(`DebugPopulateDummyEshop() called; E-shop: ${randomNumber}`);
+        
+        if (titleRef.current) titleRef.current.value = `Sample E-shop ${randomNumber}`;
+        if (descriptionRef.current) descriptionRef.current.value = `This is a dummy description ${randomNumber} for testing.`;
+        if (webRef.current) webRef.current.value = `https://www.example${randomNumber}.com`;
+
+        // Use a static image from public/
+        const imageFile = new File([new Blob([new Uint8Array([])])], "foto-polis.png", {
+            type: "image/png",
+        });
+
+        // Assign a preview URL for the image, which will be served from the public folder
+        const fileWithPreview = Object.assign(imageFile, {
+            preview: "/foto-polis.png", // Path relative to the public folder
+        });
+
+        setFiles([fileWithPreview]);
+        console.log("Dummy image added:", fileWithPreview);
     };
     
     //
