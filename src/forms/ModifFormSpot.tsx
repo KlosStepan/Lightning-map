@@ -114,16 +114,37 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, F
         //https://www.npmjs.com/package/browser-image-compression
     });
     const DebugPopulateDummySpot = () => {
-        console.log("DebugPopulateDummySpot() called");
-    
-        if (titleRef.current) titleRef.current.value = "Sample Spot";
-        if (descriptionRef.current) descriptionRef.current.value = "This is a dummy description for a spot.";
-        if (addressRef.current) addressRef.current.value = "123 Sample Street";
-        if (cityRef.current) cityRef.current.value = "Sample City";
-        if (postalCodeRef.current) postalCodeRef.current.value = "12345";
-        //...TODO rest vv
-        //...TODO images & socials
-    };
+        const randomNumber = Math.floor(Math.random() * 10000) + 1;
+
+        // Using string interpolation for cleaner code
+        console.log(`DebugPopulateDummySpot() called; Spot: ${randomNumber}`);
+        
+        if (titleRef.current) titleRef.current.value = `Dummy Spot Title ${randomNumber}`;
+        if (descriptionRef.current) descriptionRef.current.value = `A brief dummy ${randomNumber} description.`;
+        if (addressRef.current) addressRef.current.value = `123 Dummy Street`;
+        if (cityRef.current) cityRef.current.value = `Dummy City`;
+        if (postalCodeRef.current) postalCodeRef.current.value = `12345`;
+        
+        setPosition([50.0755, 14.4378]);
+        
+        setSocials([
+            { network: "web", label: "Web", link: "https://dummyweb.com" },
+            { network: "facebook", label: "FB", link: "https://facebook.com/dummy" },
+            { network: "instagram", label: "IG", link: "https://instagram.com/dummy" },
+            { network: "twitter", label: "X", link: "https://twitter.com/dummy" },
+            { network: "threads", label: "@", link: "https://threads.net/dummy" },
+        ]);
+
+        setFiles(
+            ["bpvs1.png", "bpvs2.png", "bpvs3.png", "bpvs4.png", "bpvs5.png"].map(
+                (fileName) =>
+                    Object.assign(
+                        new File([new Blob([new Uint8Array([])])], fileName, { type: "image/png" }),
+                        { preview: `/${fileName}` }
+                    )
+            )
+        );
+      };
 
     //
     const user = useSelector((state: RootState) => state.misc.user);
