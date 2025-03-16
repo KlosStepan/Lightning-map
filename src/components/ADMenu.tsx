@@ -45,7 +45,10 @@ const ADMenu: React.FC<ADMenuProps> = ({ }) => {
     ];
     const menuAdminLinks = [
         { icon: IcoADUser, title: "Manage users", path: "/admin/manage-users"},
-        { icon: IcoADUser, title: "Approve new entries", path: "/admin/new-entries"}
+        { icon: IcoADUser, title: "Approve new entries", path: "/admin/new-entries"},
+        { icon: IcoADUser, title: "Feedback (🗲)", path:"/admin/feedback"},
+        { icon: IcoADUser, title: "Report ( ! )", path:"/admin/report"}
+        //{ icon: null, title: "XXX", path:"/admin/xxx"}
     ];
     //
     const user = useSelector((state: RootState) => state.misc.user);

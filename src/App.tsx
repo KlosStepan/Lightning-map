@@ -39,7 +39,7 @@ import ADHome from './pages/ADHome';
 import ADMyMerchants from './pages/ADMyMerchants';
 import ADMyEShops from './pages/ADMyEShops';
 import ADMyAccount from './pages/ADMyAccount';
-//Redux
+//ReduxManage Users of Lightning Everywhere
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "./redux-rtk/store";
 import { setDebug, setBlog, setUser } from "./redux-rtk/miscSlice";
@@ -70,6 +70,8 @@ import MenuHeader from './components/MenuHeader';
 import ILink from './ts/ILink';
 import ADManageUsers from "./pages/ADManageUsers";
 import ADApproveNewEntries from "./pages/ADApproveNewEntries";
+import ADFeedback from "./pages/ADFeedback";
+import ADReport from "./pages/ADReport";
 //
 //const pages = ["Map", "E-shops", "Why Lightning", "Blog", "About"];
 const pages: ILink[] = [
@@ -161,6 +163,8 @@ function App() {
                             {/*Admin only*/}
                             <Route path="/admin/manage-users" element={<ADManageUsers/>} />
                             <Route path="/admin/new-entries" element={<ADApproveNewEntries/>} />
+                            <Route path="/admin/feedback" element={<ADFeedback/>} />
+                            <Route path="/admin/report" element={<ADReport/>} />
                         </Routes>
                     </React.Fragment>
                 </Grid>
