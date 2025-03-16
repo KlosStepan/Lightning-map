@@ -7,6 +7,15 @@ import { Grid, List, ListItem, ListItemText, Box, useMediaQuery, useTheme } from
 import ADMenu from "../components/ADMenu";
 import ButtonUniversal from "../components/ButtonUniversal";
 import TileTypeMerchant from '../components/TileTypeMerchant';
+//Firebase
+import { User, onAuthStateChanged } from "firebase/auth";
+import { Firestore, QuerySnapshot, DocumentData, collection, getDocs, query, where } from "firebase/firestore";
+import { auth, db } from "../components/Firebase";
+//TypeScript
+import IMerchant from "../ts/IMerchant";
+import IEshop from "../ts/IEeshop";
+//Pwnspinner
+import { Pwnspinner } from "pwnspinner";
 
 type ADApproveNewEntriesProps = {
 //
@@ -16,6 +25,25 @@ const ADApproveNewEntries: React.FC<ADApproveNewEntriesProps> = ({ }) => {
     //Phone detection 
     const theme = useTheme();
     const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
+    //States for freshly pulled out Merchants and E-shops
+    const [allMerchants, setAllMerchants] = useState<IMerchant[] | null>(null);
+    const [allEshops, setAllEshops] = useState<IEshop[] | null>(null);
+    useEffect(() => {
+        const getAllMerchants = async (db: Firestore) => {
+            const allMerchantsSnapshot: QuerySnapshot<DocumentData>  = await getDocs(query(collection(db, 'merchants')));
+            const allMerchantsList = allMerchantsSnapshot.docs.map((doc: DocumentData) => doc.data());
+            //DEBUG - mby
+            setAllMerchants(allMerchantsList);
+        }
+        const getAllEshops = async (db: Firestore) => {
+            const allEshopsSnapshot: QuerySnapshot<DocumentData> = await getDocs(query(collection(db, 'eshops')));
+            const allEshopsList = allEshopsSnapshot.docs.map((doc: DocumentData) => doc.data());
+            //DEBUG - mby
+            setAllEshops(allEshopsList);
+        }
+        getAllMerchants(db);
+        getAllEshops(db);
+    }, [])
     return(
         <React.Fragment>
             <Grid container>
@@ -49,47 +77,46 @@ const ADApproveNewEntries: React.FC<ADApproveNewEntriesProps> = ({ }) => {
                             <div>&nbsp;</div>
                         </Grid>
                         <Grid container spacing={2}>
-                        {/* Left List: Spots */}
-                        <Grid item xs={12} md={6}>
-                            <Typography variant="h1" component="h1">Spots</Typography>
-                            <List>
-                                <ListItem>
-                                    <ListItemText primary="🔴 Café Blue" />
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemText primary="🔴 Library Spot" />
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemText primary="🔴 Artisan Bakery" />
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemText primary="✅ Crypto Market" />
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemText primary="✅ Vegan Deli" />
-                                </ListItem>
-                            </List>
-                        </Grid>
+                            {/* Left List: Merchants */}
+                            <Grid item xs={12} md={6}>
+                                <Typography variant="h1" component="h1">Spots</Typography>
+                                {allMerchants === null ? (
+                                    <Pwnspinner color="#F23CFF" speed={0.7} thickness={2} />
+                                ) : (
+                                    <List>
+                                        {allMerchants
+                                            .sort((a, b) => Number(a.properties.visible) - Number(b.properties.visible)) // Sort pending first
+                                            .map((merchant) => (
+                                                <ListItem key={merchant.properties.id}>
+                                                    <ListItemText
+                                                        primary={`${merchant.properties.visible ? "✅" : "🔴"} ${merchant.properties.title}`}
+                                                    />
+                                                </ListItem>
+                                        ))}
+                                    </List>
+                                )}
+                            </Grid>
 
-                        {/* Right List: E-Shops */}
-                        <Grid item xs={12} md={6}>
-                            <Typography variant="h1" component="h1">E-Shops</Typography>
-                            <List>
-                                <ListItem>
-                                    <ListItemText primary="🔴 Green Groceries" />
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemText primary="🔴 Digital Bookstore" />
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemText primary="✅ Artisan Crafts" />
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemText primary="✅ Vegan Snacks" />
-                                </ListItem>
-                            </List>
+                            {/* Right List: EShops */}
+                            <Grid item xs={12} md={6}>
+                                <Typography variant="h1" component="h1">E-Shops</Typography>
+                                {allEshops === null ? (
+                                    <Pwnspinner color="#F23CFF" speed={0.7} thickness={2} />
+                                ) : (
+                                    <List>
+                                        {allEshops
+                                            .sort((a, b) => Number(a.visible) - Number(b.visible)) // Sort pending first
+                                            .map((eshop) => (
+                                                <ListItem key={eshop.id}>
+                                                    <ListItemText
+                                                        primary={`${eshop.visible ? "✅" : "🔴"} ${eshop.name}`}
+                                                    />
+                                                </ListItem>
+                                        ))}
+                                    </List>
+                                )}
+                            </Grid>
                         </Grid>
-                    </Grid>
                     </Box>
                 </Grid>
             </Grid>
