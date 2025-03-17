@@ -55,7 +55,8 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
     return (
         <Container sx={containerOuterStyle} disableGutters>
             <TileMerchant likes={likes} tile={merchant.merchant.properties} index={1}/>
-            <div>visible={merchant.merchant.properties?.visible ? 1 : 0}</div>
+            <div>   documentid={merchant.documentid} <br/>
+                    visible={merchant.merchant.properties?.visible ? 1 : 0} </div>
             <Box sx={{ ...containerBottomInsideStyle, mt: 2 }}>
                 <ButtonUniversal
                         icon={IconEdit}
