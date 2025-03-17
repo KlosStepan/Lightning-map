@@ -3,7 +3,7 @@ import { Container, Box, Modal, Typography } from '@mui/material';
 //Components
 import ButtonUniversal from "./ButtonUniversal";
 //TypeScript
-import { IMerchantTile } from "../ts/IMerchant";
+import { IMerchantTile, IMerchantADWrapper } from "../ts/IMerchant";
 import TileMerchant from "./TileMerchant";
 //Forms
 import FormEditSpot from "../forms/FormEditSpot";
@@ -33,10 +33,10 @@ const iconStyle = {
 
 type TileAddedMerchantProps = {
     likes: string
-    tile: IMerchantTile
+    merchant: IMerchantADWrapper
 }
 
-const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, tile }) => {
+const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }) => {
     // Modal State
     const [openEdit, setOpenEdit] = React.useState(false);
     const handleOpenEdit = () => setOpenEdit(true);
@@ -54,8 +54,8 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, tile }) =>
 
     return (
         <Container sx={containerOuterStyle} disableGutters>
-            <TileMerchant likes={likes} tile={tile} index={1}/>
-            <div>visible={tile?.visible ? 1 : 0}</div>
+            <TileMerchant likes={likes} tile={merchant.merchant.properties} index={1}/>
+            <div>visible={merchant.merchant.properties?.visible ? 1 : 0}</div>
             <Box sx={{ ...containerBottomInsideStyle, mt: 2 }}>
                 <ButtonUniversal
                         icon={IconEdit}
@@ -84,7 +84,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, tile }) =>
                 style={{overflow: 'scroll'}}
             >
                 <Box>
-                    <FormEditSpot closeModal={handleCloseEdit} merchant={tile}/>
+                    <FormEditSpot closeModal={handleCloseEdit} merchant={merchant.merchant.properties}/>
                 </Box>
             </Modal>
             {/* Modal 2/2 - Delete Merchant (popup w/ function to DEL stuff) */}
@@ -111,7 +111,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, tile }) =>
                             alignItems: 'center',
                         }}
                     >
-                        Delete spot {tile.title}
+                        Delete spot {merchant.merchant.properties.title}
                         <span onClick={handleCloseDelete}>
                             <Box
                                 component="img"
@@ -136,7 +136,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, tile }) =>
                             title={"Delete"}
                             color="#F23CFF"
                             textColor="white"
-                            actionDelegate={ () => { FuncDelete(tile.title); } }
+                            actionDelegate={ () => { FuncDelete(merchant.merchant.properties.title); } }
                         />
                     </Box>
                 </Box>

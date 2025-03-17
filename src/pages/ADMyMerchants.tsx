@@ -119,7 +119,7 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
                         <Grid container spacing={2}>
                             {myMerchants?.map((merchant: IMerchantADWrapper, index: number) => (
                             <Grid xs={12} sm={4} key={index} sx={{ ...dynamicPadding(index) }}>
-                                <TileAddedMerchant likes={"777"} tile={merchant.merchant?.properties} />
+                                <TileAddedMerchant likes={"777"} merchant={merchant} />
                             </Grid>
                             ))}
                         </Grid>

@@ -5,7 +5,7 @@ import { Container, Box, Modal, Typography } from '@mui/material';
 import ButtonUniversal from "../components/ButtonUniversal";
 import TileEshop from './TileEshop';
 //TypeScript
-import IEshop from '../ts/IEeshop';
+import IEshop, { IEshopADWrapper } from '../ts/IEeshop';
 //Forms
 import FormEditEshop from '../forms/FormEditEshop';
 //Icons
@@ -34,10 +34,10 @@ const iconStyle = {
 
 type TileAddedEshopProps = {
     likes: string;
-    tile: IEshop;
+    eshop: IEshopADWrapper;
 };
 
-const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, tile }) => {
+const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
     // Modal State
     const [openEdit, setOpenEdit] = React.useState(false);
     const handleOpenEdit = () => setOpenEdit(true);
@@ -55,8 +55,8 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, tile }) => {
 
     return (
         <Container sx={containerOuterStyle} disableGutters>
-            <TileEshop likes={likes} tile={tile} showReportButton={false} />
-            <div>visible={tile?.visible ? 1 : 0}</div>
+            <TileEshop likes={likes} tile={eshop.eshop} showReportButton={false} />
+            <div>visible={eshop.eshop?.visible ? 1 : 0}</div>
             <Box sx={{ ...containerBottomInsideStyle, mt: 2 }}>
                 <ButtonUniversal
                     icon={IconEdit}
@@ -85,7 +85,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, tile }) => {
                 style={{overflow: 'scroll'}}
             >
                 <Box>
-                    <FormEditEshop closeModal={handleCloseEdit} eshop={tile}/>
+                    <FormEditEshop closeModal={handleCloseEdit} eshop={eshop.eshop}/>
                 </Box>
             </Modal>
             {/* Modal 2/2 - Delete Eshop (popup w/ function to DEL stuff) */}
@@ -112,7 +112,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, tile }) => {
                             alignItems: 'center',
                         }}
                     >
-                        Delete e-shop {tile.name}
+                        Delete e-shop {eshop.eshop.name}
                         <span onClick={handleCloseDelete}>
                             <Box
                                 component="img"
@@ -137,7 +137,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, tile }) => {
                             title={"Delete"}
                             color="#F23CFF"
                             textColor="white"
-                            actionDelegate={ () => { FuncDelete(tile.name); } }
+                            actionDelegate={ () => { FuncDelete(eshop.eshop.name); } }
                         />
                     </Box>
                 </Box>
