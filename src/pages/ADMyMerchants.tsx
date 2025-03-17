@@ -14,6 +14,7 @@ import { auth, db } from "../components/Firebase";
 import FormAddSpot from "../forms/FormAddSpot";
 //TypeScript
 import IMerchant from "../ts/IMerchant";
+import { IMerchantADWrapper } from "../ts/IMerchant";
 //Redux+RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
@@ -32,7 +33,7 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
     const user = useSelector((state: RootState) => state.misc.user)
     let uid = user?.uid
     const myMerchants = useSelector((state: RootState) => state.misc.userMerchants);
-    
+
     //Debug
     const debug = useSelector((state: RootState) => state.misc.debug);
     if (debug) {
@@ -54,11 +55,15 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
                     where('properties.owner', '==', uid) // Filter by owner only
                 )
             );
-            const merchantsList = merchantsSnapshot.docs.map((doc: DocumentData) => doc.data());
+            const merchantsList: IMerchantADWrapper[] = merchantsSnapshot.docs.map((doc) => ({
+                documentid: doc.id,
+                merchant: doc.data() as IMerchant
+            }));
             dispatch(setUserMerchants(merchantsList));
         };
+    
         getMerchants(db);
-    }, [uid])
+    }, [uid]);
     //Function for dynamicPadding(index)
     const dynamicPadding = (index: number) => {
         const paddingValue = 24; // Between tiles space
@@ -112,9 +117,9 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
                             </Grid>
                         </Grid>
                         <Grid container spacing={2}>
-                            {myMerchants?.map((merchant: IMerchant, index: number) => (
+                            {myMerchants?.map((merchant: IMerchantADWrapper, index: number) => (
                             <Grid xs={12} sm={4} key={index} sx={{ ...dynamicPadding(index) }}>
-                                <TileAddedMerchant likes={"777"} tile={merchant.properties} />
+                                <TileAddedMerchant likes={"777"} tile={merchant.merchant?.properties} />
                             </Grid>
                             ))}
                         </Grid>

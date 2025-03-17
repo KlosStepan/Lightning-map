@@ -36,5 +36,10 @@ interface IMerchant {
   properties: IMerchantTile; // Properties object of type IMerchantTile
 }
 
+interface IMerchantADWrapper {
+  documentid: string
+  merchant: IMerchant
+}
+
 export default IMerchant;
-export type { /*ISocial,*/ IMerchantTile, IAddress };
+export type { /*ISocial,*/ IMerchantTile, IAddress, IMerchantADWrapper };

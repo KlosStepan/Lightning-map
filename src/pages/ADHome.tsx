@@ -16,6 +16,11 @@ import FormADAdd from "../forms/FormADAdd";
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
 import { setUserMerchants, setUserEshops } from "../redux-rtk/miscSlice";
+//TypeScript
+import IEshop from "../ts/IEeshop";
+import { IEshopADWrapper } from "../ts/IEeshop";
+import IMerchant from "../ts/IMerchant";
+import { IMerchantADWrapper } from "../ts/IMerchant";
 //Images
 import mapofspotsimg from '../img/Interface-Essential-Map--Streamline-Pixel.png';
 import eshopsimg from '../img/Shopping-Shipping-Bag-1--Streamline-Pixel.png';
@@ -51,24 +56,31 @@ const ADHome: React.FC<ADHomeProps> = ({ }) => {
                     where('properties.owner', '==', uid) // Filter by owner only
                 )
             );
-            const merchantsList = merchantsSnapshot.docs.map((doc: DocumentData) => doc.data());
+            const merchantsList: IMerchantADWrapper[] = merchantsSnapshot.docs.map((doc) => ({
+                documentid: doc.id,
+                merchant: doc.data() as IMerchant
+            }));
             dispatch(setUserMerchants(merchantsList));
         };
     
         const getEshops = async (db: Firestore) => {
-            const eshopsCZSnapshot: QuerySnapshot<DocumentData> = await getDocs(
+            const eshopsSnapshot: QuerySnapshot<DocumentData> = await getDocs(
                 query(
                     collection(db, 'eshops'),
                     where('owner', '==', uid) // Filter by owner only
                 )
             );
-            const listsEshopsCZ = eshopsCZSnapshot.docs.map((doc: DocumentData) => doc.data());
-            dispatch(setUserEshops(listsEshopsCZ));
+            const eshopsList: IEshopADWrapper[] = eshopsSnapshot.docs.map((doc) => ({
+                documentid: doc.id,
+                eshop: doc.data() as IEshop
+            }));
+            dispatch(setUserEshops(eshopsList));
         };
     
         getMerchants(db);
         getEshops(db);
     }, [uid]); // Re-run when `uid` changes
+    
     
     //Functions
     const FuncAdd = (): Promise<void> => {

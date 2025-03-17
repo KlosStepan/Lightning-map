@@ -1,14 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from 'firebase/auth'; // Import the Firebase User type
 import IMerchant from '../ts/IMerchant';
+import { IMerchantADWrapper } from '../ts/IMerchant';
 import IEshop from '../ts/IEeshop';
+import { IEshopADWrapper } from '../ts/IEeshop';
 
 export interface IMiscSlice {
     debug: boolean;
     blog: boolean;
     user: User | null;  // The user will now be of type Firebase User or null
-    userMerchants: IMerchant[] | null
-    userEshops: IEshop[] | null
+    userMerchants: IMerchantADWrapper[] | null
+    userEshops: IEshopADWrapper[] | null
 }
 const initialState: IMiscSlice = {
     debug: process.env.REACT_APP_DEBUG === 'true' ? true : false,
@@ -33,10 +35,10 @@ export const miscSlice = createSlice({
             state.user = action.payload;  // Set or unset the Firebase User object
         },
         //Adding User related stuff
-        setUserMerchants: (state, action: PayloadAction<IMerchant[]>) => {
+        setUserMerchants: (state, action: PayloadAction<IMerchantADWrapper[]>) => {
             state.userMerchants = action.payload
         },
-        setUserEshops: (state, action: PayloadAction<IEshop[]>) => {
+        setUserEshops: (state, action: PayloadAction<IEshopADWrapper[]>) => {
             state.userEshops = action.payload
         }
     }

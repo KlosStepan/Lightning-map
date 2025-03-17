@@ -8,4 +8,11 @@ interface IEshop {
     owner: string | undefined
     visible: boolean
 }
+
+interface IEshopADWrapper {
+    documentid: string
+    eshop: IEshop
+}
+
 export default IEshop
+export type { IEshopADWrapper };

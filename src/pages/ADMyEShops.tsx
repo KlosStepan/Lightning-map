@@ -14,6 +14,7 @@ import { auth, db } from "../components/Firebase";
 import FormAddEshop from "../forms/FormAddEshop";
 //TypeScript
 import IEshop from "../ts/IEeshop";
+import { IEshopADWrapper } from "../ts/IEeshop";
 //Redux+RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
@@ -46,19 +47,23 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = ({ }) => {
     }
     useEffect(() => {
         if (!uid) return; // Ensure uid is available before querying
-
+    
         const getEshops = async (db: Firestore) => {
-            const eshopsCZSnapshot: QuerySnapshot<DocumentData> = await getDocs(
+            const eshopsSnapshot: QuerySnapshot<DocumentData> = await getDocs(
                 query(
                     collection(db, 'eshops'),
                     where('owner', '==', uid) // Filter by owner only
                 )
             );
-            const listsEshopsCZ = eshopsCZSnapshot.docs.map((doc: DocumentData) => doc.data());
-            dispatch(setUserEshops(listsEshopsCZ));
+            const eshopsList: IEshopADWrapper[] = eshopsSnapshot.docs.map((doc) => ({
+                documentid: doc.id,
+                eshop: doc.data() as IEshop
+            }));
+            dispatch(setUserEshops(eshopsList));
         };
+    
         getEshops(db); 
-    }, [uid])
+    }, [uid]);
     //Function for dynamicPadding(index)
     const dynamicPadding = (index: number) => {
         const spaceBetween = 8; // Up and Down space
@@ -111,9 +116,9 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = ({ }) => {
                             {/*eshops?.length ? eshops?.length : 'X'*/} {/*results*/}
                         </p>
                         <Grid container spacing={2} sx={{ marginRight: 0, marginLeft: 0 }}>
-                        {myEshops?.map((eshop: IEshop, index) => (
+                        {myEshops?.map((eshop: IEshopADWrapper, index) => (
                             <Grid xs={12} sm={4} key={index} sx={isPhone ? {} : { ...dynamicPadding(index) }}>  {/* Apply padding only if not on a phone*/}
-                                <TileAddedEshop likes="7" tile={eshop} />
+                                <TileAddedEshop likes="7" tile={eshop?.eshop} />
                             </Grid>
                         ))}
                     </Grid>
