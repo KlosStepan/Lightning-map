@@ -85,7 +85,11 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
                 style={{overflow: 'scroll'}}
             >
                 <Box>
-                    <FormEditSpot closeModal={handleCloseEdit} merchant={merchant.merchant.properties}/>
+                    <FormEditSpot 
+                        closeModal={handleCloseEdit} 
+                        merchant={merchant.merchant.properties} 
+                        documentid={merchant.documentid} // ✅ Pass document ID
+                    />
                 </Box>
             </Modal>
             {/* Modal 2/2 - Delete Merchant (popup w/ function to DEL stuff) */}

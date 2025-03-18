@@ -86,7 +86,11 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
                 style={{overflow: 'scroll'}}
             >
                 <Box>
-                    <FormEditEshop closeModal={handleCloseEdit} eshop={eshop.eshop}/>
+                    <FormEditEshop 
+                        closeModal={handleCloseEdit} 
+                        eshop={eshop.eshop} 
+                        documentid={eshop.documentid} // ✅ Pass document ID
+                    />
                 </Box>
             </Modal>
             {/* Modal 2/2 - Delete Eshop (popup w/ function to DEL stuff) */}

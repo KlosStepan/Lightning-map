@@ -13,9 +13,10 @@ import { modalContainerStyle, modalTitleStyle, closeIconStyle } from "./stylesFo
 type FormEditEshopProps = {
     closeModal: () => void;
     eshop: IEshop;
-}
+    documentid: string; // ✅ Accept document ID
+};
 
-const FormEditEshop: React.FC<FormEditEshopProps> = ({ closeModal, eshop }) => {
+const FormEditEshop: React.FC<FormEditEshopProps> = ({ closeModal, eshop, documentid }) => {
     return (
         <React.Fragment>
             <Box sx={modalContainerStyle}>
@@ -30,6 +31,7 @@ const FormEditEshop: React.FC<FormEditEshopProps> = ({ closeModal, eshop }) => {
                         />
                     </span>
                 </Typography>
+                <div>Document ID: {documentid}</div>
                 <ModifFormEshop FuncCancel={closeModal} edit={true} eshop={eshop} />
             </Box>
         </React.Fragment>

@@ -13,9 +13,10 @@ import { modalContainerStyle, modalTitleStyle, closeIconStyle } from "./stylesFo
 type FormEditSpotProps = {
     closeModal: () => void;
     merchant: IMerchantTile;
-}
+    documentid: string; // ✅ Accept document ID
+};
 
-const FormEditSpot: React.FC<FormEditSpotProps> = ({ closeModal, merchant }) => {
+const FormEditSpot: React.FC<FormEditSpotProps> = ({ closeModal, merchant, documentid }) => {
     return (
         <React.Fragment>
             <Box sx={modalContainerStyle}>
@@ -30,6 +31,7 @@ const FormEditSpot: React.FC<FormEditSpotProps> = ({ closeModal, merchant }) => 
                         />
                     </span>
                 </Typography>
+                <div>Document ID: {documentid}</div> {/* ✅ Display for testing */}
                 <ModifFormSpot FuncCancel={closeModal} edit={true} merchant={merchant} />
             </Box>
         </React.Fragment>
