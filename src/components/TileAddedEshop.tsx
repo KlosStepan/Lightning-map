@@ -54,8 +54,10 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
     const handleCloseDelete = () => setOpenDelete(false);
 
     const FuncDelete = (_eshop: string): Promise<void> => {
-        console.log("documentid=", eshop.documentid)
-        console.log("Calling Delete on E-shop. ", _eshop);
+        if (debug) {
+            console.log("documentid=", eshop.documentid)
+            console.log("Calling Delete on E-shop. ", _eshop);
+        }
         //TODO Firebase -> HTTP DELETE, check against user UID (& OK|FAIL delete) //eshop's ref&/ID + DEL photos too
         return Promise.resolve();
     }
@@ -141,7 +143,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
                             />
                         </span>
                     </Typography>
-                    <span style={{ border: '1px solid black', padding: '1px' }}>documentid={eshop.documentid}</span>
+                    { debug ? (<span style={{ border: '1px solid black', padding: '1px' }}>documentid={eshop.documentid}</span> ) : null }
                     <Box display="flex" justifyContent="flex-end" mt={2}>
                         <ButtonUniversal 
                             title="Cancel" 

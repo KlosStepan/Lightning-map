@@ -53,8 +53,10 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
     const handleCloseDelete = () => setOpenDelete(false);
 
     const FuncDelete = (_merchant: string): Promise<void> => {
-        console.log("documentid=", merchant.documentid);
-        console.log("Calling Delete on Merchant. ", _merchant);
+        if (debug) {
+            console.log("documentid=", merchant.documentid);
+            console.log("Calling Delete on Merchant. ", _merchant);
+        }
         //TODO Firebase -> HTTP DELETE, check against user UID (& OK|FAIL delete) //merchant's ref&/ID + DEL photos too
         return Promise.resolve();
     }
@@ -140,7 +142,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
                             />
                         </span>
                     </Typography>
-                    <span style={{ border: '1px solid black', padding: '1px' }}>documentid={merchant.documentid}</span>
+                    { debug ? (<span style={{ border: '1px solid black', padding: '1px' }}>documentid={merchant.documentid}</span> ) : null }
                     <Box display="flex" justifyContent="flex-end" mt={2}>
                         <ButtonUniversal 
                             title="Cancel" 
