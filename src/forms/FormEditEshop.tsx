@@ -31,8 +31,8 @@ const FormEditEshop: React.FC<FormEditEshopProps> = ({ closeModal, eshop, docume
                         />
                     </span>
                 </Typography>
-                <div>Document ID: {documentid}</div>
-                <ModifFormEshop FuncCancel={closeModal} edit={true} eshop={eshop} />
+                <div>Document ID: {documentid}</div> {/* ✅ Display for testing */}
+                <ModifFormEshop FuncCancel={closeModal} edit={true} eshop={eshop} documentid={documentid} />
             </Box>
         </React.Fragment>
     );

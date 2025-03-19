@@ -25,17 +25,19 @@ import { v4 as uuidv4 } from 'uuid';
 type ModifFormSpotProps = {
     FuncCancel: () => void;
 } & (
-    | { edit: true; merchant: IMerchantTile } // When (edit=true), merchant is required
-    | { edit?: false; merchant?: undefined } // When (edit=false)/undefined, merchant is optional
+    | { edit: true; merchant: IMerchantTile; documentid: string } // When editing, require documentid
+    | { edit?: false; merchant?: undefined; documentid?: undefined } // When adding, documentid is optional
 );
 
-const ModifFormSpot: React.FC<ModifFormSpotProps> = ({ edit = false, merchant, FuncCancel }) => {
+const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, merchant, documentid }) => {
     // DEBUG
     const debug = useSelector((state: RootState) => state.misc.debug);
     // Conditionally log debug information
     if (debug) {
         console.log("<DEBUG> ModifFormSpot.tsx");
         console.log("--debugging on--")
+        if (edit) console.log("edit: true");
+        if (documentid) console.log("Editing document with ID:", documentid);
         console.log("</DEBUG> ModifFormSpot.tsx")
     }
 

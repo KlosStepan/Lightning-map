@@ -22,17 +22,19 @@ import { v4 as uuidv4 } from 'uuid';
 type ModifFormEshopProps = {
     FuncCancel?: () => void; // Optional function to close modal from parent component
 } & (
-    | { edit: true; eshop: IEshop } // When (edit=true), eshop is required
-    | { edit?: false; eshop?: undefined } // When (edit=false)/undefined, eshop is optional
+    | { edit: true; eshop: IEshop; documentid: string } // When (edit=true), eshop and documentid are required
+    | { edit?: false; eshop?: undefined; documentid?: undefined } // When (edit=false)/undefined, both are optional
 );
 
-const ModifFormEshop: React.FC<ModifFormEshopProps> = ({ edit = false, eshop, FuncCancel }) => {
+const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false, eshop, documentid }) => {
     // DEBUG
     const debug = useSelector((state: RootState) => state.misc.debug);
     // Conditionally log debug information
     if (debug) {
         console.log("<DEBUG> ModifFormEshop.tsx");
         console.log("--debugging on--")
+        if (edit) console.log("edit: true");
+        if (documentid) console.log("Editing document with ID:", documentid);
         console.log("</DEBUG> ModifFormEshop.tsx")
     }
     //Fields - 3x input

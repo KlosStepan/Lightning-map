@@ -32,7 +32,7 @@ const FormEditSpot: React.FC<FormEditSpotProps> = ({ closeModal, merchant, docum
                     </span>
                 </Typography>
                 <div>Document ID: {documentid}</div> {/* ✅ Display for testing */}
-                <ModifFormSpot FuncCancel={closeModal} edit={true} merchant={merchant} />
+                <ModifFormSpot FuncCancel={closeModal} edit={true} merchant={merchant} documentid={documentid} />
             </Box>
         </React.Fragment>
     );
