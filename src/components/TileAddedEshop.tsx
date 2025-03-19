@@ -48,6 +48,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
     const handleCloseDelete = () => setOpenDelete(false);
 
     const FuncDelete = (_eshop: string): Promise<void> => {
+        console.log("documentid=", eshop.documentid)
         console.log("Calling Delete on E-shop. ", _eshop);
         //TODO Firebase -> HTTP DELETE, check against user UID (& OK|FAIL delete) //eshop's ref&/ID + DEL photos too
         return Promise.resolve();
@@ -117,7 +118,8 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
                             alignItems: 'center',
                         }}
                     >
-                        Delete e-shop {eshop.eshop.name}
+                        Delete e-shop {eshop.eshop.name} <br/>
+                        documentid={eshop.documentid}
                         <span onClick={handleCloseDelete}>
                             <Box
                                 component="img"

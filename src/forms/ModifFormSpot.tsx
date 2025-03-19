@@ -83,6 +83,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         //Promise(data, photos) -> Firebase (& OK|FAIL transact.)
     };
     const UpdateSpot = () => {
+        console.log("documentid=", documentid);
         const updatedSpotWrapped = WrapSpotData({ updStatus: true });
         console.log("Updating updatedSpotWrapped: ", updatedSpotWrapped)
         //verify photos changed(/not) vv

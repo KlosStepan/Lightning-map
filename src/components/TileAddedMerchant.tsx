@@ -47,6 +47,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
     const handleCloseDelete = () => setOpenDelete(false);
 
     const FuncDelete = (_merchant: string): Promise<void> => {
+        console.log("documentid=", merchant.documentid);
         console.log("Calling Delete on Merchant. ", _merchant);
         //TODO Firebase -> HTTP DELETE, check against user UID (& OK|FAIL delete) //merchant's ref&/ID + DEL photos too
         return Promise.resolve();
@@ -116,7 +117,8 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
                             alignItems: 'center',
                         }}
                     >
-                        Delete spot {merchant.merchant.properties.title}
+                        Delete spot {merchant.merchant.properties.title} <br/>
+                        documentid={merchant.documentid}
                         <span onClick={handleCloseDelete}>
                             <Box
                                 component="img"

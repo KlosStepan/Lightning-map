@@ -74,6 +74,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
     //Promise (data, (/logo) ) -> Firebase (& OK|FAIL)
     const UpdateEshop = () => {
         //I already know Eshop.documentID (thus, can upload)
+        console.log("documentid=", documentid)
         const updatedEshopWrapped = WrapEshopData({ updStatus: true });
         console.log("Updating updatedEshopWrapped: ", updatedEshopWrapped);
     };
