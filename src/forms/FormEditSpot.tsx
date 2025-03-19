@@ -6,6 +6,9 @@ import Typography from '@mui/material/Typography';
 import ModifFormSpot from "./ModifFormSpot";
 //TypeScript
 import IMerchant, { IMerchantTile } from "../ts/IMerchant";
+//Redux/RTK
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from "../redux-rtk/store";
 //Icons + Styles
 import closeIcon from '../icons/close.png';
 import { modalContainerStyle, modalTitleStyle, closeIconStyle } from "./stylesForm";
@@ -17,6 +20,9 @@ type FormEditSpotProps = {
 };
 
 const FormEditSpot: React.FC<FormEditSpotProps> = ({ closeModal, merchant, documentid }) => {
+    // DEBUG
+    const debug = useSelector((state: RootState) => state.misc.debug);
+       
     return (
         <React.Fragment>
             <Box sx={modalContainerStyle}>
@@ -31,7 +37,7 @@ const FormEditSpot: React.FC<FormEditSpotProps> = ({ closeModal, merchant, docum
                         />
                     </span>
                 </Typography>
-                <div>Document ID: {documentid}</div> {/* ✅ Display for testing */}
+                { debug ? (<div><span style={{ border: '1px solid black', padding: '1px' }}>documentid={documentid}</span></div>) : null } {/* ✅ Display for testing */}
                 <ModifFormSpot FuncCancel={closeModal} edit={true} merchant={merchant} documentid={documentid} />
             </Box>
         </React.Fragment>

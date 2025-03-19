@@ -4,10 +4,13 @@ import { Container, Box, Modal, Typography } from '@mui/material';
 //Components
 import ButtonUniversal from "../components/ButtonUniversal";
 import TileEshop from './TileEshop';
-//TypeScript
-import IEshop, { IEshopADWrapper } from '../ts/IEeshop';
 //Forms
 import FormEditEshop from '../forms/FormEditEshop';
+//TypeScript
+import IEshop, { IEshopADWrapper } from '../ts/IEeshop';
+//Redux/RTK
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from "../redux-rtk/store";
 //Icons
 import IconEdit from '../icons/ico-btn-edit.png';
 import IconTrash from '../icons/ico-btn-trash.png';
@@ -38,6 +41,9 @@ type TileAddedEshopProps = {
 };
 
 const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
+    // DEBUG
+    const debug = useSelector((state: RootState) => state.misc.debug);
+       
     // Modal State
     const [openEdit, setOpenEdit] = React.useState(false);
     const handleOpenEdit = () => setOpenEdit(true);
@@ -57,8 +63,10 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
     return (
         <Container sx={containerOuterStyle} disableGutters>
             <TileEshop likes={likes} tile={eshop.eshop} showReportButton={false} />
-            <div>   documentid={eshop.documentid} <br/>
-                    visible={eshop.eshop?.visible ? 1 : 0} </div>
+            { debug ? (<div>    
+                <span style={{ border: '1px solid black', padding: '1px' }}>documentid={eshop.documentid}</span> <br/>
+                <span style={{ border: '1px solid black', padding: '1px' }}>visible={eshop.eshop?.visible ? 1 : 0}</span>
+            </div>) : null}
             <Box sx={{ ...containerBottomInsideStyle, mt: 2 }}>
                 <ButtonUniversal
                     icon={IconEdit}
@@ -119,7 +127,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
                         }}
                     >
                         Delete e-shop {eshop.eshop.name} <br/>
-                        documentid={eshop.documentid}
+
                         <span onClick={handleCloseDelete}>
                             <Box
                                 component="img"
@@ -133,6 +141,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
                             />
                         </span>
                     </Typography>
+                    <span style={{ border: '1px solid black', padding: '1px' }}>documentid={eshop.documentid}</span>
                     <Box display="flex" justifyContent="flex-end" mt={2}>
                         <ButtonUniversal 
                             title="Cancel" 

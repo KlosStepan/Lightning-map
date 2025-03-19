@@ -2,11 +2,14 @@ import React from "react";
 import { Container, Box, Modal, Typography } from '@mui/material';
 //Components
 import ButtonUniversal from "./ButtonUniversal";
+//Forms
+import FormEditSpot from "../forms/FormEditSpot";
 //TypeScript
 import { IMerchantTile, IMerchantADWrapper } from "../ts/IMerchant";
 import TileMerchant from "./TileMerchant";
-//Forms
-import FormEditSpot from "../forms/FormEditSpot";
+//Redux/RTK
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from "../redux-rtk/store";
 //Icon
 import IconEdit from '../icons/ico-btn-edit.png';
 import IconTrash from '../icons/ico-btn-trash.png';
@@ -37,6 +40,9 @@ type TileAddedMerchantProps = {
 }
 
 const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }) => {
+    // DEBUG
+    const debug = useSelector((state: RootState) => state.misc.debug);
+
     // Modal State
     const [openEdit, setOpenEdit] = React.useState(false);
     const handleOpenEdit = () => setOpenEdit(true);
@@ -56,8 +62,10 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
     return (
         <Container sx={containerOuterStyle} disableGutters>
             <TileMerchant likes={likes} tile={merchant.merchant.properties} index={1}/>
-            <div>   documentid={merchant.documentid} <br/>
-                    visible={merchant.merchant.properties?.visible ? 1 : 0} </div>
+            { debug ? (<div>  
+                <span style={{ border: '1px solid black', padding: '1px' }}>documentid={merchant.documentid}</span> <br/>
+                <span style={{ border: '1px solid black', padding: '1px' }}>visible={merchant.merchant.properties?.visible ? 1 : 0}</span>
+            </div>) : null}
             <Box sx={{ ...containerBottomInsideStyle, mt: 2 }}>
                 <ButtonUniversal
                         icon={IconEdit}
@@ -118,7 +126,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
                         }}
                     >
                         Delete spot {merchant.merchant.properties.title} <br/>
-                        documentid={merchant.documentid}
+                        
                         <span onClick={handleCloseDelete}>
                             <Box
                                 component="img"
@@ -132,6 +140,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
                             />
                         </span>
                     </Typography>
+                    <span style={{ border: '1px solid black', padding: '1px' }}>documentid={merchant.documentid}</span>
                     <Box display="flex" justifyContent="flex-end" mt={2}>
                         <ButtonUniversal 
                             title="Cancel" 
