@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import ButtonUniversal from "../components/ButtonUniversal";
 import UploadingImagesSpot from "../components/UploadingImagesSpot";
 //Firebase
-import { db/*, storage*/ } from "../components/Firebase"; // Ensure Firebase is correctly initialized
+import { db, storage } from "../components/Firebase"; // Ensure Firebase is correctly initialized
 import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 //Redux+RTK
@@ -64,7 +64,32 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
             // Step 2: Add the e-shop to Firestore and get the generated document ID
             const docRef = await addDoc(collection(db, "eshops"), newEshop);
             console.log("E-shop added with ID: ", docRef.id);
-
+            
+            if (files.length > 0) {
+                const file = files[0];
+            
+                if (file.size === 0) {
+                    console.error("Selected file is empty. Please select a valid image.");
+                    return;
+                }
+            
+                if (!file.type.startsWith("image/")) {
+                    console.error("Selected file is not an image.");
+                    return;
+                }
+            
+                console.log("Uploading file:", file.name, "Size:", file.size);
+            
+                const storageRef = ref(storage, `eshop-logos/${docRef.id}-${file.name}`);
+                await uploadBytes(storageRef, file);
+                console.log("Image uploaded:", file.name);
+            
+                const imageUrl = await getDownloadURL(storageRef);
+                console.log("Image URL:", imageUrl);
+            
+                await updateDoc(doc(db, "eshops", docRef.id), { logoUrl: imageUrl });
+                console.log("Firestore updated with image URL");
+            }            
         } catch (error) {
             console.error("Error adding e-shop: ", error);
         }
@@ -119,7 +144,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
             return null; // ✅ Return null if compression fails
         }
     };
-    const DebugPopulateDummyEshop = () => {
+    const DebugPopulateDummyEshop = async () => {
         const randomNumber = Math.floor(Math.random() * 10000) + 1;
 
         // Using string interpolation for cleaner code
@@ -129,18 +154,21 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
         if (descriptionRef.current) descriptionRef.current.value = `This is a dummy description ${randomNumber} for testing.`;
         if (webRef.current) webRef.current.value = `https://www.example${randomNumber}.com`;
 
-        // Use a static image from public/
-        const imageFile = new File([new Blob([new Uint8Array([])])], "foto-polis.png", {
-            type: "image/png",
-        });
-
-        // Assign a preview URL for the image, which will be served from the public folder
-        const fileWithPreview = Object.assign(imageFile, {
-            preview: "/foto-polis.png", // Path relative to the public folder
-        });
-
-        setFiles([fileWithPreview]);
-        console.log("Dummy image added:", fileWithPreview);
+        try {
+            const response = await fetch("/foto-polis.png"); // Ensure this file exists in `public/`
+            const blob = await response.blob();
+            const dummyFile = new File([blob], "foto-polis.png", { type: blob.type });
+    
+            // Generate a proper preview URL
+            const fileWithPreview = Object.assign(dummyFile, {
+                preview: URL.createObjectURL(dummyFile),
+            });
+    
+            setFiles([fileWithPreview]);
+            console.log("Dummy image added:", fileWithPreview);
+        } catch (error) {
+            console.error("Failed to load dummy image:", error);
+        }
     };
     
     //
