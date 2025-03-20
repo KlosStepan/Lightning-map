@@ -16,6 +16,7 @@ import {
     where,
     addDoc,
 } from "firebase/firestore";
+import { getStorage } from "firebase/storage"; // Import Firebase Storage
 //TODO Prepare Login/Reg here and export it
 //https://blog.logrocket.com/user-authentication-firebase-react-apps/
 
@@ -35,6 +36,7 @@ const app = initializeApp(firebaseConfig);
 //Initialize Firebase Services
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app); // Initialize Firebase Storage
 const googleProvider = new GoogleAuthProvider();
 
 const signInWithGoogle = async () => {
@@ -95,6 +97,7 @@ const logout = () => {
 export {
     auth,
     db,
+    storage, // Export storage
     signInWithGoogle,
     logInWithEmailAndPassword,
     registerWithEmailAndPassword,
