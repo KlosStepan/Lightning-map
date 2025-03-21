@@ -87,7 +87,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                 const imageUrl = await getDownloadURL(storageRef);
                 console.log("Image URL:", imageUrl);
             
-                await updateDoc(doc(db, "eshops", docRef.id), { logoUrl: imageUrl });
+                await updateDoc(doc(db, "eshops", docRef.id), { logo: imageUrl });
                 console.log("Firestore updated with image URL");
             }            
         } catch (error) {
@@ -97,12 +97,57 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
     //verify logo changed(/not) vv
     //|- run process prepLogo
     //Promise (data, (/logo) ) -> Firebase (& OK|FAIL)
-    const UpdateEshop = () => {
-        //I already know Eshop.documentID (thus, can upload)
-        console.log("documentid=", documentid)
-        const updatedEshopWrapped = WrapEshopData({ updStatus: true });
-        console.log("Updating updatedEshopWrapped: ", updatedEshopWrapped);
+    const UpdateEshop = async () => {
+        if (!documentid) {
+            console.error("No document ID provided.");
+            return;
+        }
+    
+        try {
+            // Prepare updated e-shop data
+            const updatedEshop = WrapEshopData({ updStatus: true });
+            console.log("Updating e-shop with data:", updatedEshop);
+    
+            // Ensure it's properly structured for Firestore update
+            await updateDoc(doc(db, "eshops", documentid), { ...updatedEshop });
+            console.log("E-shop document updated.");
+    
+            // Step 2: Handle logo update if a new file is uploaded
+            if (files.length > 0) {
+                const file = files[0];
+    
+                if (file.size === 0) {
+                    console.error("Selected file is empty.");
+                    return;
+                }
+    
+                if (!file.type.startsWith("image/")) {
+                    console.error("Selected file is not an image.");
+                    return;
+                }
+    
+                console.log("Uploading new logo:", file.name, "Size:", file.size);
+    
+                // Upload new logo to Firebase Storage
+                const storageRef = ref(storage, `eshop-logos/${documentid}-${file.name}`);
+                await uploadBytes(storageRef, file);
+                console.log("New logo uploaded.");
+    
+                // Get download URL
+                const newImageUrl = await getDownloadURL(storageRef);
+                console.log("New image URL:", newImageUrl);
+    
+                // Step 3: Update Firestore with the new logo URL
+                await updateDoc(doc(db, "eshops", documentid), { logo: newImageUrl });
+                console.log("Firestore updated with new logo.");
+            } else {
+                console.log("No new logo uploaded, skipping logo update.");
+            }
+        } catch (error) {
+            console.error("Error updating e-shop: ", error);
+        }
     };
+    
     const WrapEshopData = ({ updStatus }: { updStatus: boolean }): IEshop => ({
         id: updStatus ? eshop?.id || "" : uuidv4(), 
         country: "CZ", //[ ] TODO - implement FE on form (TLD/IP)
