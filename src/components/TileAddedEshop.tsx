@@ -4,6 +4,10 @@ import { Container, Box, Modal, Typography } from '@mui/material';
 //Components
 import ButtonUniversal from "../components/ButtonUniversal";
 import TileEshop from './TileEshop';
+//Firebase
+import { db, storage } from "../components/Firebase";
+import { deleteDoc, doc } from "firebase/firestore";
+import { deleteObject, ref } from "firebase/storage";
 //Forms
 import FormEditEshop from '../forms/FormEditEshop';
 //TypeScript
@@ -15,6 +19,7 @@ import { RootState } from "../redux-rtk/store";
 import IconEdit from '../icons/ico-btn-edit.png';
 import IconTrash from '../icons/ico-btn-trash.png';
 import closeIcon from '../icons/close.png';
+import { User } from 'firebase/auth';
 
 const containerOuterStyle = {
     padding: '10px 16px 10px 16px !important',
@@ -43,7 +48,9 @@ type TileAddedEshopProps = {
 const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
     // DEBUG
     const debug = useSelector((state: RootState) => state.misc.debug);
-       
+
+    // Check if the user owns the e-shop (optional, based on user UID)
+    const user = useSelector((state: RootState) => state.misc.user);
     // Modal State
     const [openEdit, setOpenEdit] = React.useState(false);
     const handleOpenEdit = () => setOpenEdit(true);
@@ -53,14 +60,35 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
     const handleOpenDelete = () => setOpenDelete(true);
     const handleCloseDelete = () => setOpenDelete(false);
 
-    const FuncDelete = (_eshop: string): Promise<void> => {
-        if (debug) {
-            console.log("documentid=", eshop.documentid)
-            console.log("Calling Delete on E-shop. ", _eshop);
-        }
-        //TODO Firebase -> HTTP DELETE, check against user UID (& OK|FAIL delete) //eshop's ref&/ID + DEL photos too
-        return Promise.resolve();
+// Assuming you already have access to `db` (Firestore) and `storage` (Firebase Storage)
+const FuncDelete = async (_eshop: IEshopADWrapper, user:any): Promise<void> => {
+    if (debug) {
+        console.log("Deleting E-shop with ID:", _eshop.documentid);
     }
+
+    try {
+
+        if (user?.uid !== _eshop.eshop.owner) {
+            console.error("You do not have permission to delete this e-shop.");
+            return;
+        }
+
+        // Step 1: Delete the image from Firebase Storage
+        if (_eshop.eshop.logo && _eshop.eshop.logo !== "N/A") {
+            const storageRef = ref(storage, `eshop-logos/${_eshop.documentid}-${_eshop.eshop.logo.split("/").pop()}`);
+            await deleteObject(storageRef);
+            console.log("Image deleted from Firebase Storage:", _eshop.eshop.logo);
+        }
+
+        // Step 2: Delete the e-shop document from Firestore
+        const docRef = doc(db, "eshops", _eshop.documentid);
+        await deleteDoc(docRef);
+        console.log("E-shop document deleted from Firestore:", _eshop.documentid);
+
+    } catch (error) {
+        console.error("Error deleting e-shop:", error);
+    }
+};
 
     return (
         <Container sx={containerOuterStyle} disableGutters>
@@ -155,7 +183,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
                             title={"Delete"}
                             color="#F23CFF"
                             textColor="white"
-                            actionDelegate={ () => { FuncDelete(eshop.eshop.name); } }
+                            actionDelegate={ () => { FuncDelete(eshop, user); } }
                         />
                     </Box>
                 </Box>
