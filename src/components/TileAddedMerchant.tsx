@@ -2,14 +2,16 @@ import React from "react";
 import { Container, Box, Modal, Typography } from '@mui/material';
 //Components
 import ButtonUniversal from "./ButtonUniversal";
+//enums
+import { ButtonSide } from "../enums";
 //Forms
 import FormEditSpot from "../forms/FormEditSpot";
-//TypeScript
-import { IMerchantTile, IMerchantADWrapper } from "../ts/IMerchant";
-import TileMerchant from "./TileMerchant";
 //Redux/RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
+//TypeScript
+import { IMerchantTile, IMerchantADWrapper } from "../ts/IMerchant";
+import TileMerchant from "./TileMerchant";
 //Icon
 import IconEdit from '../icons/ico-btn-edit.png';
 import IconTrash from '../icons/ico-btn-trash.png';
@@ -71,7 +73,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
             <Box sx={{ ...containerBottomInsideStyle, mt: 2 }}>
                 <ButtonUniversal
                         icon={IconEdit}
-                        side="R"
+                        side={ButtonSide.Right}
                         title="EDIT"
                         color="#F23CFF"
                         textColor="white"
@@ -80,7 +82,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
                 &nbsp;
                 <ButtonUniversal
                     icon={IconTrash}
-                    side="R"
+                    side={ButtonSide.Right}
                     title="DELETE"
                     color="#8000FF"
                     textColor="white"

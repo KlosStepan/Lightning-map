@@ -1,4 +1,7 @@
 import React from 'react';
+//enums
+import { ButtonSide } from '../enums';
+//MUI
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
@@ -36,7 +39,8 @@ const textStyles = {
 
 type ButtonUniversalProps = {
     icon?: string;
-    side?: 'L' | 'R';
+    //side?: 'L' | 'R';
+    side?: ButtonSide
     title: string;
     color: string;
     textColor: string;

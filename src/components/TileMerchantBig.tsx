@@ -1,13 +1,10 @@
 import React from "react";
-//MUI
-import Box from '@mui/material/Box';
-import { CardMedia, Container, Grid } from '@mui/material';
-import Typography from '@mui/material/Typography';
-import { useMediaQuery, useTheme } from "@mui/material";
 //Components
 import ButtonUniversal from "./ButtonUniversal";
 import TagMerchant from "./TagMerchant";
 import TagSocialLink from "./TagSocialLink";
+//enums
+import { ButtonSide } from "../enums";
 //TypeScript
 import { IMerchantTile } from "../ts/IMerchant";
 import ISocial from "../ts/ISocial";
@@ -15,6 +12,11 @@ import ISocial from "../ts/ISocial";
 import closeIcon from '../icons/close.png';
 import IconExclamationMark from "../icons/warning-box.png";
 import IconLightningNumber from "../icons/IconLightningNumber";
+//MUI
+import Box from '@mui/material/Box';
+import { CardMedia, Container, Grid } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import { useMediaQuery, useTheme } from "@mui/material";
 //Redux
 import { useDispatch } from 'react-redux';
 import { setSelected } from "../redux-rtk/mapFilteringSlice";
@@ -111,7 +113,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ tile }) => {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
                     <ButtonUniversal
                         icon={IconExclamationMark}
-                        side="L"
+                        side={ButtonSide.Left}
                         title="Report"
                         color="white"
                         textColor="#BEBEBE"
@@ -121,7 +123,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ tile }) => {
                         <IconLightningNumber number="777" scale={1.1} />
                         <span>&nbsp; &nbsp;</span>
                         <ButtonUniversal
-                        side="L"
+                        side={ButtonSide.Left}
                         title="Navigate"
                         color="#F23CFF"
                         textColor="white"

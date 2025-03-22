@@ -1,15 +1,18 @@
 import React from "react";
+//Components
+import ButtonUniversal from "./ButtonUniversal";
+//enums
+import { ButtonSide } from "../enums"; // Adjust the path as needed
 //MUI
 import Box from '@mui/material/Box';
 import { CardMedia, Container } from '@mui/material';
 import Typography from '@mui/material/Typography';
-//Components
-import ButtonUniversal from "./ButtonUniversal";
 //TypeScript
 import IEshop from "../ts/IEeshop";
 //Icons
 import IconExclamationMark from "../icons/warning-box.png";
 import IconLightningNumber from "../icons/IconLightningNumber";
+
 
 const containerOuterStyle = {
     padding: '10px 16px 10px 16px !important',
@@ -46,7 +49,7 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
                             {showReportButton && (
                                 <ButtonUniversal
                                     icon={IconExclamationMark}
-                                    side="L"
+                                    side={ButtonSide.Left}
                                     title="R."
                                     color="white"
                                     textColor="#BEBEBE"
@@ -55,6 +58,15 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
                             )}
                         </div>
                         <IconLightningNumber number={likes} scale={0.85} />
+                        {/*
+                        <ButtonUniversal
+                            icon={IconExclamationMark}
+                            side={ButtonSide.Left}
+                            title="7"
+                            color="white"
+                            textColor="#BEBEBE"
+                            actionDelegate={FuncReport}
+                        />*/}
                     </div>
                     <CardMedia
                         component="img"

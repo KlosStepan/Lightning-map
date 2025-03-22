@@ -4,6 +4,8 @@ import { Container, Box, Modal, Typography } from '@mui/material';
 //Components
 import ButtonUniversal from "../components/ButtonUniversal";
 import TileEshop from './TileEshop';
+//enums
+import { ButtonSide } from '../enums';
 //Firebase
 import { db, storage } from "../components/Firebase";
 import { deleteDoc, doc } from "firebase/firestore";
@@ -100,7 +102,7 @@ const FuncDelete = async (_eshop: IEshopADWrapper, user:any): Promise<void> => {
             <Box sx={{ ...containerBottomInsideStyle, mt: 2 }}>
                 <ButtonUniversal
                     icon={IconEdit}
-                    side="R"
+                    side={ButtonSide.Right}
                     title="EDIT"
                     color="#F23CFF"
                     textColor="white"
@@ -109,7 +111,7 @@ const FuncDelete = async (_eshop: IEshopADWrapper, user:any): Promise<void> => {
                 &nbsp;
                 <ButtonUniversal
                     icon={IconTrash}
-                    side="R"
+                    side={ButtonSide.Right}
                     title="DELETE"
                     color="#8000FF"
                     textColor="white"

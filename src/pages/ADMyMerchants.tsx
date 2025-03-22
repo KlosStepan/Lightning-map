@@ -7,18 +7,21 @@ import Modal from "@mui/material/Modal";
 import ADMenu from "../components/ADMenu";
 import TileAddedMerchant from "../components/TileAddedMerchant";
 import ButtonUniversal from "../components/ButtonUniversal";
+//enums
+import { ButtonSide } from "../enums";
 //Firebase
 import { Firestore, QuerySnapshot, DocumentData, collection, getDocs, query, where } from "firebase/firestore";
 import { auth, db } from "../components/Firebase";
 //Forms
 import FormAddSpot from "../forms/FormAddSpot";
-//TypeScript
-import IMerchant from "../ts/IMerchant";
-import { IMerchantADWrapper } from "../ts/IMerchant";
 //Redux+RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
 import { setUserMerchants, setUserEshops } from "../redux-rtk/miscSlice";
+//TypeScript
+import IMerchant from "../ts/IMerchant";
+import { IMerchantADWrapper } from "../ts/IMerchant";
+
 //Icons
 import IconPlus from '../icons/ico-btn-plus.png';
 
@@ -113,7 +116,7 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
                                 </Typography>
                             </Grid>
                             <Grid item xs={6} container justifyContent="flex-end">
-                                <ButtonUniversal icon={IconPlus} side="L" title="Add spot" color="#F23CFF" textColor="white" actionDelegate={FuncAddSpot} />
+                                <ButtonUniversal icon={IconPlus} side={ButtonSide.Left} title="Add spot" color="#F23CFF" textColor="white" actionDelegate={FuncAddSpot} />
                             </Grid>
                         </Grid>
                         <Grid container spacing={2}>
