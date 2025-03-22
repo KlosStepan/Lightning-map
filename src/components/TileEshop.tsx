@@ -9,10 +9,10 @@ import { CardMedia, Container } from '@mui/material';
 import Typography from '@mui/material/Typography';
 //TypeScript
 import IEshop from "../ts/IEeshop";
+
 //Icons
 import IconExclamationMark from "../icons/warning-box.png";
 import IconLightningNumber from "../icons/IconLightningNumber";
-
 
 const containerOuterStyle = {
     padding: '10px 16px 10px 16px !important',
@@ -39,7 +39,10 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
         console.log("Report eshop");
         return Promise.resolve();
     };
-
+    const FunctRate = (): Promise<void> => {
+        console.log("Rating eshop");
+        return Promise.resolve();
+    }
     return (
         <React.Fragment>
             <Container maxWidth="sm" sx={{ ...containerOuterStyle }}>
@@ -58,26 +61,31 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
                             )}
                         </div>
                         <IconLightningNumber number={likes} scale={0.85} />
-                        {/*
-                        <ButtonUniversal
-                            icon={IconExclamationMark}
-                            side={ButtonSide.Left}
-                            title="7"
-                            color="white"
-                            textColor="#BEBEBE"
-                            actionDelegate={FuncReport}
-                        />*/}
                     </div>
-                    <CardMedia
-                        component="img"
-                        style={{ margin: '24px 0px' }}
-                        image={tile.logo}
-                        alt={tile.name}
-                    />
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            height: "200px",  // ✅ Set height to control vertical centering
+                            width: "100%",
+                        }}
+                    >
+                        <CardMedia
+                            component="img"
+                            image={tile.logo}
+                            alt={tile.name}
+                            sx={{
+                                maxWidth: "100%",  // ✅ Adjust width if needed
+                                maxHeight: "100%", // ✅ Prevent overflow
+                                objectFit: "contain", // ✅ Ensure the image fits inside
+                            }}
+                        />
+                    </Box>
                     <Typography variant="h2" component="h2" style={{ textAlign: 'left' }}>
                         {tile.name}
                     </Typography>
-                    <p  style={{ textAlign: 'left', fontSize: '16px', marginTop:'10px', color: '#6B7280' }}>
+                    <p style={{ textAlign: 'left', fontSize: '16px', marginTop:'10px', color: '#6B7280' }}>
                         {tile.description}
                     </p>
                 </Box>
