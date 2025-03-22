@@ -1,8 +1,4 @@
 import React from "react";
-//MUI
-import { Box, Container, Grid } from "@mui/material";
-import { useTheme, useMediaQuery } from '@mui/material';
-import Modal from "@mui/material/Modal";
 //Components
 import ButtonUniversal from "../components/ButtonUniversal";
 import LeafletMapTwo from "../components/LeafletMapTwo";
@@ -11,24 +7,30 @@ import TileMerchant from "../components/TileMerchant";
 import TileMerchantBig from "../components/TileMerchantBig";
 import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
 import Footer from "../components/Footer";
+//enums
+import { ButtonSide } from "../enums";
+//Forms - our custom
+import FormAddSpot from "../forms/FormAddSpot";
+import CardSpot from "../forms/mobilecontentcards/CardSpot";
+import { cardStyle } from '../forms/stylesForm';
+//MUI
+import { Box, Container, Grid } from "@mui/material";
+import { useTheme, useMediaQuery } from '@mui/material';
+import Modal from "@mui/material/Modal";
+import { GlobalStyles } from "@mui/material";
 //Router
 import {  useNavigate } from "react-router-dom";
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
 import { setFiltering, setSelected } from "../redux-rtk/mapFilteringSlice";
-//TypeScript
-import IMerchant from "../ts/IMerchant";
-//Forms - our custom
-import FormAddSpot from "../forms/FormAddSpot";
-//Icons
-import IconPlus from '../icons/ico-btn-plus.png';
 //Slider
 import { Swiper, SwiperSlide } from "swiper/react";
-//import "swiper/swiper-bundle.min.css";
-import { GlobalStyles } from "@mui/material";
-import CardSpot from "../forms/mobilecontentcards/CardSpot";
-import { cardStyle } from '../forms/stylesForm';
+//TypeScript
+import IMerchant from "../ts/IMerchant";
+
+//Icons
+import IconPlus from '../icons/ico-btn-plus.png';
 
 const filters = ["Food & Drinks", "Shops", "Services"];
 
@@ -178,7 +180,7 @@ const Map: React.FC<MapProps> = ({ }) => {
                 >
                   <ButtonUniversal
                     icon={IconPlus}
-                    side="L"
+                    side={ButtonSide.Left}
                     title="Add spot"
                     color="#F23CFF"
                     textColor="white"

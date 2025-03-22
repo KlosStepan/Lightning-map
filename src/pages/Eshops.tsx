@@ -1,14 +1,18 @@
 import React from "react";
-//MUI
-import { Box, Container, Grid } from "@mui/material";
-import { useTheme, useMediaQuery } from '@mui/material';
-import Modal from "@mui/material/Modal";
 //Components
 import SearchFiddle from "../components/SearchFiddle";
 import ButtonUniversal from "../components/ButtonUniversal";
 import TileEshop from "../components/TileEshop";
 import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
 import Footer from "../components/Footer";
+//enums
+import { ButtonSide } from "../enums";
+//Forms - our custom
+import FormAddEshop from "../forms/FormAddEshop";
+//MUI
+import { Box, Container, Grid } from "@mui/material";
+import { useTheme, useMediaQuery } from '@mui/material';
+import Modal from "@mui/material/Modal";
 //Router
 import { useNavigate } from "react-router-dom";
 //Redux
@@ -16,8 +20,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
 //TypeScript
 import IEshop from "../ts/IEeshop";
-//Forms - our custom
-import FormAddEshop from "../forms/FormAddEshop";
+
 //Icons
 import IconPlus from '../icons/ico-btn-plus.png';
 
@@ -86,7 +89,7 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                         >
                             <ButtonUniversal 
                                 icon={IconPlus} 
-                                side="L" 
+                                side={ButtonSide.Left}
                                 title="Add e-shop" 
                                 color="#F23CFF" 
                                 textColor="white" 
