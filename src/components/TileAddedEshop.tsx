@@ -13,7 +13,7 @@ import { deleteObject, ref } from "firebase/storage";
 //Forms
 import FormEditEshop from '../forms/FormEditEshop';
 //TypeScript
-import IEshop, { IEshopADWrapper } from '../ts/IEeshop';
+import IEshop, { IEshopADWrapper } from '../ts/IEshop';
 //Redux/RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";

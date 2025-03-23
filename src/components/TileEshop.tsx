@@ -3,12 +3,20 @@ import React, { useState } from "react";
 import ButtonUniversal from "./ButtonUniversal";
 //enums
 import { ButtonSide } from "../enums";
+//Forms
+import FormSubmitReport from "../forms/FormSubmitReport";
 //MUI
 import Box from '@mui/material/Box';
+import Modal from "@mui/material/Modal";
 import { CardMedia, Container } from '@mui/material';
 import Typography from '@mui/material/Typography';
+//Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from "../redux-rtk/store";
+//Router
+import {  useNavigate } from "react-router-dom";
 //TypeScript
-import IEshop from "../ts/IEeshop";
+import IEshop from "../ts/IEshop";
 
 //Icons
 import IconExclamationMark from "../icons/warning-box.png";
@@ -34,8 +42,11 @@ type TileEshopProps = {
     tile: IEshop;
     showReportButton?: boolean;
 };
-
 const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = true }) => {
+    const navigate = useNavigate();
+    //
+    const user = useSelector((state: RootState) => state.misc.user);
+
     //tmp debug; mby TODO clicked other - reset state of this to default false
     const [voted, setVoted] = useState<boolean>(false);
 
@@ -44,10 +55,22 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
         setVoted(prev => !prev);
         return Promise.resolve();
     };
+    //
     const FuncReport = (): Promise<void> => {
-        console.log("Report eshop");
+        console.log("Report merchant");
+        if(!user) {
+            navigate('/login')
+          }
+          else {
+            console.log("logged in")
+            handleOpenReportE()
+          }
         return Promise.resolve();
     };
+    // Modal State
+    const [openReportE, setOpenReportE] = React.useState(false);
+    const handleOpenReportE = () => setOpenReportE(true);
+    const handleCloseReportE = () => setOpenReportE(false);
     return (
         <React.Fragment>
             <Container maxWidth="sm" sx={{ ...containerOuterStyle }}>
@@ -104,6 +127,20 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
                     </p>
                 </Box>
             </Container>
+            <Modal
+                open={openReportE}
+                onClose={handleCloseReportE}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                style={{overflow: 'scroll'}}
+              >
+                <Box>
+                    <FormSubmitReport
+                        closeModal={handleCloseReportE}
+                        tile={tile}
+                    />
+                </Box>
+              </Modal>
         </React.Fragment>
     );
 };

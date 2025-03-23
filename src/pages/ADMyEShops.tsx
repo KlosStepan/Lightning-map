@@ -15,8 +15,8 @@ import { auth, db } from "../components/Firebase";
 //Forms
 import FormAddEshop from "../forms/FormAddEshop";
 //TypeScript
-import IEshop from "../ts/IEeshop";
-import { IEshopADWrapper } from "../ts/IEeshop";
+import IEshop from "../ts/IEshop";
+import { IEshopADWrapper } from "../ts/IEshop";
 //Redux+RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";

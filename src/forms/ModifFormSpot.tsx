@@ -42,7 +42,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
     }
 
     //Fields - 5x input
-    const titleRef = useRef<HTMLInputElement>(null);
+    const nameRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLInputElement>(null);
     const addressRef = useRef<HTMLInputElement>(null);
     const cityRef = useRef<HTMLInputElement>(null);
@@ -107,7 +107,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
             owner: user?.uid  || "", //[x] TODO fill from Firebase profile
             socials: socials || [],
             tags: [], //[ ] TODO Implement FE on Form 
-            title: titleRef.current?.value || "",
+            name: nameRef.current?.value || "",
             visible: updStatus, //[x] Add->false, Update->true
         },
         type: "Feature" //[x] Always Feature
@@ -122,7 +122,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         // Using string interpolation for cleaner code
         console.log(`DebugPopulateDummySpot() called; Spot: ${randomNumber}`);
         
-        if (titleRef.current) titleRef.current.value = `Dummy Spot Title ${randomNumber}`;
+        if (nameRef.current) nameRef.current.value = `Dummy Spot Title ${randomNumber}`;
         if (descriptionRef.current) descriptionRef.current.value = `A brief dummy ${randomNumber} description.`;
         if (addressRef.current) addressRef.current.value = `123 Dummy Street`;
         if (cityRef.current) cityRef.current.value = `Dummy City`;
@@ -160,8 +160,8 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                     <Typography variant="h2" component="h5">Title</Typography>
                     <TextField
                         fullWidth
-                        inputRef={titleRef}
-                        defaultValue={edit ? merchant?.title : ""}
+                        inputRef={nameRef}
+                        defaultValue={edit ? merchant?.name : ""}
                     />
                 </Box>
                 <Box mt={2}>

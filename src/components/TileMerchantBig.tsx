@@ -96,7 +96,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ tile }) => {
                             <CardMedia
                                 component="img"
                                 image={dummyImgBigTile}
-                                alt={tile.title}
+                                alt={tile.name}
                             />
                         </Grid>
                         {/* RIGHT - Content section */}
@@ -120,7 +120,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ tile }) => {
                                 }
                             </div>
                             <Typography variant="h1" component="h2" sx={{ textAlign: 'left', mt: 1 }}>
-                                {tile.title}
+                                {tile.name}
                             </Typography>
                             <Typography sx={{ textAlign: 'left', fontSize: '16px', mt: 1, color: '#6B7280' }}>
                                 {`${tile.address.address} ${tile.address.city} ${tile.address.postalCode}`}

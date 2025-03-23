@@ -1,4 +1,7 @@
+// ts/IMerchant.ts
+import IBaseEntity from "./IBaseEntity"; // Import IBaseEntity
 import ISocial from "./ISocial";
+
 // Define the ISocial type for individual social links
 /*interface ISocial {
   network: 'web' | 'facebook' | 'instagram' | 'twitter'; // Supported networks
@@ -13,14 +16,9 @@ interface IAddress {
   postalCode: string; // Postal code
 }
 
-// Define the IMerchantTile type for the properties of a merchant
-interface IMerchantTile {
-  id: string; // js lib uuidv4()
-  owner: string | undefined; // Owner ID, can be undefined
-  visible: boolean; // Visibility status
+// Define IMerchantTile extending IBaseEntity
+interface IMerchantTile extends IBaseEntity {
   image: string;
-  title: string; // Merchant title
-  description: string; // Description of the merchant
   address: IAddress; // Address object of type IAddress
   tags: string[]; // Array of tags like ["Shops", "Services"]
   socials: ISocial[]; // Array of ISocial objects

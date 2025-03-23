@@ -5,10 +5,7 @@ import Typography from '@mui/material/Typography';
 //Forms
 import ModifFormEshop from "./ModifFormEshop";
 //TypeScript
-import IEshop from "../ts/IEeshop";
-//Redux/RTK
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from "../redux-rtk/store";
+import IEshop from "../ts/IEshop";
 //Icons + Styles
 import closeIcon from '../icons/close.png';
 import { modalContainerStyle, modalTitleStyle, closeIconStyle } from "./stylesForm";
@@ -20,9 +17,7 @@ type FormEditEshopProps = {
 };
 
 const FormEditEshop: React.FC<FormEditEshopProps> = ({ closeModal, eshop, documentid }) => {
-    // DEBUG
-    const debug = useSelector((state: RootState) => state.misc.debug);
-       
+    
     return (
         <React.Fragment>
             <Box sx={modalContainerStyle}>
@@ -37,7 +32,7 @@ const FormEditEshop: React.FC<FormEditEshopProps> = ({ closeModal, eshop, docume
                         />
                     </span>
                 </Typography>
-                { debug ? (<div><span style={{ border: '1px solid black', padding: '1px' }}>documentid={documentid}</span></div>) : null } {/* ✅ Display for testing */}
+                <div><span style={{ border: '1px solid black', padding: '1px' }}>documentid={documentid}</span></div> {/* ✅ Display for testing */}
                 <ModifFormEshop FuncCancel={closeModal} edit={true} eshop={eshop} documentid={documentid} />
             </Box>
         </React.Fragment>

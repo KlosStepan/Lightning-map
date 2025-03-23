@@ -68,7 +68,7 @@ const TileMerchant: React.FC<TileMerchantProps> = ({likes, tile, index }) => {
                     component="img"
                     //TODO vv fix
                     image={tile.image === "dummyImgTile1" ? dummyImgTile1 : tile.image === "dummyImgTile2" ? dummyImgTile2 : tile.image}
-                    alt={tile.title}
+                    alt={tile.name}
                 />
                 <Box sx={{ ...topRight }}>
                     <IconLightningNumber number={likes} />
@@ -81,7 +81,7 @@ const TileMerchant: React.FC<TileMerchantProps> = ({likes, tile, index }) => {
             </Box>
             <Box sx={{ ...containerInnerStyleDown }}>
                 <Typography variant="h2" component="h2" >
-                    {tile.title}
+                    {tile.name}
                 </Typography>
                 <p style={{ fontSize: '16px',  color:'#6B7280', fontFamily: 'IBM Plex Sans Condensed', marginTop:'2px' }}>{tile.address.address + ' ' + tile.address.city + ' ' + tile.address.postalCode}</p>
             </Box>

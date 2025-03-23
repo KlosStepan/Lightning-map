@@ -14,7 +14,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { RootState } from "../redux-rtk/store";
 import { useSelector } from "react-redux";
 //TypeScript
-import IEshop from "../ts/IEeshop";
+import IEshop from "../ts/IEshop";
 import imageCompression from 'browser-image-compression';
 //
 import { v4 as uuidv4 } from 'uuid';

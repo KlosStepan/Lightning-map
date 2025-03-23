@@ -129,7 +129,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
                             alignItems: 'center',
                         }}
                     >
-                        Delete spot {merchant.merchant.properties.title} <br/>
+                        Delete spot {merchant.merchant.properties.name} <br/>
                         
                         <span onClick={handleCloseDelete}>
                             <Box
@@ -156,7 +156,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
                             title={"Delete"}
                             color="#F23CFF"
                             textColor="white"
-                            actionDelegate={ () => { FuncDelete(merchant.merchant.properties.title); } }
+                            actionDelegate={ () => { FuncDelete(merchant.merchant.properties.name); } }
                         />
                     </Box>
                 </Box>

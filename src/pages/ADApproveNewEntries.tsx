@@ -13,7 +13,7 @@ import { Firestore, QuerySnapshot, DocumentData, collection, getDocs, query, whe
 import { auth, db } from "../components/Firebase";
 //TypeScript
 import IMerchant from "../ts/IMerchant";
-import IEshop from "../ts/IEeshop";
+import IEshop from "../ts/IEshop";
 //Pwnspinner
 import { Pwnspinner } from "pwnspinner";
 
@@ -89,7 +89,7 @@ const ADApproveNewEntries: React.FC<ADApproveNewEntriesProps> = ({ }) => {
                                             .map((merchant) => (
                                                 <ListItem key={merchant.properties.id}>
                                                     <ListItemText
-                                                        primary={`${merchant.properties.visible ? "✅" : "🔴"} ${merchant.properties.title}`}
+                                                        primary={`${merchant.properties.visible ? "✅" : "🔴"} ${merchant.properties.name}`}
                                                     />
                                                 </ListItem>
                                         ))}

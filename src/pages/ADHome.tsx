@@ -17,8 +17,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
 import { setUserMerchants, setUserEshops } from "../redux-rtk/miscSlice";
 //TypeScript
-import IEshop from "../ts/IEeshop";
-import { IEshopADWrapper } from "../ts/IEeshop";
+import IEshop from "../ts/IEshop";
+import { IEshopADWrapper } from "../ts/IEshop";
 import IMerchant from "../ts/IMerchant";
 import { IMerchantADWrapper } from "../ts/IMerchant";
 //Images

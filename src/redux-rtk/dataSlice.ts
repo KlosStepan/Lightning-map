@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 //Interfaces of lists
 import IMerchant from '../ts/IMerchant';
-import IEshop from '../ts/IEeshop';
+import IEshop from '../ts/IEshop';
 
 export interface IDataState {
     merchants: IMerchant[] | undefined,

@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
 //TypeScript
-import IEshop from "../ts/IEeshop";
+import IEshop from "../ts/IEshop";
 
 //Icons
 import IconPlus from '../icons/ico-btn-plus.png';

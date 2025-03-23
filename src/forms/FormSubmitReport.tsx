@@ -8,13 +8,14 @@ import Typography from '@mui/material/Typography';
 //TypeScript
 import { IMerchantTile } from "../ts/IMerchant";
 import IReport from "../ts/IReport";
+import IEshop from "../ts/IEshop";
 //Icons + Styles
 import closeIcon from '../icons/close.png';
 import { modalContainerStyle, modalTitleStyle, closeIconStyle } from './stylesForm';
 
 type FormSubmitReportProps = {
     closeModal?: () => void;
-    tile: IMerchantTile; // <- TODO documentid somehow
+    tile: IMerchantTile | IEshop; // <- TODO documentid somehow
 }
 
 const FormSubmitReport: React.FC<FormSubmitReportProps> = ({ closeModal, tile }) => {
@@ -29,7 +30,7 @@ const FormSubmitReport: React.FC<FormSubmitReportProps> = ({ closeModal, tile })
         <React.Fragment>
             <Box sx={modalContainerStyle}>
                 <Typography id="modal-modal-title" variant="h1" component="h2" style={modalTitleStyle} >
-                    <span>Submit report about {tile.title}</span>
+                    <span>Submit report about {tile.name}</span>
                     <span onClick={closeModal}>
                         <Box
                             component="img"
