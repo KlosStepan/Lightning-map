@@ -117,7 +117,7 @@ const Map: React.FC<MapProps> = ({ }) => {
                     }}
                   >
                     <Box style={{ textAlign: 'center' }}>
-                      <LeafletMapTwo data={filteredMerchants} onMerchantSelect={handleMerchantSelect} w={'80vw'} h={'30vh'} />
+                      <LeafletMapTwo data={filteredMerchants ?? []} onMerchantSelect={handleMerchantSelect} w={'80vw'} h={'30vh'} />
                     </Box>
                   </Grid>
                 )}
@@ -234,7 +234,7 @@ const Map: React.FC<MapProps> = ({ }) => {
                     }}
                   >
                     <Box style={{ textAlign: 'center' }}>
-                      <LeafletMapTwo data={filteredMerchants} onMerchantSelect={handleMerchantSelect} />
+                      <LeafletMapTwo data={filteredMerchants ?? []} onMerchantSelect={handleMerchantSelect} />
                     </Box>
                   </Grid>
                 )}
