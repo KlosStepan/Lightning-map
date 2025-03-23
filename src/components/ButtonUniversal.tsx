@@ -24,9 +24,10 @@ const boxContainerStyles = {
     justifyContent: 'center',
 };
 
+//Might not be needed to be 24x24, so commenting out for 16.5 x 24 icon
 const iconStyles = {
-    width: 24,
-    height: 24,
+    //width: 24,
+    //height: 24,
     marginLeft: 1,
 };
 
@@ -39,7 +40,6 @@ const textStyles = {
 
 type ButtonUniversalProps = {
     icon?: string;
-    //side?: 'L' | 'R';
     side?: ButtonSide
     title: string;
     color: string;
@@ -57,7 +57,7 @@ const ButtonUniversal: React.FC<ButtonUniversalProps> = ({ icon, side, title, co
             fullWidth={fullWidth}
         >
             <Box sx={{ ...boxContainerStyles }}>
-                {side === 'L' && icon && (
+                { side === 'L' && icon && (
                     <Box
                         component="img"
                         src={icon}
@@ -68,7 +68,7 @@ const ButtonUniversal: React.FC<ButtonUniversalProps> = ({ icon, side, title, co
                 <Box component="span" sx={{ ...textStyles, color: textColor }}>
                     {title}
                 </Box>
-                {side === 'R' && icon && (
+                { side === 'R' && icon && (
                     <Box
                         component="img"
                         src={icon}

@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 //Components
 import ButtonUniversal from "./ButtonUniversal";
 //enums
-import { ButtonSide } from "../enums"; // Adjust the path as needed
+import { ButtonSide } from "../enums";
 //MUI
 import Box from '@mui/material/Box';
 import { CardMedia, Container } from '@mui/material';
@@ -12,7 +12,8 @@ import IEshop from "../ts/IEeshop";
 
 //Icons
 import IconExclamationMark from "../icons/warning-box.png";
-import IconLightningNumber from "../icons/IconLightningNumber";
+import IconLightningPurple from "../icons/icon-lightning-purple.png";
+import IconLightningNumber from "../icons/IconLightningNumber"; //Icon w/ number Comp.
 
 const containerOuterStyle = {
     padding: '10px 16px 10px 16px !important',
@@ -35,14 +36,18 @@ type TileEshopProps = {
 };
 
 const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = true }) => {
+    //tmp debug; mby TODO clicked other - reset state of this to default false
+    const [voted, setVoted] = useState<boolean>(false);
+
+    const SwapLike = (): Promise<void> => {
+        //if not logged in, redirect to login
+        setVoted(prev => !prev);
+        return Promise.resolve();
+    };
     const FuncReport = (): Promise<void> => {
         console.log("Report eshop");
         return Promise.resolve();
     };
-    const FunctRate = (): Promise<void> => {
-        console.log("Rating eshop");
-        return Promise.resolve();
-    }
     return (
         <React.Fragment>
             <Container maxWidth="sm" sx={{ ...containerOuterStyle }}>
@@ -60,7 +65,16 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
                                 />
                             )}
                         </div>
-                        <IconLightningNumber number={likes} scale={0.85} />
+                        {/*<IconLightningNumber number={likes} scale={0.85} />*/}
+                        <ButtonUniversal
+                            icon={IconLightningPurple}
+                            side={ButtonSide.Left}
+                            title="7"
+                            //color={voted ? "#D9D9D9" : "#F0F0F0"} // Darker when clicked
+                            color={voted ? "#7f7f7f" : "#F0F0F0"} // Darker when clicked
+                            textColor="black"
+                            actionDelegate={SwapLike}
+                        />
                     </div>
                     <Box
                         sx={{
