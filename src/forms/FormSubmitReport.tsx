@@ -1,10 +1,19 @@
 import React, { useRef } from "react";
 //Components
 import ButtonUniversal from "../components/ButtonUniversal";
+// Firebase (modular imports)
+import { getFirestore, collection, addDoc, Timestamp, serverTimestamp } from "firebase/firestore";
+import { getApp } from "firebase/app";
+//import { collection, addDoc, serverTimestamp } from "firebase/firestore"; 
+//import { db } from "../firebase/config"; // Ensure you import Firestore instance
+import { auth, db } from "../components/Firebase";
 //MUI
 import Box from '@mui/material/Box';
 import TextField from "@mui/material/TextField";
 import Typography from '@mui/material/Typography';
+//Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from "../redux-rtk/store";
 //TypeScript
 import { IMerchantTile } from "../ts/IMerchant";
 import IReport from "../ts/IReport";
@@ -19,12 +28,33 @@ type FormSubmitReportProps = {
 }
 
 const FormSubmitReport: React.FC<FormSubmitReportProps> = ({ closeModal, tile }) => {
+    //
+    const user = useSelector((state: RootState) => state.misc.user);
+
     const reportRef = useRef<HTMLInputElement>(null);
 
     const SubmitReport = async () => {
-        const pack: IReport = {vendorid:"asd", userid:"asd", timestamp:"timetamp", report: reportRef.current?.value}
-        console.log("Pack: ", pack)
-        console.log("Submitting a report")
+        if (!user) {
+            console.error("User not logged in.");
+            return;
+        }
+    
+        try {
+            const _vid = tile.id;
+            const _uid = user.uid;
+    
+            const reportData: Omit<IReport, "timestamp"> & { timestamp: any } = {
+                vendorid: _vid,
+                userid: _uid,
+                timestamp: serverTimestamp(), // 🔥 Firestore will generate the timestamp
+                report: reportRef.current?.value || "",
+            };
+    
+            const docRef = await addDoc(collection(db, "reports"), reportData);
+            console.log("Report submitted successfully. Document ID:", docRef.id);
+        } catch (error) {
+            console.error("Error submitting report:", error);
+        }
     };
     return (
         <React.Fragment>
