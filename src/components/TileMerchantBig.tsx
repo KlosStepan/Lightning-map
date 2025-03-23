@@ -10,12 +10,16 @@ import { IMerchantTile } from "../ts/IMerchant";
 import ISocial from "../ts/ISocial";
 //MUI
 import Box from '@mui/material/Box';
+import Modal from "@mui/material/Modal";
 import { CardMedia, Container, Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { useMediaQuery, useTheme } from "@mui/material";
 //Redux
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from "../redux-rtk/store";
 import { setSelected } from "../redux-rtk/mapFilteringSlice";
+//Router
+import {  useNavigate } from "react-router-dom";
 
 //Icons
 import closeIcon from '../icons/close.png';
@@ -24,6 +28,7 @@ import IconLightningPurple from "../icons/icon-lightning-purple.png";
 import IconLightningNumber from "../icons/IconLightningNumber"; //Icon w/ number Comp.
 //Fake images
 import dummyImgBigTile from '../img/image-1-3.png';
+import FormSubmitReport from "../forms/FormSubmitReport";
 
 const containerOuterStyle = {
     padding: '16px 12px',
@@ -49,7 +54,10 @@ type TileMerchantBigProps = {
 };
 
 const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ tile }) => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
+    //
+    const user = useSelector((state: RootState) => state.misc.user);
 
     //tmp debug; mby TODO clicked other - reset state of this to default false
     const [voted, setVoted] = useState<boolean>(false);
@@ -61,8 +69,20 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ tile }) => {
     };
     const FuncReport = (): Promise<void> => {
         console.log("Report merchant");
+        if(!user) {
+            navigate('/login')
+          }
+          else {
+            console.log("logged in")
+            handleOpenReport()
+          }
         return Promise.resolve();
-    }; 
+    };
+    // Modal State
+    const [openReport, setOpenReport] = React.useState(false);
+    const handleOpenReport = () => setOpenReport(true);
+    const handleCloseReport = () => setOpenReport(false);
+
     // Inside the component
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -152,6 +172,20 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ tile }) => {
                     </Grid>
                 </Box>
             </Container>
+            <Modal
+                open={openReport}
+                onClose={handleCloseReport}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                style={{overflow: 'scroll'}}
+              >
+                <Box>
+                    <FormSubmitReport
+                        closeModal={handleCloseReport}
+                        tile={tile}
+                    />
+                </Box>
+              </Modal>
         </React.Fragment>
     );
 };
