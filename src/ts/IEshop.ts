@@ -1,12 +1,10 @@
-interface IEshop {
-    id: string // js lib uuidv4()
-    name: string
-    description: string
-    logo: string
-    country: string
-    url: string
-    owner: string | undefined
-    visible: boolean
+// ts/IEshop.ts
+import IBaseEntity from "./IBaseEntity"; // Import IBaseEntity
+
+interface IEshop extends IBaseEntity {
+  logo: string;
+  country: string;
+  url: string;
 }
 
 interface IEshopADWrapper {
