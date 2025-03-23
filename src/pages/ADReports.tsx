@@ -8,13 +8,13 @@ import ADMenu from "../components/ADMenu";
 import ButtonUniversal from "../components/ButtonUniversal";
 import TileTypeMerchant from '../components/TileTypeMerchant';
 //TypeScript
-import IFeedback from "../ts/IFeedback";
+import IReport from "../ts/IReport";
 
-type ADFeedbackProps = {
+type ADReportsProps = {
 //
 };
 
-const ADFeedback: React.FC<ADFeedbackProps> = ({ }) => {
+const ADReports: React.FC<ADReportsProps> = ({ }) => {
     //Phone detection 
     const theme = useTheme();
     const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
@@ -39,14 +39,14 @@ const ADFeedback: React.FC<ADFeedbackProps> = ({ }) => {
                         <Grid container spacing={2} alignItems="center">
                             <Grid item xs={6}>
                                 <Typography variant="h1" component="h1">
-                                    Feedback (🗲) - listing
+                                    Reports ( ! )  - listing
                                 </Typography>
                             </Grid>
                             {/*<Grid item xs={6} container justifyContent="flex-end">
                                 <ButtonUniversal title="Edit" color="#F23CFF" textColor="white" actionDelegate={()=>{}} />
                             </Grid>*/}
                         </Grid>
-                        <div>-list of users-</div>
+                        <div>-list of reports by users-</div>
                     </Box>
                 </Grid>
             </Grid>
@@ -54,4 +54,4 @@ const ADFeedback: React.FC<ADFeedbackProps> = ({ }) => {
         </React.Fragment>     
     )
 }
-export default ADFeedback
+export default ADReports

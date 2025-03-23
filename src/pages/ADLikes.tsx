@@ -8,13 +8,13 @@ import ADMenu from "../components/ADMenu";
 import ButtonUniversal from "../components/ButtonUniversal";
 import TileTypeMerchant from '../components/TileTypeMerchant';
 //TypeScript
-import IReport from "../ts/IReport";
+import ILike from "../ts/ILike";
 
-type ADReportProps = {
+type ADLikesProps = {
 //
 };
 
-const ADReport: React.FC<ADReportProps> = ({ }) => {
+const ADLikes: React.FC<ADLikesProps> = ({ }) => {
     //Phone detection 
     const theme = useTheme();
     const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
@@ -39,14 +39,14 @@ const ADReport: React.FC<ADReportProps> = ({ }) => {
                         <Grid container spacing={2} alignItems="center">
                             <Grid item xs={6}>
                                 <Typography variant="h1" component="h1">
-                                    Report ( ! )  - listing
+                                    Likes (🗲) - listing
                                 </Typography>
                             </Grid>
                             {/*<Grid item xs={6} container justifyContent="flex-end">
                                 <ButtonUniversal title="Edit" color="#F23CFF" textColor="white" actionDelegate={()=>{}} />
                             </Grid>*/}
                         </Grid>
-                        <div>-list of users-</div>
+                        <div>-list of users liking stuff-</div>
                     </Box>
                 </Grid>
             </Grid>
@@ -54,4 +54,5 @@ const ADReport: React.FC<ADReportProps> = ({ }) => {
         </React.Fragment>     
     )
 }
-export default ADReport
+
+export default ADLikes
