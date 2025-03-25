@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 //Components
 import ButtonUniversal from "./ButtonUniversal";
 import TagMerchant from "./TagMerchant";
 import TagSocialLink from "./TagSocialLink";
 //enums
 import { ButtonSide } from "../enums";
-//TypeScript
-import { IMerchantTile } from "../ts/IMerchant";
-import ISocial from "../ts/ISocial";
+//Firebase
+import { doc, collection, addDoc, deleteDoc, query, where, getDocs } from "firebase/firestore";
+import { serverTimestamp } from "firebase/firestore";
+import { auth, db } from "../components/Firebase";
 //MUI
 import Box from '@mui/material/Box';
 import Modal from "@mui/material/Modal";
@@ -20,6 +21,9 @@ import { RootState } from "../redux-rtk/store";
 import { setSelected } from "../redux-rtk/mapFilteringSlice";
 //Router
 import {  useNavigate } from "react-router-dom";
+//TypeScript
+import { IMerchantTile } from "../ts/IMerchant";
+import ISocial from "../ts/ISocial";
 
 //Icons
 import closeIcon from '../icons/close.png';
@@ -62,10 +66,46 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ tile }) => {
     //tmp debug; mby TODO clicked other - reset state of this to default false
     const [voted, setVoted] = useState<boolean>(false);
 
-    const SwapLike = (): Promise<void> => {
-        //if not logged in, redirect to login
-        setVoted(prev => !prev);
-        return Promise.resolve();
+    // ✅ Check if user has already liked this vendor
+    useEffect(() => {
+        if (!user) return; // Skip if user is not logged in
+
+        const checkLike = async () => {
+            const likeRef = collection(db, "likes");
+            const q = query(likeRef, where("userid", "==", user.uid), where("vendorid", "==", tile.id));
+            const querySnapshot = await getDocs(q);
+
+            if (!querySnapshot.empty) {
+                setVoted(true);
+            }
+        };
+
+        checkLike();
+    }, [user, tile.id]);
+    const SwapLike = async () => {
+        if (!user) {
+            navigate("/login");
+            return;
+        }
+    
+        const likeRef = collection(db, "likes");
+        const q = query(likeRef, where("userid", "==", user.uid), where("vendorid", "==", tile.id));
+        const querySnapshot = await getDocs(q);
+    
+        if (!querySnapshot.empty) {
+            // ❌ Unlike: Delete the specific like document (userid + vendorid pair)
+            const deletePromises = querySnapshot.docs.map((docSnap) => deleteDoc(docSnap.ref));
+            await Promise.all(deletePromises);
+            setVoted(false);
+        } else {
+            // ✅ Like: Add a new like document
+            await addDoc(likeRef, {
+                userid: user.uid,
+                vendorid: tile.id,
+                timestamp: serverTimestamp(), // Store Firestore timestamp
+            });
+            setVoted(true);
+        }
     };
     const FuncReport = (): Promise<void> => {
         console.log("Report merchant");
