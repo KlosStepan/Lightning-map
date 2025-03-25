@@ -9,7 +9,7 @@ import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
 import Footer from "../components/Footer";
 //enums
 import { ButtonSide } from "../enums";
-//Forms - our custom
+//Forms
 import FormAddSpot from "../forms/FormAddSpot";
 import CardSpot from "../forms/mobilecontentcards/CardSpot";
 import { cardStyle } from '../forms/stylesForm';
@@ -18,12 +18,12 @@ import { Box, Container, Grid } from "@mui/material";
 import { useTheme, useMediaQuery } from '@mui/material';
 import Modal from "@mui/material/Modal";
 import { GlobalStyles } from "@mui/material";
-//Router
-import {  useNavigate } from "react-router-dom";
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
 import { setFiltering, setSelected } from "../redux-rtk/mapFilteringSlice";
+//Router
+import {  useNavigate } from "react-router-dom";
 //Slider
 import { Swiper, SwiperSlide } from "swiper/react";
 //TypeScript
@@ -42,10 +42,12 @@ const Map: React.FC<MapProps> = ({ }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     //
-    const user = useSelector((state: RootState) => state.misc.user)
+    const user = useSelector((state: RootState) => state.misc.user);
     //
-    const merchants = useSelector((state: RootState) => state.data.merchants)
-    const selected = useSelector((state: RootState) => state.mapFiltering.selected)
+    const merchants = useSelector((state: RootState) => state.data.merchants);
+    const likes = useSelector((state:RootState) => state.data.likes);
+    //
+    const selected = useSelector((state: RootState) => state.mapFiltering.selected);
     const activeFilters = useSelector((state: RootState) => state.mapFiltering?.filters || {});
     //
     const FuncFilt = (filter: string): Promise<void> => {

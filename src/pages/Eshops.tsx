@@ -7,17 +7,17 @@ import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
 import Footer from "../components/Footer";
 //enums
 import { ButtonSide } from "../enums";
-//Forms - our custom
+//Forms
 import FormAddEshop from "../forms/FormAddEshop";
 //MUI
 import { Box, Container, Grid } from "@mui/material";
 import { useTheme, useMediaQuery } from '@mui/material';
 import Modal from "@mui/material/Modal";
-//Router
-import { useNavigate } from "react-router-dom";
 //Redux
 import { useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
+//Router
+import { useNavigate } from "react-router-dom";
 //TypeScript
 import IEshop from "../ts/IEshop";
 
@@ -31,9 +31,10 @@ type EshopsProps = {
 const Eshops: React.FC<EshopsProps> = ({ }) => {
     const navigate = useNavigate();
     //
-    const user = useSelector((state: RootState) => state.misc.user)
+    const user = useSelector((state: RootState) => state.misc.user);
     //
-    const eshops = useSelector((state: RootState) => state.data.eshops)
+    const eshops = useSelector((state: RootState) => state.data.eshops);
+    const likes = useSelector((state:RootState) => state.data.likes);
     //
     const FuncAddEshop = (): Promise<void> => {
         console.log("AddEshop")
