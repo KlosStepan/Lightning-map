@@ -70,7 +70,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile }) => {
     // ✅ Check if user has already liked this vendor
     useEffect(() => {
         if (!user) return; // Skip if user is not logged in
-
+        setVoted(false);
         const checkLike = async () => {
             const likeRef = collection(db, "likes");
             const q = query(likeRef, where("userid", "==", user.uid), where("vendorid", "==", tile.id));
