@@ -7,7 +7,7 @@ import { collection, DocumentData, Firestore, getDocs, query, QuerySnapshot, whe
 import { auth, db } from "./components/Firebase";
 //Pages
 import Homepage from './pages/Homepage';
-import Map from './pages/Map';
+import MerchantsMap from './pages/MerchantsMap';
 import Eshops from './pages/Eshops';
 import WhyLightning from './pages/WhyLightning';
 import Blog from './pages/Blog';
@@ -125,7 +125,7 @@ function App() {
                     <React.Fragment>
                         <Routes>
                             <Route path="/" element={<Homepage />} />
-                            <Route path="/map" element={<Map />} />
+                            <Route path="/map" element={<MerchantsMap />} />
                             {/*<Route path="/map" element={<MapDummy/>} />*/}
                             <Route path="/e-shops" element={<Eshops />} />
                             <Route path="/why-lightning" element={<WhyLightning />} />

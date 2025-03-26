@@ -34,18 +34,22 @@ import IconPlus from '../icons/ico-btn-plus.png';
 
 const filters = ["Food & Drinks", "Shops", "Services"];
 
-type MapProps = {
+type MerchantsMapProps = {
   //
 };
 
-const Map: React.FC<MapProps> = ({ }) => {
+const MerchantsMap: React.FC<MerchantsMapProps> = ({ }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     //
     const user = useSelector((state: RootState) => state.misc.user);
     //
     const merchants = useSelector((state: RootState) => state.data.merchants);
-    const likes = useSelector((state:RootState) => state.data.likes);
+    const likes = useSelector((state: RootState) => state.data.likes) ?? [];
+    const likeCountsMap = new Map();
+    likes.forEach(({ vendorid }) => {
+      likeCountsMap.set(vendorid, (likeCountsMap.get(vendorid) || 0) + 1);
+    });
     //
     const selected = useSelector((state: RootState) => state.mapFiltering.selected);
     const activeFilters = useSelector((state: RootState) => state.mapFiltering?.filters || {});
@@ -206,7 +210,7 @@ const Map: React.FC<MapProps> = ({ }) => {
                   {!isPhone && (
                     selected && (
                       <Grid container spacing={2}>
-                        <TileMerchantBig tile={selected.properties} />
+                        <TileMerchantBig likes={likeCountsMap.get(selected.properties.id) || 0} tile={selected.properties} />
                       </Grid>
                     )
                   )}
@@ -223,7 +227,7 @@ const Map: React.FC<MapProps> = ({ }) => {
                           onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.5')}
                           onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
                         >
-                          <TileMerchant likes={"777"} tile={merchant.properties} index={index} />
+                          <TileMerchant likes={likeCountsMap.get(merchant.properties.id) || 0} tile={merchant.properties} index={index} />
                         </Box>
                       </Grid>
                     ))}
@@ -261,11 +265,11 @@ const Map: React.FC<MapProps> = ({ }) => {
                 sx={cardStyle} // Use the imported style
               >
                 <React.Fragment>
-                  {selected && <CardSpot tile={selected.properties} />}
+                  {selected && <CardSpot likes={likeCountsMap.get(selected.properties.id) || 0} tile={selected.properties} />}
                 </React.Fragment>
               </Modal>
           </React.Fragment>
     );
   };
   
-  export default Map;
+  export default MerchantsMap;

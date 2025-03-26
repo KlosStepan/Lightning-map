@@ -8,11 +8,12 @@ import { IMerchantTile } from '../../ts/IMerchant';
 //Icons
 import TileMerchantBig from '../../components/TileMerchantBig';
 
-interface CardSpotProps {
-  tile: IMerchantTile
+type CardSpotProps=  {
+  likes: string;
+  tile: IMerchantTile;
 }
 
-const CardSpot: React.FC<CardSpotProps> = ({ tile }) => {
+const CardSpot: React.FC<CardSpotProps> = ({ likes, tile }) => {
   const dispatch = useDispatch();
   return (  
     <React.Fragment>
@@ -33,7 +34,7 @@ const CardSpot: React.FC<CardSpotProps> = ({ tile }) => {
                     border: 'none',  // Ensure no border is applied
                   }}
                 >
-      <TileMerchantBig tile={tile}/>
+      <TileMerchantBig likes={likes} tile={tile}/>
       </Box>
     </React.Fragment>
   );

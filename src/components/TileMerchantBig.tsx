@@ -54,10 +54,11 @@ const iconStyle = {
 };
 
 type TileMerchantBigProps = {
+    likes: string;
     tile: IMerchantTile; 
 };
 
-const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ tile }) => {
+const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     //
@@ -192,7 +193,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ tile }) => {
                                     <ButtonUniversal
                                         icon={IconLightningPurple}
                                         side={ButtonSide.Left}
-                                        title="7"
+                                        title={likes}
                                         //color={voted ? "#D9D9D9" : "#F0F0F0"} // Darker when clicked
                                         color={voted ? "#7f7f7f" : "#F0F0F0"} // Darker when clicked
                                         textColor="black"

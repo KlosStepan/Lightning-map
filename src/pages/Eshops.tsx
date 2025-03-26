@@ -34,7 +34,11 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
     const user = useSelector((state: RootState) => state.misc.user);
     //
     const eshops = useSelector((state: RootState) => state.data.eshops);
-    const likes = useSelector((state:RootState) => state.data.likes);
+    const likes = useSelector((state:RootState) => state.data.likes) ?? [];
+    const likeCountsMap = new Map();
+    likes.forEach(({ vendorid }) => {
+      likeCountsMap.set(vendorid, (likeCountsMap.get(vendorid) || 0) + 1);
+    });
     //
     const FuncAddEshop = (): Promise<void> => {
         console.log("AddEshop")
@@ -108,7 +112,7 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                     <Grid container spacing={2} sx={{ marginRight: 0, marginLeft: 0 }}>
                         {eshops?.map((eshop: IEshop, index) => (
                             <Grid xs={12} sm={2} key={index} sx={isPhone ? {} : { ...dynamicPadding(index) }}>  {/* Apply padding only if not on a phone*/}
-                                <TileEshop likes="7" tile={eshop} />
+                                <TileEshop likes={likeCountsMap.get(eshop.id) || 0} tile={eshop} />
                             </Grid>
                         ))}
                     </Grid>

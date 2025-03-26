@@ -133,7 +133,7 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
                         <ButtonUniversal
                             icon={IconLightningPurple}
                             side={ButtonSide.Left}
-                            title="7"
+                            title={likes}
                             //color={voted ? "#D9D9D9" : "#F0F0F0"} // Darker when clicked
                             color={voted ? "#7f7f7f" : "#F0F0F0"} // Darker when clicked
                             textColor="black"
