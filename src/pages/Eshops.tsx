@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 //Components
-import SearchFiddle from "../components/SearchFiddle";
+import SearchBarVendors from "../components/SearchBarVendors";
 import ButtonUniversal from "../components/ButtonUniversal";
 import TileEshop from "../components/TileEshop";
 import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
@@ -102,7 +102,7 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                     <Grid container spacing={2}>
                         <HrGreyCustomSeparator marginTop="0px" marginBottom="0px" />
                         <Grid item xs={12}  sm={4}>
-                            <SearchFiddle />
+                            <SearchBarVendors disabled={true} />
                         </Grid>
                         <Grid item xs={12} sm={8}
                             sx={{

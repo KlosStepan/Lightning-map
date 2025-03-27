@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 //Components
 import ButtonUniversal from "../components/ButtonUniversal";
 import LeafletMapTwo from "../components/LeafletMapTwo";
-import SearchFiddle from "../components/SearchFiddle";
+import SearchBarVendors from "../components/SearchBarVendors";
 import TileMerchant from "../components/TileMerchant";
 import TileMerchantBig from "../components/TileMerchantBig";
 import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
@@ -152,7 +152,7 @@ const MerchantsMap: React.FC<MerchantsMapProps> = ({ }) => {
                 
                 {/* Search Bar */}
                 <Grid item xs={12} sm={4}>
-                  <SearchFiddle />
+                  <SearchBarVendors disabled={true} />
                 </Grid>
                 
                 {/* Filters */}

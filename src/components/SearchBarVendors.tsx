@@ -6,14 +6,11 @@ import Box from '@mui/material/Box';
 
 import customIconSrc from '../icons/Interface-Essential-Search-1--Streamline-Pixel.png';
 
-
-
 // Styles
 const paperStyle = {
   p: '2px 4px',
   display: 'flex',
   alignItems: 'center',
-  //width: 400,
   height: 36,
   borderRadius: '16px',
   backgroundColor: 'white',
@@ -35,20 +32,34 @@ const iconStyle = {
 };
 
 // Define props type
-type SearchFiddleProps = {
-  //TODO some reference to list of something, list of merch/eshops
+type SearchBarVendorsProps = {
+  disabled?: boolean; // Optional prop to disable the component
 };
-  
-// Component
-const SearchFiddle: React.FC<SearchFiddleProps> = ({ }) => {
+
+const SearchBarVendors: React.FC<SearchBarVendorsProps> = ({ disabled = false }) => {
+  // Optional: Add logic to handle the search functionality when enabled
+  const handleSearch = () => {
+    if (!disabled) {
+      console.log('Search clicked');
+      // Perform the search action
+    }
+  };
+
   return (
-    <Paper component="form" sx={paperStyle}>
+    <Paper component="form" sx={{ ...paperStyle, opacity: disabled ? 0.5 : 1, pointerEvents: disabled ? 'none' : 'auto' }}>
       <InputBase
         sx={inputBaseStyle}
         placeholder="Search"
         inputProps={{ 'aria-label': 'search' }}
+        disabled={disabled} // Disable input field
       />
-      <IconButton type="button" sx={iconButtonStyle} aria-label="search">
+      <IconButton
+        type="button"
+        sx={iconButtonStyle}
+        aria-label="search"
+        onClick={handleSearch}
+        disabled={disabled} // Disable icon button
+      >
         <Box
           component="img"
           src={customIconSrc}
@@ -60,4 +71,4 @@ const SearchFiddle: React.FC<SearchFiddleProps> = ({ }) => {
   );
 };
 
-export default SearchFiddle;
+export default SearchBarVendors;
