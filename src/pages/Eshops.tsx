@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 //Components
 import SearchFiddle from "../components/SearchFiddle";
 import ButtonUniversal from "../components/ButtonUniversal";
@@ -14,7 +14,7 @@ import { Box, Container, Grid } from "@mui/material";
 import { useTheme, useMediaQuery } from '@mui/material';
 import Modal from "@mui/material/Modal";
 //Redux
-import { useSelector } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
 //Router
 import { useNavigate } from "react-router-dom";
@@ -30,15 +30,33 @@ type EshopsProps = {
 
 const Eshops: React.FC<EshopsProps> = ({ }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     //
     const user = useSelector((state: RootState) => state.misc.user);
     //
     const eshops = useSelector((state: RootState) => state.data.eshops);
     const likes = useSelector((state:RootState) => state.data.likes) ?? [];
-    const likeCountsMap = new Map();
-    likes.forEach(({ vendorid }) => {
-      likeCountsMap.set(vendorid, (likeCountsMap.get(vendorid) || 0) + 1);
-    });
+    const [likeCountsMap, setLikeCountsMap] = useState(new Map());
+
+    useEffect(() => {
+        const newMap = new Map();
+        likes.forEach(({ vendorid }) => {
+            newMap.set(vendorid, (newMap.get(vendorid) || 0) + 1);
+        });
+        setLikeCountsMap(newMap);
+    }, [likes]); // Recalculate when `likes` change
+    
+    const FuncDrillIncrDecrLike = (vendorid: string, change: number): Promise<void> => {
+        return new Promise((resolve) => {
+            setLikeCountsMap((prevMap) => {
+                const newMap = new Map(prevMap);
+                const currentCount = newMap.get(vendorid) || 0;
+                newMap.set(vendorid, Math.max(0, currentCount + change)); // Apply the change
+                return newMap; // React detects state change
+            });
+            resolve();
+        });
+    };
     //
     const FuncAddEshop = (): Promise<void> => {
         console.log("AddEshop")
@@ -112,7 +130,11 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                     <Grid container spacing={2} sx={{ marginRight: 0, marginLeft: 0 }}>
                         {eshops?.map((eshop: IEshop, index) => (
                             <Grid xs={12} sm={2} key={index} sx={isPhone ? {} : { ...dynamicPadding(index) }}>  {/* Apply padding only if not on a phone*/}
-                                <TileEshop likes={likeCountsMap.get(eshop.id) || 0} tile={eshop} />
+                                <TileEshop
+                                    likes={likeCountsMap.get(eshop.id) || 0}
+                                    tile={eshop}
+                                    handleLikeChange={FuncDrillIncrDecrLike}
+                                />
                             </Grid>
                         ))}
                     </Grid>

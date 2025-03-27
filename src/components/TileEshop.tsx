@@ -45,8 +45,10 @@ type TileEshopProps = {
     likes: string;
     tile: IEshop;
     showReportButton?: boolean;
+    handleLikeChange?: (vendorid: string, change: number) => Promise<void>;
+
 };
-const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = true }) => {
+const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = true, handleLikeChange = async () => {} }) => {
     const navigate = useNavigate();
     //
     const user = useSelector((state: RootState) => state.misc.user);
@@ -85,6 +87,9 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
             const deletePromises = querySnapshot.docs.map((docSnap) => deleteDoc(docSnap.ref));
             await Promise.all(deletePromises);
             setVoted(false);
+
+            // 🔽 Call local function to decrement likes
+            handleLikeChange(tile.id, -1);
         } else {
             // ✅ Like: Add a new like document
             await addDoc(likeRef, {
@@ -93,6 +98,9 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
                 timestamp: serverTimestamp(), // Store Firestore timestamp
             });
             setVoted(true);
+
+            // 🔼 Call local function to increment likes
+            handleLikeChange(tile.id, 1);
         }
     };
     
