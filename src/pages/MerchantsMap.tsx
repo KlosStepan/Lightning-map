@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 //Components
 import ButtonUniversal from "../components/ButtonUniversal";
 import LeafletMapTwo from "../components/LeafletMapTwo";
@@ -46,10 +46,27 @@ const MerchantsMap: React.FC<MerchantsMapProps> = ({ }) => {
     //
     const merchants = useSelector((state: RootState) => state.data.merchants);
     const likes = useSelector((state: RootState) => state.data.likes) ?? [];
-    const likeCountsMap = new Map();
-    likes.forEach(({ vendorid }) => {
-      likeCountsMap.set(vendorid, (likeCountsMap.get(vendorid) || 0) + 1);
-    });
+    const [likeCountsMap, setLikeCountsMap] = useState(new Map());
+
+    useEffect(() => {
+        const newMap = new Map();
+        likes.forEach(({ vendorid }) => {
+            newMap.set(vendorid, (newMap.get(vendorid) || 0) + 1);
+        });
+        setLikeCountsMap(newMap);
+    }, [likes]); // Recalculate when `likes` change
+    
+    const FuncDrillIncrDecrLike = (vendorid: string, change: number): Promise<void> => {
+        return new Promise((resolve) => {
+            setLikeCountsMap((prevMap) => {
+                const newMap = new Map(prevMap);
+                const currentCount = newMap.get(vendorid) || 0;
+                newMap.set(vendorid, Math.max(0, currentCount + change)); // Apply the change
+                return newMap; // React detects state change
+            });
+            resolve();
+        });
+    };
     //
     const selected = useSelector((state: RootState) => state.mapFiltering.selected);
     const activeFilters = useSelector((state: RootState) => state.mapFiltering?.filters || {});
@@ -210,7 +227,11 @@ const MerchantsMap: React.FC<MerchantsMapProps> = ({ }) => {
                   {!isPhone && (
                     selected && (
                       <Grid container spacing={2}>
-                        <TileMerchantBig likes={likeCountsMap.get(selected.properties.id) || 0} tile={selected.properties} />
+                        <TileMerchantBig
+                          likes={likeCountsMap.get(selected.properties.id) || 0}
+                          tile={selected.properties}
+                          handleLikeChange={FuncDrillIncrDecrLike}
+                        />
                       </Grid>
                     )
                   )}

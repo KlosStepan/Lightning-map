@@ -56,9 +56,10 @@ const iconStyle = {
 type TileMerchantBigProps = {
     likes: string;
     tile: IMerchantTile; 
+    handleLikeChange?: (vendorid: string, change: number) => Promise<void>;
 };
 
-const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile }) => {
+const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLikeChange = async () => {} }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     //
@@ -98,6 +99,10 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile }) => {
             const deletePromises = querySnapshot.docs.map((docSnap) => deleteDoc(docSnap.ref));
             await Promise.all(deletePromises);
             setVoted(false);
+
+            // 🔽 Call local function to decrement likes
+            handleLikeChange(tile.id, -1);
+
         } else {
             // ✅ Like: Add a new like document
             await addDoc(likeRef, {
@@ -106,6 +111,9 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile }) => {
                 timestamp: serverTimestamp(), // Store Firestore timestamp
             });
             setVoted(true);
+
+            // 🔼 Call local function to increment likes
+            handleLikeChange(tile.id, 1);
         }
     };
     const FuncReport = (): Promise<void> => {
