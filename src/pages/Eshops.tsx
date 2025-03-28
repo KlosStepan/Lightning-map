@@ -130,7 +130,6 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                         {eshops?.length ? eshops?.length : 'X'} results
                     </p>
                     <Grid container spacing={2} sx={{ marginRight: 0, marginLeft: 0 }}>
-                    <Grid container spacing={2}>
                         {eshops ? (
                             <React.Fragment>
                             {eshops.map((eshop: IEshop, index: number) => (
@@ -150,7 +149,7 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                                 <Pwnspinner color="#F23CFF" speed={0.7} thickness={2} />
                             </Grid>
                         )}
-                    </Grid>
+
 
                     </Grid>
                     {/* Ready |Load More| btn for partial loding other stuff */}
