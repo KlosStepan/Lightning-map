@@ -29,6 +29,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 //TypeScript
 import IMerchant from "../ts/IMerchant";
 
+//Pwnspinner
+import { Pwnspinner } from "pwnspinner";
 //Icons
 import IconPlus from '../icons/ico-btn-plus.png';
 
@@ -236,22 +238,32 @@ const MerchantsMap: React.FC<MerchantsMapProps> = ({ }) => {
                     )
                   )}
                   <Grid container spacing={2}>
-                    {filteredMerchants?.map((merchant: IMerchant, index: number) => (
-                      <Grid xs={12} sm={4} key={index} sx={{ ...dynamicPadding(index) }}>
-                        <Box
-                          onClick={() => dispatch(setSelected(merchant))}
-                          style={{
-                            cursor: 'pointer',
-                            transition: 'opacity 0.3s ease',
-                            opacity: 1,
-                          }}
-                          onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.5')}
-                          onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
-                        >
-                          <TileMerchant likes={likeCountsMap.get(merchant.properties.id) || 0} tile={merchant.properties} index={index} />
-                        </Box>
+                    {filteredMerchants ? (
+                      <React.Fragment>
+                        {filteredMerchants.map((merchant: IMerchant, index: number) => (
+                          <Grid xs={12} sm={4} key={index} sx={{ ...dynamicPadding(index) }}>
+                            <Box
+                              onClick={() => dispatch(setSelected(merchant))}
+                              style={{
+                                cursor: 'pointer',
+                                transition: 'opacity 0.3s ease',
+                                opacity: 1,
+                              }}
+                              onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.5')}
+                              onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+                            >
+                              <TileMerchant likes={likeCountsMap.get(merchant.properties.id) || 0} tile={merchant.properties} index={index} />
+                            </Box>
+                          </Grid>
+                        ))}
+                      </React.Fragment>
+                    ) : (
+                      <Grid xs={12} sm={4} key={1} sx={{ ...dynamicPadding(1) }}>
+                        <div>&nbsp;</div>
+                        <div>&nbsp;</div>
+                        <Pwnspinner color="#8000FF" speed={0.7} thickness={2} />
                       </Grid>
-                    ))}
+                    )}
                   </Grid>
                 </Grid>
                 {!isPhone && (

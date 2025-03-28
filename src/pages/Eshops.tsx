@@ -21,6 +21,8 @@ import { useNavigate } from "react-router-dom";
 //TypeScript
 import IEshop from "../ts/IEshop";
 
+//Pwnspinner
+import { Pwnspinner } from "pwnspinner";
 //Icons
 import IconPlus from '../icons/ico-btn-plus.png';
 
@@ -128,15 +130,28 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                         {eshops?.length ? eshops?.length : 'X'} results
                     </p>
                     <Grid container spacing={2} sx={{ marginRight: 0, marginLeft: 0 }}>
-                        {eshops?.map((eshop: IEshop, index) => (
-                            <Grid xs={12} sm={2} key={index} sx={isPhone ? {} : { ...dynamicPadding(index) }}>  {/* Apply padding only if not on a phone*/}
+                    <Grid container spacing={2}>
+                        {eshops ? (
+                            <React.Fragment>
+                            {eshops.map((eshop: IEshop, index: number) => (
+                                <Grid xs={12} sm={2} key={index} sx={isPhone ? {} : { ...dynamicPadding(index) }}>
                                 <TileEshop
                                     likes={likeCountsMap.get(eshop.id) || 0}
                                     tile={eshop}
                                     handleLikeChange={FuncDrillIncrDecrLike}
                                 />
+                                </Grid>
+                            ))}
+                            </React.Fragment>
+                        ) : (
+                            <Grid xs={12} sm={2} key={1} sx={isPhone ? {} : { ...dynamicPadding(1) }}>
+                                <div>&nbsp;</div>
+                                <div>&nbsp;</div>
+                                <Pwnspinner color="#F23CFF" speed={0.7} thickness={2} />
                             </Grid>
-                        ))}
+                        )}
+                    </Grid>
+
                     </Grid>
                     {/* Ready |Load More| btn for partial loding other stuff */}
                     {/*<div>

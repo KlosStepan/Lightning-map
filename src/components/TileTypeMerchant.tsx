@@ -1,17 +1,13 @@
 import React from "react"
+//MUI
 import Box from '@mui/material/Box';
 import { Card, CardMedia, Grid } from '@mui/material';
 import { Container, CssBaseline, Paper } from "@mui/material";
-
-
-
-import mapofspots from '../img/Interface-Essential-Map--Streamline-Pixel.png';
-import eshops from '../img/Shopping-Shipping-Bag-1--Streamline-Pixel.png';
-
 import Typography from '@mui/material/Typography';
-
+//Router
 import { Link } from 'react-router-dom';
 
+import { Pwnspinner } from "pwnspinner";
 
 // Define the style for the new purple box
 const purpleBoxStyle = {
@@ -61,8 +57,37 @@ const TileTypeMerchant: React.FC<TileTypeMerchantProps> = ({ caption, numPlaces,
                         </div>
                         {/* Text - Top right */}
                         <Typography variant="h3" component="h3" sx={textTopRightStyle}>
-                            {numPlaces ? numPlaces : 'X'}
+                        {numPlaces ? (
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    width: '16px',
+                                    height: '16px',
+                                    //border: '1px solid #fff', // Optional: adds a border to the box
+                                    borderRadius: '50%', // Optional: to make it circular if it's a circle you're aiming for
+                                }}
+                            >
+                            {numPlaces}
+                            </Box>
+                        ) : (
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    width: '16px',
+                                    height: '16px',
+                                }}
+                            >
+                                <div style={{ transform: 'scale(0.6)', transformOrigin: 'center' }}>
+                                    <Pwnspinner color="white" speed={0.7} thickness={3} />
+                                </div>
+                            </Box>
+                        )}
                         </Typography>
+
                         {/* Text - Bottom left */}
                         <Typography variant="h2" component="h2" sx={textBottomLeftStyle}>
                             {caption}
