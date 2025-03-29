@@ -8,6 +8,10 @@ import ButtonUniversal from "../components/ButtonUniversal";
 import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
 import ToggleSocialInput from "../components/ToggleSocialInput";
 import UploadingImagesSpot from "../components/UploadingImagesSpot";
+//Firebase
+import { db, storage } from "../components/Firebase";
+import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 //Redux+RTK
 import { RootState } from "../redux-rtk/store";
 import { useSelector } from "react-redux";
@@ -21,6 +25,7 @@ import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import group13 from '../icons/group13.png';
 //
 import { v4 as uuidv4 } from 'uuid';
+
 
 type ModifFormSpotProps = {
     FuncCancel: () => void;
@@ -66,6 +71,8 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         { network: "twitter", label: "X", link: null },
         { network: "threads", label: "@", link: null },
     ]);
+    //Tags
+    const [tags, setTags] = useState<string[]>(["Shops", "Services"]);
     //Upload images - 1x comp, f_handle()
     const handleLinkOpened = (network: string, newLink: string | null) => {
         setSocials((prevSocials) =>
@@ -77,10 +84,53 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
     const [files, setFiles] = useState<Array<File & { preview: string }>>([]);
 
     // Functions - Add(), Update(), _bundleInput(), //TODO _prepPics() (/Update - checks for pic update)
-    const AddSpot = () => {
+    const AddSpot = async () => {
+        try{
         const newSpotWrapped = WrapSpotData({ updStatus: false });
-        console.log("Adding newSpotWrapped: ", newSpotWrapped)
-        //Promise(data, photos) -> Firebase (& OK|FAIL transact.)
+        //console.log("Adding newSpotWrapped: ", newSpotWrapped);
+        //Promise(data, photos) -> Firebase (& OK|FAIL transact.);
+        // Step 2.
+        const docRef = await addDoc(collection(db, "merchants"), newSpotWrapped);
+        console.log("Spot added with ID: ", docRef.id);
+        if (files.length>0){
+            try {
+                // Validate each file
+                for (const file of files) {
+                    if (file.size === 0) {
+                        console.error("Selected file is empty:", file.name);
+                        return;
+                    }
+        
+                    if (!file.type.startsWith("image/")) {
+                        console.error("Selected file is not an image:", file.name);
+                        return;
+                    }
+                }
+        
+                console.log("Uploading", files.length, "files...");
+        
+                // Upload all images and get their URLs
+                const imageUrls = await Promise.all(
+                    files.map(async (file) => {
+                        const storageRef = ref(storage, `merchants-photos/${docRef.id}-${file.name}`);
+                        await uploadBytes(storageRef, file);
+                        return getDownloadURL(storageRef);
+                    })
+                );
+        
+                console.log("Uploaded image URLs:", imageUrls);
+        
+                // Update Firestore with the array of image URLs
+                await updateDoc(doc(db, "merchants", docRef.id), { logo: imageUrls });
+        
+                console.log("Firestore updated with image URLs");
+            } catch (error) {
+                console.error("Error uploading files:", error);
+            }
+        }
+        } catch (error) {
+            console.error("Error adding merchant: ", error);
+        }
     };
     const UpdateSpot = () => {
         console.log("documentid=", documentid);
@@ -106,16 +156,17 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
             image: "N/A", //[ ] TODO some ref (?) into Storage/S3
             owner: user?.uid  || "", //[x] TODO fill from Firebase profile
             socials: socials || [],
-            tags: [], //[ ] TODO Implement FE on Form 
+            tags: tags || [], //[ ] TODO Implement FE on Form 
             name: nameRef.current?.value || "",
             visible: updStatus, //[x] Add->false, Update->true
         },
         type: "Feature" //[x] Always Feature
     });
     const PrepPics = (): any => ({
-        //dadada, do after E-shop is prototyped for all (in loop 3x) via the ext.
+        //dadada, do after Spot is prototyped for all (in loop 3x) via the ext.
         //https://www.npmjs.com/package/browser-image-compression
     });
+    //TODO FIX! POPULATE-DUMMY-SPOT creates bad images prep. for upload!!
     const DebugPopulateDummySpot = () => {
         const randomNumber = Math.floor(Math.random() * 10000) + 1;
 
