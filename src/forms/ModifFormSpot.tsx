@@ -10,7 +10,7 @@ import ToggleSocialInput from "../components/ToggleSocialInput";
 import UploadingImagesSpot from "../components/UploadingImagesSpot";
 //Firebase
 import { db, storage } from "../components/Firebase";
-import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
+import { collection, addDoc, setDoc, doc, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 //Redux+RTK
 import { RootState } from "../redux-rtk/store";
@@ -121,7 +121,9 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                 console.log("Uploaded image URLs:", imageUrls);
         
                 // Update Firestore with the array of image URLs
-                await updateDoc(doc(db, "merchants", docRef.id), { logo: imageUrls });
+                await setDoc(doc(db, "merchants", docRef.id), {
+                    properties: { images: imageUrls }
+                }, { merge: true });
         
                 console.log("Firestore updated with image URLs");
             } catch (error) {
@@ -153,7 +155,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                 postalCode: postalCodeRef.current?.value || "",
             },
             description: descriptionRef.current?.value || "",
-            image: "N/A", //[ ] TODO some ref (?) into Storage/S3
+            images: [], //[ ] TODO some ref (?) into Storage/S3
             owner: user?.uid  || "", //[x] TODO fill from Firebase profile
             socials: socials || [],
             tags: tags || [], //[ ] TODO Implement FE on Form 

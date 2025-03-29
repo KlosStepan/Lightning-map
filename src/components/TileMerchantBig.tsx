@@ -34,6 +34,10 @@ import IconLightningNumber from "../icons/IconLightningNumber"; //Icon w/ number
 import dummyImgBigTile from '../img/image-1-3.png';
 import FormSubmitReport from "../forms/FormSubmitReport";
 
+//Gal impl.
+import { IconButton,  } from "@mui/material";
+import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
+//Gal impl.
 const containerOuterStyle = {
     padding: '16px 12px',
     gap: '10px',
@@ -67,6 +71,18 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
 
     //tmp debug; mby TODO clicked other - reset state of this to default false
     const [voted, setVoted] = useState<boolean>(false);
+
+    //Gal impl.
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const handleNextImage = () => {
+        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % tile.images.length);
+    };
+    const handlePrevImage = () => {
+        setCurrentImageIndex((prevIndex) =>
+            prevIndex === 0 ? tile.images.length - 1 : prevIndex - 1
+        );
+    };
+    //Gal impl.
 
     // ✅ Check if user has already liked this vendor
     useEffect(() => {
@@ -142,11 +158,35 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                     <Grid container spacing={2}>
                         {/* LEFT - Image section */}
                         <Grid item xs={12} sm={6}>
-                            <CardMedia
+                            {/*<CardMedia
                                 component="img"
                                 image={dummyImgBigTile}
                                 alt={tile.name}
-                            />
+                            />*/}
+                        {tile.images.length > 1 ? (
+                            <div style={{ position: "relative", textAlign: "center" }}>
+                                <CardMedia
+                                    component="img"
+                                    image={tile.images[currentImageIndex]}
+                                    alt={tile.name}
+                                    sx={{ maxHeight: "300px", objectFit: "cover" }}
+                                />
+                                <IconButton
+                                    onClick={handlePrevImage}
+                                    sx={{ position: "absolute", top: "50%", left: "10px", color: "white", backgroundColor: "rgba(0,0,0,0.5)" }}
+                                >
+                                    <ArrowBackIos />
+                                </IconButton>
+                                <IconButton
+                                    onClick={handleNextImage}
+                                    sx={{ position: "absolute", top: "50%", right: "10px", color: "white", backgroundColor: "rgba(0,0,0,0.5)" }}
+                                >
+                                    <ArrowForwardIos />
+                                </IconButton>
+                            </div>
+                        ) : (
+                            <CardMedia component="img" image={tile.images[0]} alt={tile.name} />
+                        )}
                         </Grid>
                         {/* RIGHT - Content section */}
                         <Grid item xs={12} sm={6}>

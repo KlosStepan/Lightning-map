@@ -18,7 +18,7 @@ interface IAddress {
 
 // Define IMerchantTile extending IBaseEntity
 interface IMerchantTile extends IBaseEntity {
-  image: string;
+  images: string[]; //List of URLs to images (We upload to S3 and then retrieve URLs to store in list)
   address: IAddress; // Address object of type IAddress
   tags: string[]; // Array of tags like ["Shops", "Services"]
   socials: ISocial[]; // Array of ISocial objects

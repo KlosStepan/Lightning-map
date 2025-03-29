@@ -10,8 +10,8 @@ import { IMerchantTile } from "../ts/IMerchant";
 import IconLightningNumber from "../icons/IconLightningNumber";
 
 // Fake images
-import dummyImgTile1 from '../img/image-1-4.png';
-import dummyImgTile2 from '../img/image-1-5.png';
+//import dummyImgTile1 from '../img/image-1-4.png';
+//import dummyImgTile2 from '../img/image-1-5.png';
 
 type TileMerchantProps = {
     likes: string;
@@ -59,21 +59,39 @@ const TileMerchant: React.FC<TileMerchantProps> = ({ likes, tile, index, outOfBu
         textAlign: 'left',
     };
 
-    let img = null;
-    if (tile.image === "dummyImgTile1") {
+    /*let img = null;
+    if (tile.images[0] === "dummyImgTile1") {
         img = dummyImgTile1;
-    } else if (tile.image === "dummyImgTile2") {
+    } else if (tile.images[0] === "dummyImgTile2") {
         img = dummyImgTile2;
-    }
+    }*/
 
     return (
         <Container maxWidth="sm" sx={{ ...containerOuterStyle }}>
             <Box sx={{ ...containerInnerStyleUp }}>
-                <CardMedia
+                {/*<CardMedia
                     component="img"
-                    image={tile.image === "dummyImgTile1" ? dummyImgTile1 : tile.image === "dummyImgTile2" ? dummyImgTile2 : tile.image}
+                    //image={tile.images[0] === "dummyImgTile1" ? dummyImgTile1 : tile.images[0] === "dummyImgTile2" ? dummyImgTile2 : tile.images[0]}
                     alt={tile.name}
-                />
+                />*/}
+                {/*{tile.images.length > 1 ? (
+                    <div>Some gallery, TODO yet</div> // Replace this with your gallery component later
+                ) : (
+                    <CardMedia
+                        component="img"
+                        image={tile.images[0]}
+                        alt={tile.name}
+                    />
+                )}*/}
+                {tile.images.length < 1 ? (
+                    <div>--picture missing--</div> /* TODO dummy Merchant img*/
+                ) : (
+                    <CardMedia
+                        component="img"
+                        image={tile.images[0]}
+                        alt={tile.name}
+                    />
+                )}
                 <Box sx={{ ...topRight }}>
                     <IconLightningNumber number={likes} />
                 </Box>
@@ -83,6 +101,7 @@ const TileMerchant: React.FC<TileMerchantProps> = ({ likes, tile, index, outOfBu
                     ))}
                 </Box>
             </Box>
+            <span>{tile.images.length}</span>
             <Box sx={{ ...containerInnerStyleDown }}>
                 <Typography variant="h2" component="h2">
                     {tile.name}
