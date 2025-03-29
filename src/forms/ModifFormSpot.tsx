@@ -166,8 +166,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         //dadada, do after Spot is prototyped for all (in loop 3x) via the ext.
         //https://www.npmjs.com/package/browser-image-compression
     });
-    //TODO FIX! POPULATE-DUMMY-SPOT creates bad images prep. for upload!!
-    const DebugPopulateDummySpot = () => {
+    const DebugPopulateDummySpot = async () => {
         const randomNumber = Math.floor(Math.random() * 10000) + 1;
 
         // Using string interpolation for cleaner code
@@ -189,16 +188,25 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
             { network: "threads", label: "@", link: "https://threads.net/dummy" },
         ]);
 
-        setFiles(
-            ["bpvs1.png", "bpvs2.png", "bpvs3.png", "bpvs4.png", "bpvs5.png"].map(
-                (fileName) =>
-                    Object.assign(
-                        new File([new Blob([new Uint8Array([])])], fileName, { type: "image/png" }),
-                        { preview: `/${fileName}` }
-                    )
-            )
-        );
-      };
+        try {
+            const imageFiles = await Promise.all(
+                ["bpvs1.png", "bpvs2.png", "bpvs3.png", "bpvs4.png", "bpvs5.png"].map(async (fileName) => {
+                    const response = await fetch(`/${fileName}`); // Ensure these exist in `public/`
+                    const blob = await response.blob();
+                    const file = new File([blob], fileName, { type: blob.type });
+    
+                    return Object.assign(file, {
+                        preview: URL.createObjectURL(file),
+                    });
+                })
+            );
+    
+            setFiles(imageFiles);
+            console.log("Dummy images added:", imageFiles);
+        } catch (error) {
+            console.error("Failed to load dummy images:", error);
+        }
+    };
 
     //
     const user = useSelector((state: RootState) => state.misc.user);
