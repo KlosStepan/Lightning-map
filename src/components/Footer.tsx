@@ -24,23 +24,29 @@ const Footer: React.FC<FooterProps> = ({ }) => {
                     <Typography component="h1" variant="h1" >
                     Experience the Power of Lightning Network Everywhere
                     </Typography>
+                    {/*<Typography component="h1" variant="h3" sx={{ color: '#6B7280' }}>Out Domains</Typography>*/}
+                    <div>&nbsp;</div>
+                    <Typography component="h2" variant="h2">| LightningEverywhere.com</Typography>
+                    <Typography component="h2" variant="h2">| LightningEverywhere.io</Typography>
+                    <Typography component="h2" variant="h2">| Lightning-Everywhere.com</Typography>
+                    <Typography component="h2" variant="h2">| Lightning-Everywhere.io</Typography>
                 </Grid>
                 {/* Second part: 1/4 */}
                 <Grid item xs={12} md={3}>
-                <Typography component="h1" variant="h3" sx={{ color: '#6B7280' }}>Support</Typography>
-                    {/** */}
-                    <Typography component="h2" variant="h2">support@lightningeverywhere.com</Typography>
+                    <Typography component="h1" variant="h3" sx={{ color: '#6B7280' }}>Support</Typography>
+                    <Typography component="h2" variant="h2">stepan@lightningeverywhere.com</Typography>
+                    <div>&nbsp;</div>
                 </Grid>
                 {/* Third part: 1/4 */}
                 <Grid item xs={12} md={3}>
                     <Typography component="h1" variant="h3" sx={{ color: '#6B7280' }}>Follow us on</Typography>
                     {/** */}
                     <Typography component="h2" variant="h2">Instagram</Typography>
-                    <Typography component="h2" variant="h2">X</Typography>
-                    <Typography component="h2" variant="h2">Threads</Typography>
+                    <Typography component="h2" variant="h2">X / Twitter</Typography>
+                    <Typography component="h2" variant="h2">LinkedIN</Typography>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <Typography component="h3" variant="h3">design: smékal</Typography>
+                    <Typography component="h3" variant="h3">design: {/*<a href="https://filipsmekal.cz/"target="_blank">smékal</a>*/}smékal</Typography>
                 </Grid>
                 <Grid item xs={12} md={3}>
                     <Typography component="h3" variant="h3">GDPR</Typography>
