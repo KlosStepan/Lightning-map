@@ -1,22 +1,23 @@
 import React, { useRef, useState } from "react";
-//MUI
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
 //Components
 import ButtonUniversal from "../components/ButtonUniversal";
 import UploadingImagesSpot from "../components/UploadingImagesSpot";
 //Firebase
-import { db, storage } from "../components/Firebase"; // Ensure Firebase is correctly initialized
+import { db, storage } from "../components/Firebase";
 import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+//Image Compression Library
+import imageCompression from 'browser-image-compression';
+//MUI
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 //Redux+RTK
 import { RootState } from "../redux-rtk/store";
 import { useSelector } from "react-redux";
 //TypeScript
 import IEshop from "../ts/IEshop";
-import imageCompression from 'browser-image-compression';
-//
+//UUID generator
 import { v4 as uuidv4 } from 'uuid';
 
 type ModifFormEshopProps = {
@@ -28,43 +29,35 @@ type ModifFormEshopProps = {
 
 const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false, eshop, documentid }) => {
     // DEBUG
-    const debug = useSelector((state: RootState) => state.misc.debug);
-    // Conditionally log debug information
-    if (debug) {
+    const DEBUG = useSelector((state: RootState) => state.misc.debug);
+    // debug info
+    if (DEBUG) {
         console.log("<DEBUG> ModifFormEshop.tsx");
         console.log("--debugging on--")
         if (edit) console.log("edit: true");
         if (documentid) console.log("Editing document with ID:", documentid);
         console.log("</DEBUG> ModifFormEshop.tsx")
     }
-    //Fields - 3x input
+
+    // Fields - 3x Input
     const titleRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLInputElement>(null);
     const webRef = useRef<HTMLInputElement>(null);
-    //Upload image - 1x comp
+    // Upload image - 1 Comp accomodating this
     const [files, setFiles] = useState<Array<File & { preview: string }>>([]);
-    
-    // Functions - Add(), Update(), _bundleInput(), //TODO _prepLogo() (/Update - checks for pic update)
-    //NOTES + info TODO
-    //prepped logos here <- in some list (?) or single file
-    //const logo = await PrepLogo();
-    //console.log("Compressed logo: ", logo);
-    ////Promise(data, logo) -> Firebase (& OK|FAIL transact.) //<- prolly out this approach, rewrite with nested promises
-    //Add E-Shop, wait, retrieve E-shop ID and upload image named like it.
-    //https://stackoverflow.com/questions/58844095/how-to-get-firestore-document-id
-    //https://www.youtube.com/watch?v=YOAeBSCkArA
-    //https://github.com/machadop140 7/firebase-file-upload
+
+    // CRUD Add/Upd + DummyPopulate/WrapEshop/PrepLogo
     const AddEshop = async () => {
         try {
-            // Step 1: Prepare e-shop data without logo
+            // Step 1: Prepare E-shop data without logo
             const newEshop = WrapEshopData({ updStatus: false });
-            const id :string = newEshop.id;
-            //console.log("Adding newEshopWrapped: ", newEshopWrapped);
+            //console.log("Adding newEshop: ", newEshop);
 
-            // Step 2: Add the e-shop to Firestore and get the generated document ID
+            // Step 2: Add the E-shop to Firestore Database and retrieve docRef
             const docRef = await addDoc(collection(db, "eshops"), newEshop);
-            console.log("E-shop added with ID: ", docRef.id);
+            console.log("E-shop added with docRef: ", docRef.id);
             
+            // Step 3: Check for logo, upload logo to Storage
             if (files.length > 0) {
                 const file = files[0];
             
@@ -87,11 +80,12 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                 const imageUrl = await getDownloadURL(storageRef);
                 console.log("Image URL:", imageUrl);
             
+                // Stepo 4: Add new logo URL to E-shop record in Firebase Database
                 await updateDoc(doc(db, "eshops", docRef.id), { logo: imageUrl });
-                console.log("Firestore updated with image URL");
+                console.log("E-shop updated with image URL");
             }            
         } catch (error) {
-            console.error("Error adding e-shop: ", error);
+            console.error("Error adding E-shop: ", error);
         }
     };
     //verify logo changed(/not) vv
@@ -152,7 +146,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
         id: updStatus ? eshop?.id || "" : uuidv4(), 
         country: "CZ", //[ ] TODO - implement FE on form (TLD/IP)
         description: descriptionRef.current?.value || "",
-        logo: "N/A", //[ ] TODO - some ref (?) into Storage/S3
+        logo: "N/A", //[x] TODO - some ref (?) into Storage/S3
         name: titleRef.current?.value || "",
         owner: user?.uid || "", //[x] TODO fill from Firebase profile
         url: webRef.current?.value || "",
@@ -190,15 +184,15 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
         }
     };
     const DebugPopulateDummyEshop = async () => {
+        // Random number for unique name to distinguish between Dummy E-shops
         const randomNumber = Math.floor(Math.random() * 10000) + 1;
-
-        // Using string interpolation for cleaner code
         console.log(`DebugPopulateDummyEshop() called; E-shop: ${randomNumber}`);
         
+        // Populate inputs with text
         if (titleRef.current) titleRef.current.value = `Sample E-shop ${randomNumber}`;
         if (descriptionRef.current) descriptionRef.current.value = `This is a dummy description ${randomNumber} for testing.`;
         if (webRef.current) webRef.current.value = `https://www.example${randomNumber}.com`;
-
+        // Populate Upload Comp with dummy logo, image blob - which works correctly for update
         try {
             const response = await fetch("/foto-polis.png"); // Ensure this file exists in `public/`
             const blob = await response.blob();
@@ -208,11 +202,11 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
             const fileWithPreview = Object.assign(dummyFile, {
                 preview: URL.createObjectURL(dummyFile),
             });
-    
+            // Do setFiles like if it was done from UploadComponent
             setFiles([fileWithPreview]);
-            console.log("Dummy image added:", fileWithPreview);
+            console.log("Dummy image (logo) added:", fileWithPreview);
         } catch (error) {
-            console.error("Failed to load dummy image:", error);
+            console.error("Failed to load dummy image(logo):", error);
         }
     };
     
@@ -253,14 +247,14 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                 <UploadingImagesSpot files={files} setFiles={setFiles} multipleImages={false} />
             </Box>
             <Box display="flex" justifyContent="flex-end" mt={2}>
-                {debug && (
+                { DEBUG && (
                     <ButtonUniversal
                         title={"Populate-dummy-eshop ^"}
                         color="#F23CFF"
                         textColor="white"
                         actionDelegate={DebugPopulateDummyEshop}
                     />
-                )}
+                ) }
                 {FuncCancel && (
                     <ButtonUniversal 
                         title="Cancel" 
@@ -275,7 +269,6 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                     textColor="white"
                     actionDelegate={edit ? UpdateEshop : AddEshop}
                 />
-
             </Box>
         </React.Fragment>
     );
