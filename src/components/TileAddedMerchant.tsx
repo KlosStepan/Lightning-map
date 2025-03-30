@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { Container, Box, Modal, Typography } from '@mui/material';
 //Components
 import ButtonUniversal from "./ButtonUniversal";
@@ -13,6 +13,8 @@ import FormEditSpot from "../forms/FormEditSpot";
 //Redux/RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
+//Router
+//import { useNavigate } from "react-router-dom";
 //TypeScript
 import IMerchant, { IMerchantTile, IMerchantADWrapper } from "../ts/IMerchant";
 import TileMerchant from "./TileMerchant";
@@ -48,7 +50,7 @@ type TileAddedMerchantProps = {
 const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }) => {
     // DEBUG
     const DEBUG = useSelector((state: RootState) => state.misc.debug);
-
+    
     // Modal Edit State
     const [openEdit, setOpenEdit] = React.useState(false);
     const handleOpenEdit = () => setOpenEdit(true);
@@ -58,23 +60,33 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
     const handleOpenDelete = () => setOpenDelete(true);
     const handleCloseDelete = () => setOpenDelete(false);
 
+    // Redirect Logic
+    const [isDeleting, setIsDeleting] = useState(false);
+
     const FuncDelete = async (merch: IMerchantADWrapper): Promise<void> => {
         // debug info
         if (DEBUG) {
             console.log("documentid=", merchant.documentid);
             console.log("Calling Delete on Merchant: ", merch);
         }
+        if (!merch.documentid) return;
+
+        // Mby out because of phones vv
+        const confirmDelete = window.confirm("Are you sure you want to delete this e-shop?");
+        if (!confirmDelete) return;
+        // Mby out because of phones ^^
+        setIsDeleting(true);
         // Try delete |Merchant from Firestore DB| and |Image(s) from Storage|
         try {
             // Delete the merchant document by vendorid (/docId)
             const merchantDocRef = doc(db, "merchants", merch.documentid);
             await deleteDoc(merchantDocRef);
             console.log(`Merchant document with ID ${merch.documentid} deleted successfully.`);
-
+        
             // List all files under 'merchants-photos' directory
             const imagesRef = ref(storage, 'merchants-photos/');
             const imageList = await listAll(imagesRef);
-    
+        
             // Loop through files and delete the ones that start with vendorid
             const deletePromises = imageList.items
                 .filter(item => item.name.startsWith(merch.documentid)) // Match files that start with vendorid
@@ -85,13 +97,20 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
                         console.error(`Error deleting image ${item.name}:`, error);
                     });
                 });
-    
+        
             // Wait for all delete operations to complete
             await Promise.all(deletePromises);
             console.log(`All images for ${merch.merchant.properties.name} -> ${merch.documentid} deleted successfully.`);
-    
+            
+            // Now reload or redirect after everything finishes
+            window.location.reload(); // This reloads the page
+            handleCloseDelete(); // Close the delete modal or dialog
+        
         } catch (error) {
-            console.error("Error deleting merchant document or images:", error);
+            console.error("Error during deletion:", error);
+        }
+         finally {
+            setIsDeleting(false);
         }
     };
     
@@ -185,10 +204,11 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
                             actionDelegate={handleCloseDelete} 
                         />
                         <ButtonUniversal
-                            title={"Delete"}
+                            title={isDeleting ? "Deleting..." : "Delete"}
                             color="#F23CFF"
                             textColor="white"
                             actionDelegate={ () => { FuncDelete(merchant); } }
+                            disabled={isDeleting}
                         />
                     </Box>
                 </Box>
