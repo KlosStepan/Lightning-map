@@ -4,18 +4,24 @@ import { Container, Box, Modal, Typography } from '@mui/material';
 import ButtonUniversal from "./ButtonUniversal";
 //enums
 import { ButtonSide } from "../enums";
+//Firebase
+import { getFirestore, doc, deleteDoc } from "firebase/firestore";
+import { getStorage, ref, deleteObject, listAll } from "firebase/storage";
+import { auth, db } from "./Firebase";
 //Forms
 import FormEditSpot from "../forms/FormEditSpot";
 //Redux/RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
 //TypeScript
-import { IMerchantTile, IMerchantADWrapper } from "../ts/IMerchant";
+import IMerchant, { IMerchantTile, IMerchantADWrapper } from "../ts/IMerchant";
 import TileMerchant from "./TileMerchant";
 //Icon
 import IconEdit from '../icons/ico-btn-edit.png';
 import IconTrash from '../icons/ico-btn-trash.png';
 import closeIcon from '../icons/close.png';
+
+
 
 const containerOuterStyle = {
     padding: '0px 0px 0px 0px !important',
@@ -54,15 +60,48 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
     const handleOpenDelete = () => setOpenDelete(true);
     const handleCloseDelete = () => setOpenDelete(false);
 
-    const FuncDelete = (_merchant: string): Promise<void> => {
+    const FuncDelete = async (merch: IMerchantADWrapper): Promise<void> => {
         if (debug) {
             console.log("documentid=", merchant.documentid);
-            console.log("Calling Delete on Merchant. ", _merchant);
+            console.log("Calling Delete on Merchant: ", merch);
         }
-        //TODO Firebase -> HTTP DELETE, check against user UID (& OK|FAIL delete) //merchant's ref&/ID + DEL photos too
-        return Promise.resolve();
-    }
-
+    
+        try {
+            // Get Firestore instance
+            //const db = getFirestore();
+    
+            // Delete the merchant document by vendorid (docId)
+            const merchantDocRef = doc(db, "merchants", merch.documentid);  // Assuming merch is the vendorid (docId)
+            await deleteDoc(merchantDocRef);
+            console.log(`Merchant document with ID ${merch.documentid} deleted successfully.`);
+    
+            // Get Storage instance
+            const storage = getStorage();
+    
+            // List all files under 'merchants_photos' directory
+            const imagesRef = ref(storage, 'merchants-photos/');
+            const imageList = await listAll(imagesRef);
+    
+            // Loop through files and delete the ones that start with vendorid
+            const deletePromises = imageList.items
+                .filter(item => item.name.startsWith(merch.documentid)) // Match files that start with vendorid
+                .map(item => {
+                    return deleteObject(item).then(() => {
+                        console.log(`Image ${item.name} deleted successfully.`);
+                    }).catch((error) => {
+                        console.error(`Error deleting image ${item.name}:`, error);
+                    });
+                });
+    
+            // Wait for all delete operations to complete
+            await Promise.all(deletePromises);
+            console.log(`All images for ${merch.merchant.properties.name} -> ${merch.documentid} deleted successfully.`);
+    
+        } catch (error) {
+            console.error("Error deleting merchant document or images:", error);
+        }
+    };
+    
     return (
         <Container sx={containerOuterStyle} disableGutters>
             <TileMerchant likes={likes} tile={merchant.merchant.properties} index={1}/>
@@ -156,7 +195,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
                             title={"Delete"}
                             color="#F23CFF"
                             textColor="white"
-                            actionDelegate={ () => { FuncDelete(merchant.merchant.properties.name); } }
+                            actionDelegate={ () => { FuncDelete(merchant); } }
                         />
                     </Box>
                 </Box>
