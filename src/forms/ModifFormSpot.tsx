@@ -1,8 +1,4 @@
 import React, { useRef, useState } from "react";
-//MUI
-import { Box } from '@mui/material';
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
 //Components
 import ButtonUniversal from "../components/ButtonUniversal";
 import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
@@ -12,6 +8,14 @@ import UploadingImagesSpot from "../components/UploadingImagesSpot";
 import { db, storage } from "../components/Firebase";
 import { collection, addDoc, setDoc, doc, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+//Map stuff
+import L from "leaflet";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import group13 from '../icons/group13.png';
+//MUI
+import { Box } from '@mui/material';
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 //Redux+RTK
 import { RootState } from "../redux-rtk/store";
 import { useSelector } from "react-redux";
@@ -19,11 +23,7 @@ import { useSelector } from "react-redux";
 import IMerchant from "../ts/IMerchant";
 import { IMerchantTile } from "../ts/IMerchant";
 import ISocial from "../ts/ISocial";
-//Map stuff
-import L from "leaflet";
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
-import group13 from '../icons/group13.png';
-//
+//UUID generator
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -37,7 +37,7 @@ type ModifFormSpotProps = {
 const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, merchant, documentid }) => {
     // DEBUG
     const debug = useSelector((state: RootState) => state.misc.debug);
-    // Conditionally log debug information
+    // debug info
     if (debug) {
         console.log("<DEBUG> ModifFormSpot.tsx");
         console.log("--debugging on--")
@@ -46,24 +46,24 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         console.log("</DEBUG> ModifFormSpot.tsx")
     }
 
-    //Fields - 5x input
+    // Fields - 5x  Input
     const nameRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLInputElement>(null);
     const addressRef = useRef<HTMLInputElement>(null);
     const cityRef = useRef<HTMLInputElement>(null);
     const postalCodeRef = useRef<HTMLInputElement>(null);
-    //Map - 1x map
+    // Map - 1x <MapContainer ... with map stuff & Picker pin
     const mapRef2 = useRef(null);
     const latitude = 50.0755; //<- TODO dynamically in the city (?)
     const longitude = 14.4378; //<- TODO dynamically in the city (?)
-    //  |- picker stuff
+    // |- Picker pin 🗲 stuff 
     const [position, setPosition] = useState<[number, number]>([50.0755, 14.4378]); // Default position
     const handleDragEnd = (event: L.DragEndEvent) => {
         const marker = event.target as L.Marker;
         const newPosition = marker.getLatLng();
         setPosition([newPosition.lat, newPosition.lng]);
     };
-    //Socials - 1x comp w/ 5 Socials
+    // Socials - 5 Socials inputs, socials.map((social) => (
     const [socials, setSocials] = useState<ISocial[]>([
         { network: "web", label: "Web", link: null },
         { network: "facebook", label: "FB", link: null },
@@ -71,9 +71,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         { network: "twitter", label: "X", link: null },
         { network: "threads", label: "@", link: null },
     ]);
-    //Tags
-    const [tags, setTags] = useState<string[]>(["Shops", "Services"]);
-    //Upload images - 1x comp, f_handle()
+    // Setting social network from <ToggleSocialInput .../>
     const handleLinkOpened = (network: string, newLink: string | null) => {
         setSocials((prevSocials) =>
             prevSocials.map((social) =>
@@ -81,55 +79,60 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
             )
         );
     };
+    // Tags - TODO UI/UX + Managment Function
+    const [tags, setTags] = useState<string[]>(["Shops", "Services"]);
+    // Upload images - 1x <UploadingImagesSpot ... drilled down setFiles
     const [files, setFiles] = useState<Array<File & { preview: string }>>([]);
 
-    // Functions - Add(), Update(), _bundleInput(), //TODO _prepPics() (/Update - checks for pic update)
+    //CRUD Add/Upd + DummyPopulate/WrapSpot/PrepPics
     const AddSpot = async () => {
         try{
-        const newSpotWrapped = WrapSpotData({ updStatus: false });
-        //console.log("Adding newSpotWrapped: ", newSpotWrapped);
-        //Promise(data, photos) -> Firebase (& OK|FAIL transact.);
-        // Step 2.
-        const docRef = await addDoc(collection(db, "merchants"), newSpotWrapped);
-        console.log("Spot added with ID: ", docRef.id);
-        if (files.length>0){
-            try {
-                // Validate each file
-                for (const file of files) {
-                    if (file.size === 0) {
-                        console.error("Selected file is empty:", file.name);
-                        return;
+            // Step 1. Wrap Spot
+            const newSpot = WrapSpotData({ updStatus: false });
+            //console.log("Adding newSpot: ", newSpot);
+
+            // Step 2. Add Spot
+            const docRef = await addDoc(collection(db, "merchants"), newSpot);
+            console.log("Spot added with ID: ", docRef.id);
+            // Step 3. Upload Files
+            if (files.length>0) {
+                try {
+                    // Validate each file
+                    for (const file of files) {
+                        if (file.size === 0) {
+                            console.error("Selected file is empty:", file.name);
+                            return;
+                        }
+            
+                        if (!file.type.startsWith("image/")) {
+                            console.error("Selected file is not an image:", file.name);
+                            return;
+                        }
                     }
-        
-                    if (!file.type.startsWith("image/")) {
-                        console.error("Selected file is not an image:", file.name);
-                        return;
-                    }
+            
+                    console.log("Uploading", files.length, "files...");
+            
+                    // Upload all images and get their URLs
+                    const imageUrls = await Promise.all(
+                        files.map(async (file) => {
+                            const storageRef = ref(storage, `merchants-photos/${docRef.id}-${file.name}`);
+                            await uploadBytes(storageRef, file);
+                            return getDownloadURL(storageRef);
+                        })
+                    );
+            
+                    console.log("Uploaded image URLs:", imageUrls);
+            
+                    // Update Firestore with the array of image URLs
+                    await setDoc(doc(db, "merchants", docRef.id), {
+                        properties: { images: imageUrls }
+                    }, { merge: true });
+            
+                    console.log("Firestore updated with image URLs");
+                } catch (error) {
+                    console.error("Error uploading files:", error);
                 }
-        
-                console.log("Uploading", files.length, "files...");
-        
-                // Upload all images and get their URLs
-                const imageUrls = await Promise.all(
-                    files.map(async (file) => {
-                        const storageRef = ref(storage, `merchants-photos/${docRef.id}-${file.name}`);
-                        await uploadBytes(storageRef, file);
-                        return getDownloadURL(storageRef);
-                    })
-                );
-        
-                console.log("Uploaded image URLs:", imageUrls);
-        
-                // Update Firestore with the array of image URLs
-                await setDoc(doc(db, "merchants", docRef.id), {
-                    properties: { images: imageUrls }
-                }, { merge: true });
-        
-                console.log("Firestore updated with image URLs");
-            } catch (error) {
-                console.error("Error uploading files:", error);
             }
-        }
         } catch (error) {
             console.error("Error adding merchant: ", error);
         }
@@ -155,7 +158,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                 postalCode: postalCodeRef.current?.value || "",
             },
             description: descriptionRef.current?.value || "",
-            images: [], //[ ] TODO some ref (?) into Storage/S3
+            images: [], //[x] TODO some ref (?) into Storage/S3
             owner: user?.uid  || "", //[x] TODO fill from Firebase profile
             socials: socials || [],
             tags: tags || [], //[ ] TODO Implement FE on Form 
@@ -169,19 +172,19 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         //https://www.npmjs.com/package/browser-image-compression
     });
     const DebugPopulateDummySpot = async () => {
+        // Random number for unique name to distinguish between Dummy Merchant
         const randomNumber = Math.floor(Math.random() * 10000) + 1;
-
-        // Using string interpolation for cleaner code
         console.log(`DebugPopulateDummySpot() called; Spot: ${randomNumber}`);
-        
+
+        // Populate inputs with text
         if (nameRef.current) nameRef.current.value = `Dummy Spot Title ${randomNumber}`;
         if (descriptionRef.current) descriptionRef.current.value = `A brief dummy ${randomNumber} description.`;
         if (addressRef.current) addressRef.current.value = `123 Dummy Street`;
         if (cityRef.current) cityRef.current.value = `Dummy City`;
         if (postalCodeRef.current) postalCodeRef.current.value = `12345`;
-        
-        setPosition([50.0755, 14.4378]);
-        
+        // Default dummy position
+        setPosition([14.4378, 50.0755]);
+        // Fake social netowrks
         setSocials([
             { network: "web", label: "Web", link: "https://dummyweb.com" },
             { network: "facebook", label: "FB", link: "https://facebook.com/dummy" },
@@ -189,7 +192,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
             { network: "twitter", label: "X", link: "https://twitter.com/dummy" },
             { network: "threads", label: "@", link: "https://threads.net/dummy" },
         ]);
-
+        // Populate Upload Comp with dummy images - image blob
         try {
             const imageFiles = await Promise.all(
                 ["bpvs1.png", "bpvs2.png", "bpvs3.png", "bpvs4.png", "bpvs5.png"].map(async (fileName) => {
@@ -202,7 +205,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                     });
                 })
             );
-    
+            // Do setFiles like if it was done from <UploadingImagesSpot .../>
             setFiles(imageFiles);
             console.log("Dummy images added:", imageFiles);
         } catch (error) {
@@ -212,7 +215,6 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
 
     //
     const user = useSelector((state: RootState) => state.misc.user);
-    //TODO |mby solved| AddSpot and UpdateSpot - if link!==null -> ref HTML replace instead of '' when wrapping
     return (
         <React.Fragment>
             <React.Fragment>

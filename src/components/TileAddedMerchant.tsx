@@ -7,7 +7,7 @@ import { ButtonSide } from "../enums";
 //Firebase
 import { getFirestore, doc, deleteDoc } from "firebase/firestore";
 import { getStorage, ref, deleteObject, listAll } from "firebase/storage";
-import { auth, db } from "./Firebase";
+import { auth, db, storage } from "./Firebase";
 //Forms
 import FormEditSpot from "../forms/FormEditSpot";
 //Redux/RTK
@@ -20,8 +20,6 @@ import TileMerchant from "./TileMerchant";
 import IconEdit from '../icons/ico-btn-edit.png';
 import IconTrash from '../icons/ico-btn-trash.png';
 import closeIcon from '../icons/close.png';
-
-
 
 const containerOuterStyle = {
     padding: '0px 0px 0px 0px !important',
@@ -49,36 +47,31 @@ type TileAddedMerchantProps = {
 
 const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }) => {
     // DEBUG
-    const debug = useSelector((state: RootState) => state.misc.debug);
+    const DEBUG = useSelector((state: RootState) => state.misc.debug);
 
-    // Modal State
+    // Modal Edit State
     const [openEdit, setOpenEdit] = React.useState(false);
     const handleOpenEdit = () => setOpenEdit(true);
     const handleCloseEdit = () => setOpenEdit(false);
-
+    // Modal Delete State
     const [openDelete, setOpenDelete] = React.useState(false);
     const handleOpenDelete = () => setOpenDelete(true);
     const handleCloseDelete = () => setOpenDelete(false);
 
     const FuncDelete = async (merch: IMerchantADWrapper): Promise<void> => {
-        if (debug) {
+        // debug info
+        if (DEBUG) {
             console.log("documentid=", merchant.documentid);
             console.log("Calling Delete on Merchant: ", merch);
         }
-    
+        // Try delete |Merchant from Firestore DB| and |Image(s) from Storage|
         try {
-            // Get Firestore instance
-            //const db = getFirestore();
-    
-            // Delete the merchant document by vendorid (docId)
-            const merchantDocRef = doc(db, "merchants", merch.documentid);  // Assuming merch is the vendorid (docId)
+            // Delete the merchant document by vendorid (/docId)
+            const merchantDocRef = doc(db, "merchants", merch.documentid);
             await deleteDoc(merchantDocRef);
             console.log(`Merchant document with ID ${merch.documentid} deleted successfully.`);
-    
-            // Get Storage instance
-            const storage = getStorage();
-    
-            // List all files under 'merchants_photos' directory
+
+            // List all files under 'merchants-photos' directory
             const imagesRef = ref(storage, 'merchants-photos/');
             const imageList = await listAll(imagesRef);
     
@@ -105,7 +98,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
     return (
         <Container sx={containerOuterStyle} disableGutters>
             <TileMerchant likes={likes} tile={merchant.merchant.properties} index={1}/>
-            { debug ? (<div>  
+            { DEBUG ? (<div>  
                 <span style={{ border: '1px solid black', padding: '1px' }}>documentid={merchant.documentid}</span> <br/>
                 <span style={{ border: '1px solid black', padding: '1px' }}>visible={merchant.merchant.properties?.visible ? 1 : 0}</span>
             </div>) : null}
@@ -183,7 +176,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
                             />
                         </span>
                     </Typography>
-                    { debug ? (<span style={{ border: '1px solid black', padding: '1px' }}>documentid={merchant.documentid}</span> ) : null }
+                    { DEBUG ? (<span style={{ border: '1px solid black', padding: '1px' }}>documentid={merchant.documentid}</span> ) : null }
                     <Box display="flex" justifyContent="flex-end" mt={2}>
                         <ButtonUniversal 
                             title="Cancel" 
