@@ -101,7 +101,8 @@ const TileMerchant: React.FC<TileMerchantProps> = ({ likes, tile, index, outOfBu
                     ))}
                 </Box>
             </Box>
-            <span>{tile.images.length}</span>
+            {/*DEBUG NUMBER OF PHOTOS*/}
+            {/*<span>{tile.images.length}</span>*/}
             <Box sx={{ ...containerInnerStyleDown }}>
                 <Typography variant="h2" component="h2">
                     {tile.name}
