@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Container, Box, Modal, Typography } from '@mui/material';
 //Components
 import ButtonUniversal from "./ButtonUniversal";
@@ -72,7 +72,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
         if (!merch.documentid) return;
 
         // Mby out because of phones vv
-        const confirmDelete = window.confirm("Are you sure you want to delete this e-shop?");
+        const confirmDelete = window.confirm("Are you sure you want to delete this merchant?");
         if (!confirmDelete) return;
         // Mby out because of phones ^^
         setIsDeleting(true);
