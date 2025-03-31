@@ -52,42 +52,48 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
             // Step 1: Prepare E-shop data without logo
             const newEshop = WrapEshopData({ updStatus: false });
             //console.log("Adding newEshop: ", newEshop);
-
+    
             // Step 2: Add the E-shop to Firestore Database and retrieve docRef
             const docRef = await addDoc(collection(db, "eshops"), newEshop);
             console.log("E-shop added with docRef: ", docRef.id);
-            
-            // Step 3: Check for logo, upload logo to Storage
+    
+            // Step 3: Check for logo, upload logo to Storage if a file is provided
             if (files.length > 0) {
                 const file = files[0];
-            
+    
                 if (file.size === 0) {
                     console.error("Selected file is empty. Please select a valid image.");
                     return;
                 }
-            
+    
                 if (!file.type.startsWith("image/")) {
                     console.error("Selected file is not an image.");
                     return;
                 }
-            
+    
                 console.log("Uploading file:", file.name, "Size:", file.size);
-            
+    
                 const storageRef = ref(storage, `eshop-logos/${docRef.id}-${file.name}`);
                 await uploadBytes(storageRef, file);
                 console.log("Image uploaded:", file.name);
-            
+    
                 const imageUrl = await getDownloadURL(storageRef);
                 console.log("Image URL:", imageUrl);
-            
-                // Stepo 4: Add new logo URL to E-shop record in Firebase Database
+    
+                // Step 4: Add new logo URL to E-shop record in Firebase Database
                 await updateDoc(doc(db, "eshops", docRef.id), { logo: imageUrl });
                 console.log("E-shop updated with image URL");
-            }            
+            }
+    
+            // Once everything finishes (including logo upload), reload the page
+            window.location.reload();
+            
         } catch (error) {
             console.error("Error adding E-shop: ", error);
         }
     };
+    
+    
     //verify logo changed(/not) vv
     //|- run process prepLogo
     //Promise (data, (/logo) ) -> Firebase (& OK|FAIL)
