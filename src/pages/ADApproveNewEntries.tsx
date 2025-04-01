@@ -1,127 +1,164 @@
 import React, { useEffect, useState } from "react";
-//MUI
-import Typography from '@mui/material/Typography';
-import Modal from "@mui/material/Modal";
-import { Grid, List, ListItem, ListItemText, Box, useMediaQuery, useTheme } from '@mui/material';
-//Components
+// MUI
+import { 
+    Typography, Grid, List, ListItem, ListItemText, Box, Paper, 
+    useMediaQuery, useTheme, Switch, ListItemSecondaryAction 
+} from '@mui/material';
+// Components
 import ADMenu from "../components/ADMenu";
-import ButtonUniversal from "../components/ButtonUniversal";
-import TileTypeMerchant from '../components/TileTypeMerchant';
-//Firebase
-import { User, onAuthStateChanged } from "firebase/auth";
-import { Firestore, QuerySnapshot, DocumentData, collection, getDocs, query, where } from "firebase/firestore";
-import { auth, db } from "../components/Firebase";
-//TypeScript
+import { Pwnspinner } from "pwnspinner";
+// Firebase
+import { Firestore, collection, getDocs, query } from "firebase/firestore";
+import { db } from "../components/Firebase";
+// TypeScript
 import IMerchant from "../ts/IMerchant";
 import IEshop from "../ts/IEshop";
-//Pwnspinner
-import { Pwnspinner } from "pwnspinner";
 
-type ADApproveNewEntriesProps = {
-//
-};
-
-const ADApproveNewEntries: React.FC<ADApproveNewEntriesProps> = ({ }) => {
-    //Phone detection 
+const ADApproveNewEntries: React.FC = () => {
+    // Phone detection 
     const theme = useTheme();
     const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
-    //States for freshly pulled out Merchants and E-shops
+
+    // State for merchants and e-shops
     const [allMerchants, setAllMerchants] = useState<IMerchant[] | null>(null);
     const [allEshops, setAllEshops] = useState<IEshop[] | null>(null);
+
     useEffect(() => {
-        const getAllMerchants = async (db: Firestore) => {
-            const allMerchantsSnapshot: QuerySnapshot<DocumentData>  = await getDocs(query(collection(db, 'merchants')));
-            const allMerchantsList = allMerchantsSnapshot.docs.map((doc: DocumentData) => doc.data());
-            //DEBUG - mby
+        const getAllMerchants = async () => {
+            const allMerchantsSnapshot = await getDocs(query(collection(db, 'merchants')));
+            const allMerchantsList = allMerchantsSnapshot.docs.map(doc => doc.data() as IMerchant);
             setAllMerchants(allMerchantsList);
-        }
-        const getAllEshops = async (db: Firestore) => {
-            const allEshopsSnapshot: QuerySnapshot<DocumentData> = await getDocs(query(collection(db, 'eshops')));
-            const allEshopsList = allEshopsSnapshot.docs.map((doc: DocumentData) => doc.data());
-            //DEBUG - mby
+        };
+
+        const getAllEshops = async () => {
+            const allEshopsSnapshot = await getDocs(query(collection(db, 'eshops')));
+            const allEshopsList = allEshopsSnapshot.docs.map(doc => doc.data() as IEshop);
             setAllEshops(allEshopsList);
+        };
+
+        getAllMerchants();
+        getAllEshops();
+    }, []);
+
+    // Toggle function for visibility
+    const toggleVisibility = (type: "merchant" | "eshop", id: string) => {
+        if (type === "merchant") {
+            setAllMerchants(prev => 
+                prev ? prev.map(m => m.properties.id === id ? 
+                    { ...m, properties: { ...m.properties, visible: !m.properties.visible } } : m
+                ) : null
+            );
+        } else {
+            setAllEshops(prev => 
+                prev ? prev.map(e => e.id === id ? 
+                    { ...e, visible: !e.visible } : e
+                ) : null
+            );
         }
-        getAllMerchants(db);
-        getAllEshops(db);
-    }, [])
-    return(
-        <React.Fragment>
-            <Grid container>
-                {!isPhone && <Grid item xs={3}>
-                    <Box
-                        sx={{
-                            padding: 2,
-                        }}
-                    >
-                        <ADMenu />
-                    </Box>
-                </Grid>}
-                <Grid item md={9} xs={12}>
-                    <Box
-                        sx={{
-                            padding: 3,
-                        }}
-                    >
-                        <Grid container spacing={2} alignItems="center">
-                            <Grid item xs={6}>
-                                <Typography variant="h1" component="h1">
-                                    Approve New Entries
-                                </Typography>
-                            </Grid>
-                            {/*<Grid item xs={6} container justifyContent="flex-end">
-                                <ButtonUniversal title="Edit" color="#F23CFF" textColor="white" actionDelegate={()=>{}} />
-                            </Grid>*/}
-                        </Grid>
-                        <Grid>
-                            <div>-list of places with <u>|0|</u>(on top) or <u>|1|</u> switch-</div>
-                            <div>&nbsp;</div>
-                        </Grid>
-                        <Grid container spacing={2}>
-                            {/* Left List: Merchants */}
-                            <Grid item xs={12} md={6}>
-                                <Typography variant="h1" component="h1">Spots</Typography>
+    };
+
+    return (
+        <Grid container>
+            {!isPhone && <Grid item xs={3}>
+                <Box sx={{ padding: 2 }}>
+                    <ADMenu />
+                </Box>
+            </Grid>}
+            <Grid item md={9} xs={12}>
+                <Box sx={{ padding: 3 }}>
+                    <Typography variant="h1" component="h1">Approve New Entries</Typography>
+                    
+                    <Grid container spacing={3} sx={{ marginTop: 2 }}>
+                        {/* Merchants */}
+                        <Grid item xs={12} md={6}>
+                            <Paper elevation={3} sx={{ padding: 2, borderRadius: 2 }}>
+                                <Typography variant="h2" component="h2">Spots</Typography>
                                 {allMerchants === null ? (
                                     <Pwnspinner color="#F23CFF" speed={0.7} thickness={2} />
                                 ) : (
                                     <List>
                                         {allMerchants
-                                            .sort((a, b) => Number(a.properties.visible) - Number(b.properties.visible)) // Sort pending first
+                                            .sort((a, b) => Number(a.properties.visible) - Number(b.properties.visible))
                                             .map((merchant) => (
-                                                <ListItem key={merchant.properties.id}>
+                                                <ListItem key={merchant.properties.id} sx={{ borderBottom: "1px solid #ddd" }}>
                                                     <ListItemText
-                                                        primary={`${merchant.properties.visible ? "✅" : "🔴"} ${merchant.properties.name}`}
+                                                        primary={`${merchant.properties.name}`}
+                                                        secondary={merchant.properties.visible ? "Visible" : "Hidden"}
+                                                        sx={{
+                                                            color: 'black', // Names are black
+                                                        }}
                                                     />
+                                                    <ListItemSecondaryAction>
+                                                        <Switch 
+                                                            checked={merchant.properties.visible} 
+                                                            onChange={() => toggleVisibility("merchant", merchant.properties.id)}
+                                                            sx={{
+                                                                '&.Mui-checked': {
+                                                                    color: 'green', // Green for visible
+                                                                },
+                                                                '&.Mui-checked + .MuiSwitch-track': {
+                                                                    backgroundColor: 'green', // Track color for visible
+                                                                },
+                                                                '&.MuiSwitch-root': {
+                                                                    color: merchant.properties.visible ? 'green' : 'red', // Red when invisible
+                                                                }
+                                                            }}
+                                                        />
+                                                    </ListItemSecondaryAction>
                                                 </ListItem>
                                         ))}
                                     </List>
                                 )}
-                            </Grid>
+                            </Paper>
+                        </Grid>
 
-                            {/* Right List: EShops */}
-                            <Grid item xs={12} md={6}>
-                                <Typography variant="h1" component="h1">E-Shops</Typography>
+                        {/* EShops */}
+                        <Grid item xs={12} md={6}>
+                            <Paper elevation={3} sx={{ padding: 2, borderRadius: 2 }}>
+                                <Typography variant="h2" component="h2">E-Shops</Typography>
                                 {allEshops === null ? (
                                     <Pwnspinner color="#F23CFF" speed={0.7} thickness={2} />
                                 ) : (
                                     <List>
                                         {allEshops
-                                            .sort((a, b) => Number(a.visible) - Number(b.visible)) // Sort pending first
+                                            .sort((a, b) => Number(a.visible) - Number(b.visible))
                                             .map((eshop) => (
-                                                <ListItem key={eshop.id}>
+                                                <ListItem key={eshop.id} sx={{ borderBottom: "1px solid #ddd" }}>
                                                     <ListItemText
-                                                        primary={`${eshop.visible ? "✅" : "🔴"} ${eshop.name}`}
+                                                        primary={`${eshop.name}`}
+                                                        secondary={eshop.visible ? "Visible" : "Hidden"}
+                                                        sx={{
+                                                            color: 'black', // Names are black
+                                                        }}
                                                     />
+                                                    <ListItemSecondaryAction>
+                                                        <Switch 
+                                                            checked={eshop.visible} 
+                                                            onChange={() => toggleVisibility("eshop", eshop.id)}
+                                                            sx={{
+                                                                '&.Mui-checked': {
+                                                                    color: 'green', // Green for visible
+                                                                },
+                                                                '&.Mui-checked + .MuiSwitch-track': {
+                                                                    backgroundColor: 'green', // Track color for visible
+                                                                },
+                                                                '&.MuiSwitch-root': {
+                                                                    color: eshop.visible ? 'green' : 'red', // Red when invisible
+                                                                }
+                                                            }}
+                                                        />
+                                                    </ListItemSecondaryAction>
                                                 </ListItem>
                                         ))}
                                     </List>
                                 )}
-                            </Grid>
+                            </Paper>
                         </Grid>
-                    </Box>
-                </Grid>
+                    </Grid>
+                </Box>
             </Grid>
-            {/* <span>ADApproveNewEntries.tsx</span> */}
-        </React.Fragment>     
-    )
-}
-export default ADApproveNewEntries
+        </Grid>
+    );
+};
+
+export default ADApproveNewEntries;
