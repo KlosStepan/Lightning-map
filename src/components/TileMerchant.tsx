@@ -9,10 +9,6 @@ import { IMerchantTile } from "../ts/IMerchant";
 // Icons
 import IconLightningNumber from "../icons/IconLightningNumber";
 
-// Fake images
-//import dummyImgTile1 from '../img/image-1-4.png';
-//import dummyImgTile2 from '../img/image-1-5.png';
-
 type TileMerchantProps = {
     likes: string;
     tile: IMerchantTile;
@@ -59,30 +55,9 @@ const TileMerchant: React.FC<TileMerchantProps> = ({ likes, tile, index, outOfBu
         textAlign: 'left',
     };
 
-    /*let img = null;
-    if (tile.images[0] === "dummyImgTile1") {
-        img = dummyImgTile1;
-    } else if (tile.images[0] === "dummyImgTile2") {
-        img = dummyImgTile2;
-    }*/
-
     return (
         <Container maxWidth="sm" sx={{ ...containerOuterStyle }}>
             <Box sx={{ ...containerInnerStyleUp }}>
-                {/*<CardMedia
-                    component="img"
-                    //image={tile.images[0] === "dummyImgTile1" ? dummyImgTile1 : tile.images[0] === "dummyImgTile2" ? dummyImgTile2 : tile.images[0]}
-                    alt={tile.name}
-                />*/}
-                {/*{tile.images.length > 1 ? (
-                    <div>Some gallery, TODO yet</div> // Replace this with your gallery component later
-                ) : (
-                    <CardMedia
-                        component="img"
-                        image={tile.images[0]}
-                        alt={tile.name}
-                    />
-                )}*/}
                 {tile.images.length < 1 ? (
                     <div>--picture missing--</div> /* TODO dummy Merchant img*/
                 ) : (
@@ -90,6 +65,13 @@ const TileMerchant: React.FC<TileMerchantProps> = ({ likes, tile, index, outOfBu
                         component="img"
                         image={tile.images[0]}
                         alt={tile.name}
+                        sx={{
+                            objectFit: 'cover',  // Adjust image size within its container
+                            height: '164px',     // Fixed height for consistency
+                            width: '100%',
+                            borderTopLeftRadius: '16px',  // Round the top-left corner
+                            borderTopRightRadius: '16px', // Round the top-right corner
+                        }}
                     />
                 )}
                 <Box sx={{ ...topRight }}>
