@@ -1,58 +1,83 @@
 import React, { useEffect, useState } from "react";
-//MUI
-import Typography from '@mui/material/Typography';
-import Modal from "@mui/material/Modal";
-import { Grid, Box, useMediaQuery, useTheme } from '@mui/material';
-//Components
+// Components
 import ADMenu from "../components/ADMenu";
-import ButtonUniversal from "../components/ButtonUniversal";
-import TileTypeMerchant from '../components/TileTypeMerchant';
-//TypeScript
-import ILike from "../ts/ILike";
-
-type ADLikesProps = {
-//
-};
-
-const ADLikes: React.FC<ADLikesProps> = ({ }) => {
-    //Phone detection 
-    const theme = useTheme();
-    const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
-    return(
-        <React.Fragment>
-            <Grid container>
-                {!isPhone && <Grid item xs={3}>
-                    <Box
-                        sx={{
-                            padding: 2,
-                        }}
-                    >
-                        <ADMenu />
-                    </Box>
-                </Grid>}
-                <Grid item md={9} xs={12}>
-                    <Box
-                        sx={{
-                            padding: 3,
-                        }}
-                    >
-                        <Grid container spacing={2} alignItems="center">
-                            <Grid item xs={6}>
-                                <Typography variant="h1" component="h1">
-                                    Likes (🗲) - listing
-                                </Typography>
-                            </Grid>
-                            {/*<Grid item xs={6} container justifyContent="flex-end">
-                                <ButtonUniversal title="Edit" color="#F23CFF" textColor="white" actionDelegate={()=>{}} />
-                            </Grid>*/}
-                        </Grid>
-                        <div>-list of users liking stuff-</div>
-                    </Box>
-                </Grid>
-            </Grid>
-            {/* <span>ADApproveNewEntries.tsx</span> */}
-        </React.Fragment>     
-    )
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../components/Firebase";
+// MUI
+import Typography from '@mui/material/Typography';
+import { Grid, Box, useMediaQuery, useTheme, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+// TypeScript
+interface ILike {
+    userid: string;
+    vendorid: string;
+    timestamp: number;
 }
 
-export default ADLikes
+const ADLikes: React.FC = () => {
+    // Phone detection
+    const theme = useTheme();
+    const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
+
+    const [likes, setLikes] = useState<ILike[]>([]);
+
+    useEffect(() => {
+        const fetchLikes = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, "likes"));
+                const fetchedLikes: ILike[] = querySnapshot.docs.map(doc => ({
+                    userid: doc.data().userid,
+                    vendorid: doc.data().vendorid,
+                    timestamp: doc.data().timestamp instanceof Object
+                        ? doc.data().timestamp.seconds * 1000  // Convert Firestore Timestamp
+                        : doc.data().timestamp || 0, // Raw number fallback
+                }));
+                setLikes(fetchedLikes);
+            } catch (error) {
+                console.error("Error fetching likes:", error);
+            }
+        };
+
+        fetchLikes();
+    }, []);
+
+    return (
+        <Grid container>
+            {!isPhone && (
+                <Grid item xs={3}>
+                    <Box sx={{ padding: 2 }}>
+                        <ADMenu />
+                    </Box>
+                </Grid>
+            )}
+            <Grid item md={9} xs={12}>
+                <Box sx={{ padding: 3 }}>
+                    <Typography variant="h1" component="h1">
+                        Likes (🗲) - Listing
+                    </Typography>
+                    <TableContainer component={Paper} sx={{ marginTop: 2 }}>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell><b>User ID</b></TableCell>
+                                    <TableCell><b>Vendor ID</b></TableCell>
+                                    <TableCell><b>Timestamp</b></TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {likes.map((like, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell>{like.userid}</TableCell>
+                                        <TableCell>{like.vendorid}</TableCell>
+                                        <TableCell>{new Date(like.timestamp).toLocaleString()}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Box>
+            </Grid>
+        </Grid>
+    );
+};
+
+export default ADLikes;
