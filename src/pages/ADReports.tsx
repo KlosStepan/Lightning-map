@@ -28,17 +28,23 @@ const ADReports: React.FC<ADReportsProps> = ({ }) => {
         const fetchReports = async () => {
             try {
                 const querySnapshot = await getDocs(collection(db, "reports"));
-                const fetchedReports: IReport[] = querySnapshot.docs.map(doc => ({
-                    vendorid: doc.data().vendorid,
-                    userid: doc.data().userid,
-                    timestamp: doc.data().timestamp,
-                    report: doc.data().report || "",
-                }));
+                const fetchedReports: IReport[] = querySnapshot.docs.map(doc => {
+                    const data = doc.data();
+                    return {
+                        vendorid: data.vendorid,
+                        userid: data.userid,
+                        timestamp: data.timestamp instanceof Object
+                            ? data.timestamp.seconds * 1000  // Firestore Timestamp -> JS Date
+                            : data.timestamp || 0, // Raw number fallback
+                        report: data.report || "",
+                    };
+                });
                 setReports(fetchedReports);
             } catch (error) {
                 console.error("Error fetching reports:", error);
             }
         };
+        
 
         fetchReports();
     }, []);
