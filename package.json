@@ -12,6 +12,7 @@
     "@reduxjs/toolkit": "^2.2.7",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
+    "ajv": "^8.17.1",
     "browser-image-compression": "^2.0.2",
     "firebase": "^11.6.0",
     "leaflet": "^1.9.4",
