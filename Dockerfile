@@ -2,7 +2,7 @@ FROM node as build
 WORKDIR /app
 COPY package.json .
 RUN npm install --legacy-peer-deps
-# Set environment variables
+# Accept build-time variables as arguments
 ARG REACT_APP_FIREBASE_API_KEY
 ARG REACT_APP_FIREBASE_AUTH_DOMAIN
 ARG REACT_APP_FIREBASE_PROJECT_ID
@@ -10,7 +10,7 @@ ARG REACT_APP_FIREBASE_STORAGE_BUCKET
 ARG REACT_APP_FIREBASE_MESSAGING_SENDER_ID
 ARG REACT_APP_FIREBASE_APP_ID
 ARG REACT_APP_FIREBASE_MEASUREMENT_ID
-# Ensure these environment variables are used in the build (for React build process)
+# Set environment variables in the container for React build
 ENV REACT_APP_FIREBASE_API_KEY=$REACT_APP_FIREBASE_API_KEY
 ENV REACT_APP_FIREBASE_AUTH_DOMAIN=$REACT_APP_FIREBASE_AUTH_DOMAIN
 ENV REACT_APP_FIREBASE_PROJECT_ID=$REACT_APP_FIREBASE_PROJECT_ID
