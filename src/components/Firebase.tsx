@@ -1,7 +1,8 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp, FirebaseApp } from "firebase/app";
 import {
     GoogleAuthProvider,
     getAuth,
+    Auth,
     signInWithPopup,
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
@@ -10,15 +11,14 @@ import {
 } from "firebase/auth";
 import {
     getFirestore,
+    Firestore,
     query,
     getDocs,
     collection,
     where,
     addDoc,
 } from "firebase/firestore";
-import { getStorage } from "firebase/storage"; // Import Firebase Storage
-//TODO Prepare Login/Reg here and export it
-//https://blog.logrocket.com/user-authentication-firebase-react-apps/
+import { getStorage, FirebaseStorage } from "firebase/storage"; // Import Firebase Storage
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -30,68 +30,108 @@ const firebaseConfig = {
     measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 };
 
+// Declare variables with types (no null allowed)
+let app: FirebaseApp;
+let auth: Auth;
+let db: Firestore;
+let storage: FirebaseStorage;
+let googleProvider: GoogleAuthProvider;
+
+try {
+  // Initialize Firebase
+  app = initializeApp(firebaseConfig);
   
-//Initialize Firebase
-const app = initializeApp(firebaseConfig);
-//Initialize Firebase Services
-const auth = getAuth(app);
-const db = getFirestore(app);
-const storage = getStorage(app); // Initialize Firebase Storage
-const googleProvider = new GoogleAuthProvider();
+  // Initialize Firebase Services
+  auth = getAuth(app);
+  db = getFirestore(app);
+  storage = getStorage(app); // Initialize Firebase Storage
+  googleProvider = new GoogleAuthProvider();
+
+  console.log("Firebase initialized successfully");
+} catch (error) {
+  // Throw a runtime error if initialization fails
+  throw new Error("Error initializing Firebase: " + error);
+}
+
+// Firebase Authentication & Firestore Functions
 
 const signInWithGoogle = async () => {
     try {
-        const res = await signInWithPopup(auth, googleProvider);
-        const user = res.user;
-        const q = query(collection(db, "users"), where("uid", "==", user.uid));
-        const docs = await getDocs(q);
-        if (docs.docs.length === 0) {
-            await addDoc(collection(db, "users"), {
-                uid: user.uid,
-                name: user.displayName,
-                authProvider: "google",
-                email: user.email,
-            });
+        if (auth && db && googleProvider) {
+            const res = await signInWithPopup(auth, googleProvider);
+            const user = res.user;
+            const q = query(collection(db, "users"), where("uid", "==", user.uid));
+            const docs = await getDocs(q);
+            if (docs.docs.length === 0) {
+                await addDoc(collection(db, "users"), {
+                    uid: user.uid,
+                    name: user.displayName,
+                    authProvider: "google",
+                    email: user.email,
+                });
+            }
+        } else {
+            throw new Error("Firebase not initialized properly.");
         }
     } catch (err: any) {
         console.error(err);
         alert(err.message);
     }
 };
+
 const logInWithEmailAndPassword = async (email: string, password: string) => {
     try {
-        await signInWithEmailAndPassword(auth, email, password);
+        if (auth) {
+            await signInWithEmailAndPassword(auth, email, password);
+        } else {
+            throw new Error("Firebase Authentication not initialized.");
+        }
     } catch (err: any) {
         console.error(err);
         alert(err.message);
     }
 };
+
 const registerWithEmailAndPassword = async (name: string, email: string, password: string) => {
     try {
-        const res = await createUserWithEmailAndPassword(auth, email, password);
-        const user = res.user;
-        await addDoc(collection(db, "users"), {
-            uid: user.uid,
-            name,
-            authProvider: "local",
-            email,
-        });
+        if (auth && db) {
+            const res = await createUserWithEmailAndPassword(auth, email, password);
+            const user = res.user;
+            await addDoc(collection(db, "users"), {
+                uid: user.uid,
+                name,
+                authProvider: "local",
+                email,
+            });
+        } else {
+            throw new Error("Firebase Authentication or Firestore not initialized.");
+        }
     } catch (err: any) {
         console.error(err);
         alert(err.message);
     }
 };
+
 const sendPasswordReset = async (email: string) => {
     try {
-        await sendPasswordResetEmail(auth, email);
-        alert("Password reset link sent!");
+        if (auth) {
+            await sendPasswordResetEmail(auth, email);
+            alert("Password reset link sent!");
+        } else {
+            throw new Error("Firebase Authentication not initialized.");
+        }
     } catch (err: any) {
         console.error(err);
         alert(err.message);
     }
 };
+
 const logout = () => {
-    signOut(auth);
+    if (auth) {
+        signOut(auth);
+    } else {
+        console.error("Firebase Authentication not initialized.");
+    }
 };
 
 export {
