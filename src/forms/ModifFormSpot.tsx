@@ -4,6 +4,7 @@ import ButtonUniversal from "../components/ButtonUniversal";
 import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
 import ToggleSocialInput from "../components/ToggleSocialInput";
 import UploadingImagesSpot from "../components/UploadingImagesSpot";
+import TagMerchant from "../components/TagMerchant";
 //Firebase
 import { db, storage } from "../components/Firebase";
 import { collection, addDoc, setDoc, doc, updateDoc } from "firebase/firestore";
@@ -26,6 +27,7 @@ import ISocial from "../ts/ISocial";
 //UUID generator
 import { v4 as uuidv4 } from 'uuid';
 
+const tagsAll = ["Food & Drinks", "Shops", "Services"];
 
 type ModifFormSpotProps = {
     FuncCancel: () => void;
@@ -288,9 +290,19 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                 </MapContainer>
                 <div style={{fontFamily: 'PixGamer', textAlign: 'center', fontSize: '18px'}}>Drag pin to more precise location</div>
             </Box>
-            <HrGreyCustomSeparator/>
+            <HrGreyCustomSeparator marginTop={10} marginBottom={5}/>
+            <Box>
+                <Typography variant="h2" component="h5">Tags &nbsp; &nbsp;
+                    {tagsAll.map((tag: string) => (
+                        <>
+                        <TagMerchant key={tag} tag={tag} /> &nbsp;
+                        </>
+                    ))}
+                </Typography>
+            </Box>
+            <HrGreyCustomSeparator marginTop={10} marginBottom={5}/>
             <Box mt={2}>
-                {/* Socials */}
+                <Typography variant="h2" component="h5">Socials</Typography>
                 {socials.map((social) => (
                     <ToggleSocialInput
                         key={social.network}
