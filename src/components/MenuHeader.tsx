@@ -1,6 +1,5 @@
 import React from "react"
 //MUI
-//import Box from '@mui/material/Box';
 import { Box } from "@mui/material";
 import Button from '@mui/material/Button';
 import { CardMedia } from '@mui/material';
@@ -9,23 +8,21 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-//MUI prolly del
 import Tooltip from '@mui/material/Tooltip';
-import Avatar from '@mui/material/Avatar';
-
-//Images imports
-import logo from '../img/lightning-everywhere.png';
-import IconKey from "../icons/IconKey"; //Key for login account
-//Router
-import { Link } from 'react-router-dom';
 //Redux
 import { RootState } from "../redux-rtk/store";
 import { useSelector } from "react-redux";
+//Router
+import { Link } from 'react-router-dom';
 //TypeScript
 import ILink from "../ts/ILink";
+
 //Icons
 import hamburger from '../icons/hamburger.png';
 import closeIcon2 from '../icons/close2.png';
+//Images imports
+import logo from '../img/lightning-everywhere.png';
+import IconKey from "../icons/IconKey"; //Key for login account
 
 type MenuHeaderProps = {
     pages: ILink[];
@@ -61,7 +58,6 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
         setAnchorElUser(null);
     };
 
-
     // Conditionally log debug information
     if (debug) {
         console.log("<DEBUG> MenuHeader.tsx");
@@ -71,30 +67,6 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
 
     return (
         <Toolbar disableGutters>
-            {/*<Typography
-                variant="h6"
-                noWrap
-                component="a"
-                href="#app-bar-with-responsive-menu"
-                sx={{
-                    mr: 2,
-                    display: { xs: 'none', md: 'flex' },
-                    fontFamily: 'monospace',
-                    fontWeight: 700,
-                    letterSpacing: '.3rem',
-                    //: 'inherit',
-                    textDecoration: 'none',
-                }}
-            >
-                <Link style={{ color: "inherit", textDecoration: "inherit" }} to="/">
-                    <CardMedia
-                        component="img"
-                        image={logo}
-                        alt="Lightning Everywhere"
-                    />
-                </Link>
-            </Typography>*/}
-
             {/* Mobile logo sizing here vv */}
             <Box
                 sx={{
@@ -103,17 +75,21 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                     textDecoration: "inherit",
                 }}
             >
-                <Link style={{ color: "inherit", textDecoration: "inherit" }} to="/">
-                    <CardMedia
-                        component="img"
-                        image={logo}
-                        alt="Lightning Everywhere"
-                        width="118"
-                        height="40"
-                    />
+                <Link to="/" style={{ color: "inherit", textDecoration: "inherit" }}>
+                    <Box sx={{ height: 40, display: 'flex', alignItems: 'center' }}>
+                        <CardMedia
+                            component="img"
+                            image={logo}
+                            alt="Lightning Everywhere"
+                            sx={{
+                                height: '100%',
+                                width: 'auto',
+                                objectFit: 'contain', // or 'scale-down' if needed
+                            }}
+                        />
+                    </Box>
                 </Link>
             </Box>
-
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                 <IconButton
                     size="large"
@@ -123,7 +99,6 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                     onClick={handleOpenNavMenu}
                     color="inherit"
                 >
-                    {/*<MenuIcon />*/}
                 </IconButton>
                 <Menu
                     id="menu-appbar"
@@ -295,7 +270,7 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                                 </Link>
                             </MenuItem>
                         );
-                })}
+                    })}
                 </Menu>
             </Box>
             {/* here only on mobile ^^ */}

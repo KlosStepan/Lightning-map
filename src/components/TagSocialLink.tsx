@@ -1,7 +1,10 @@
 import React from "react";
+//MUI
 import { Box } from "@mui/material";
+//TypeScript
 import ISocial from "../ts/ISocial";
 
+// Style for the social link tag
 const styleTagSocialLink = {
     fontFamily: 'PixGamer',
     display: 'inline-block',
@@ -13,7 +16,6 @@ const styleTagSocialLink = {
     fontSize: '22px',
     textAlign: 'center',
     textDecoration: 'none', // Remove underline from link
-    //transition: 'background-color 0.2s', // Smooth transition for hover
     transition: 'background-color 0.7s ease',
     '&:hover': {
         backgroundColor: (theme: any) => theme.palette.grey[500],
@@ -21,18 +23,18 @@ const styleTagSocialLink = {
 };
 
 type TagSocialLinkProps = {
-    social: ISocial
+    social: ISocial;
+    scale?: number; // Optional scale prop
 };
 
-const TagSocialLink: React.FC<TagSocialLinkProps> = ({ social }) => {
-    
+const TagSocialLink: React.FC<TagSocialLinkProps> = ({ social, scale = 1 }) => {
     if (!social.link) {
-        return <></>;
+        return <></>; // If no link exists, render nothing
     }
 
     return (
         <a href={social.link} style={{ textDecoration: 'none' }} target="_blank" rel="noopener noreferrer">
-            <Box sx={styleTagSocialLink}>
+            <Box sx={{ ...styleTagSocialLink, transform: `scale(${scale})`, transformOrigin: 'center' }}>
                 <span id={social.label}>{social.label}</span>
             </Box>
         </a>

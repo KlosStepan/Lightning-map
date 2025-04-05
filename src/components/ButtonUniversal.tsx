@@ -13,6 +13,7 @@ const buttonStyles = {
     justifyContent: 'center',
     alignItems: 'center',
     transition: 'background-color 0.7s ease',
+    //textTransform: 'none',
     '&:hover': {
         backgroundColor: (theme: any) => theme.palette.grey[700],
     },
@@ -47,40 +48,54 @@ type ButtonUniversalProps = {
     actionDelegate?: () => Promise<void> | void;
     fullWidth?: boolean
     disabled?: boolean
+    scale?: number; // <-- Add this
 };
 
-const ButtonUniversal: React.FC<ButtonUniversalProps> = ({ icon, side, title, color, textColor, actionDelegate, fullWidth=false, disabled=false }) => {
+const ButtonUniversal: React.FC<ButtonUniversalProps> = ({
+    icon,
+    side,
+    title,
+    color,
+    textColor,
+    actionDelegate,
+    fullWidth = false,
+    disabled = false,
+    scale = 1, // default = no scale
+}) => {
     return (
-        <Button
-            color="primary"
-            onClick={actionDelegate}
-            sx={{ ...buttonStyles, backgroundColor: color }}
-            fullWidth={fullWidth}
-            disabled={disabled}
-        >
-            <Box sx={{ ...boxContainerStyles }}>
-                { side === 'L' && icon && (
-                    <Box
-                        component="img"
-                        src={icon}
-                        alt={title}
-                        sx={{ ...iconStyles }}
-                    />
-                )}
-                <Box component="span" sx={{ ...textStyles, color: textColor }}>
-                    {title}
+        <Box sx={{ transform: `scale(${scale})`/*, transformOrigin: 'top left'*/, display: 'inline-block' }}>
+            <Button
+                color="primary"
+                onClick={actionDelegate}
+                sx={{ ...buttonStyles, backgroundColor: color }}
+                fullWidth={fullWidth}
+                disabled={disabled}
+            >
+                <Box sx={{ ...boxContainerStyles }}>
+                    {side === 'L' && icon && (
+                        <Box
+                            component="img"
+                            src={icon}
+                            alt={title}
+                            sx={{ ...iconStyles }}
+                        />
+                    )}
+                    <Box component="span" sx={{ ...textStyles, color: textColor }}>
+                        {title}
+                    </Box>
+                    {side === 'R' && icon && (
+                        <Box
+                            component="img"
+                            src={icon}
+                            alt={title}
+                            sx={{ ...iconStyles }}
+                        />
+                    )}
                 </Box>
-                { side === 'R' && icon && (
-                    <Box
-                        component="img"
-                        src={icon}
-                        alt={title}
-                        sx={{ ...iconStyles }}
-                    />
-                )}
-            </Box>
-        </Button>
+            </Button>
+        </Box>
     );
 };
+
 
 export default ButtonUniversal;

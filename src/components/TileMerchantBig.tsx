@@ -29,15 +29,14 @@ import ISocial from "../ts/ISocial";
 import closeIcon from '../icons/close.png';
 import IconExclamationMark from "../icons/warning-box.png";
 import IconLightningPurple from "../icons/icon-lightning-purple.png";
-import IconLightningNumber from "../icons/IconLightningNumber"; //Icon w/ number Comp.
 //Fake images
-import dummyImgBigTile from '../img/image-1-3.png';
 import FormSubmitReport from "../forms/FormSubmitReport";
 
-//Gal impl.
+//Gallery impl.
 import { IconButton,  } from "@mui/material";
 import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
-//Gal impl.
+//Gallery impl.
+
 const containerOuterStyle = {
     padding: '16px 12px',
     gap: '10px',
@@ -72,7 +71,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
     //tmp debug; mby TODO clicked other - reset state of this to default false
     const [voted, setVoted] = useState<boolean>(false);
 
-    //Gal impl.
+    //Gallery impl.
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const handleNextImage = () => {
         setCurrentImageIndex((prevIndex) => (prevIndex + 1) % tile.images.length);
@@ -82,7 +81,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
             prevIndex === 0 ? tile.images.length - 1 : prevIndex - 1
         );
     };
-    //Gal impl.
+    //Gallery impl.
 
     // ✅ Check if user has already liked this vendor
     useEffect(() => {
@@ -158,35 +157,30 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                     <Grid container spacing={2}>
                         {/* LEFT - Image section */}
                         <Grid item xs={12} sm={6}>
-                            {/*<CardMedia
-                                component="img"
-                                image={dummyImgBigTile}
-                                alt={tile.name}
-                            />*/}
-                        {tile.images.length > 1 ? (
-                            <div style={{ position: "relative", textAlign: "center" }}>
-                                <CardMedia
-                                    component="img"
-                                    image={tile.images[currentImageIndex]}
-                                    alt={tile.name}
-                                    sx={{ maxHeight: "300px", objectFit: "cover" }}
-                                />
-                                <IconButton
-                                    onClick={handlePrevImage}
-                                    sx={{ position: "absolute", top: "50%", left: "10px", color: "white", backgroundColor: "rgba(0,0,0,0.5)" }}
-                                >
-                                    <ArrowBackIos />
-                                </IconButton>
-                                <IconButton
-                                    onClick={handleNextImage}
-                                    sx={{ position: "absolute", top: "50%", right: "10px", color: "white", backgroundColor: "rgba(0,0,0,0.5)" }}
-                                >
-                                    <ArrowForwardIos />
-                                </IconButton>
-                            </div>
-                        ) : (
-                            <CardMedia component="img" image={tile.images[0]} alt={tile.name} />
-                        )}
+                            {tile.images.length > 1 ? (
+                                <div style={{ position: "relative", textAlign: "center" }}>
+                                    <CardMedia
+                                        component="img"
+                                        image={tile.images[currentImageIndex]}
+                                        alt={tile.name}
+                                        sx={{ maxHeight: "300px", objectFit: "cover" }}
+                                    />
+                                    <IconButton
+                                        onClick={handlePrevImage}
+                                        sx={{ position: "absolute", top: "50%", left: "10px", color: "white", backgroundColor: "rgba(0,0,0,0.5)" }}
+                                    >
+                                        <ArrowBackIos />
+                                    </IconButton>
+                                    <IconButton
+                                        onClick={handleNextImage}
+                                        sx={{ position: "absolute", top: "50%", right: "10px", color: "white", backgroundColor: "rgba(0,0,0,0.5)" }}
+                                    >
+                                        <ArrowForwardIos />
+                                    </IconButton>
+                                </div>
+                            ) : (
+                                <CardMedia component="img" image={tile.images[0]} alt={tile.name} />
+                            )}
                         </Grid>
                         {/* RIGHT - Content section */}
                         <Grid item xs={12} sm={6}>
@@ -223,7 +217,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                                 </Typography>
                                 &nbsp;
                                 {tile.socials.map((social: ISocial, index: number) => (
-                                    <TagSocialLink key={index} social={social} />
+                                    <TagSocialLink key={index} social={social} scale={0.8} />
                                 ))}
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
@@ -236,13 +230,11 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                                     actionDelegate={FuncReport}
                                 />
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    {/*<IconLightningNumber number="777" scale={1.1} />*/}
                                     {/*TODO - swappable if clicked colors */}
                                     <ButtonUniversal
                                         icon={IconLightningPurple}
                                         side={ButtonSide.Left}
                                         title={likes}
-                                        //color={voted ? "#D9D9D9" : "#F0F0F0"} // Darker when clicked
                                         color={voted ? "#7f7f7f" : "#F0F0F0"} // Darker when clicked
                                         textColor="black"
                                         actionDelegate={SwapLike}
@@ -274,7 +266,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                         tile={tile}
                     />
                 </Box>
-              </Modal>
+            </Modal>
         </React.Fragment>
     );
 };
