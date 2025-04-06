@@ -295,7 +295,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                 <Typography variant="h2" component="h5">Tags &nbsp; &nbsp;
                     {tagsAll.map((tag: string) => (
                         <>
-                        <TagMerchant key={tag} tag={tag} /> &nbsp;
+                            <TagMerchant key={tag} tag={tag} /> &nbsp;
                         </>
                     ))}
                 </Typography>
@@ -311,10 +311,23 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                     />
                 ))}
             </Box>
-            <HrGreyCustomSeparator/>
+            <HrGreyCustomSeparator marginTop={0} marginBottom={0}/>
             <Box mt={2}>
-                {/* Upload images */}
-                <Typography variant="h2" component="h5"></Typography>
+                {edit && (
+                    <React.Fragment>
+                        <Box display="flex" alignItems="center" flexWrap="wrap" mt={1}>
+                            <Typography variant="h2" component="h5" sx={{ whiteSpace: 'nowrap', mr: 1 }}>
+                                [x] Keep photos
+                            </Typography>
+                            {merchant?.images.map((url, index) => (
+                                <span key={index} style={{ display: 'inline-block', width: 40, height: 40, border: '1px solid black', borderRadius: 4, marginRight: 4, overflow: 'hidden' }}>
+                                    <img src={url} alt={`thumb-${index}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                </span>
+                            ))}
+                        </Box>
+                        <HrGreyCustomSeparator marginTop={5} marginBottom={5}/>
+                    </React.Fragment>
+                )}
                 <UploadingImagesSpot files={files} setFiles={setFiles} />
             </Box>
             <Box display="flex" justifyContent="flex-end" mt={2}>
