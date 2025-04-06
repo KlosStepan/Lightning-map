@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 //Components
 import ButtonUniversal from "../components/ButtonUniversal";
+import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
 import UploadingImagesSpot from "../components/UploadingImagesSpot";
 //Firebase
 import { db, storage } from "../components/Firebase";
@@ -250,6 +251,21 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
             </Box>
             <Box mt={2}>
                 <Typography variant="h2" component="h5">Logo</Typography>
+                {edit && (
+                    <React.Fragment>
+                        <Box display="flex" alignItems="center" flexWrap="wrap" mt={1}>
+                            <Typography variant="h2" component="h5" sx={{ whiteSpace: 'nowrap', mr: 1 }}>
+                                [x] Keep logo
+                            </Typography>
+                            {eshop?.logo && (
+                                <span style={{ display: 'inline-block', width: 40, height: 40, border: '1px solid black', borderRadius: 4, marginRight: 4, overflow: 'hidden' }}>
+                                    <img src={eshop.logo} alt="logo-thumb" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                </span>
+                            )}
+                        </Box>
+                        <HrGreyCustomSeparator marginTop={5} marginBottom={5} />
+                    </React.Fragment>
+                )}
                 <UploadingImagesSpot files={files} setFiles={setFiles} multipleImages={false} />
             </Box>
             <Box display="flex" justifyContent="flex-end" mt={2}>
