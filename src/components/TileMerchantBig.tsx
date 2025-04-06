@@ -158,28 +158,33 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                         {/* LEFT - Image section */}
                         <Grid item xs={12} sm={6}>
                             {tile.images.length > 1 ? (
-                                <div style={{ position: "relative", textAlign: "center" }}>
-                                    <CardMedia
-                                        component="img"
-                                        image={tile.images[currentImageIndex]}
-                                        alt={tile.name}
-                                        sx={{ maxHeight: "300px", objectFit: "cover" }}
-                                    />
-                                    <IconButton
-                                        onClick={handlePrevImage}
-                                        sx={{ position: "absolute", top: "50%", left: "10px", color: "white", backgroundColor: "rgba(0,0,0,0.5)" }}
-                                    >
-                                        <ArrowBackIos />
-                                    </IconButton>
-                                    <IconButton
-                                        onClick={handleNextImage}
-                                        sx={{ position: "absolute", top: "50%", right: "10px", color: "white", backgroundColor: "rgba(0,0,0,0.5)" }}
-                                    >
-                                        <ArrowForwardIos />
-                                    </IconButton>
+                                <div style={{ position: "relative", width: 342, height: 216, overflow: "hidden", borderRadius: 4 }}>
+                                <CardMedia
+                                    component="img"
+                                    image={tile.images[currentImageIndex]}
+                                    alt={tile.name}
+                                    sx={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 4 }}
+                                />
+                                <IconButton
+                                    onClick={handlePrevImage}
+                                    sx={{ position: "absolute", top: "50%", left: "10px", transform: "translateY(-50%)", color: "white", backgroundColor: "rgba(0,0,0,0.5)" }}
+                                >
+                                    <ArrowBackIos />
+                                </IconButton>
+                                <IconButton
+                                    onClick={handleNextImage}
+                                    sx={{ position: "absolute", top: "50%", right: "10px", transform: "translateY(-50%)", color: "white", backgroundColor: "rgba(0,0,0,0.5)" }}
+                                >
+                                    <ArrowForwardIos />
+                                </IconButton>
                                 </div>
                             ) : (
-                                <CardMedia component="img" image={tile.images[0]} alt={tile.name} />
+                                <CardMedia
+                                    component="img"
+                                    image={tile.images[0]}
+                                    alt={tile.name}
+                                    sx={{ width: 342, height: 216, objectFit: "cover", borderRadius: 4 }}
+                                />
                             )}
                         </Grid>
                         {/* RIGHT - Content section */}
