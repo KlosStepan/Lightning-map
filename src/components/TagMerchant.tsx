@@ -13,7 +13,7 @@ const TagMerchant: React.FC<TagMerchantProps> = ({ tag, edit = false, selected =
     // Style for TagMerchant
     const tagStyle = {
         display: 'inline-block',
-        backgroundColor: edit && selected ? '#999999' : '#8000FF',
+        backgroundColor: edit ? (selected ? '#8000FF' : '#999999') : '#8000FF',
         color: 'white',
         padding: '4px 10px',
         margin: '0px 4px 0px 0px',

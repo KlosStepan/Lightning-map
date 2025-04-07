@@ -38,9 +38,9 @@ type ModifFormSpotProps = {
 
 const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, merchant, documentid }) => {
     // DEBUG
-    const debug = useSelector((state: RootState) => state.misc.debug);
+    const DEBUG = useSelector((state: RootState) => state.misc.debug);
     // debug info
-    if (debug) {
+    if (DEBUG) {
         console.log("<DEBUG> ModifFormSpot.tsx");
         console.log("--debugging on--")
         if (edit) console.log("edit: true");
@@ -81,33 +81,32 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
             )
         );
     };
-    // Tags - TODO UI/UX + Managment Function
-    const [tags, setTags] = useState<string[]>(["Shops", "Services"]);
+    // Tags - What stuff does this merchant sell?
+    const [tags, setTags] = useState<string[]>([]);
+    // Add tag, remove tag from <TagMerchant .../>
     const handleTagPressed = (adding: boolean, tag: string) => {
-        let _tags:string[] = tags.slice();
-        if(adding==true)
-        {
-            _tags.push(tag)
-        }
-        else {
+        let _tags: string[] = tags.slice();
+        if (adding) {
+            _tags.push(tag);
+        } else {
             _tags = _tags.filter(t => t !== tag);
         }
         setTags(_tags);
-    }
+    };
     // Upload images - 1x <UploadingImagesSpot ... drilled down setFiles
     const [files, setFiles] = useState<Array<File & { preview: string }>>([]);
 
-    //CRUD Add/Upd + DummyPopulate/WrapSpot/PrepPics
+    // CRUD Add/Upd + DummyPopulate/WrapSpot/PrepPics
     const AddSpot = async () => {
-        try{
-            // Step 1. Wrap Spot
+        try {
+            // Step 1/3 Wrap Spot
             const newSpot = WrapSpotData({ updStatus: false });
             //console.log("Adding newSpot: ", newSpot);
 
-            // Step 2. Add Spot
+            // Step 2/3 Add Spot
             const docRef = await addDoc(collection(db, "merchants"), newSpot);
             console.log("Spot added with ID: ", docRef.id);
-            // Step 3. Upload Files
+            // Step 3/3 Upload Files
             if (files.length>0) {
                 try {
                     // Validate each file
@@ -136,7 +135,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
             
                     console.log("Uploaded image URLs:", imageUrls);
             
-                    // Update Firestore with the array of image URLs
+                    // Update Firestore Spot with array of image URLs
                     await setDoc(doc(db, "merchants", docRef.id), {
                         properties: { images: imageUrls }
                     }, { merge: true });
@@ -174,11 +173,11 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
             images: [], //[x] TODO some ref (?) into Storage/S3
             owner: user?.uid  || "", //[x] TODO fill from Firebase profile
             socials: socials || [],
-            tags: tags || [], //[ ] TODO Implement FE on Form 
+            tags: tags || [], //[x] TODO Implement FE on Form 
             name: nameRef.current?.value || "",
             visible: updStatus, //[x] Add->false, Update->true
         },
-        type: "Feature" //[x] Always Feature
+        type: "Feature" //[x] Always a Feature
     });
     const PrepPics = (): any => ({
         //dadada, do after Spot is prototyped for all (in loop 3x) via the ext.
@@ -197,7 +196,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         if (postalCodeRef.current) postalCodeRef.current.value = `12345`;
         // Default dummy position
         setPosition([14.4378, 50.0755]);
-        // Fake social netowrks
+        // Fake Social Networks
         setSocials([
             { network: "web", label: "Web", link: "https://dummyweb.com" },
             { network: "facebook", label: "FB", link: "https://facebook.com/dummy" },
@@ -205,7 +204,13 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
             { network: "twitter", label: "X", link: "https://twitter.com/dummy" },
             { network: "threads", label: "@", link: "https://threads.net/dummy" },
         ]);
-        // Populate Upload Comp with dummy images - image blob
+        // Fake Tags
+        setTags([
+            "Food & Drinks",
+            "Shops",
+            "Services"
+        ]);
+        // Populate Upload Component with dummy images - image blobs
         try {
             const imageFiles = await Promise.all(
                 ["bpvs1.png", "bpvs2.png", "bpvs3.png", "bpvs4.png", "bpvs5.png"].map(async (fileName) => {
@@ -231,7 +236,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
     return (
         <React.Fragment>
             <React.Fragment>
-                {/* 5 Fields */}
+                {/* 5 Fields for input */}
                 <Box mt={2}>
                     <Typography variant="h2" component="h5">Title</Typography>
                     <TextField
@@ -278,11 +283,10 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                 </Box>
             </React.Fragment>
             <Box mt={2}>
-                {/* Map - picker */}
+                {/* Map - 🗲 Picker */}
                 <MapContainer center={[latitude, longitude]} zoom={13} ref={mapRef2} style={{ height: "22vh", width: "100%" }}>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        //url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
                     />
                     <Marker
@@ -342,8 +346,8 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                 <UploadingImagesSpot files={files} setFiles={setFiles} />
             </Box>
             <Box display="flex" justifyContent="flex-end" mt={2}>
-                { /* Buttons down the form */}
-                {debug && (
+                {/* Buttons at the bottom of the form */ }
+                {DEBUG && (
                     <ButtonUniversal
                         title={"Populate-dummy-spot ^"}
                         color="#F23CFF"
