@@ -25,6 +25,7 @@ import IEshop from "../ts/IEshop";
 //Icons
 import IconExclamationMark from "../icons/warning-box.png";
 import IconLightningPurple from "../icons/icon-lightning-purple.png";
+import IconLightningNumber from "../icons/IconLightningNumber";
 
 const containerOuterStyle = {
     padding: '10px 16px 10px 16px !important',
@@ -138,6 +139,7 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
                             )}
                         </div>
                         <div style={{ display: "flex", alignItems: "center" }}>
+                        {showReportButton ? (
                             <ButtonUniversal
                                 icon={IconLightningPurple}
                                 side={ButtonSide.Left}
@@ -147,7 +149,7 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
                                 textColor="black"
                                 actionDelegate={SwapLike}
                                 scale={0.75}
-                            />
+                            />) : <IconLightningNumber number={likes} scale={1} /> }
                         </div>
                     </div>
                     <Box

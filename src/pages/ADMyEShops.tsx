@@ -34,8 +34,10 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = ({ }) => {
     //State
     const user = useSelector((state: RootState) => state.misc.user);
     let uid = user?.uid
+    //
     const myEshops = useSelector((state: RootState) => state.misc.userEshops);
-
+    const likes = useSelector((state:RootState) => state.data.likes) ?? [];
+    const [likeCountsMap, setLikeCountsMap] = useState(new Map());
     //Debug
     const debug = useSelector((state: RootState) => state.misc.debug);
     if (debug) {
@@ -61,11 +63,16 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = ({ }) => {
                 documentid: doc.id,
                 eshop: doc.data() as IEshop
             }));
-            dispatch(setUserEshops(eshopsList));
+            dispatch(setUserEshops(eshopsList)); 
         };
-    
-        getEshops(db); 
-    }, [uid]);
+        getEshops(db);
+        //
+        const newMap = new Map();
+        likes.forEach(({ vendorid }) => {
+            newMap.set(vendorid, (newMap.get(vendorid) || 0) + 1);
+        });
+        setLikeCountsMap(newMap); 
+    }, [uid, likes]);
     //Function for dynamicPadding(index)
     const dynamicPadding = (index: number) => {
         const spaceBetween = 8; // Up and Down space
@@ -120,7 +127,7 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = ({ }) => {
                         <Grid container spacing={2} sx={{ marginRight: 0, marginLeft: 0 }}>
                         {myEshops?.map((eshop: IEshopADWrapper, index) => (
                             <Grid xs={12} sm={4} key={index} sx={isPhone ? {} : { ...dynamicPadding(index) }}>  {/* Apply padding only if not on a phone*/}
-                                <TileAddedEshop likes="7" eshop={eshop} />
+                                <TileAddedEshop likes={likeCountsMap.get(eshop.eshop.id) || 0} eshop={eshop} />
                             </Grid>
                         ))}
                     </Grid>
