@@ -1,8 +1,4 @@
 import React, { useEffect, useState } from "react";
-//MUI
-import Typography from '@mui/material/Typography';
-import { Grid, Box, useMediaQuery, useTheme } from '@mui/material';
-import Modal from "@mui/material/Modal";
 //Components
 import ADMenu from "../components/ADMenu";
 import TileAddedMerchant from "../components/TileAddedMerchant";
@@ -14,6 +10,10 @@ import { Firestore, QuerySnapshot, DocumentData, collection, getDocs, query, whe
 import { auth, db } from "../components/Firebase";
 //Forms
 import FormAddSpot from "../forms/FormAddSpot";
+//MUI
+import Typography from '@mui/material/Typography';
+import { Grid, Box, useMediaQuery, useTheme } from '@mui/material';
+import Modal from "@mui/material/Modal";
 //Redux+RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
@@ -31,26 +31,28 @@ type ADMyMerchantsProps = {
 
 const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
     const dispatch = useDispatch();
-
-    //State
+    // State
     const user = useSelector((state: RootState) => state.misc.user)
     let uid = user?.uid
+    //
     const myMerchants = useSelector((state: RootState) => state.misc.userMerchants);
-
-    //Debug
-    const debug = useSelector((state: RootState) => state.misc.debug);
-    if (debug) {
+    const likes = useSelector((state: RootState) => state.data.likes) ?? [];
+    const [likeCountsMap, setLikeCountsMap] = useState(new Map());
+    // Debug
+    const DEBUG = useSelector((state: RootState) => state.misc.debug);
+    if (DEBUG) {
         console.log("cnt(myMerchants): " + myMerchants?.length)
     }
-    //Functions for Merchants
+    // Functions for Merchants
     const FuncAddSpot = (): Promise<void> => {
         console.log("AddSpot")
         handleOpen();
         return Promise.resolve();
     }
+    // useEffect
     useEffect(() => {
         if (!uid) return; // Ensure uid is available before querying
-    
+        //
         const getMerchants = async (db: Firestore) => {
             const merchantsSnapshot: QuerySnapshot<DocumentData> = await getDocs(
                 query(
@@ -64,10 +66,15 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
             }));
             dispatch(setUserMerchants(merchantsList));
         };
-    
         getMerchants(db);
-    }, [uid]);
-    //Function for dynamicPadding(index)
+        //
+        const newMap = new Map();
+        likes.forEach(({ vendorid }) => {
+            newMap.set(vendorid, (newMap.get(vendorid) || 0) + 1);
+        });
+        setLikeCountsMap(newMap);
+    }, [uid, likes]);
+    // Function for dynamicPadding(index)
     const dynamicPadding = (index: number) => {
         const paddingValue = 24; // Between tiles space
         switch (index % 3) {
@@ -81,11 +88,11 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
             return { };
         }
     };
-    //Modal Stuff
+    // Modal Stuff
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    //Phone detection 
+    // Phone detection 
     const theme = useTheme();
     const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
     return (
@@ -122,7 +129,7 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
                         <Grid container spacing={2}>
                             {myMerchants?.map((merchant: IMerchantADWrapper, index: number) => (
                             <Grid xs={12} sm={4} key={index} sx={{ ...dynamicPadding(index) }}>
-                                <TileAddedMerchant likes={"777"} merchant={merchant} />
+                                <TileAddedMerchant likes={likeCountsMap.get(merchant.merchant.properties.id) || 0} merchant={merchant} />
                             </Grid>
                             ))}
                         </Grid>
@@ -144,7 +151,7 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
             {/* Menu down - for phone */}
             {isPhone && <ADMenu/>}
         </React.Fragment>
-    )
-}
+    );
+};
 
 export default ADMyMerchants;
