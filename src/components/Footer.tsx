@@ -25,16 +25,16 @@ const Footer: React.FC<FooterProps> = ({ }) => {
                     Experience the Power of Lightning Network Everywhere
                     </Typography>
                     {/*<Typography component="h1" variant="h3" sx={{ color: '#6B7280' }}>Out Domains</Typography>*/}
-                    <div>&nbsp;</div>
-                    <Typography component="h2" variant="h2">| LightningEverywhere.com</Typography>
-                    <Typography component="h2" variant="h2">| LightningEverywhere.io</Typography>
-                    <Typography component="h2" variant="h2">| Lightning-Everywhere.com</Typography>
-                    <Typography component="h2" variant="h2">| Lightning-Everywhere.io</Typography>
+                    <Typography component="h2" variant="h2">LightningEverywhere.com</Typography>
+                    <Typography component="h2" variant="h2">&gt; Lightning-Everywhere.com</Typography>
+                    <Typography component="h2" variant="h2">&gt; LightningEverywhere.io</Typography>
+                    <Typography component="h2" variant="h2">&gt; Lightning-Everywhere.io</Typography>
                 </Grid>
                 {/* Second part: 1/4 */}
                 <Grid item xs={12} md={3}>
                     <Typography component="h1" variant="h3" sx={{ color: '#6B7280' }}>Support</Typography>
                     <Typography component="h2" variant="h2">stepan@lightningeverywhere.com</Typography>
+                    <Typography component="h2" variant="h4">(^ not working yet)</Typography>
                     <div>&nbsp;</div>
                 </Grid>
                 {/* Third part: 1/4 */}

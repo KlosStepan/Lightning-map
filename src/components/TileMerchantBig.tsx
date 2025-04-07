@@ -158,7 +158,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                         {/* LEFT - Image section */}
                         <Grid item xs={12} sm={6}>
                             {tile.images.length > 1 ? (
-                                <div style={{ position: "relative", width: 342, height: 216, overflow: "hidden", borderRadius: 4 }}>
+                                <div style={{ position: "relative", /*width: 342,*/ height: 216, overflow: "hidden", borderRadius: 4 }}>
                                 <CardMedia
                                     component="img"
                                     image={tile.images[currentImageIndex]}
@@ -183,7 +183,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                                     component="img"
                                     image={tile.images[0]}
                                     alt={tile.name}
-                                    sx={{ width: 342, height: 216, objectFit: "cover", borderRadius: 4 }}
+                                    sx={{ /*width: 342,*/ height: 216, objectFit: "cover", borderRadius: 4 }}
                                 />
                             )}
                         </Grid>

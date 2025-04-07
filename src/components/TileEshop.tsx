@@ -137,16 +137,18 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
                                 />
                             )}
                         </div>
-                        <ButtonUniversal
-                            icon={IconLightningPurple}
-                            side={ButtonSide.Left}
-                            title={likes}
-                            //color={voted ? "#D9D9D9" : "#F0F0F0"} // Darker when clicked
-                            color={voted ? "#7f7f7f" : "#F0F0F0"} // Darker when clicked
-                            textColor="black"
-                            actionDelegate={SwapLike}
-                            scale={0.75}
-                        />
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                            <ButtonUniversal
+                                icon={IconLightningPurple}
+                                side={ButtonSide.Left}
+                                title={likes}
+                                //color={voted ? "#D9D9D9" : "#F0F0F0"} // Darker when clicked
+                                color={voted ? "#7f7f7f" : "#F0F0F0"} // Darker when clicked
+                                textColor="black"
+                                actionDelegate={SwapLike}
+                                scale={0.75}
+                            />
+                        </div>
                     </div>
                     <Box
                         sx={{
