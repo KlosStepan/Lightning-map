@@ -83,6 +83,17 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
     };
     // Tags - TODO UI/UX + Managment Function
     const [tags, setTags] = useState<string[]>(["Shops", "Services"]);
+    const handleTagPressed = (adding: boolean, tag: string) => {
+        let _tags:string[] = tags.slice();
+        if(adding==true)
+        {
+            _tags.push(tag)
+        }
+        else {
+            _tags = _tags.filter(t => t !== tag);
+        }
+        setTags(_tags);
+    }
     // Upload images - 1x <UploadingImagesSpot ... drilled down setFiles
     const [files, setFiles] = useState<Array<File & { preview: string }>>([]);
 
@@ -294,9 +305,9 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
             <Box>
                 <Typography variant="h2" component="h5">Tags &nbsp; &nbsp;
                     {tagsAll.map((tag: string) => (
-                        <>
-                            <TagMerchant key={tag} tag={tag} /> &nbsp;
-                        </>
+                        <React.Fragment key={tag}>
+                            <TagMerchant tag={tag} edit={true} selected={tags.includes(tag)} actionDelegate={handleTagPressed} /> &nbsp;
+                        </React.Fragment>
                     ))}
                 </Typography>
             </Box>
