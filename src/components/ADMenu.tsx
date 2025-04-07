@@ -77,46 +77,58 @@ const ADMenu: React.FC<ADMenuProps> = ({ }) => {
             : (
                 <Box
                     sx={{
-                        backgroundColor: 'white',
-                        borderRadius: 2,
-                        boxShadow: 24,
-                        maxWidth: 600,
-                        paddingBottom: 2,
-                        outline: 'none',
-                        border: 'none',
+                        position: { xs: 'fixed', sm: 'static' }, // fixed on phones
+                        bottom: { xs: 0, sm: 'auto' },
+                        left: 0,
+                        width: '100%',
+                        zIndex: 1300,
                     }}
                 >
-                    <Grid container spacing={2}>
-                        {/* Show admin menu at the top if user is admin */}
-                        {user && user.email === "stepanklos@gmail.com" && (
-                            <>
-                                {menuAdminLinks.map(({ icon, title, path }, index) => (
-                                    <Grid item xs={3} key={index}>
-                                        <Link to={path} style={{ textDecoration: 'none' }}>
-                                            <Box sx={{ textAlign: 'center' }}>
-                                                <Box component="img" src={icon} alt={title} sx={{ width: 24, height: 24 }} />
-                                            </Box>
-                                        </Link>
+                    <Box
+                        sx={{
+                            backgroundColor: 'white',
+                            borderRadius: 2,
+                            boxShadow: 24,
+                            maxWidth: 600,
+                            mx: 'auto', // center horizontally within full width
+                            paddingBottom: 2,
+                            outline: 'none',
+                            border: 'none',
+                        }}
+                    >
+                        <Grid container spacing={2}>
+                            {/* Admin Menu */}
+                            {user && user.email === "stepanklos@gmail.com" && (
+                                <>
+                                    {menuAdminLinks.map(({ icon, title, path }, index) => (
+                                        <Grid item xs={3} key={index}>
+                                            <Link to={path} style={{ textDecoration: 'none' }}>
+                                                <Box sx={{ textAlign: 'center' }}>
+                                                    <Box component="img" src={icon} alt={title} sx={{ width: 24, height: 24 }} />
+                                                </Box>
+                                            </Link>
+                                        </Grid>
+                                    ))}
+                                    <Grid item xs={12}>
+                                        <HrGreyCustomSeparator marginTop="0px" marginBottom="0px" />
                                     </Grid>
-                                ))}
-                                <Grid item xs={12}>
-                                    <HrGreyCustomSeparator marginTop="0px" marginBottom="0px" />
+                                </>
+                            )}
+
+                            {/* Normal Menu */}
+                            {menuLinks.map(({ icon, title, path }, index) => (
+                                <Grid item xs={3} key={index}>
+                                    <Link to={path} style={{ textDecoration: 'none' }}>
+                                        <Box sx={{ textAlign: 'center' }}>
+                                            <Box component="img" src={icon} alt={title} sx={{ width: 24, height: 24 }} />
+                                        </Box>
+                                    </Link>
                                 </Grid>
-                            </>
-                        )}
-    
-                        {/* Normal menu below admin menu */}
-                        {menuLinks.map(({ icon, title, path }, index) => (
-                            <Grid item xs={3} key={index}>
-                                <Link to={path} style={{ textDecoration: 'none' }}>
-                                    <Box sx={{ textAlign: 'center' }}>
-                                        <Box component="img" src={icon} alt={title} sx={{ width: 24, height: 24 }} />
-                                    </Box>
-                                </Link>
-                            </Grid>
-                        ))}
-                    </Grid>
+                            ))}
+                        </Grid>
+                    </Box>
                 </Box>
+
             )}
         </React.Fragment>   
     )
