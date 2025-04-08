@@ -14,6 +14,11 @@ import IcoADHome from '../icons/ad-home.png';
 import IcoADPin from '../icons/ad-pin.png';
 import IcoADShoppingBag from '../icons/ad-shopping-bag.png';
 import IcoADUser from '../icons/ad-user.png';
+// Icons from Wish
+import IcoADXUsers from '../icons/ad-x-users.png';
+import IcoADXMerchants from '../icons/ad-x-merchants.png';
+import IcoADXLikes from '../icons/ad-x-likes.png';
+import IcoADXReports from '../icons/ad-x-reports.png';
 //
 import HrGreyCustomSeparator from "./HrGreyCustomSeparator";
 
@@ -44,10 +49,10 @@ const ADMenu: React.FC<ADMenuProps> = ({ }) => {
         { icon: IcoADUser, title: "My account", path: "/admin/my-account" }
     ];
     const menuAdminLinks = [
-        { icon: IcoADUser, title: "Manage users", path: "/admin/manage-users"},
-        { icon: IcoADUser, title: "Approve new entries", path: "/admin/new-entries"},
-        { icon: IcoADUser, title: "Likes (🗲)", path:"/admin/likes"},
-        { icon: IcoADUser, title: "Reports ( ! )", path:"/admin/reports"}
+        { icon: IcoADXUsers, title: "Manage users", path: "/admin/manage-users"},
+        { icon: IcoADXMerchants, title: "Approve new entries", path: "/admin/new-entries"},
+        { icon: IcoADXLikes, title: "Likes (🗲)", path:"/admin/likes"},
+        { icon: IcoADXReports, title: "Reports ( ! )", path:"/admin/reports"}
         //{ icon: null, title: "XXX", path:"/admin/xxx"}
     ];
     //
