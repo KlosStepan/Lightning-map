@@ -41,42 +41,46 @@ const ADLikes: React.FC = () => {
     }, []);
 
     return (
-        <Grid container>
-            {!isPhone && (
-                <Grid item xs={3}>
-                    <Box sx={{ padding: 2 }}>
-                        <ADMenu />
+        <React.Fragment>
+            <Grid container>
+                {!isPhone && (
+                    <Grid item xs={3}>
+                        <Box sx={{ padding: 2 }}>
+                            <ADMenu />
+                        </Box>
+                    </Grid>
+                )}
+                <Grid item md={9} xs={12}>
+                    <Box sx={{ padding: 3 }}>
+                        <Typography variant="h1" component="h1">
+                            Likes (🗲) - Listing
+                        </Typography>
+                        <TableContainer component={Paper} sx={{ marginTop: 2 }}>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell><b>User ID</b></TableCell>
+                                        <TableCell><b>Vendor ID</b></TableCell>
+                                        <TableCell><b>Timestamp</b></TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {likes.map((like, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell>{like.userid}</TableCell>
+                                            <TableCell>{like.vendorid}</TableCell>
+                                            <TableCell>{new Date(like.timestamp).toLocaleString()}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
                     </Box>
                 </Grid>
-            )}
-            <Grid item md={9} xs={12}>
-                <Box sx={{ padding: 3 }}>
-                    <Typography variant="h1" component="h1">
-                        Likes (🗲) - Listing
-                    </Typography>
-                    <TableContainer component={Paper} sx={{ marginTop: 2 }}>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell><b>User ID</b></TableCell>
-                                    <TableCell><b>Vendor ID</b></TableCell>
-                                    <TableCell><b>Timestamp</b></TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {likes.map((like, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell>{like.userid}</TableCell>
-                                        <TableCell>{like.vendorid}</TableCell>
-                                        <TableCell>{new Date(like.timestamp).toLocaleString()}</TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </Box>
             </Grid>
-        </Grid>
+            {/* Menu down - for phone */}
+            {isPhone && <ADMenu/>}
+        </React.Fragment>
     );
 };
 

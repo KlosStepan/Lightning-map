@@ -102,8 +102,10 @@ const ADReports: React.FC<ADReportsProps> = ({ }) => {
                     </Box>
                 </Grid>
             </Grid>
-            {/* <span>ADApproveNewEntries.tsx</span> */}
+            {/* Menu down - for phone */}
+            {isPhone && <ADMenu/>}
         </React.Fragment>     
-    )
-}
-export default ADReports
+    );
+};
+
+export default ADReports;

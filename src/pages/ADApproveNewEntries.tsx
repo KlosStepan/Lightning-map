@@ -58,106 +58,110 @@ const ADApproveNewEntries: React.FC = () => {
     };
 
     return (
-        <Grid container>
-            {!isPhone && <Grid item xs={3}>
-                <Box sx={{ padding: 2 }}>
-                    <ADMenu />
-                </Box>
-            </Grid>}
-            <Grid item md={9} xs={12}>
-                <Box sx={{ padding: 3 }}>
-                    <Typography variant="h1" component="h1">Approve New Entries</Typography>
-                    
-                    <Grid container spacing={3} sx={{ marginTop: 2 }}>
-                        {/* Merchants */}
-                        <Grid item xs={12} md={6}>
-                            <Paper elevation={3} sx={{ padding: 2, borderRadius: 2 }}>
-                                <Typography variant="h2" component="h2">Spots</Typography>
-                                {allMerchants === null ? (
-                                    <Pwnspinner color="#F23CFF" speed={0.7} thickness={2} />
-                                ) : (
-                                    <List>
-                                        {allMerchants
-                                            .sort((a, b) => Number(a.properties.visible) - Number(b.properties.visible))
-                                            .map((merchant) => (
-                                                <ListItem key={merchant.properties.id} sx={{ borderBottom: "1px solid #ddd" }}>
-                                                    <ListItemText
-                                                        primary={`${merchant.properties.name}`}
-                                                        secondary={merchant.properties.visible ? "Visible" : "Hidden"}
-                                                        sx={{
-                                                            color: 'black', // Names are black
-                                                        }}
-                                                    />
-                                                    <ListItemSecondaryAction>
-                                                        <Switch 
-                                                            checked={merchant.properties.visible} 
-                                                            onChange={() => toggleVisibility("merchant", merchant.properties.id)}
+        <React.Fragment>
+            <Grid container>
+                {!isPhone && <Grid item xs={3}>
+                    <Box sx={{ padding: 2 }}>
+                        <ADMenu />
+                    </Box>
+                </Grid>}
+                <Grid item md={9} xs={12}>
+                    <Box sx={{ padding: 3 }}>
+                        <Typography variant="h1" component="h1">Approve New Entries</Typography>
+                        
+                        <Grid container spacing={3} sx={{ marginTop: 2 }}>
+                            {/* Merchants */}
+                            <Grid item xs={12} md={6}>
+                                <Paper elevation={3} sx={{ padding: 2, borderRadius: 2 }}>
+                                    <Typography variant="h2" component="h2">Spots</Typography>
+                                    {allMerchants === null ? (
+                                        <Pwnspinner color="#F23CFF" speed={0.7} thickness={2} />
+                                    ) : (
+                                        <List>
+                                            {allMerchants
+                                                .sort((a, b) => Number(a.properties.visible) - Number(b.properties.visible))
+                                                .map((merchant) => (
+                                                    <ListItem key={merchant.properties.id} sx={{ borderBottom: "1px solid #ddd" }}>
+                                                        <ListItemText
+                                                            primary={`${merchant.properties.name}`}
+                                                            secondary={merchant.properties.visible ? "Visible" : "Hidden"}
                                                             sx={{
-                                                                '&.Mui-checked': {
-                                                                    color: 'green', // Green for visible
-                                                                },
-                                                                '&.Mui-checked + .MuiSwitch-track': {
-                                                                    backgroundColor: 'green', // Track color for visible
-                                                                },
-                                                                '&.MuiSwitch-root': {
-                                                                    color: merchant.properties.visible ? 'green' : 'red', // Red when invisible
-                                                                }
+                                                                color: 'black', // Names are black
                                                             }}
                                                         />
-                                                    </ListItemSecondaryAction>
-                                                </ListItem>
-                                        ))}
-                                    </List>
-                                )}
-                            </Paper>
-                        </Grid>
+                                                        <ListItemSecondaryAction>
+                                                            <Switch 
+                                                                checked={merchant.properties.visible} 
+                                                                onChange={() => toggleVisibility("merchant", merchant.properties.id)}
+                                                                sx={{
+                                                                    '&.Mui-checked': {
+                                                                        color: 'green', // Green for visible
+                                                                    },
+                                                                    '&.Mui-checked + .MuiSwitch-track': {
+                                                                        backgroundColor: 'green', // Track color for visible
+                                                                    },
+                                                                    '&.MuiSwitch-root': {
+                                                                        color: merchant.properties.visible ? 'green' : 'red', // Red when invisible
+                                                                    }
+                                                                }}
+                                                            />
+                                                        </ListItemSecondaryAction>
+                                                    </ListItem>
+                                            ))}
+                                        </List>
+                                    )}
+                                </Paper>
+                            </Grid>
 
-                        {/* EShops */}
-                        <Grid item xs={12} md={6}>
-                            <Paper elevation={3} sx={{ padding: 2, borderRadius: 2 }}>
-                                <Typography variant="h2" component="h2">E-Shops</Typography>
-                                {allEshops === null ? (
-                                    <Pwnspinner color="#F23CFF" speed={0.7} thickness={2} />
-                                ) : (
-                                    <List>
-                                        {allEshops
-                                            .sort((a, b) => Number(a.visible) - Number(b.visible))
-                                            .map((eshop) => (
-                                                <ListItem key={eshop.id} sx={{ borderBottom: "1px solid #ddd" }}>
-                                                    <ListItemText
-                                                        primary={`${eshop.name}`}
-                                                        secondary={eshop.visible ? "Visible" : "Hidden"}
-                                                        sx={{
-                                                            color: 'black', // Names are black
-                                                        }}
-                                                    />
-                                                    <ListItemSecondaryAction>
-                                                        <Switch 
-                                                            checked={eshop.visible} 
-                                                            onChange={() => toggleVisibility("eshop", eshop.id)}
+                            {/* EShops */}
+                            <Grid item xs={12} md={6}>
+                                <Paper elevation={3} sx={{ padding: 2, borderRadius: 2 }}>
+                                    <Typography variant="h2" component="h2">E-Shops</Typography>
+                                    {allEshops === null ? (
+                                        <Pwnspinner color="#F23CFF" speed={0.7} thickness={2} />
+                                    ) : (
+                                        <List>
+                                            {allEshops
+                                                .sort((a, b) => Number(a.visible) - Number(b.visible))
+                                                .map((eshop) => (
+                                                    <ListItem key={eshop.id} sx={{ borderBottom: "1px solid #ddd" }}>
+                                                        <ListItemText
+                                                            primary={`${eshop.name}`}
+                                                            secondary={eshop.visible ? "Visible" : "Hidden"}
                                                             sx={{
-                                                                '&.Mui-checked': {
-                                                                    color: 'green', // Green for visible
-                                                                },
-                                                                '&.Mui-checked + .MuiSwitch-track': {
-                                                                    backgroundColor: 'green', // Track color for visible
-                                                                },
-                                                                '&.MuiSwitch-root': {
-                                                                    color: eshop.visible ? 'green' : 'red', // Red when invisible
-                                                                }
+                                                                color: 'black', // Names are black
                                                             }}
                                                         />
-                                                    </ListItemSecondaryAction>
-                                                </ListItem>
-                                        ))}
-                                    </List>
-                                )}
-                            </Paper>
+                                                        <ListItemSecondaryAction>
+                                                            <Switch 
+                                                                checked={eshop.visible} 
+                                                                onChange={() => toggleVisibility("eshop", eshop.id)}
+                                                                sx={{
+                                                                    '&.Mui-checked': {
+                                                                        color: 'green', // Green for visible
+                                                                    },
+                                                                    '&.Mui-checked + .MuiSwitch-track': {
+                                                                        backgroundColor: 'green', // Track color for visible
+                                                                    },
+                                                                    '&.MuiSwitch-root': {
+                                                                        color: eshop.visible ? 'green' : 'red', // Red when invisible
+                                                                    }
+                                                                }}
+                                                            />
+                                                        </ListItemSecondaryAction>
+                                                    </ListItem>
+                                            ))}
+                                        </List>
+                                    )}
+                                </Paper>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </Box>
+                    </Box>
+                </Grid>
             </Grid>
-        </Grid>
+            {/* Menu down - for phone */}
+            {isPhone && <ADMenu/>}
+        </React.Fragment>
     );
 };
 

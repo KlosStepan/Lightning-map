@@ -48,8 +48,10 @@ const ADManageUsers: React.FC<ADManageUsersProps> = ({ }) => {
                     </Box>
                 </Grid>
             </Grid>
-            {/* <span>ADApproveNewEntries.tsx</span> */}
+            {/* Menu down - for phone */}
+            {isPhone && <ADMenu/>}
         </React.Fragment>     
-    )
-}
+    );
+};
+
 export default ADManageUsers
