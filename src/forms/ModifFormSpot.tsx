@@ -145,6 +145,10 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                     console.error("Error uploading files:", error);
                 }
             }
+
+            // Once everything finishes (including photos upload), reload the page
+            window.location.reload();
+            
         } catch (error) {
             console.error("Error adding merchant: ", error);
         }
