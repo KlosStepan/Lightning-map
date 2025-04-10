@@ -14,7 +14,7 @@ import L from "leaflet";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import group13 from '../icons/group13.png';
 //MUI
-import { Box } from '@mui/material';
+import { Box, Checkbox, FormControlLabel } from '@mui/material';
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 //Redux+RTK
@@ -94,6 +94,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         setTags(_tags);
     };
     // Upload images - 1x <UploadingImagesSpot ... drilled down setFiles
+    const [keepPhotos, setKeepPhotos] = useState(true);  // True as default, keep photos
     const [files, setFiles] = useState<Array<File & { preview: string }>>([]);
 
     // Redirect logic
@@ -343,9 +344,19 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                 {edit && (
                     <React.Fragment>
                         <Box display="flex" alignItems="center" flexWrap="wrap" mt={1}>
-                            <Typography variant="h2" component="h5" sx={{ whiteSpace: 'nowrap', mr: 1 }}>
-                                [x] Keep photos
-                            </Typography>
+                            {/*<Typography variant="h2" component="h5" sx={{ whiteSpace: 'nowrap', mr: 1 }}>*/}
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={keepPhotos}
+                                        onChange={(e) => setKeepPhotos(e.target.checked)}
+                                        color="primary"
+                                    />
+                                }
+                                label="Keep photos"
+                                sx={{ mr: 2 }}
+                            />
+                            {/*</Typography>*/}
                             {merchant?.images.map((url, index) => (
                                 <span key={index} style={{ display: 'inline-block', width: 40, height: 40, border: '1px solid black', borderRadius: 4, marginRight: 4, overflow: 'hidden' }}>
                                     <img src={url} alt={`thumb-${index}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
