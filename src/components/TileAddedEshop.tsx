@@ -49,7 +49,7 @@ type TileAddedEshopProps = {
 
 const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
     // DEBUG
-    const debug = useSelector((state: RootState) => state.misc.debug);
+    const DEBUG = useSelector((state: RootState) => state.misc.debug);
 
     // Check if the user owns the e-shop (optional, based on user UID)
     const user = useSelector((state: RootState) => state.misc.user);
@@ -66,7 +66,8 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
     const [isDeleting, setIsDeleting] = useState(false);
 
     const FuncDelete = async (eshop: IEshopADWrapper, user: any): Promise<void> => {
-        if (debug) {
+        // DEBUG info
+        if (DEBUG) {
             console.log("Deleting E-shop with docRef:", eshop.documentid);
         }
     
@@ -80,9 +81,10 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this e-shop?");
         if (!confirmDelete) return;
     
-        setIsDeleting(true);
-    
         try {
+            // Step 0: Set Deleting true
+            setIsDeleting(true);
+            
             // Step 1: List all files in 'eshop-logos' directory
             const logosRef = ref(storage, 'eshop-logos/');
             const logoList = await listAll(logosRef);
@@ -119,7 +121,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
     return (
         <Container sx={containerOuterStyle} disableGutters>
             <TileEshop likes={likes} tile={eshop.eshop} showReportButton={false} />
-            { debug ? (<div>    
+            { DEBUG ? (<div>    
                 <span style={{ border: '1px solid black', padding: '1px' }}>documentid={eshop.documentid}</span> <br/>
                 <span style={{ border: '1px solid black', padding: '1px' }}>visible={eshop.eshop?.visible ? 1 : 0}</span>
             </div>) : null}
@@ -197,7 +199,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
                             />
                         </span>
                     </Typography>
-                    { debug ? (<span style={{ border: '1px solid black', padding: '1px' }}>documentid={eshop.documentid}</span> ) : null }
+                    { DEBUG ? (<span style={{ border: '1px solid black', padding: '1px' }}>documentid={eshop.documentid}</span> ) : null }
                     <Box display="flex" justifyContent="flex-end" mt={2}>
                         <ButtonUniversal 
                             title="Cancel" 

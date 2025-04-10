@@ -31,7 +31,7 @@ type ModifFormEshopProps = {
 const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false, eshop, documentid }) => {
     // DEBUG
     const DEBUG = useSelector((state: RootState) => state.misc.debug);
-    // debug info
+    // DEBUG info
     if (DEBUG) {
         console.log("<DEBUG> ModifFormEshop.tsx");
         console.log("--debugging on--")
@@ -39,6 +39,8 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
         if (documentid) console.log("Editing document with ID:", documentid);
         console.log("</DEBUG> ModifFormEshop.tsx")
     }
+    // Check if the user owns the e-shop (optional, based on user UID)
+    const user = useSelector((state: RootState) => state.misc.user);
 
     // Fields - 3x Input
     const titleRef = useRef<HTMLInputElement>(null);
@@ -47,9 +49,16 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
     // Upload image - 1 Comp accomodating this
     const [files, setFiles] = useState<Array<File & { preview: string }>>([]);
 
+    // Redirect logic
+    const [isAdding, setIsAdding] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
+
     // CRUD Add/Upd + DummyPopulate/WrapEshop/PrepLogo
     const AddEshop = async () => {
         try {
+            // Step 0: Set Adding true
+            setIsAdding(true);
+
             // Step 1: Prepare E-shop data without logo
             const newEshop = WrapEshopData({ updStatus: false });
             //console.log("Adding newEshop: ", newEshop);
@@ -85,12 +94,12 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                 await updateDoc(doc(db, "eshops", docRef.id), { logo: imageUrl });
                 console.log("E-shop updated with image URL");
             }
-    
-            // Once everything finishes (including logo upload), reload the page
+            // Step 4: Once everything finishes (including logo upload), reload the page
             window.location.reload();
-            
         } catch (error) {
             console.error("Error adding E-shop: ", error);
+        } finally {
+            setIsAdding(false);
         }
     };
     
@@ -103,8 +112,9 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
             console.error("No document ID provided.");
             return;
         }
-    
+
         try {
+            setIsSaving(true);
             // Prepare updated e-shop data
             const updatedEshop = WrapEshopData({ updStatus: true });
             console.log("Updating e-shop with data:", updatedEshop);
@@ -146,6 +156,8 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
             }
         } catch (error) {
             console.error("Error updating e-shop: ", error);
+        } finally {
+            setIsSaving(false);
         }
     };
     
@@ -216,9 +228,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
             console.error("Failed to load dummy image(logo):", error);
         }
     };
-    
-    //
-    const user = useSelector((state: RootState) => state.misc.user);
+
     return (
         <React.Fragment>
             <Box mt={2}>
@@ -276,7 +286,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                         textColor="white"
                         actionDelegate={DebugPopulateDummyEshop}
                     />
-                ) }
+                )}
                 {FuncCancel && (
                     <ButtonUniversal 
                         title="Cancel" 
@@ -285,12 +295,23 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                         actionDelegate={FuncCancel} 
                     />
                 )}
-                <ButtonUniversal
-                    title={edit ? "Save" : "Add"}
-                    color="#F23CFF"
-                    textColor="white"
-                    actionDelegate={edit ? UpdateEshop : AddEshop}
-                />
+                {edit ? (
+                    <ButtonUniversal
+                        title={isSaving ? "Saving ..." : "Save"}
+                        color="#F23CFF"
+                        textColor="white"
+                        actionDelegate={UpdateEshop}
+                        disabled={isSaving}
+                    />
+                ) : (
+                    <ButtonUniversal
+                        title={isAdding ? "Adding ..." : "Add"}
+                        color="#F23CFF"
+                        textColor="white"
+                        actionDelegate={AddEshop}
+                        disabled={isAdding}
+                    />
+                )}
             </Box>
         </React.Fragment>
     );

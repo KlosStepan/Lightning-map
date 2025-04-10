@@ -64,7 +64,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
     const [isDeleting, setIsDeleting] = useState(false);
 
     const FuncDelete = async (merch: IMerchantADWrapper): Promise<void> => {
-        // debug info
+        // DEBUG info
         if (DEBUG) {
             console.log("documentid=", merchant.documentid);
             console.log("Calling Delete on Merchant: ", merch);
@@ -75,9 +75,12 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
         const confirmDelete = window.confirm("Are you sure you want to delete this merchant?");
         if (!confirmDelete) return;
         // Mby out because of phones ^^
-        setIsDeleting(true);
+
         // Try delete |Merchant from Firestore DB| and |Image(s) from Storage|
         try {
+            //
+            setIsDeleting(true);
+
             // Delete the merchant document by vendorid (/docId)
             const merchantDocRef = doc(db, "merchants", merch.documentid);
             await deleteDoc(merchantDocRef);

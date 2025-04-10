@@ -39,7 +39,7 @@ type ModifFormSpotProps = {
 const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, merchant, documentid }) => {
     // DEBUG
     const DEBUG = useSelector((state: RootState) => state.misc.debug);
-    // debug info
+    // DEBUG info
     if (DEBUG) {
         console.log("<DEBUG> ModifFormSpot.tsx");
         console.log("--debugging on--")
@@ -96,9 +96,16 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
     // Upload images - 1x <UploadingImagesSpot ... drilled down setFiles
     const [files, setFiles] = useState<Array<File & { preview: string }>>([]);
 
+    // Redirect logic
+    const [isAdding, setIsAdding] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
+    
     // CRUD Add/Upd + DummyPopulate/WrapSpot/PrepPics
     const AddSpot = async () => {
         try {
+            // Step 0/3 Set Adding true
+            setIsAdding(true);
+
             // Step 1/3 Wrap Spot
             const newSpot = WrapSpotData({ updStatus: false });
             //console.log("Adding newSpot: ", newSpot);
@@ -145,14 +152,15 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                     console.error("Error uploading files:", error);
                 }
             }
-
-            // Once everything finishes (including photos upload), reload the page
+            // Step 4/4 Once everything finishes (including images upload), reload the page
             window.location.reload();
-            
         } catch (error) {
             console.error("Error adding merchant: ", error);
+        } finally {
+            setIsAdding(false);
         }
     };
+
     const UpdateSpot = () => {
         console.log("documentid=", documentid);
         const updatedSpotWrapped = WrapSpotData({ updStatus: true });
@@ -367,12 +375,23 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                         actionDelegate={FuncCancel}
                     />
                 )}
-                <ButtonUniversal
-                    title={edit ? "Save" : "Add"}
-                    color="#F23CFF"
-                    textColor="white"
-                    actionDelegate={edit ? UpdateSpot : AddSpot}
-                />
+                {edit ? (
+                    <ButtonUniversal
+                        title={isSaving ? "Saving ..." : "Save"}
+                        color="#F23CFF"
+                        textColor="white"
+                        actionDelegate={UpdateSpot}
+                        disabled={isSaving}
+                    />
+                ) : (
+                    <ButtonUniversal
+                        title={isAdding ? "Adding ..." : "Add"}
+                        color="#F23CFF"
+                        textColor="white"
+                        actionDelegate={AddSpot}
+                        disabled={isAdding}
+                    />
+                )}
             </Box>
         </React.Fragment>
     );
