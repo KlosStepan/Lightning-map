@@ -83,7 +83,8 @@ export const theme = createTheme({
         },
     },
     palette: {
-        primary: { main: "#F4005E" },
+        primary: { main: "#F23CFF" },
+        secondary: { main: "#8000FF"},
         background: { default: '#F0F0F0' },
     },
 });
