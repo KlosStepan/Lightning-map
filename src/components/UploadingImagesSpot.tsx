@@ -9,12 +9,14 @@ type UploadingImagesSpotProps = {
     files: Array<File & { preview: string }>;
     setFiles: React.Dispatch<React.SetStateAction<Array<File & { preview: string }>>>;
     multipleImages?: boolean;
+    disabled?: boolean;
 };
 
-const UploadingImagesSpot: React.FC<UploadingImagesSpotProps> = ({ files, setFiles, multipleImages = true }) => {
+const UploadingImagesSpot: React.FC<UploadingImagesSpotProps> = ({ files, setFiles, multipleImages=true, disabled=false }) => {
     const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
         accept: { "image/*": [] },
         onDrop: (acceptedFiles) => {
+            if (disabled) return;
             if (!multipleImages && files.length === 1) {
                 // Replace the existing image
                 setFiles(
@@ -33,6 +35,7 @@ const UploadingImagesSpot: React.FC<UploadingImagesSpotProps> = ({ files, setFil
             }
         },
         multiple: multipleImages,
+        disabled: disabled
     });
 
     useEffect(() => {
@@ -40,6 +43,7 @@ const UploadingImagesSpot: React.FC<UploadingImagesSpotProps> = ({ files, setFil
     }, [files]);
 
     const handleMoveUp = (index: number) => {
+        if (disabled || index === 0) return;
         if (index > 0) {
             const updatedFiles = [...files];
             [updatedFiles[index - 1], updatedFiles[index]] = [updatedFiles[index], updatedFiles[index - 1]];
@@ -48,6 +52,7 @@ const UploadingImagesSpot: React.FC<UploadingImagesSpotProps> = ({ files, setFil
     };
 
     const handleMoveDown = (index: number) => {
+        if (disabled || index === files.length - 1) return;
         if (index < files.length - 1) {
             const updatedFiles = [...files];
             [updatedFiles[index], updatedFiles[index + 1]] = [updatedFiles[index + 1], updatedFiles[index]];
@@ -56,6 +61,7 @@ const UploadingImagesSpot: React.FC<UploadingImagesSpotProps> = ({ files, setFil
     };
 
     const handleDelete = (index: number) => {
+        if (disabled) return;
         const updatedFiles = files.filter((_, i) => i !== index);
         setFiles(updatedFiles);
     };
@@ -69,6 +75,7 @@ const UploadingImagesSpot: React.FC<UploadingImagesSpotProps> = ({ files, setFil
                 onMoveUp={() => handleMoveUp(index)}
                 onMoveDown={() => handleMoveDown(index)}
                 onDelete={() => handleDelete(index)}
+                //disabled={disabled}
             />
         </Grid>
     ));
@@ -84,6 +91,8 @@ const UploadingImagesSpot: React.FC<UploadingImagesSpotProps> = ({ files, setFil
                     margin: "1px 1px !important",
                     textAlign: "center",
                     fontFamily: "PixGamer",
+                    opacity: disabled ? 0.5 : 1,
+                    pointerEvents: disabled ? "none" : "auto",
                 }}
             >
                 <input {...getInputProps()} />

@@ -177,9 +177,9 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         console.log("documentid=", documentid);
         const updatedSpotWrapped = WrapSpotData({ updStatus: true });
         console.log("Updating updatedSpotWrapped: ", updatedSpotWrapped)
-        //verify photos changed(/not) vv
-        //|- run process prepPics
-        //Promise (data, (/photos) ) -> Firebase (& OK|FAIL)
+        //if(!keepPhotos) {
+        // Upload photos from 'files'
+        //}
     };
     const WrapSpotData = ({ updStatus }: { updStatus: boolean }): IMerchant => ({
         geometry: {
@@ -363,14 +363,14 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                             />
                             {merchant?.images.map((url, index) => (
                                 <span key={index} style={{ display: 'inline-block', width: 40, height: 40, border: '1px solid black', borderRadius: 4, marginRight: 4, overflow: 'hidden' }}>
-                                    <img src={url} alt={`thumb-${index}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                    <img src={url} alt={`thumb-${index}`} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: keepPhotos ? 'none' : 'grayscale(100%)' }} />
                                 </span>
                             ))}
                         </Box>
                         <HrGreyCustomSeparator marginTop={5} marginBottom={5}/>
                     </React.Fragment>
                 )}
-                <UploadingImagesSpot files={files} setFiles={setFiles} />
+                <UploadingImagesSpot files={files} setFiles={setFiles} disabled={(edit) ? keepPhotos : false} />
             </Box>
             <Box display="flex" justifyContent="flex-end" mt={2}>
                 {/* Buttons at the bottom of the form */ }
