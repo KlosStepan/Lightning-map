@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 //Components
 import ButtonUniversal from "../components/ButtonUniversal";
 import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
@@ -33,18 +33,19 @@ type ModifFormSpotProps = {
     FuncCancel: () => void;
 } & (
     | { edit: true; merchant: IMerchantTile; documentid: string } // When editing, require documentid
-    | { edit?: false; merchant?: undefined; documentid?: undefined } // When adding, documentid is optional
+    | { edit?: false; merchant?: undefined; documentid?: undefined } // When adding, nothing mandated
 );
 
 const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, merchant, documentid }) => {
     // DEBUG
     const DEBUG = useSelector((state: RootState) => state.misc.debug);
-    // DEBUG info
+    //
     if (DEBUG) {
-        console.log("<DEBUG> ModifFormSpot.tsx");
+        console.log("<DEBUG> ModifFormSpot.tsx")
         console.log("--debugging on--")
-        if (edit) console.log("edit: true");
-        if (documentid) console.log("Editing document with ID:", documentid);
+        if (documentid) console.log("Editing document with ID, documentid:", documentid)
+        if (edit) console.log("edit: true")
+        if (merchant) console.log("merchant: true")
         console.log("</DEBUG> ModifFormSpot.tsx")
     }
 
@@ -61,8 +62,13 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
     // |- Picker pin 🗲 stuff 
     const [position, setPosition] = useState<[number, number]>([50.0755, 14.4378]); // Default position
     const handleDragEnd = (event: L.DragEndEvent) => {
-        const marker = event.target as L.Marker;
-        const newPosition = marker.getLatLng();
+        const marker: L.Marker<any> = event.target as L.Marker;
+        const newPosition: L.LatLng = marker.getLatLng();
+        if(DEBUG){
+            console.log("<DEBUG> handleDragEnd")
+            console.log(newPosition)
+            console.log("</DEBUG> handleDragEnd")
+        }
         setPosition([newPosition.lat, newPosition.lng]);
     };
     // Socials - 5 Socials inputs, socials.map((social) => (
@@ -73,7 +79,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         { network: "twitter", label: "X", link: null },
         { network: "threads", label: "@", link: null },
     ]);
-    // Setting social network from <ToggleSocialInput .../>
+    // |- Add / Delete Social Network, from <ToggleSocialInput .../>
     const handleLinkOpened = (network: string, newLink: string | null) => {
         setSocials((prevSocials) =>
             prevSocials.map((social) =>
@@ -83,7 +89,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
     };
     // Tags - What stuff does this merchant sell?
     const [tags, setTags] = useState<string[]>([]);
-    // Add tag, remove tag from <TagMerchant .../>
+    // |- Add / Delete Tag, from <TagMerchant .../>
     const handleTagPressed = (adding: boolean, tag: string) => {
         let _tags: string[] = tags.slice();
         if (adding) {
@@ -101,16 +107,22 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
     const [isAdding, setIsAdding] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     
+    // useEffect(() => {...} )
+    useEffect(() => {
+        if (!merchant) return; // Ensure we have merchant from props
+        //
+        setTags(merchant.tags);
+        setSocials(merchant.socials);
+    }, []);
+
     // CRUD Add/Upd + DummyPopulate/WrapSpot/PrepPics
     const AddSpot = async () => {
         try {
             // Step 0/3 Set Adding true
             setIsAdding(true);
-
             // Step 1/3 Wrap Spot
             const newSpot = WrapSpotData({ updStatus: false });
             //console.log("Adding newSpot: ", newSpot);
-
             // Step 2/3 Add Spot
             const docRef = await addDoc(collection(db, "merchants"), newSpot);
             console.log("Spot added with ID: ", docRef.id);
@@ -161,7 +173,6 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
             setIsAdding(false);
         }
     };
-
     const UpdateSpot = () => {
         console.log("documentid=", documentid);
         const updatedSpotWrapped = WrapSpotData({ updStatus: true });
@@ -296,7 +307,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                 </Box>
             </React.Fragment>
             <Box mt={2}>
-                {/* Map - 🗲 Picker */}
+                {/* Map - with 🗲 Picker */}
                 <MapContainer center={[latitude, longitude]} zoom={13} ref={mapRef2} style={{ height: "22vh", width: "100%" }}>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -308,12 +319,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                         eventHandlers={{
                             dragend: handleDragEnd,
                         }}
-                        icon={L.icon({
-                            iconUrl: group13,
-                            //iconSize: [32, 32], // Customize size
-                            //iconAnchor: [16, 32], // Adjust anchor to center-bottom
-                            //popupAnchor: [0, -32], // Adjust popup anchor
-                        })}
+                        icon={L.icon({ iconUrl: group13 })}
                     />
                 </MapContainer>
                 <div style={{fontFamily: 'PixGamer', textAlign: 'center', fontSize: '18px'}}>Drag pin to more precise location</div>
@@ -344,7 +350,6 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                 {edit && (
                     <React.Fragment>
                         <Box display="flex" alignItems="center" flexWrap="wrap" mt={1}>
-                            {/*<Typography variant="h2" component="h5" sx={{ whiteSpace: 'nowrap', mr: 1 }}>*/}
                             <FormControlLabel
                                 control={
                                     <Checkbox
@@ -356,7 +361,6 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                                 label="Keep photos"
                                 sx={{ mr: 2 }}
                             />
-                            {/*</Typography>*/}
                             {merchant?.images.map((url, index) => (
                                 <span key={index} style={{ display: 'inline-block', width: 40, height: 40, border: '1px solid black', borderRadius: 4, marginRight: 4, overflow: 'hidden' }}>
                                     <img src={url} alt={`thumb-${index}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -386,6 +390,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                         actionDelegate={FuncCancel}
                     />
                 )}
+                {/* Choose, (edit==true) - button to resave, (false) - Add button.*/}
                 {edit ? (
                     <ButtonUniversal
                         title={isSaving ? "Saving ..." : "Save"}
