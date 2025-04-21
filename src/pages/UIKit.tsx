@@ -9,9 +9,10 @@ import Typography from '@mui/material/Typography';
 import IEshop from "../ts/IEshop";
 import IMerchant from "../ts/IMerchant";
 import TileMerchant from "../components/TileMerchant";
+import TileMerchantBig from "../components/TileMerchantBig";
 //E-Shop stuff
 const tile: IEshop = {
-    id: "b25efd17-3a50-4513-9dad-af47bbcfb687",
+    id: "asd1",
     owner: "EM6jd7CDU4PdHgF7LJTTvyMPNrJ3",
     visible: true,
     name: "Bitcoinovej Kanál ",
@@ -32,7 +33,7 @@ const merchant: IMerchant = {
       coordinates: [14.4483471, 50.1033561],
     },
     properties: {
-      id: "63977929-fc0e-4695-9a04-3156e9d24c54",
+      id: "asd2",
       name: "Paralelní Polis",
       description: "lorem ipsum 2",
       address: {
@@ -107,9 +108,12 @@ const UIKit: React.FC<UIKitProps> = ({ propFromApptsx = false, propStuff = "prop
             <div>&nbsp;</div>
             <React.Fragment>
             <Typography variant="h2" component="h2">
-                TypeScript type, IBaseEntity -&gt; IEshop
+                TypeScript type, <u>IBaseEntity</u> -&gt; <u>IEshop</u>
             </Typography>
-                <div>&nbsp;</div>
+            <div>
+                <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer', color: '#6B7280' }}>
+                    {'1'} results
+                </p>
                 <Grid container spacing={2} /*sx={{ marginRight: 0, marginLeft: 0 }}*/>
                     <React.Fragment>
                         {/* sx={isPhone ? {} : dynamicPadding(0)} */}
@@ -131,8 +135,9 @@ const UIKit: React.FC<UIKitProps> = ({ propFromApptsx = false, propStuff = "prop
                         </Grid>*/}
                     </React.Fragment>
                 </Grid>
+                </div>
                 <Typography variant="h2" component="h2">
-                    TypeScript type, IBaseEntity -&gt; IMerchant <br/>
+                    TypeScript type, <u>IBaseEntity</u> -&gt; <u>IMerchant</u> <br/>
                 </Typography>
                 {/* <TileMerchantBig .../> */}
                 {/* <TileMerchant .../> */}
@@ -140,42 +145,39 @@ const UIKit: React.FC<UIKitProps> = ({ propFromApptsx = false, propStuff = "prop
                 {/*FROM HERE2*/}
                 <Grid container spacing={3}>
                 <Grid item xs={12} sm={7}>
-                  <Grid>&nbsp;</Grid>
-                  <Grid container spacing={2}>
-                    {/*<span style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>
-                      {'1'} results
-                    </span>*/}
-                  </Grid>
-                  <Grid>&nbsp;</Grid>
-                  {/*!isPhone && (
-                    selected && (
-                      <Grid container spacing={2}>
+                    <Grid>&nbsp;</Grid>
+                    <Grid container spacing={2}>
+                        <span style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>
+                            {'1'} results
+                        </span>
+                    </Grid>
+                    <Grid>&nbsp;</Grid>
+                    <Grid container spacing={2}>
                         <TileMerchantBig
-                          likes={likeCountsMap.get(selected.properties.id) || 0}
-                          tile={selected.properties}
-                          handleLikeChange={FuncDrillIncrDecrLike}
+                            likes={"0"}
+                            tile={merchant.properties}
+                            //handleLikeChange={FuncDrillIncrDecrLike}
                         />
-                      </Grid>
-                    )
-                  )*/}
-                  <Grid container spacing={2}>
-                      <React.Fragment>
-                          <Grid xs={12} sm={4} key={1} sx={{ ...dynamicPadding(0) }}>
-                            <Box
-                              onClick={() => null /*dispatch(setSelected(merchant))*/}
-                              style={{
-                                cursor: 'pointer',
-                                transition: 'opacity 0.3s ease',
-                                opacity: 1,
-                              }}
-                              onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.5')}
-                              onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
-                            >
-                              <TileMerchant likes={"0"} tile={merchant.properties} index={0} />
-                            </Box>
-                          </Grid>
-                      </React.Fragment>
-                  </Grid>
+                    </Grid>
+                    <Grid>&nbsp;</Grid>
+                    <Grid container spacing={2}>
+                        <React.Fragment>
+                            <Grid xs={12} sm={4} key={0} sx={{ ...dynamicPadding(0) }}>
+                                <Box
+                                    onClick={() => null /*dispatch(setSelected(merchant))*/}
+                                    style={{
+                                        cursor: 'pointer',
+                                        transition: 'opacity 0.3s ease',
+                                        opacity: 1,
+                                    }}
+                                    onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.5')}
+                                    onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+                                >
+                                    <TileMerchant likes={"0"} tile={merchant.properties} index={0} />
+                                </Box>
+                            </Grid>
+                        </React.Fragment>
+                    </Grid>
                 </Grid>
                 {/*{!isPhone && (*/}
                 {true && (
