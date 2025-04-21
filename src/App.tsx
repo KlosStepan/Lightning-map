@@ -37,6 +37,7 @@ import { setUser } from "./redux-rtk/miscSlice";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 //TypeScript
 import ILink from './ts/ILink';
+import UIKit from "./pages/UIKit";
 
 // Website menu
 const pages: ILink[] = [
@@ -142,6 +143,8 @@ function App() {
                             <Route path="/admin/new-entries" element={<ADApproveNewEntries/>} />
                             <Route path="/admin/likes" element={<ADLikes/>} />
                             <Route path="/admin/reports" element={<ADReports/>} />
+                            {/*Mics*/}
+                            <Route path="/uikit" element={<UIKit propFromApptsx={true}/>}/>
                         </Routes>
                     </React.Fragment>
                 </Grid>
