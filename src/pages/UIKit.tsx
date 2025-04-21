@@ -1,7 +1,9 @@
 import React from "react";
 //Components
 import TileEshop from "../components/TileEshop";
-//MUI
+import ButtonUniversal from "../components/ButtonUniversal";
+//enums
+import { ButtonSide } from "../enums";
 //MUI
 import { Box, Container, Grid } from "@mui/material";
 import Typography from '@mui/material/Typography';
@@ -10,6 +12,10 @@ import IEshop from "../ts/IEshop";
 import IMerchant from "../ts/IMerchant";
 import TileMerchant from "../components/TileMerchant";
 import TileMerchantBig from "../components/TileMerchantBig";
+//Icons
+import IconPlus from '../icons/ico-btn-plus.png';
+import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
+
 //E-Shop stuff
 const tile: IEshop = {
     id: "asd1",
@@ -106,9 +112,10 @@ const UIKit: React.FC<UIKitProps> = ({ propFromApptsx = false, propStuff = "prop
                 //{propStuff} //{(propFromApptsx)?"true":"false"}
             </Typography>
             <div>&nbsp;</div>
+            <HrGreyCustomSeparator/>
             <React.Fragment>
-            <Typography variant="h2" component="h2">
-                TypeScript type, <u>IBaseEntity</u> -&gt; <u>IEshop</u>
+            <Typography variant="h1" component="h2">
+                E-SHOPS TypeScript type, <u>IBaseEntity</u> -&gt; <u>IEshop</u>
             </Typography>
             <div>
                 <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer', color: '#6B7280' }}>
@@ -135,64 +142,81 @@ const UIKit: React.FC<UIKitProps> = ({ propFromApptsx = false, propStuff = "prop
                         </Grid>*/}
                     </React.Fragment>
                 </Grid>
-                </div>
-                <Typography variant="h2" component="h2">
-                    TypeScript type, <u>IBaseEntity</u> -&gt; <u>IMerchant</u> <br/>
-                </Typography>
-                {/* <TileMerchantBig .../> */}
-                {/* <TileMerchant .../> */}
-                <div>&nbsp;</div>
-                {/*FROM HERE2*/}
-                <Grid container spacing={3}>
-                <Grid item xs={12} sm={7}>
-                    <Grid>&nbsp;</Grid>
-                    <Grid container spacing={2}>
-                        <span style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>
-                            {'1'} results
-                        </span>
-                    </Grid>
-                    <Grid>&nbsp;</Grid>
-                    <Grid container spacing={2}>
-                        <TileMerchantBig
-                            likes={"0"}
-                            tile={merchant.properties}
-                            //handleLikeChange={FuncDrillIncrDecrLike}
-                        />
-                    </Grid>
-                    <Grid>&nbsp;</Grid>
-                    <Grid container spacing={2}>
-                        <React.Fragment>
-                            <Grid xs={12} sm={4} key={0} sx={{ ...dynamicPadding(0) }}>
-                                <Box
-                                    onClick={() => null /*dispatch(setSelected(merchant))*/}
-                                    style={{
-                                        cursor: 'pointer',
-                                        transition: 'opacity 0.3s ease',
-                                        opacity: 1,
-                                    }}
-                                    onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.5')}
-                                    onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
-                                >
-                                    <TileMerchant likes={"0"} tile={merchant.properties} index={0} />
-                                </Box>
-                            </Grid>
-                        </React.Fragment>
-                    </Grid>
+            </div>
+            <HrGreyCustomSeparator/>
+            <Typography variant="h1" component="h2">
+                MERCHANTS TypeScript type, <u>IBaseEntity</u> -&gt; <u>IMerchant</u> <br/>
+            </Typography>
+            <div>&nbsp;</div>
+            {/*FROM HERE2*/}
+            <Grid container spacing={3}>
+            <Grid item xs={12} sm={7}>
+                <Grid>&nbsp;</Grid>
+                <Grid container spacing={2}>
+                    <span style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer' }}>
+                        {'1'} results
+                    </span>
                 </Grid>
-                {/*{!isPhone && (*/}
-                {true && (
-                  <Grid item xs={12} sm={5}
+                <Grid>&nbsp;</Grid>
+                <Grid container spacing={2}>
+                    <TileMerchantBig
+                        likes={"0"}
+                        tile={merchant.properties}
+                        //handleLikeChange={FuncDrillIncrDecrLike}
+                    />
+                </Grid>
+                <Grid>&nbsp;</Grid>
+                <Grid container spacing={2}>
+                    <React.Fragment>
+                        <Grid xs={12} sm={4} key={0} sx={{ ...dynamicPadding(0) }}>
+                            <Box
+                                onClick={() => null /*dispatch(setSelected(merchant))*/}
+                                style={{
+                                    cursor: 'pointer',
+                                    transition: 'opacity 0.3s ease',
+                                    opacity: 1,
+                                }}
+                                onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.5')}
+                                onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+                            >
+                                <TileMerchant likes={"0"} tile={merchant.properties} index={0} />
+                            </Box>
+                        </Grid>
+                    </React.Fragment>
+                </Grid>
+            </Grid>
+            {/*{!isPhone && (*/}
+            { true && (
+                <Grid item xs={12} sm={5}
                     sx={{
-                      display: { xs: 'none', sm: 'block' }, // Hide on mobile, show on larger screens
+                        display: { xs: 'none', sm: 'block' }, // Hide on mobile, show on larger screens
                     }}
-                  >
+                >
                     <Box style={{ textAlign: 'center' }}>
-                      {/*<LeafletMapTwo data={filteredMerchants ?? []} onMerchantSelect={handleMerchantSelect} />*/}
+                        {/*<LeafletMapTwo data={filteredMerchants ?? []} onMerchantSelect={handleMerchantSelect} />*/}
                     </Box>
-                  </Grid>
-                )}
                 </Grid>
-                {/*TO HERE2*/}
+            )}
+            </Grid>
+            {/*TO HERE2*/}
+            </React.Fragment>
+            <HrGreyCustomSeparator/>
+            <React.Fragment>
+            <Typography variant="h1" component="h2">
+                BUTTONS variants of {"<ButtonUniversal .../>"}<br/>
+            </Typography>
+            <div>&nbsp;</div>
+            <React.Fragment>
+            <ButtonUniversal
+                    icon={IconPlus}
+                    side={ButtonSide.Left}
+                    title="Add spot"
+                    color="#F23CFF"
+                    textColor="white"
+                    //actionDelegate={FuncAddSpot}
+                    //fullWidth={isPhone ? true :  false }
+                  />
+            </React.Fragment>
             </React.Fragment>
         </React.Fragment>
     )
