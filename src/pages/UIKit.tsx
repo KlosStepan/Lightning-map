@@ -1,7 +1,11 @@
 import React from "react";
 //Components
-import TileEshop from "../components/TileEshop";
 import ButtonUniversal from "../components/ButtonUniversal";
+import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
+import IconLightningNumber from "../icons/IconLightningNumber";
+import TagMerchant from "../components/TagMerchant";
+import TagSocialLink from "../components/TagSocialLink";
+import TileEshop from "../components/TileEshop";
 //enums
 import { ButtonSide } from "../enums";
 //MUI
@@ -12,9 +16,13 @@ import IEshop from "../ts/IEshop";
 import IMerchant from "../ts/IMerchant";
 import TileMerchant from "../components/TileMerchant";
 import TileMerchantBig from "../components/TileMerchantBig";
+import ISocial from "../ts/ISocial";
 //Icons
 import IconPlus from '../icons/ico-btn-plus.png';
-import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
+import IconExclamationMark from "../icons/warning-box.png";
+import IconLightningPurple from "../icons/icon-lightning-purple.png";
+import IconEdit from '../icons/ico-btn-edit.png';
+import IconTrash from '../icons/ico-btn-trash.png';
 
 //E-Shop stuff
 const tile: IEshop = {
@@ -79,9 +87,9 @@ const merchant: IMerchant = {
       owner: "EM6jd7CDU4PdHgF7LJTTvyMPNrJ3",
       visible: true,
     },
-  };
-  
-  
+};
+
+const tagsAll = ["Food & Drinks", "Shops", "Services"];
 
 type UIKitProps = {
     propFromApptsx?: boolean;
@@ -106,44 +114,72 @@ const UIKit: React.FC<UIKitProps> = ({ propFromApptsx = false, propStuff = "prop
     return (
         <React.Fragment>
             <Typography variant="h1" component="h1">
-                UI Kit {"<UIKit propFromApptsx={true}/>"}
+                UI Kit {/*"<UIKit propFromApptsx={true}/>"*/} - Page Component with custom UI elements prepared by us
             </Typography>
-            <Typography variant="h2" component="h2">
+            {/*<Typography variant="h2" component="h2">
                 //{propStuff} //{(propFromApptsx)?"true":"false"}
-            </Typography>
-            <div>&nbsp;</div>
+            </Typography>*/}
             <HrGreyCustomSeparator/>
             <React.Fragment>
-            <Typography variant="h1" component="h2">
-                E-SHOPS TypeScript type, <u>IBaseEntity</u> -&gt; <u>IEshop</u>
-            </Typography>
-            <div>
-                <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer', color: '#6B7280' }}>
-                    {'1'} results
-                </p>
-                <Grid container spacing={2} /*sx={{ marginRight: 0, marginLeft: 0 }}*/>
-                    <React.Fragment>
-                        {/* sx={isPhone ? {} : dynamicPadding(0)} */}
-                        <Grid xs={12} sm={2} key="dummy-0" sx={dynamicPadding(0)}>
-                        <TileEshop
-                            likes={"0"}
-                            tile={tile}
-                            showReportButton={true}
-                            handleLikeChange={handleLikeChange}
-                        />
-                        </Grid>
-                        {/*<Grid xs={12} sm={2} key="dummy-1" sx={dynamicPadding(1)}>
-                        <TileEshop
-                            likes={"10"}
-                            tile={tile}
-                            showReportButton={false}
-                            handleLikeChange={handleLikeChange}
-                        />
-                        </Grid>*/}
-                    </React.Fragment>
-                </Grid>
-            </div>
+                <Typography variant="h1" component="h2">
+                    BUTTONS variants of {"<ButtonUniversal .../>"}<br/>
+                </Typography>
+                <div>&nbsp;</div>
+                <React.Fragment>
+                    <ButtonUniversal icon={IconPlus} side={ButtonSide.Left} title="Add spot" color="#F23CFF" textColor="white" /*actionDelegate={FuncAddSpot}*/ /*fullWidth={isPhone ? true :  false }*/ /> {"<ButtonUniversal icon={IconPlus} side={ButtonSide.Left} title=\"Add spot\" color=\"#F23CFF\" textColor=\"white\" /*actionDelegate={null} fullWidth={isPhone?true:false }*/ />"} <br/>
+                    <ButtonUniversal title="All" color={"#8000FF"} textColor={"white"} actionDelegate={() => {Promise<void>}} /> {"<ButtonUniversal title=\"All\" color={\"#8000FF\"} textColor={\"white\"} actionDelegate={() => {Promise<void>}} />"} <br/>
+                    <ButtonUniversal icon={IconExclamationMark} side={ButtonSide.Left} title="Report" color="white" textColor="#BEBEBE" actionDelegate={() => {Promise<void>}} /> {"<ButtonUniversal icon={IconExclamationMark} side={ButtonSide.Left} title=\"Report\" color=\"white\" textColor=\"#BEBEBE\" actionDelegate={() => {Promise<void>}} />"} <br/>
+                    <ButtonUniversal icon={IconLightningPurple} side={ButtonSide.Left} title={"5"} color={false ? "#7f7f7f" : "#F0F0F0"} textColor="black" actionDelegate={() => {Promise<void>}} /> <ButtonUniversal icon={IconLightningPurple} side={ButtonSide.Left} title={"5"} color={true ? "#7f7f7f" : "#F0F0F0"} textColor="black" actionDelegate={() => {Promise<void>}} /> {"<ButtonUniversal icon={IconLightningPurple} side={ButtonSide.Left} title={\"5\"} color={false ? \"#7f7f7f\" : \"#F0F0F0\"} textColor=\"black\" actionDelegate={() => {Promise<void>}} />"} <br/>
+                    <ButtonUniversal icon={IconEdit} side={ButtonSide.Right} title="EDIT" color="#F23CFF" textColor="white" actionDelegate={() => {Promise<void>}} /> {"<ButtonUniversal icon={IconEdit} side={ButtonSide.Right} title=\"EDIT\" color=\"#F23CFF\" textColor=\"white\" actionDelegate={() => {Promise<void>}} />"} <br/>
+                    <ButtonUniversal icon={IconTrash} side={ButtonSide.Right} title="DELETE" color="#8000FF" textColor="white" actionDelegate={() => {Promise<void>}} /> {"<ButtonUniversal icon={IconTrash} side={ButtonSide.Right} title=\"DELETE\" color=\"#8000FF\" textColor=\"white\" actionDelegate={() => {Promise<void>}} />"} <br/>
+                </React.Fragment>
+            </React.Fragment>
             <HrGreyCustomSeparator/>
+            <React.Fragment>
+                <Typography variant="h1" component="h2">
+                    COMPONENTS
+                </Typography>
+                <span>&nbsp;</span>
+                <Typography variant="h3" component="h3">
+                    TagMerchant
+                </Typography>
+                <Box sx={{ /*position: 'absolute',*/ bottom: 8, left: 8 }}>
+                    {tagsAll.map((tag: string) => (
+                        <TagMerchant tag={tag} />
+                    ))} {"<TagMerchant tag={\"string\"} />"}
+                </Box>
+                <span>&nbsp;</span>
+                <Typography variant="h3" component="h3">
+                    TagSocialLink
+                </Typography>
+                <Box sx={{ backgroundColor: 'white', padding: 1, borderRadius: 1 }}>
+                    {merchant.properties.socials.map((social: ISocial, index: number) => (
+                        <TagSocialLink key={index} social={social} scale={0.8} />
+                    ))} {" <TagSocialLink key={index} social={social} scale={0.8} />"}
+                </Box>
+                <span>&nbsp;</span>
+                <Typography variant="h3" component="h3">
+                    HrGreyCustomSeparator
+                </Typography>
+                <Box sx={{ backgroundColor: 'white', padding: 1, borderRadius: 1 }}>
+                    <HrGreyCustomSeparator marginTop="0px" marginBottom="0px" />
+                    <HrGreyCustomSeparator  />
+                    <HrGreyCustomSeparator marginTop="25px" marginBottom="25px" />
+                    {"<HrGreyCustomSeparator marginTop=\"0px\" marginBottom=\"0px\" /> <HrGreyCustomSeparator  /> <HrGreyCustomSeparator marginTop=\"25px\" marginBottom=\"25px\" />"}
+                </Box>
+                <span>&nbsp;</span>
+                <Typography variant="h3" component="h3">
+                    IconLightningNumber
+                </Typography>
+                <Box sx={{ backgroundColor: 'white', padding: 1, borderRadius: 1 }}>
+                    <IconLightningNumber number={"50"} />{' '}
+                    <IconLightningNumber number={"50"} scale={1} />{' '}
+                    <IconLightningNumber number={"50"} scale={1.3} />{' '} <br/>
+                    {"<IconLightningNumber number={\"50\"} /> <IconLightningNumber number={\"50\"} scale={1} /> <IconLightningNumber number={\"50\"} scale={1.3} />"}
+                </Box>
+            </React.Fragment>
+            <HrGreyCustomSeparator/>
+            <React.Fragment>
             <Typography variant="h1" component="h2">
                 MERCHANTS TypeScript type, <u>IBaseEntity</u> -&gt; <u>IMerchant</u> <br/>
             </Typography>
@@ -203,21 +239,36 @@ const UIKit: React.FC<UIKitProps> = ({ propFromApptsx = false, propStuff = "prop
             <HrGreyCustomSeparator/>
             <React.Fragment>
             <Typography variant="h1" component="h2">
-                BUTTONS variants of {"<ButtonUniversal .../>"}<br/>
+                E-SHOPS TypeScript type, <u>IBaseEntity</u> -&gt; <u>IEshop</u>
             </Typography>
-            <div>&nbsp;</div>
-            <React.Fragment>
-            <ButtonUniversal
-                    icon={IconPlus}
-                    side={ButtonSide.Left}
-                    title="Add spot"
-                    color="#F23CFF"
-                    textColor="white"
-                    //actionDelegate={FuncAddSpot}
-                    //fullWidth={isPhone ? true :  false }
-                  />
+            <div>
+                <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer', color: '#6B7280' }}>
+                    {'1'} results
+                </p>
+                <Grid container spacing={2} /*sx={{ marginRight: 0, marginLeft: 0 }}*/>
+                    <React.Fragment>
+                        {/* sx={isPhone ? {} : dynamicPadding(0)} */}
+                        <Grid xs={12} sm={2} key="dummy-0" sx={dynamicPadding(0)}>
+                        <TileEshop
+                            likes={"0"}
+                            tile={tile}
+                            showReportButton={true}
+                            handleLikeChange={handleLikeChange}
+                        />
+                        </Grid>
+                        {/*<Grid xs={12} sm={2} key="dummy-1" sx={dynamicPadding(1)}>
+                        <TileEshop
+                            likes={"10"}
+                            tile={tile}
+                            showReportButton={false}
+                            handleLikeChange={handleLikeChange}
+                        />
+                        </Grid>*/}
+                    </React.Fragment>
+                </Grid>
+            </div>
             </React.Fragment>
-            </React.Fragment>
+
         </React.Fragment>
     )
 };
