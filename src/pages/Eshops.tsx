@@ -6,7 +6,7 @@ import TileEshop from "../components/TileEshop";
 import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
 import Footer from "../components/Footer";
 //enums
-import { ButtonSide } from "../enums";
+import { ButtonColor, ButtonSide } from "../enums";
 //Forms
 import FormAddEshop from "../forms/FormAddEshop";
 //MUI
@@ -116,8 +116,10 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                                 icon={IconPlus} 
                                 side={ButtonSide.Left}
                                 title="Add e-shop" 
-                                color="#F23CFF"
-                                hoverColor="#DA16E3"
+                                color={ButtonColor.Pink}
+                                //color="#F23CFF"
+                                hoverColor={ButtonColor.PinkHover}
+                                //hoverColor="#DA16E3"
                                 textColor="white" 
                                 actionDelegate={FuncAddEshop} 
                                 fullWidth={isPhone ? true :  false }
@@ -157,8 +159,10 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                     {/*<div>
                         <ButtonUniversal 
                             title="Load more" 
-                            color="#F23CFF" 
-                            hoverColor="#DA16E3"
+                            color={ButtonColor.Pink}
+                            //color="#F23CFF"
+                            hoverColor={ButtonColor.PinkHover}
+                            //hoverColor="#DA16E3"
                             textColor="white" 
                             actionDelegate={FuncLoadMore} 
                             //fullWidth={isPhone ? true :  false }

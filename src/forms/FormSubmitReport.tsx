@@ -21,6 +21,7 @@ import IEshop from "../ts/IEshop";
 //Icons + Styles
 import closeIcon from '../icons/close.png';
 import { modalContainerStyle, modalTitleStyle, closeIconStyle } from './stylesForm';
+import { ButtonColor } from "../enums";
 
 type FormSubmitReportProps = {
     closeModal?: () => void;
@@ -86,16 +87,20 @@ const FormSubmitReport: React.FC<FormSubmitReportProps> = ({ closeModal, tile })
                 {closeModal && (
                     <ButtonUniversal 
                         title="Cancel" 
-                        color="#8000FF"
-                        hoverColor="#6603C9"
+                        color={ButtonColor.Purple}
+                        //color="#8000FF"
+                        hoverColor={ButtonColor.PurpleHover}
+                        //hoverColor="#6603C9"
                         textColor="white" 
                         actionDelegate={closeModal} 
                     />
                 )}
                 <ButtonUniversal
                     title="Submit"
-                    color="#F23CFF"
-                    hoverColor="#DA16E3"
+                    color={ButtonColor.Purple}
+                    //color="#F23CFF"
+                    hoverColor={ButtonColor.PurpleHover}
+                    //hoverColor="#DA16E3"
                     textColor="white"
                     actionDelegate={SubmitReport}
                 />

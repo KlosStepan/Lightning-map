@@ -21,6 +21,7 @@ import { useSelector } from "react-redux";
 import IEshop from "../ts/IEshop";
 //UUID generator
 import { v4 as uuidv4 } from 'uuid';
+import { ButtonColor } from "../enums";
 
 type ModifFormEshopProps = {
     FuncCancel?: () => void; // Optional function to close modal from parent component
@@ -294,8 +295,10 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                 { DEBUG && (
                     <ButtonUniversal
                         title={"Populate-dummy-eshop ^"}
-                        color="#F23CFF"
-                        hoverColor="#DA16E3"
+                        color={ButtonColor.Pink}
+                        //color="#F23CFF"
+                        hoverColor={ButtonColor.PinkHover}
+                        //hoverColor="#DA16E3"
                         textColor="white"
                         actionDelegate={DebugPopulateDummyEshop}
                     />
@@ -303,8 +306,10 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                 {FuncCancel && (
                     <ButtonUniversal 
                         title="Cancel" 
-                        color="#8000FF" 
-                        hoverColor="#6603C9"
+                        color={ButtonColor.Purple}
+                        //color="#8000FF" 
+                        hoverColor={ButtonColor.PurpleHover}
+                        //hoverColor="#6603C9"
                         textColor="white" 
                         actionDelegate={FuncCancel} 
                     />
@@ -312,8 +317,10 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                 {edit ? (
                     <ButtonUniversal
                         title={isSaving ? "Saving ..." : "Save"}
-                        color="#F23CFF"
-                        hoverColor="#DA16E3"
+                        color={ButtonColor.Pink}
+                        //color="#F23CFF"
+                        hoverColor={ButtonColor.PinkHover}
+                        //hoverColor="#DA16E3"
                         textColor="white"
                         actionDelegate={UpdateEshop}
                         disabled={isSaving}
@@ -321,8 +328,10 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                 ) : (
                     <ButtonUniversal
                         title={isAdding ? "Adding ..." : "Add"}
-                        color="#F23CFF"
-                        hoverColor="#DA16E3"
+                        color={ButtonColor.Pink}
+                        //color="#F23CFF"
+                        hoverColor={ButtonColor.PinkHover}
+                        //hoverColor="#DA16E3"
                         textColor="white"
                         actionDelegate={AddEshop}
                         disabled={isAdding}

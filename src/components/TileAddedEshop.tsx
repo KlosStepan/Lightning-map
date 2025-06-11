@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import ButtonUniversal from "../components/ButtonUniversal";
 import TileEshop from './TileEshop';
 //enums
-import { ButtonSide } from '../enums';
+import { ButtonColor, ButtonSide } from '../enums';
 //Firebase
 import { db, storage } from "../components/Firebase";
 import { deleteDoc, doc } from "firebase/firestore";
@@ -130,8 +130,10 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
                     icon={IconEdit}
                     side={ButtonSide.Right}
                     title="EDIT"
-                    color="#F23CFF"
-                    hoverColor="#DA16E3"
+                    color={ButtonColor.Pink}
+                    //color="#F23CFF"
+                    hoverColor={ButtonColor.PinkHover}
+                    //hoverColor="#DA16E3"
                     textColor="white"
                     actionDelegate={handleOpenEdit}
                 />{' '}
@@ -140,8 +142,10 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
                     icon={IconTrash}
                     side={ButtonSide.Right}
                     title="DELETE"
-                    color="#8000FF"
-                    hoverColor="#6603C9"
+                    color={ButtonColor.Purple}
+                    //color="#8000FF"
+                    hoverColor={ButtonColor.PurpleHover}
+                    //hoverColor="#6603C9"
                     textColor="white"
                     actionDelegate={handleOpenDelete}
                 />
@@ -205,15 +209,19 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
                     <Box display="flex" justifyContent="flex-end" mt={2}>
                         <ButtonUniversal 
                             title="Cancel" 
-                            color="#8000FF"
-                            hoverColor="#6603C9"
+                            color={ButtonColor.Purple}
+                            //color="#8000FF"
+                            hoverColor={ButtonColor.PurpleHover}
+                            //hoverColor="#6603C9"
                             textColor="white" 
                             actionDelegate={handleCloseDelete} 
                         />
                         <ButtonUniversal
                             title={isDeleting ? "Deleting ..." : "Delete"}
-                            color="#F23CFF"
-                            hoverColor="#DA16E3"
+                            color={ButtonColor.Pink}
+                            //color="#F23CFF"
+                            hoverColor={ButtonColor.PinkHover}
+                            //hoverColor="#DA16E3"
                             textColor="white"
                             actionDelegate={ () => { FuncDelete(eshop, user); } }
                             disabled={isDeleting}

@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import ADMenu from "../components/ADMenu";
 import ButtonUniversal from "../components/ButtonUniversal";
 import TileTypeMerchant from '../components/TileTypeMerchant';
+//enums
+import { ButtonColor, ButtonSide } from "../enums";
 // Firebase
 import { collection, getDocs } from "firebase/firestore";
 import { auth, db } from "../components/Firebase"; // Ensure you have Firebase configured properly
@@ -96,7 +98,15 @@ const ADReports: React.FC<ADReportsProps> = ({ }) => {
                             </Table>
                         </TableContainer>
                             {/*<Grid item xs={6} container justifyContent="flex-end">
-                                <ButtonUniversal title="Edit" color="#F23CFF" hoverColor="#DA16E3" textColor="white" actionDelegate={()=>{}} />
+                                <ButtonUniversal
+                                    title="Edit"
+                                    color={ButtonColor.Pink}
+                                    //color="#F23CFF"
+                                    hoverColor={ButtonColor.PinkHover}
+                                    //hoverColor="#DA16E3"
+                                    textColor="white"
+                                    actionDelegate={()=>{}}
+                                />
                             </Grid>*/}
                         </Grid>
                     </Box>

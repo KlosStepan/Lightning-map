@@ -4,7 +4,7 @@ import ButtonUniversal from "./ButtonUniversal";
 import TagMerchant from "./TagMerchant";
 import TagSocialLink from "./TagSocialLink";
 //enums
-import { ButtonSide } from "../enums";
+import { ButtonColor, ButtonSide } from "../enums";
 //Firebase
 import { doc, collection, addDoc, deleteDoc, query, where, getDocs } from "firebase/firestore";
 import { serverTimestamp } from "firebase/firestore";
@@ -230,9 +230,11 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                                     icon={IconExclamationMark}
                                     side={ButtonSide.Left}
                                     title="Report"
-                                    color="white"
+                                    color={ButtonColor.White}
+                                    //color="white"
                                     textColor="#BEBEBE"
-                                    hoverColor="#6B7280"
+                                    hoverColor={ButtonColor.ReportDefault}
+                                    //hoverColor="#6B7280"
                                     actionDelegate={FuncReport}
                                 />
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -242,7 +244,8 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                                         side={ButtonSide.Left}
                                         title={likes}
                                         color={voted ? "#7f7f7f" : "#F0F0F0"} // Darker when clicked
-                                        hoverColor="green"
+                                        hoverColor={ButtonColor.Green}
+                                        //hoverColor="green"
                                         textColor="black"
                                         actionDelegate={SwapLike}
                                     />
@@ -250,8 +253,10 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                                     <ButtonUniversal
                                         side={ButtonSide.Left}
                                         title="Navigate"
-                                        color="#F23CFF"
-                                        hoverColor="#DA16E3"
+                                        color={ButtonColor.Pink}
+                                        //color="#F23CFF"
+                                        hoverColor={ButtonColor.PinkHover}
+                                        //hoverColor="#DA16E3"
                                         textColor="white"
                                         actionDelegate={() => console.log("TODO NAVIGATE funct()")}
                                     />

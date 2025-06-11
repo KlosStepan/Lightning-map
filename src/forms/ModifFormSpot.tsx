@@ -26,6 +26,7 @@ import { IMerchantTile } from "../ts/IMerchant";
 import ISocial from "../ts/ISocial";
 //UUID generator
 import { v4 as uuidv4 } from 'uuid';
+import { ButtonColor } from "../enums";
 
 const tagsAll = ["Food & Drinks", "Shops", "Services"];
 
@@ -377,8 +378,10 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                 {DEBUG && (
                     <ButtonUniversal
                         title={"Populate-dummy-spot ^"}
-                        color="#F23CFF"
-                        hoverColor="#DA16E3"
+                        color={ButtonColor.Pink}
+                        //color="#F23CFF"
+                        hoverColor={ButtonColor.PinkHover}
+                        //hoverColor="#DA16E3"
                         textColor="white"
                         actionDelegate={DebugPopulateDummySpot}
                     />
@@ -386,8 +389,10 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                 {FuncCancel && (
                     <ButtonUniversal
                         title="Cancel"
-                        color="#8000FF"
-                        hoverColor="#6603C9"
+                        color={ButtonColor.Purple}
+                        //color="#8000FF"
+                        hoverColor={ButtonColor.PurpleHover}
+                        //hoverColor="#6603C9"
                         textColor="white"
                         actionDelegate={FuncCancel}
                     />
@@ -396,8 +401,10 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                 {edit ? (
                     <ButtonUniversal
                         title={isSaving ? "Saving ..." : "Save"}
-                        color="#F23CFF"
-                        hoverColor="#DA16E3"
+                        color={ButtonColor.Pink}
+                        //color="#F23CFF"
+                        hoverColor={ButtonColor.PinkHover}
+                        //hoverColor="#DA16E3"
                         textColor="white"
                         actionDelegate={UpdateSpot}
                         disabled={isSaving}
@@ -405,8 +412,10 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                 ) : (
                     <ButtonUniversal
                         title={isAdding ? "Adding ..." : "Add"}
-                        color="#F23CFF"
-                        hoverColor="#DA16E3"
+                        color={ButtonColor.Pink}
+                        //color="#F23CFF"
+                        hoverColor={ButtonColor.PinkHover}
+                        //hoverColor="#DA16E3"
                         textColor="white"
                         actionDelegate={AddSpot}
                         disabled={isAdding}

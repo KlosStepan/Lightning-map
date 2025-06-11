@@ -8,7 +8,7 @@ import TileMerchantBig from "../components/TileMerchantBig";
 import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
 import Footer from "../components/Footer";
 //enums
-import { ButtonSide } from "../enums";
+import { ButtonColor, ButtonSide } from "../enums";
 //Forms
 import FormAddSpot from "../forms/FormAddSpot";
 import CardSpot from "../forms/mobilecontentcards/CardSpot";
@@ -173,7 +173,8 @@ const MerchantsMap: React.FC<MerchantsMapProps> = ({ }) => {
                     <ButtonUniversal
                       title="All"
                       color={activeFilters["All"] ? "#8000FF" : "#FFFFFF"}
-                      hoverColor="green"
+                      hoverColor={ButtonColor.Green}
+                      //hoverColor="green"
                       textColor={activeFilters["All"] ? "white" : "black"}
                       actionDelegate={() => FuncFilt("All")}
                     />
@@ -184,7 +185,8 @@ const MerchantsMap: React.FC<MerchantsMapProps> = ({ }) => {
                       <ButtonUniversal
                         title={filter}
                         color={activeFilters[filter] ? "#8000FF" : "#FFFFFF"}
-                        hoverColor="green"
+                        hoverColor={ButtonColor.Green}
+                        //hoverColor="green"
                         textColor={activeFilters[filter] ? "white" : "black"}
                         actionDelegate={() => FuncFilt(filter)}
                       />
@@ -209,8 +211,10 @@ const MerchantsMap: React.FC<MerchantsMapProps> = ({ }) => {
                     icon={IconPlus}
                     side={ButtonSide.Left}
                     title="Add spot"
-                    color="#F23CFF"
-                    hoverColor="#DA16E3"
+                    color={ButtonColor.Pink}
+                    //color="#F23CFF"
+                    hoverColor={ButtonColor.PinkHover}
+                    //hoverColor="#DA16E3"
                     textColor="white"
                     actionDelegate={FuncAddSpot}
                     fullWidth={isPhone ? true :  false }

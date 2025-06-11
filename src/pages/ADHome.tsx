@@ -24,6 +24,7 @@ import { IMerchantADWrapper } from "../ts/IMerchant";
 //Images
 import mapofspotsimg from '../img/Interface-Essential-Map--Streamline-Pixel.png';
 import eshopsimg from '../img/Shopping-Shipping-Bag-1--Streamline-Pixel.png';
+import { ButtonColor } from "../enums";
 
 type ADHomeProps = {
     //
@@ -134,8 +135,10 @@ const ADHome: React.FC<ADHomeProps> = ({ }) => {
                             <Grid item xs={2}>
                                 <ButtonUniversal
                                     title="+ Add"
-                                    color="#F23CFF"
-                                    hoverColor="#DA16E3"
+                                    color={ButtonColor.Purple}
+                                    //color="#F23CFF"
+                                    hoverColor={ButtonColor.PurpleHover}
+                                    //hoverColor="#DA16E3"
                                     textColor="white"
                                     actionDelegate={FuncAdd}
                                 />

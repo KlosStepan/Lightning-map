@@ -9,6 +9,7 @@ import ButtonUniversal from "../components/ButtonUniversal";
 //Redux+RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
+import { ButtonColor } from "../enums";
 
 type ADMyAccountProps = {
     //
@@ -59,12 +60,13 @@ const ADMyAccount: React.FC<ADMyAccountProps> = ({ }) => {
                             <Grid item xs={6} container justifyContent="flex-end">
                                 <ButtonUniversal
                                     title="Edit"
-                                    color="#F23CFF"
-                                    hoverColor="#DA16E3"
+                                    color={ButtonColor.Pink}
+                                    //color="#F23CFF"
+                                    hoverColor={ButtonColor.PinkHover}
+                                    //hoverColor="#DA16E3"
                                     textColor="white"
                                     actionDelegate={handleOpen}
                                 />
-
                             </Grid>
                         </Grid>
                         <div>Some user stuff goes here (depending on auth method I would say)</div>

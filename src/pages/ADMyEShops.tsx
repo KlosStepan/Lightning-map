@@ -8,7 +8,7 @@ import ADMenu from "../components/ADMenu";
 import ButtonUniversal from "../components/ButtonUniversal";
 import TileAddedEshop from "../components/TileAddedEshop";
 //enums
-import { ButtonSide } from "../enums";
+import { ButtonColor, ButtonSide } from "../enums";
 //Firebase
 import { Firestore, QuerySnapshot, DocumentData, collection, getDocs, query, where } from "firebase/firestore";
 import { auth, db } from "../components/Firebase";
@@ -122,8 +122,10 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = ({ }) => {
                                     icon={IconPlus}
                                     side={ButtonSide.Left}
                                     title={isPhone?"Add":"Add e-shop"}
-                                    color="#F23CFF"
-                                    hoverColor="#DA16E3"
+                                    color={ButtonColor.Pink}
+                                    //color="#F23CFF"
+                                    hoverColor={ButtonColor.PinkHover}
+                                    //hoverColor="#DA16E3"
                                     textColor="white"
                                     actionDelegate={FuncAddEshop}
                                 />

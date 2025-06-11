@@ -41,7 +41,15 @@ const ADManageUsers: React.FC<ADManageUsersProps> = ({ }) => {
                                 </Typography>
                             </Grid>
                             {/*<Grid item xs={6} container justifyContent="flex-end">
-                                <ButtonUniversal title="Edit" color="#F23CFF" hoverColor="#DA16E3" textColor="white" actionDelegate={()=>{}} />
+                                <ButtonUniversal
+                                    title="Edit"
+                                    color={ButtonColor.Pink}
+                                    //color="#F23CFF"
+                                    hoverColor={ButtonColor.PinkHover}
+                                    //hoverColor="#DA16E3"
+                                    textColor="white"
+                                    actionDelegate={()=>{}}
+                                />
                             </Grid>*/}
                         </Grid>
                         <div>-list of users-</div>

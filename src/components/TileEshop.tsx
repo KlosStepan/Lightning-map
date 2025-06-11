@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 //Components
 import ButtonUniversal from "./ButtonUniversal";
 //enums
-import { ButtonSide } from "../enums";
+import { ButtonColor, ButtonSide } from "../enums";
 //Firebase
 import { doc, collection, addDoc, deleteDoc, query, where, getDocs } from "firebase/firestore";
 import { serverTimestamp } from "firebase/firestore";
@@ -131,8 +131,10 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
                                     icon={IconExclamationMark}
                                     side={ButtonSide.Left}
                                     title="R."
-                                    color="white"
-                                    hoverColor="#6B7280"
+                                    color={ButtonColor.White}
+                                    //color="white"
+                                    hoverColor={ButtonColor.ReportHover}
+                                    //hoverColor="#6B7280"
                                     textColor="#BEBEBE"
                                     actionDelegate={FuncReport}
                                     scale={0.75}
@@ -147,7 +149,8 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
                                 title={likes}
                                 //color={voted ? "#D9D9D9" : "#F0F0F0"} // Darker when clicked
                                 color={voted ? "#7f7f7f" : "#F0F0F0"} // Darker when clicked
-                                hoverColor="green"
+                                hoverColor={ButtonColor.Green}
+                                //hoverColor="green"
                                 textColor="black"
                                 actionDelegate={SwapLike}
                                 scale={0.75}

@@ -7,7 +7,7 @@ import TagMerchant from "../components/TagMerchant";
 import TagSocialLink from "../components/TagSocialLink";
 import TileEshop from "../components/TileEshop";
 //enums
-import { ButtonSide } from "../enums";
+import { ButtonSide, ButtonColor } from "../enums";
 //MUI
 import { Box, Container, Grid } from "@mui/material";
 import Typography from '@mui/material/Typography';
@@ -126,6 +126,7 @@ const UIKit: React.FC<UIKitProps> = ({ propFromApptsx = false, propStuff = "prop
                 </Typography>
                 <div>&nbsp;</div>
                 <React.Fragment>
+                    {/* TODO - Add enums in the buttons vv */}
                     <ButtonUniversal icon={IconPlus} side={ButtonSide.Left} title="Add spot" color="#F23CFF" hoverColor="#DA16E3" textColor="white" /*actionDelegate={FuncAddSpot}*/ /*fullWidth={isPhone ? true :  false }*/ /> {"<ButtonUniversal icon={IconPlus} side={ButtonSide.Left} title=\"Add spot\" color=\"#F23CFF\" textColor=\"white\" /*actionDelegate={null} fullWidth={isPhone?true:false }*/ />"} <br/>
                     <ButtonUniversal title="All" color="#8000FF" hoverColor="#6603C9" textColor={"white"} actionDelegate={() => {Promise<void>}} /> {"<ButtonUniversal title=\"All\" color={\"#8000FF\"} textColor={\"white\"} actionDelegate={() => {Promise<void>}} />"} <br/>
                     <ButtonUniversal icon={IconExclamationMark} side={ButtonSide.Left} title="Report" color="white" hoverColor="#6B7280" textColor="#BEBEBE" actionDelegate={() => {Promise<void>}} /> {"<ButtonUniversal icon={IconExclamationMark} side={ButtonSide.Left} title=\"Report\" color=\"white\" textColor=\"#BEBEBE\" actionDelegate={() => {Promise<void>}} />"} <br/>
