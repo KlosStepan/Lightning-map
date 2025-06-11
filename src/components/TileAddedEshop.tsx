@@ -131,6 +131,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
                     side={ButtonSide.Right}
                     title="EDIT"
                     color="#F23CFF"
+                    hoverColor="#DA16E3"
                     textColor="white"
                     actionDelegate={handleOpenEdit}
                 />{' '}
@@ -140,6 +141,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
                     side={ButtonSide.Right}
                     title="DELETE"
                     color="#8000FF"
+                    hoverColor="#6603C9"
                     textColor="white"
                     actionDelegate={handleOpenDelete}
                 />
@@ -203,13 +205,15 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
                     <Box display="flex" justifyContent="flex-end" mt={2}>
                         <ButtonUniversal 
                             title="Cancel" 
-                            color="#8000FF" 
+                            color="#8000FF"
+                            hoverColor="#6603C9"
                             textColor="white" 
                             actionDelegate={handleCloseDelete} 
                         />
                         <ButtonUniversal
                             title={isDeleting ? "Deleting ..." : "Delete"}
                             color="#F23CFF"
+                            hoverColor="#DA16E3"
                             textColor="white"
                             actionDelegate={ () => { FuncDelete(eshop, user); } }
                             disabled={isDeleting}

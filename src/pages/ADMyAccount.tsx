@@ -57,7 +57,13 @@ const ADMyAccount: React.FC<ADMyAccountProps> = ({ }) => {
                                 </Typography>
                             </Grid>
                             <Grid item xs={6} container justifyContent="flex-end">
-                                <ButtonUniversal title="Edit" color="#F23CFF" textColor="white" actionDelegate={handleOpen} />
+                                <ButtonUniversal
+                                    title="Edit"
+                                    color="#F23CFF"
+                                    hoverColor="#DA16E3"
+                                    textColor="white"
+                                    actionDelegate={handleOpen}
+                                />
 
                             </Grid>
                         </Grid>

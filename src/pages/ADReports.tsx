@@ -96,7 +96,7 @@ const ADReports: React.FC<ADReportsProps> = ({ }) => {
                             </Table>
                         </TableContainer>
                             {/*<Grid item xs={6} container justifyContent="flex-end">
-                                <ButtonUniversal title="Edit" color="#F23CFF" textColor="white" actionDelegate={()=>{}} />
+                                <ButtonUniversal title="Edit" color="#F23CFF" hoverColor="#DA16E3" textColor="white" actionDelegate={()=>{}} />
                             </Grid>*/}
                         </Grid>
                     </Box>

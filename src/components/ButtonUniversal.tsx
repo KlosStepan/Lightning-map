@@ -5,30 +5,13 @@ import { ButtonSide } from '../enums';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
-const buttonStyles = {
-    backgroundColor: (color: string) => color,
-    borderRadius: '20px',
-    padding: '4px 6px',  // Top/Bottom 4px, Left/Right 6px
-    margin: '2px 2px',  // Top/Bottom 4px, Left/Right 2px
-    justifyContent: 'center',
-    alignItems: 'center',
-    transition: 'background-color 0.7s ease',
-    //textTransform: 'none',
-    '&:hover': {
-        backgroundColor: (theme: any) => theme.palette.grey[700],
-    },
-};
-
 const boxContainerStyles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
 };
 
-//Might not be needed to be 24x24, so commenting out for 16.5 x 24 icon
 const iconStyles = {
-    //width: 24,
-    //height: 24,
     marginLeft: 1,
 };
 
@@ -41,14 +24,15 @@ const textStyles = {
 
 type ButtonUniversalProps = {
     icon?: string;
-    side?: ButtonSide
+    side?: ButtonSide;
     title: string;
     color: string;
+    hoverColor: string; // <-- New prop added here
     textColor: string;
     actionDelegate?: () => Promise<void> | void;
-    fullWidth?: boolean
-    disabled?: boolean
-    scale?: number; // <-- Add this
+    fullWidth?: boolean;
+    disabled?: boolean;
+    scale?: number;
 };
 
 const ButtonUniversal: React.FC<ButtonUniversalProps> = ({
@@ -56,28 +40,46 @@ const ButtonUniversal: React.FC<ButtonUniversalProps> = ({
     side,
     title,
     color,
+    hoverColor,
     textColor,
     actionDelegate,
     fullWidth = false,
     disabled = false,
-    scale = 1, // default = no scale
+    scale = 1,
 }) => {
     return (
-        <Box sx={{ transform: `scale(${scale})`/*, transformOrigin: 'top left'*/, display: 'inline-block' }}>
+        <Box
+            sx={{
+                transform: `scale(${scale})`,
+                display: 'inline-block',
+            }}
+        >
             <Button
                 color="primary"
                 onClick={actionDelegate}
-                sx={{ ...buttonStyles, backgroundColor: color }}
+                sx={{
+                    backgroundColor: color,
+                    borderRadius: '20px',
+                    padding: '4px 6px',
+                    margin: '2px 2px',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    textTransform: 'none',
+                    transition: 'none', // <- disable animation
+                    '&:hover': {
+                        backgroundColor: hoverColor, // <- use explicit hoverColor
+                    },
+                }}
                 fullWidth={fullWidth}
                 disabled={disabled}
             >
-                <Box sx={{ ...boxContainerStyles }}>
+                <Box sx={{...boxContainerStyles}}>
                     {side === 'L' && icon && (
                         <Box
                             component="img"
                             src={icon}
                             alt={title}
-                            sx={{ ...iconStyles }}
+                            sx={{...iconStyles}}
                         />
                     )}
                     <Box component="span" sx={{ ...textStyles, color: textColor }}>
@@ -88,7 +90,7 @@ const ButtonUniversal: React.FC<ButtonUniversalProps> = ({
                             component="img"
                             src={icon}
                             alt={title}
-                            sx={{ ...iconStyles }}
+                            sx={{...iconStyles}}
                         />
                     )}
                 </Box>
@@ -96,6 +98,5 @@ const ButtonUniversal: React.FC<ButtonUniversalProps> = ({
         </Box>
     );
 };
-
 
 export default ButtonUniversal;

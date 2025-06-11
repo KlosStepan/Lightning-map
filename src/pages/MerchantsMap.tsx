@@ -173,6 +173,7 @@ const MerchantsMap: React.FC<MerchantsMapProps> = ({ }) => {
                     <ButtonUniversal
                       title="All"
                       color={activeFilters["All"] ? "#8000FF" : "#FFFFFF"}
+                      hoverColor="green"
                       textColor={activeFilters["All"] ? "white" : "black"}
                       actionDelegate={() => FuncFilt("All")}
                     />
@@ -183,6 +184,7 @@ const MerchantsMap: React.FC<MerchantsMapProps> = ({ }) => {
                       <ButtonUniversal
                         title={filter}
                         color={activeFilters[filter] ? "#8000FF" : "#FFFFFF"}
+                        hoverColor="green"
                         textColor={activeFilters[filter] ? "white" : "black"}
                         actionDelegate={() => FuncFilt(filter)}
                       />
@@ -208,6 +210,7 @@ const MerchantsMap: React.FC<MerchantsMapProps> = ({ }) => {
                     side={ButtonSide.Left}
                     title="Add spot"
                     color="#F23CFF"
+                    hoverColor="#DA16E3"
                     textColor="white"
                     actionDelegate={FuncAddSpot}
                     fullWidth={isPhone ? true :  false }

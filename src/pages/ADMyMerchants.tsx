@@ -123,7 +123,15 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
                                 </Typography>
                             </Grid>
                             <Grid item xs={6} container justifyContent="flex-end">
-                                <ButtonUniversal icon={IconPlus} side={ButtonSide.Left} title="Add spot" color="#F23CFF" textColor="white" actionDelegate={FuncAddSpot} />
+                                <ButtonUniversal
+                                    icon={IconPlus}
+                                    side={ButtonSide.Left}
+                                    title="Add spot"
+                                    color="#F23CFF"
+                                    hoverColor="#DA16E3"
+                                    textColor="white"
+                                    actionDelegate={FuncAddSpot}
+                                />
                             </Grid>
                         </Grid>
                         <Grid container spacing={2}>

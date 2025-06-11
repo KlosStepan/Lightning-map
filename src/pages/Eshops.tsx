@@ -116,7 +116,8 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                                 icon={IconPlus} 
                                 side={ButtonSide.Left}
                                 title="Add e-shop" 
-                                color="#F23CFF" 
+                                color="#F23CFF"
+                                hoverColor="#DA16E3"
                                 textColor="white" 
                                 actionDelegate={FuncAddEshop} 
                                 fullWidth={isPhone ? true :  false }
@@ -157,6 +158,7 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                         <ButtonUniversal 
                             title="Load more" 
                             color="#F23CFF" 
+                            hoverColor="#DA16E3"
                             textColor="white" 
                             actionDelegate={FuncLoadMore} 
                             //fullWidth={isPhone ? true :  false }

@@ -118,7 +118,15 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = ({ }) => {
                                 </Typography>
                             </Grid>
                             <Grid item xs={6} container justifyContent="flex-end">
-                                <ButtonUniversal icon={IconPlus} side={ButtonSide.Left} title={isPhone?"Add":"Add e-shop"} color="#F23CFF" textColor="white" actionDelegate={FuncAddEshop} />
+                                <ButtonUniversal
+                                    icon={IconPlus}
+                                    side={ButtonSide.Left}
+                                    title={isPhone?"Add":"Add e-shop"}
+                                    color="#F23CFF"
+                                    hoverColor="#DA16E3"
+                                    textColor="white"
+                                    actionDelegate={FuncAddEshop}
+                                />
                             </Grid>
                         </Grid>
                         <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer', color: '#6B7280', paddingBottom:'2px' }}>

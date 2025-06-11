@@ -86,7 +86,8 @@ const FormSubmitReport: React.FC<FormSubmitReportProps> = ({ closeModal, tile })
                 {closeModal && (
                     <ButtonUniversal 
                         title="Cancel" 
-                        color="#8000FF" 
+                        color="#8000FF"
+                        hoverColor="#6603C9"
                         textColor="white" 
                         actionDelegate={closeModal} 
                     />
@@ -94,6 +95,7 @@ const FormSubmitReport: React.FC<FormSubmitReportProps> = ({ closeModal, tile })
                 <ButtonUniversal
                     title="Submit"
                     color="#F23CFF"
+                    hoverColor="#DA16E3"
                     textColor="white"
                     actionDelegate={SubmitReport}
                 />

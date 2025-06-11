@@ -232,6 +232,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                                     title="Report"
                                     color="white"
                                     textColor="#BEBEBE"
+                                    hoverColor="#6B7280"
                                     actionDelegate={FuncReport}
                                 />
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -241,6 +242,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                                         side={ButtonSide.Left}
                                         title={likes}
                                         color={voted ? "#7f7f7f" : "#F0F0F0"} // Darker when clicked
+                                        hoverColor="green"
                                         textColor="black"
                                         actionDelegate={SwapLike}
                                     />
@@ -249,6 +251,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                                         side={ButtonSide.Left}
                                         title="Navigate"
                                         color="#F23CFF"
+                                        hoverColor="#DA16E3"
                                         textColor="white"
                                         actionDelegate={() => console.log("TODO NAVIGATE funct()")}
                                     />

@@ -378,6 +378,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                     <ButtonUniversal
                         title={"Populate-dummy-spot ^"}
                         color="#F23CFF"
+                        hoverColor="#DA16E3"
                         textColor="white"
                         actionDelegate={DebugPopulateDummySpot}
                     />
@@ -386,6 +387,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                     <ButtonUniversal
                         title="Cancel"
                         color="#8000FF"
+                        hoverColor="#6603C9"
                         textColor="white"
                         actionDelegate={FuncCancel}
                     />
@@ -395,6 +397,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                     <ButtonUniversal
                         title={isSaving ? "Saving ..." : "Save"}
                         color="#F23CFF"
+                        hoverColor="#DA16E3"
                         textColor="white"
                         actionDelegate={UpdateSpot}
                         disabled={isSaving}
@@ -403,6 +406,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                     <ButtonUniversal
                         title={isAdding ? "Adding ..." : "Add"}
                         color="#F23CFF"
+                        hoverColor="#DA16E3"
                         textColor="white"
                         actionDelegate={AddSpot}
                         disabled={isAdding}

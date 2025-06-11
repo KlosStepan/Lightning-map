@@ -132,7 +132,13 @@ const ADHome: React.FC<ADHomeProps> = ({ }) => {
                                 </Typography>
                             </Grid>
                             <Grid item xs={2}>
-                                <ButtonUniversal title="+ Add" color="#F23CFF" textColor="white" actionDelegate={FuncAdd} />
+                                <ButtonUniversal
+                                    title="+ Add"
+                                    color="#F23CFF"
+                                    hoverColor="#DA16E3"
+                                    textColor="white"
+                                    actionDelegate={FuncAdd}
+                                />
                             </Grid>
                         </Grid>
                         <Grid container spacing={2}>

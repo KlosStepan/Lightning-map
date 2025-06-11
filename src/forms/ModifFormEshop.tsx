@@ -295,6 +295,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                     <ButtonUniversal
                         title={"Populate-dummy-eshop ^"}
                         color="#F23CFF"
+                        hoverColor="#DA16E3"
                         textColor="white"
                         actionDelegate={DebugPopulateDummyEshop}
                     />
@@ -303,6 +304,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                     <ButtonUniversal 
                         title="Cancel" 
                         color="#8000FF" 
+                        hoverColor="#6603C9"
                         textColor="white" 
                         actionDelegate={FuncCancel} 
                     />
@@ -311,6 +313,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                     <ButtonUniversal
                         title={isSaving ? "Saving ..." : "Save"}
                         color="#F23CFF"
+                        hoverColor="#DA16E3"
                         textColor="white"
                         actionDelegate={UpdateEshop}
                         disabled={isSaving}
@@ -319,6 +322,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                     <ButtonUniversal
                         title={isAdding ? "Adding ..." : "Add"}
                         color="#F23CFF"
+                        hoverColor="#DA16E3"
                         textColor="white"
                         actionDelegate={AddEshop}
                         disabled={isAdding}
