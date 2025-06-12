@@ -149,7 +149,7 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
                                 title={likes}
                                 //color={voted ? "#D9D9D9" : "#F0F0F0"} // Darker when clicked
                                 color={voted ? "#7f7f7f" : "#F0F0F0"} // Darker when clicked
-                                hoverColor={ButtonColor.Green}
+                                hoverColor={ButtonColor.Grey}
                                 //hoverColor="green"
                                 textColor="black"
                                 actionDelegate={SwapLike}

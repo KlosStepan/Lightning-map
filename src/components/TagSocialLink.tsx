@@ -16,9 +16,9 @@ const styleTagSocialLink = {
     fontSize: '22px',
     textAlign: 'center',
     textDecoration: 'none', // Remove underline from link
-    transition: 'background-color 0.7s ease',
+    //transition: 'background-color 0.7s ease',
     '&:hover': {
-        backgroundColor: (theme: any) => theme.palette.grey[500],
+        backgroundColor: (theme: any) => theme.palette.grey[400],
     },
 };
 

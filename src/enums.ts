@@ -13,12 +13,14 @@ export enum ButtonColor {
     Purple = "#8000FF",
     PurpleHover = "#6603C9",
     //
-    LightningBg = "#E5E5E5",
-    //LightningBgClicked = "8",
+    LightningDefault = "#F5F5F5",
+    LightningHover = "#E5E5E5",
+    LightningActive = "#F23CFF",
     //
     ReportDefault = "#BEBEBE",
     ReportHover = "#6B7280",
-    //dummy
-    White = "white",
-    Green = "green"
+    //dummy colors
+    Black = "black",
+    Grey = "grey",
+    White = "white"
 }

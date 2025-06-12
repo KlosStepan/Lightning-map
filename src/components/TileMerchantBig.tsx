@@ -27,8 +27,11 @@ import ISocial from "../ts/ISocial";
 
 //Icons
 import closeIcon from '../icons/close.png';
-import IconExclamationMark from "../icons/warning-box.png";
+//todo
+import WarningBox from "../icons/warning-box.png";
+//
 import IconLightningPurple from "../icons/icon-lightning-purple.png";
+import IconLightningWhite from "../icons/icon-lightning-white.png"
 //Fake images
 import FormSubmitReport from "../forms/FormSubmitReport";
 
@@ -226,27 +229,28 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                                 ))}
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
+                                {/*HERE*/}
                                 <ButtonUniversal
-                                    icon={IconExclamationMark}
+                                    icon={WarningBox}
                                     side={ButtonSide.Left}
                                     title="Report"
                                     color={ButtonColor.White}
                                     //color="white"
-                                    textColor="#BEBEBE"
-                                    hoverColor={ButtonColor.ReportDefault}
+                                    textColor={ButtonColor.ReportDefault}
+                                    hoverColor={"null"}
                                     //hoverColor="#6B7280"
                                     actionDelegate={FuncReport}
                                 />
+                                {/*HERE*/}
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                     {/*TODO - swappable if clicked colors */}
                                     <ButtonUniversal
-                                        icon={IconLightningPurple}
+                                        icon={voted ? IconLightningWhite : IconLightningPurple}
                                         side={ButtonSide.Left}
                                         title={likes}
-                                        color={voted ? "#7f7f7f" : "#F0F0F0"} // Darker when clicked
-                                        hoverColor={ButtonColor.Green}
-                                        //hoverColor="green"
-                                        textColor="black"
+                                        color={voted ? ButtonColor.LightningActive : ButtonColor.LightningDefault}
+                                        hoverColor={ButtonColor.LightningHover}
+                                        textColor={voted ? ButtonColor.White : ButtonColor.Black}
                                         actionDelegate={SwapLike}
                                     />
                                     <span>&nbsp; &nbsp;</span>

@@ -25,10 +25,10 @@ const Footer: React.FC<FooterProps> = ({ }) => {
                     Experience the Power of Lightning Network Everywhere
                     </Typography>
                     {/*<Typography component="h1" variant="h3" sx={{ color: '#6B7280' }}>Out Domains</Typography>*/}
-                    <Typography component="h2" variant="h2">LightningEverywhere.com</Typography>
+                    {/*<Typography component="h2" variant="h2">LightningEverywhere.com</Typography>
                     <Typography component="h2" variant="h2">&gt; Lightning-Everywhere.com</Typography>
                     <Typography component="h2" variant="h2">&gt; LightningEverywhere.io</Typography>
-                    <Typography component="h2" variant="h2">&gt; Lightning-Everywhere.io</Typography>
+                    <Typography component="h2" variant="h2">&gt; Lightning-Everywhere.io</Typography>*/}
                 </Grid>
                 {/* Second part: 1/4 */}
                 <Grid item xs={12} md={3}>
@@ -42,17 +42,17 @@ const Footer: React.FC<FooterProps> = ({ }) => {
                     <Typography component="h1" variant="h3" sx={{ color: '#6B7280' }}>Follow us on</Typography>
                     {/** */}
                     <Typography component="h2" variant="h2">Instagram</Typography>
-                    <Typography component="h2" variant="h2">X / Twitter</Typography>
+                    <Typography component="h2" variant="h2">X</Typography>
                     <Typography component="h2" variant="h2">LinkedIN</Typography>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <Typography component="h3" variant="h3">design: {/*<a href="https://filipsmekal.cz/"target="_blank">smékal</a>*/}smékal</Typography>
+                    <Typography component="h3" variant="h3">2024 © Lightning. Everywhere.</Typography>
                 </Grid>
                 <Grid item xs={12} md={3}>
                     <Typography component="h3" variant="h3">GDPR</Typography>
                 </Grid>
                 <Grid item xs={12} md={3}>
-                    <Typography component="h3" variant="h3">2024 © Lightning. Everywhere.</Typography>
+                    <Typography component="h3" variant="h3">design: {/*<a href="https://filipsmekal.cz/"target="_blank">smékal</a>*/}smékal</Typography>
                 </Grid>
             </Grid>
         </React.Fragment>

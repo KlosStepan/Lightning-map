@@ -172,8 +172,8 @@ const MerchantsMap: React.FC<MerchantsMapProps> = ({ }) => {
                   <SwiperSlide style={{ width: "auto" }}>
                     <ButtonUniversal
                       title="All"
-                      color={activeFilters["All"] ? "#8000FF" : "#FFFFFF"}
-                      hoverColor={ButtonColor.Green}
+                      color={activeFilters["All"] ? ButtonColor.Purple : ButtonColor.White}
+                      hoverColor={activeFilters["All"] ? ButtonColor.PurpleHover : ButtonColor.Grey}
                       //hoverColor="green"
                       textColor={activeFilters["All"] ? "white" : "black"}
                       actionDelegate={() => FuncFilt("All")}
@@ -184,8 +184,8 @@ const MerchantsMap: React.FC<MerchantsMapProps> = ({ }) => {
                     <SwiperSlide key={filter} style={{ width: "auto" }}>
                       <ButtonUniversal
                         title={filter}
-                        color={activeFilters[filter] ? "#8000FF" : "#FFFFFF"}
-                        hoverColor={ButtonColor.Green}
+                        color={activeFilters[filter] ? ButtonColor.Purple : ButtonColor.White}
+                        hoverColor={activeFilters[filter] ? ButtonColor.PurpleHover : ButtonColor.Grey}
                         //hoverColor="green"
                         textColor={activeFilters[filter] ? "white" : "black"}
                         actionDelegate={() => FuncFilt(filter)}
@@ -253,11 +253,11 @@ const MerchantsMap: React.FC<MerchantsMapProps> = ({ }) => {
                               onClick={() => dispatch(setSelected(merchant))}
                               style={{
                                 cursor: 'pointer',
-                                transition: 'opacity 0.3s ease',
+                                //transition: 'opacity 0.3s ease',
                                 opacity: 1,
                               }}
-                              onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.5')}
-                              onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+                              //onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.5')}
+                              //onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
                             >
                               <TileMerchant likes={likeCountsMap.get(merchant.properties.id) || 0} tile={merchant.properties} index={index} />
                             </Box>
