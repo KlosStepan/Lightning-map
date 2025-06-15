@@ -129,7 +129,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
                 <ButtonUniversal
                     icon={IconEdit}
                     side={ButtonSide.Right}
-                    title="EDIT"
+                    title="Edit"
                     color={ButtonColor.Pink}
                     //color="#F23CFF"
                     hoverColor={ButtonColor.PinkHover}
@@ -141,7 +141,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
                 <ButtonUniversal
                     icon={IconTrash}
                     side={ButtonSide.Right}
-                    title="DELETE"
+                    title="Delete"
                     color={ButtonColor.Purple}
                     //color="#8000FF"
                     hoverColor={ButtonColor.PurpleHover}

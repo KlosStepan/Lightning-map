@@ -213,14 +213,14 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                             <Typography variant="h1" component="h2" sx={{ textAlign: 'left', mt: 1 }}>
                                 {tile.name}
                             </Typography>
-                            <Typography sx={{ textAlign: 'left', fontSize: '16px', mt: 1, color: '#6B7280' }}>
+                            <Typography sx={{ textAlign: 'left', fontFamily: 'IBM Plex Sans Condensed', fontSize: '16px', mt: 1, color: '#737373' }}>
                                 {`${tile.address.address} ${tile.address.city} ${tile.address.postalCode}`}
                             </Typography>
                             <Typography sx={{ fontSize: '16px', fontFamily: 'IBM Plex Sans Condensed', color: '#404040' }}>
                                 {tile.description}
                             </Typography>
                             <div>
-                                <Typography variant="subtitle1" sx={{ fontFamily: 'PixGamer', fontSize: 24, color: '#6B7280', display: 'inline' }}>
+                                <Typography variant="subtitle1" sx={{ fontFamily: 'PixGamer', fontSize: 24, color: '#737373', display: 'inline' }}>
                                     Socials
                                 </Typography>
                                 &nbsp;

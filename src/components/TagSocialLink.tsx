@@ -13,7 +13,7 @@ const styleTagSocialLink = {
     padding: '4px 12px',
     margin: '0px 2px',
     borderRadius: '100px',
-    fontSize: '22px',
+    fontSize: '24px',
     textAlign: 'center',
     textDecoration: 'none', // Remove underline from link
     //transition: 'background-color 0.7s ease',

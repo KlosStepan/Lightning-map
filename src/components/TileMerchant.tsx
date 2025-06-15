@@ -75,7 +75,7 @@ const TileMerchant: React.FC<TileMerchantProps> = ({ likes, tile, index, outOfBu
                     />
                 )}
                 <Box sx={{ ...topRight }}>
-                    <IconLightningNumber number={likes} />
+                    <IconLightningNumber number={likes} scale={1} />
                 </Box>
                 <Box sx={{ ...leftBottom }}>
                     {tile.tags.map((tag: string) => (
@@ -93,7 +93,8 @@ const TileMerchant: React.FC<TileMerchantProps> = ({ likes, tile, index, outOfBu
                     fontSize: '16px',
                     color: outOfBusiness ? '#9e9e9e' : '#6B7280', // Make text lighter if out of business
                     fontFamily: 'IBM Plex Sans Condensed',
-                    marginTop: '2px'
+                    marginTop: '2px',
+                    //lineHeight: '100%'
                 }}>
                     {tile.address.address + ' ' + tile.address.city + ' ' + tile.address.postalCode}
                 </p>

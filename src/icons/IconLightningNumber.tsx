@@ -11,9 +11,9 @@ const IconLightningNumber: React.FC<IconLightningNumberProps> = ({ number, scale
     const styleIconLightningNumber = {
         display: 'inline-flex',
         alignItems: 'center',
-        borderRadius: '16px',
+        borderRadius: '100px',
         backgroundColor: '#F0F0F0',
-        padding: '4px 8px',
+        padding: '4px 12px',
         transform: `scale(${scale})`,
     };
 

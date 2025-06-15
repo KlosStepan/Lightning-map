@@ -25,6 +25,7 @@ import IEshop from "../ts/IEshop";
 //Icons
 import IconExclamationMark from "../icons/warning-box.png";
 import IconLightningPurple from "../icons/icon-lightning-purple.png";
+import IconLightningWhite from "../icons/icon-lightning-white.png"
 import IconLightningNumber from "../icons/IconLightningNumber";
 
 const containerOuterStyle = {
@@ -144,14 +145,14 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
                         <div style={{ display: "flex", alignItems: "center" }}>
                         {showReportButton ? (
                             <ButtonUniversal
-                                icon={IconLightningPurple}
+                                icon={voted ? IconLightningWhite : IconLightningPurple}
                                 side={ButtonSide.Left}
                                 title={likes}
                                 //color={voted ? "#D9D9D9" : "#F0F0F0"} // Darker when clicked
-                                color={voted ? "#7f7f7f" : "#F0F0F0"} // Darker when clicked
-                                hoverColor={ButtonColor.Grey}
+                                color={voted ? ButtonColor.LightningActive : ButtonColor.LightningDefault}
+                                hoverColor={ButtonColor.LightningHover}
                                 //hoverColor="green"
-                                textColor="black"
+                                textColor={voted ? ButtonColor.White : ButtonColor.Black}
                                 actionDelegate={SwapLike}
                                 scale={0.75}
                             />) : <IconLightningNumber number={likes} scale={1} /> }

@@ -129,7 +129,7 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                     </Grid>
                 </Container>
                 <div>
-                    <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer', color: '#6B7280' }}>
+                    <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'PixGamer', color: '#6B7280', fontSize:'20px', fontWeight:'400' }}>
                         {eshops?.length ? eshops?.length : 'X'} results
                     </p>
                     <Grid container spacing={2} sx={{ marginRight: 0, marginLeft: 0 }}>

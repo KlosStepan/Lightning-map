@@ -216,9 +216,9 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
         if (webRef.current) webRef.current.value = `https://www.example${randomNumber}.com`;
         // Populate Upload Comp with dummy logo, image blob - which works correctly for update
         try {
-            const response = await fetch("/foto-polis.png"); // Ensure this file exists in `public/`
+            const response = await fetch("/dummy-eshop.png"); // Ensure this file exists in `public/`
             const blob = await response.blob();
-            const dummyFile = new File([blob], "foto-polis.png", { type: blob.type });
+            const dummyFile = new File([blob], "dummy-eshop.png", { type: blob.type });
     
             // Generate a proper preview URL
             const fileWithPreview = Object.assign(dummyFile, {

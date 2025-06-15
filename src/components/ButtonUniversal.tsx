@@ -17,7 +17,7 @@ const iconStyles = {
 
 const textStyles = {
     textAlign: 'center',
-    fontSize: '16px',
+    fontSize: '17px',
     marginLeft: 1,
     marginRight: 1,
 };
