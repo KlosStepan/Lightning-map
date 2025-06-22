@@ -93,14 +93,21 @@ export default function SignInSide() {
                         </Typography>
                         <div>&nbsp;</div>
                         <ContinueWithButton icon={LoginGoogle} title="Google" actionDelegate={signInWithGoogle} />
-                        <ContinueWithButton icon={LoginApple} title="Apple" actionDelegate={signInWithApple} />
+                        {/*<ContinueWithButton icon={LoginApple} title="Apple" actionDelegate={signInWithApple} />*/}
                         <ContinueWithButton icon={LoginEmail} title="e-mail" actionDelegate={signInWithEmail} />
                         <div>&nbsp;</div>
                         <div>
-                            <span onClick={() => { console.log("TODO - forgotten passwd") }}><u>I forgot my password</u></span>
+                            <span onClick={() => navigate("/forgot-password")} style={{ cursor: "pointer" }}>
+                                <u>I forgot my password</u>
+                            </span>
                         </div>
                         <div>
-                            <span>Don't you have an account? <span onClick={() => { console.log("TODO - sign up") }}><u>Sign up</u></span></span>
+                            <span>
+                                Don't you have an account?{" "}
+                                <span onClick={() => navigate("/sign-up")} style={{ cursor: "pointer" }}>
+                                    <u>Sign up</u>
+                                </span>
+                            </span>
                         </div>
                     </Box>
                 </Grid>
