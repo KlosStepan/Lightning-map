@@ -117,7 +117,7 @@ function App() {
         <Router>
             <CssBaseline />
             <Grid container justifyContent="center">
-                <Grid item xs={10} md={8} lg={6}>
+                <Grid item xs={10} md={11} lg={7}>
                     <AppBar position="static" sx={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
                         <Container maxWidth="xl">
                             <MenuHeader pages={pages} settings={settings} />
