@@ -29,6 +29,7 @@ import ISocial from "../ts/ISocial";
 import closeIcon from '../icons/close.png';
 //todo
 import WarningBox from "../icons/warning-box.png";
+import WarningBoxHover from "../icons/warning-box-hover.png";
 //
 import IconLightningPurple from "../icons/icon-lightning-purple.png";
 import IconLightningWhite from "../icons/icon-lightning-white.png"
@@ -235,10 +236,9 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                                     side={ButtonSide.Left}
                                     title="Report"
                                     color={ButtonColor.White}
-                                    //color="white"
-                                    textColor={ButtonColor.ReportDefault}
                                     hoverColor={"null"}
-                                    //hoverColor="#6B7280"
+                                    textColor={ButtonColor.ReportDefault}
+                                    hoverTextColor={ButtonColor.ReportHover}
                                     actionDelegate={FuncReport}
                                 />
                                 {/*HERE*/}
@@ -251,6 +251,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                                         color={voted ? ButtonColor.LightningActive : ButtonColor.LightningDefault}
                                         hoverColor={ButtonColor.LightningHover}
                                         textColor={voted ? ButtonColor.White : ButtonColor.Black}
+                                        hoverTextColor={voted ? ButtonColor.Black : undefined}
                                         actionDelegate={SwapLike}
                                     />
                                     <span>&nbsp; &nbsp;</span>

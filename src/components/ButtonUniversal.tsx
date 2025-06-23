@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 //enums
 import { ButtonSide } from '../enums';
 //MUI
@@ -29,6 +29,7 @@ type ButtonUniversalProps = {
     color: string;
     hoverColor: string; // <-- New prop added here
     textColor: string;
+    hoverTextColor?: string; // <-- NEW: optional hover text color
     actionDelegate?: () => Promise<void> | void;
     fullWidth?: boolean;
     disabled?: boolean;
@@ -42,17 +43,21 @@ const ButtonUniversal: React.FC<ButtonUniversalProps> = ({
     color,
     hoverColor,
     textColor,
+    hoverTextColor,
     actionDelegate,
     fullWidth = false,
     disabled = false,
     scale = 1,
 }) => {
+    const [isHovered, setIsHovered] = useState(false);
     return (
         <Box
             sx={{
                 transform: `scale(${scale})`,
                 display: 'inline-block',
             }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
         >
             <Button
                 color="primary"
@@ -73,7 +78,7 @@ const ButtonUniversal: React.FC<ButtonUniversalProps> = ({
                 fullWidth={fullWidth}
                 disabled={disabled}
             >
-                <Box sx={{...boxContainerStyles}}>
+                <Box sx={{ ...boxContainerStyles }}>
                     {side === 'L' && icon && (
                         <Box
                             component="img"
@@ -82,7 +87,11 @@ const ButtonUniversal: React.FC<ButtonUniversalProps> = ({
                             sx={{...iconStyles}}
                         />
                     )}
-                    <Box component="span" sx={{ ...textStyles, color: textColor }}>
+                    <Box component="span" sx={{
+                        ...textStyles,
+                        color: isHovered && hoverTextColor ? hoverTextColor : textColor,
+                        }}
+                    >
                         {title}
                     </Box>
                     {side === 'R' && icon && (
