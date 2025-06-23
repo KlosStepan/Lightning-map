@@ -25,6 +25,10 @@ import LoginEmail from '../img/login-mail.png';
 import { isNullishCoalesce } from 'typescript';
 import { useAuthState } from "react-firebase-hooks/auth";
 
+// ✅ Path to your image
+import mapWorldImage from '../img/map-world.jpg'; // adjust path if neede
+import Footer from "../components/Footer";
+
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
@@ -34,11 +38,7 @@ const signInWithApple = (): Promise<void> => {
     return Promise.resolve();
 };
 
-const signInWithEmail = (): Promise<void> => {
-    console.log("TODO - signInWithEmail");
-    return Promise.resolve();
-};
-
+//TODO - LoginProxy in TODO new Login/ folder w/ image
 //Will be stepped: Login general || Login e-mail/pass || Create Account || Password reset
 export default function SignInSide() {
     /*const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -51,6 +51,7 @@ export default function SignInSide() {
     };*/
     const [user, loading, error] = useAuthState(auth);
     const navigate = useNavigate();
+    const [loginWithEmail, setLoginWithEmail] = useState(false);
 
     useEffect(() => {
         if (loading) {
@@ -60,20 +61,24 @@ export default function SignInSide() {
         if (user) navigate("/admin/dashboard");
     }, [user, loading]);
 
+    const signInWithEmail = async () => {
+        setLoginWithEmail(true);
+    };
+
     return (
-        < /*theme={defaultTheme}*/>
-            <Grid container component="main" sx={{ height: '100vh' }}>
+        <React.Fragment>
+            <Grid container component="main" sx={{ height: '70vh' }}>
                 <CssBaseline />
                 <Grid
                     item
                     xs={false}
                     sm={4}
-                    md={7}
+                    md={6}
                     sx={{
-                        backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+                        backgroundImage: `url(${mapWorldImage})`,
                         backgroundRepeat: 'no-repeat',
-                        /*backgroundColor: (t) =>
-                            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],*/
+                        backgroundColor: (t) =>
+                        t.palette.mode === 'light' ? '#f0f0f0' : '#121212',
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                     }}
@@ -88,30 +93,84 @@ export default function SignInSide() {
                             alignItems: 'center',
                         }}
                     >
-                        <Typography variant="h1" component="h1">
-                            Login
-                        </Typography>
-                        <div>&nbsp;</div>
-                        <ContinueWithButton icon={LoginGoogle} title="Google" actionDelegate={signInWithGoogle} />
-                        {/*<ContinueWithButton icon={LoginApple} title="Apple" actionDelegate={signInWithApple} />*/}
-                        <ContinueWithButton icon={LoginEmail} title="e-mail" actionDelegate={signInWithEmail} />
-                        <div>&nbsp;</div>
-                        <div>
-                            <span onClick={() => navigate("/forgot-password")} style={{ cursor: "pointer" }}>
-                                <u>I forgot my password</u>
-                            </span>
-                        </div>
-                        <div>
-                            <span>
-                                Don't you have an account?{" "}
-                                <span onClick={() => navigate("/sign-up")} style={{ cursor: "pointer" }}>
-                                    <u>Sign up</u>
+                    {!loginWithEmail ? (
+                        <>
+                            <Typography variant="h1" component="h1">
+                                Login
+                            </Typography>
+                            <div>&nbsp;</div>
+                            <ContinueWithButton icon={LoginGoogle} title="Google" actionDelegate={signInWithGoogle} />
+                            {/*<ContinueWithButton icon={LoginApple} title="Apple" actionDelegate={signInWithApple} />*/}
+                            <ContinueWithButton icon={LoginEmail} title="e-mail" actionDelegate={signInWithEmail} />
+                            <div>&nbsp;</div>
+                            <div>
+                                <span onClick={() => navigate("/forgot-password")} style={{ cursor: "pointer" }}>
+                                    <u>I forgot my password</u>
                                 </span>
-                            </span>
-                        </div>
+                            </div>
+                            <div>
+                                <span>
+                                    Don't you have an account?{" "}
+                                    <span onClick={() => navigate("/sign-up")} style={{ cursor: "pointer" }}>
+                                        <u>Sign up</u>
+                                    </span>
+                                </span>
+                            </div>
+                        </> 
+                        ) : (
+                            <>
+                                <Typography variant="h1" component="h1">
+                                    Login with Email
+                                </Typography>
+                                <Box component="form" onSubmit={async (e) => {
+                                    e.preventDefault();
+                                    const data = new FormData(e.currentTarget);
+                                    const email = data.get("email") as string;
+                                    const password = data.get("password") as string;
+                                    //await logInWithEmailAndPassword(email, password);
+                                }} noValidate sx={{ mt: 1 }}>
+                                    <TextField
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        id="email"
+                                        label="Email Address"
+                                        name="email"
+                                        autoComplete="email"
+                                        autoFocus
+                                    />
+                                    <TextField
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        name="password"
+                                        label="Password"
+                                        type="password"
+                                        id="password"
+                                        autoComplete="current-password"
+                                    />
+                                    <FormControlLabel
+                                        control={<Checkbox value="remember" color="primary" />}
+                                        label="Remember me"
+                                    />
+                                    <Button
+                                        type="submit"
+                                        fullWidth
+                                        variant="contained"
+                                        sx={{ mt: 3, mb: 2 }}
+                                    >
+                                        Sign In
+                                    </Button>
+                                    <Button onClick={() => setLoginWithEmail(false)} fullWidth>
+                                        ← Back
+                                    </Button>
+                                </Box>
+                            </>
+                        )}
                     </Box>
                 </Grid>
             </Grid>
-        </>
+            <Footer/>
+        </React.Fragment>
     );
 }
