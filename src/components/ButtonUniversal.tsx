@@ -73,7 +73,7 @@ const ButtonUniversal: React.FC<ButtonUniversalProps> = ({
                     transition: 'none', // <- disable animation
                     '&:hover': {
                         backgroundColor: hoverColor, // <- use explicit hoverColor
-                        color: isHovered && hoverTextColor ? hoverTextColor : textColor,
+                        color: (isHovered && hoverTextColor) ? textColor : hoverTextColor,
                     },
                 }}
                 fullWidth={fullWidth}

@@ -251,7 +251,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                                         color={voted ? ButtonColor.LightningActive : ButtonColor.LightningDefault}
                                         hoverColor={ButtonColor.LightningHover}
                                         textColor={voted ? ButtonColor.White : ButtonColor.Black}
-                                        hoverTextColor={voted ? ButtonColor.Black : undefined}
+                                        hoverTextColor={voted ? ButtonColor.Black : ButtonColor.White}
                                         actionDelegate={SwapLike}
                                     />
                                     <span>&nbsp; &nbsp;</span>
