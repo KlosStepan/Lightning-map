@@ -73,6 +73,7 @@ const ButtonUniversal: React.FC<ButtonUniversalProps> = ({
                     transition: 'none', // <- disable animation
                     '&:hover': {
                         backgroundColor: hoverColor, // <- use explicit hoverColor
+                        color: isHovered && hoverTextColor ? hoverTextColor : textColor,
                     },
                 }}
                 fullWidth={fullWidth}
@@ -89,7 +90,7 @@ const ButtonUniversal: React.FC<ButtonUniversalProps> = ({
                     )}
                     <Box component="span" sx={{
                         ...textStyles,
-                        color: isHovered && hoverTextColor ? hoverTextColor : textColor,
+                        //color: isHovered && hoverTextColor ? hoverTextColor : textColor,
                         }}
                     >
                         {title}
