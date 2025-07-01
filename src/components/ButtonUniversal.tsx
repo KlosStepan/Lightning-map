@@ -63,6 +63,7 @@ const ButtonUniversal: React.FC<ButtonUniversalProps> = ({
                 color="primary"
                 onClick={actionDelegate}
                 sx={{
+                    color: textColor,
                     backgroundColor: color,
                     borderRadius: '20px',
                     padding: '4px 6px',
@@ -73,7 +74,9 @@ const ButtonUniversal: React.FC<ButtonUniversalProps> = ({
                     transition: 'none', // <- disable animation
                     '&:hover': {
                         backgroundColor: hoverColor, // <- use explicit hoverColor
-                        color: (isHovered && hoverTextColor) ? textColor : hoverTextColor,
+                        //color: (isHovered && hoverTextColor) ? textColor : hoverTextColor,
+                        //color: isHovered ? (hoverTextColor ?? textColor) : textColor
+                        color: hoverTextColor ?? textColor
                     },
                 }}
                 fullWidth={fullWidth}
