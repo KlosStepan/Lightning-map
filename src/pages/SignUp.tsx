@@ -114,7 +114,7 @@ return (
             <Box mt={2} width="100%" display="flex" justifyContent="right" textAlign="right">
             <span>
                 Already have an account?{" "}
-                <span onClick={() => navigate("/sign-in")} style={{ cursor: "pointer" }}>
+                <span onClick={() => navigate("/login")} style={{ cursor: "pointer" }}>
                 <u>Log in</u>
                 </span>
             </span>

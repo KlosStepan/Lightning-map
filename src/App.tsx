@@ -40,6 +40,8 @@ import ILink from './ts/ILink';
 import UIKit from "./pages/UIKit";
 import SignUp from "./pages/SignUp";
 import ForgotPassword from "./pages/ForgotPassword";
+import LoginProxyTest from "./pages/LoginProxyTest";
+import LoginProxyForgotPassword from "./pages/LoginProxyForgotPassword";
 
 // Website menu
 const pages: ILink[] = [
@@ -135,8 +137,11 @@ function App() {
                             <Route path="/blog" element={<Blog />} /> {/*TODO blog enable/disable */}
                             <Route path="/about" element={<About />} />
                             <Route path="/login" element={<Login />} />
+                            <Route path="/login-test" element={<LoginProxyTest/>} />
+                            //
                             <Route path="/sign-up" element={<SignUp />} />
-                            <Route path="/forgot-password" element={<ForgotPassword />} />
+                            {/*<Route path="/forgot-password" element={<ForgotPassword />} />*/}
+                            <Route path="/forgot-password" element={<LoginProxyForgotPassword />} />
                             {/*Admin Dashboard*/}
                             <Route path="/admin/dashboard" element={<ADHome />} />
                             <Route path="/admin/my-spots" element={<ADMyMerchants />} />
