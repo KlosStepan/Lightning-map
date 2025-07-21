@@ -4,14 +4,15 @@ import { Theme } from '@mui/material/styles';
 
 // Define style for the container Box component
 export const modalContainerStyle: SxProps<Theme> = {
-    borderRadius: '20px',
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 450,
-    backgroundColor: '#F0F0F0',
-    padding: '16px',
+  borderRadius: '20px',
+  width: '90vw',
+  maxWidth: 450,
+  maxHeight: '90vh',
+  bgcolor: '#F0F0F0',
+  p: 2,
+  overflowY: 'auto',
+  boxShadow: 24,
+  position: 'relative', // Let parent control centering
 };
 
 // Define style for the Typography component
