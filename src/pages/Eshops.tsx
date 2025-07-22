@@ -39,7 +39,12 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
     const eshops = useSelector((state: RootState) => state.data.eshops);
     const likes = useSelector((state:RootState) => state.data.likes) ?? [];
     const [likeCountsMap, setLikeCountsMap] = useState(new Map());
-
+    //
+    const [searchText, setSearchText] = useState('');
+    const filteredEshops = eshops?.filter((eshop: IEshop) => {
+        const name = eshop?.name?.toLowerCase() || '';
+        return name.includes(searchText.toLowerCase());
+    });
     useEffect(() => {
         const newMap = new Map();
         likes.forEach(({ vendorid }) => {
@@ -103,9 +108,13 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                     <div>&nbsp;</div>
                     <Grid container spacing={2}>
                         <HrGreyCustomSeparator marginTop="0px" marginBottom="0px" />
-                        <Grid item xs={12}  sm={4}>
-                            <SearchBarVendors disabled={true} />
-                        </Grid>
+                    <Grid item xs={12} sm={4}>
+                        <SearchBarVendors 
+                            disabled={false} 
+                            searchText={searchText} 
+                            onSearch={(value: string) => setSearchText(value)} 
+                        />
+                    </Grid>
                         <Grid item xs={12} sm={8}
                             sx={{
                                 display: 'flex',
@@ -130,30 +139,28 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                 </Container>
                 <div>
                     <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'PixGamer', color: '#6B7280', fontSize:'20px', fontWeight:'400' }}>
-                        {eshops?.length ? eshops?.length : 'X'} results
+                    {filteredEshops?.length ? filteredEshops.length : 'X'} results
                     </p>
                     <Grid container spacing={2} sx={{ marginRight: 0, marginLeft: 0 }}>
-                        {eshops ? (
-                            <React.Fragment>
-                            {eshops.map((eshop: IEshop, index: number) => (
-                                <Grid xs={12} sm={2} key={index} sx={isPhone ? {} : { ...dynamicPadding(index) }}>
-                                <TileEshop
-                                    likes={likeCountsMap.get(eshop.id) || 0}
-                                    tile={eshop}
-                                    handleLikeChange={FuncDrillIncrDecrLike}
-                                />
-                                </Grid>
-                            ))}
-                            </React.Fragment>
-                        ) : (
-                            <Grid xs={12} sm={2} key={1} sx={isPhone ? {} : { ...dynamicPadding(1) }}>
-                                <div>&nbsp;</div>
-                                <div>&nbsp;</div>
-                                <Pwnspinner color="#F23CFF" speed={0.7} thickness={2} />
+                    {filteredEshops ? (
+                        <React.Fragment>
+                        {filteredEshops.map((eshop: IEshop, index: number) => (
+                            <Grid xs={12} sm={2} key={index} sx={isPhone ? {} : { ...dynamicPadding(index) }}>
+                            <TileEshop
+                                likes={likeCountsMap.get(eshop.id) || 0}
+                                tile={eshop}
+                                handleLikeChange={FuncDrillIncrDecrLike}
+                            />
                             </Grid>
-                        )}
-
-
+                        ))}
+                        </React.Fragment>
+                    ) : (
+                        <Grid xs={12} sm={2} key={1} sx={isPhone ? {} : { ...dynamicPadding(1) }}>
+                        <div>&nbsp;</div>
+                        <div>&nbsp;</div>
+                        <Pwnspinner color="#F23CFF" speed={0.7} thickness={2} />
+                        </Grid>
+                    )}
                     </Grid>
                     {/* Ready |Load More| btn for partial loding other stuff */}
                     {/*<div>
