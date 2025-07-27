@@ -39,12 +39,28 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
     const eshops = useSelector((state: RootState) => state.data.eshops);
     const likes = useSelector((state:RootState) => state.data.likes) ?? [];
     const [likeCountsMap, setLikeCountsMap] = useState(new Map());
-    //
+    // Search: searchText <- from <SearchBarVendors .../>, filteredEshops finds searchText in Eshop
     const [searchText, setSearchText] = useState('');
     const filteredEshops = eshops?.filter((eshop: IEshop) => {
-        const name = eshop?.name?.toLowerCase() || '';
-        return name.includes(searchText.toLowerCase());
+        const fields = [
+            eshop.name,
+            eshop.description,
+            eshop.country,
+            eshop.url,
+        ];
+
+        const haystack = [
+            ...fields,
+            ...fields.map(str =>
+            str.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            )
+        ]
+            .join(' ')
+            .toLowerCase();
+
+        return haystack.includes(searchText.toLowerCase());
     });
+    // useEffect, rerenderes on likes, as +1 gets updates locally instantly, then sent to backend 
     useEffect(() => {
         const newMap = new Map();
         likes.forEach(({ vendorid }) => {
