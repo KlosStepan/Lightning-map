@@ -49,7 +49,7 @@ const MerchantsMap: React.FC<MerchantsMapProps> = ({ }) => {
     const merchants = useSelector((state: RootState) => state.data.merchants);
     const likes = useSelector((state: RootState) => state.data.likes) ?? [];
     const [likeCountsMap, setLikeCountsMap] = useState(new Map());
-
+    // useEffect, rerenderes on likes, as +1 gets updates locally instantly, then sent to backend 
     useEffect(() => {
         const newMap = new Map();
         likes.forEach(({ vendorid }) => {
@@ -90,17 +90,41 @@ const MerchantsMap: React.FC<MerchantsMapProps> = ({ }) => {
       return Promise.resolve();
     };
   
-    // Function to filter merchants based on active filters
-    const filteredMerchants = merchants?.filter((merchant:IMerchant) => {
-      const merchantTags = merchant.properties.tags;
-  
-      // If "All" is active, show all merchants
-      if (activeFilters["All"]) return true;
-  
-      // Otherwise, check if at least one of the merchant's tags matches an active filter
-      return merchantTags.some((tag: string) => activeFilters[tag]);
+    // Function to filter merchants based on active filters + search text
+    const [searchText, setSearchText] = useState('');
+    const filteredMerchants = merchants?.filter((merchant: IMerchant) => {
+      const { name, description, owner, tags, socials, address } = merchant.properties;
+
+      const fields = [
+        name,
+        description,
+        owner || '',
+        ...tags,
+        ...(socials?.map(s => `${s.label} ${s.link}`) || []),
+        address.address,
+        address.city,
+        address.postalCode,
+      ];
+
+      const haystack = [
+        ...fields,
+        ...fields.map(str =>
+          str.normalize("NFD").replace(/[\u0300-\u036f]/g, "") // remove diacritics
+        ),
+      ]
+        .join(" ")
+        .toLowerCase();
+
+      const search = searchText.toLowerCase();
+
+      // Include only if it matches the search AND matches tags filter
+      const tagsMatch = activeFilters["All"]
+        ? true
+        : tags.some((tag: string) => activeFilters[tag]);
+
+      return tagsMatch && haystack.includes(search);
     });
-  
+
     //Callback from child component LeafletMap.js
     const handleMerchantSelect = (merchant:any) => {
       dispatch(setSelected(merchant))
@@ -154,7 +178,10 @@ const MerchantsMap: React.FC<MerchantsMapProps> = ({ }) => {
                 
                 {/* Search Bar */}
                 <Grid item xs={12} sm={4}>
-                  <SearchBarVendors disabled={true} />
+                  <SearchBarVendors
+                    searchText={searchText}
+                    onSearch={(value: string) => setSearchText(value)}
+                  />
                 </Grid>
                 
                 {/* Filters */}
