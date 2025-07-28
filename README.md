@@ -47,3 +47,18 @@ direnv: loading ~/projects/Lightning-map/.envrc
 direnv: export +REACT_APP_FIREBASE_API_KEY +REACT_APP_FIREBASE_APP_ID +REACT_APP_FIREBASE_AUTH_DOMAIN +REACT_APP_FIREBASE_MEASUREMENT_ID +REACT_APP_FIREBASE_MESSAGING_SENDER_ID +REACT_APP_FIREBASE_PROJECT_ID +REACT_APP_FIREBASE_STORAGE_BUCKET
 ```  
 to ensure full functionality.
+
+## Last TODOs before release
+Lightning Everywhere notes
+- if not connected, load dummy json w/ disabled places
+- About, tiles type (pizza guy, Ross, Polis CZ, blue pig -> be next) some schema, or 5th arrows +
+- Admin's /admin section 4 (icons, lists) - not pretty, mby approved by default if user OK (legit mail, captcha)
+- About beneath, Why project, About Author, Costs burnt, Support boiz (more like 1/4 par than tile)
+- make sure to take out all unused code & have debug in place correctly (!)
+- layouts that are same: Home + E-shops + About // Map + Why Lightning
+- content todo real photos/videos(or gifs)  
+
+Maybe some linter and rules for the project.  
+README.md  - write guidelines (imports order, component before return order).  
+Finalize UIKit page with all possibilities and settings for documentation and quick usability.
+
