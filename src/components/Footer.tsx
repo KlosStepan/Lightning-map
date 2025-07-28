@@ -1,6 +1,7 @@
 import React from "react"
+//MUI
 import { Grid, Typography } from '@mui/material';
-import { BorderTop } from "@mui/icons-material";
+//
 import HrGreyCustomSeparator from "./HrGreyCustomSeparator";
 
 const footerStyling = {
@@ -56,7 +57,7 @@ const Footer: React.FC<FooterProps> = ({ }) => {
                 </Grid>
             </Grid>
         </React.Fragment>
-    )
-}
+    );
+};
 
 export default Footer;

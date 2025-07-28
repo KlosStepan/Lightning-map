@@ -49,15 +49,15 @@ const ButtonUniversal: React.FC<ButtonUniversalProps> = ({
     disabled = false,
     scale = 1,
 }) => {
-    const [isHovered, setIsHovered] = useState(false);
+    //const [isHovered, setIsHovered] = useState(false);
     return (
         <Box
             sx={{
                 transform: `scale(${scale})`,
                 display: 'inline-block',
             }}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            //onMouseEnter={() => setIsHovered(true)}
+            //onMouseLeave={() => setIsHovered(false)}
         >
             <Button
                 color="primary"

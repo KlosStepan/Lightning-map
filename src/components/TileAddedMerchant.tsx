@@ -5,18 +5,16 @@ import ButtonUniversal from "./ButtonUniversal";
 //enums
 import { ButtonColor, ButtonSide } from "../enums";
 //Firebase
-import { getFirestore, doc, deleteDoc } from "firebase/firestore";
-import { getStorage, ref, deleteObject, listAll } from "firebase/storage";
-import { auth, db, storage } from "./Firebase";
+import { doc, deleteDoc } from "firebase/firestore";
+import { ref, deleteObject, listAll } from "firebase/storage";
+import { db, storage } from "./Firebase";
 //Forms
 import FormEditSpot from "../forms/FormEditSpot";
 //Redux/RTK
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
-//Router
-//import { useNavigate } from "react-router-dom";
 //TypeScript
-import IMerchant, { IMerchantTile, IMerchantADWrapper } from "../ts/IMerchant";
+import { IMerchantADWrapper } from "../ts/IMerchant";
 import TileMerchant from "./TileMerchant";
 //Icon
 import IconEdit from '../icons/ico-btn-edit.png';

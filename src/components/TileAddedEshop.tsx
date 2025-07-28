@@ -13,7 +13,7 @@ import FormEditEshop from '../forms/FormEditEshop';
 //MUI
 import { Container, Box, Modal, Typography } from '@mui/material';
 //Redux/RTK
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
 //TypeScript
 import { IEshopADWrapper } from '../ts/IEshop';
@@ -21,7 +21,6 @@ import { IEshopADWrapper } from '../ts/IEshop';
 import IconEdit from '../icons/ico-btn-edit.png';
 import IconTrash from '../icons/ico-btn-trash.png';
 import closeIcon from '../icons/close.png';
-import { User } from 'firebase/auth';
 
 const containerOuterStyle = {
     padding: '10px 16px 10px 16px !important',

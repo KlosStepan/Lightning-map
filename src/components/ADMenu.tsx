@@ -23,20 +23,8 @@ import IcoADXReports from '../icons/ad-x-reports.png';
 import HrGreyCustomSeparator from "./HrGreyCustomSeparator";
 
 type ADMenuProps = { 
-    //ADMenuProps
+    //
 }
-
-const linkStyle = {
-    color: "inherit",
-    textDecoration: "inherit",
-    //fontSize: '18px',
-};
-
-const iconStyle = {
-    width: 24,
-    height: 24,
-    //marginRight: 2,
-};
 
 const ADMenu: React.FC<ADMenuProps> = ({ }) => {
     const theme = useTheme();
@@ -136,7 +124,7 @@ const ADMenu: React.FC<ADMenuProps> = ({ }) => {
 
             )}
         </React.Fragment>   
-    )
-}
+    );
+};
 
 export default ADMenu;

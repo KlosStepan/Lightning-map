@@ -39,7 +39,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ILink from './ts/ILink';
 import UIKit from "./pages/UIKit";
 import SignUp from "./pages/SignUp";
-import ForgotPassword from "./pages/ForgotPassword";
 import LoginProxyTest from "./pages/LoginProxyTest";
 import LoginProxyForgotPassword from "./pages/LoginProxyForgotPassword";
 
@@ -138,7 +137,7 @@ function App() {
                             <Route path="/about" element={<About />} />
                             <Route path="/login" element={<Login />} />
                             <Route path="/login-test" element={<LoginProxyTest/>} />
-                            //
+                            {/**/}
                             <Route path="/sign-up" element={<SignUp />} />
                             {/*<Route path="/forgot-password" element={<ForgotPassword />} />*/}
                             <Route path="/forgot-password" element={<LoginProxyForgotPassword />} />

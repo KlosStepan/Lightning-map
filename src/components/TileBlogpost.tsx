@@ -1,8 +1,6 @@
 import React from 'react';
-import { Card, CardMedia, Container, Grid } from '@mui/material';
-
-import Paper from '@mui/material/Paper';
-import Avatar from '@mui/material/Avatar';
+//MUI
+import { CardMedia } from '@mui/material';
 import Typography from '@mui/material/Typography';
 
 
@@ -11,7 +9,6 @@ type TileBlogpostProps = {
     date: string;
     image: string;
 }
-
 
 const TileBlogpost: React.FC<TileBlogpostProps> = ({ title, date, image }) => {
     return (
