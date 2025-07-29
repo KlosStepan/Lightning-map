@@ -40,7 +40,7 @@ type MerchantsMapProps = {
   //
 };
 
-const MerchantsMap: React.FC<MerchantsMapProps> = ({ }) => {
+const MerchantsMap: React.FC<MerchantsMapProps> = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     //

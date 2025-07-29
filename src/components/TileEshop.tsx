@@ -4,9 +4,9 @@ import ButtonUniversal from "./ButtonUniversal";
 //enums
 import { ButtonColor, ButtonSide } from "../enums";
 //Firebase
-import { doc, collection, addDoc, deleteDoc, query, where, getDocs } from "firebase/firestore";
+import { collection, addDoc, deleteDoc, query, where, getDocs } from "firebase/firestore";
 import { serverTimestamp } from "firebase/firestore";
-import { auth, db } from "../components/Firebase";
+import { db } from "../components/Firebase";
 //Forms
 import FormSubmitReport from "../forms/FormSubmitReport";
 //MUI
@@ -15,7 +15,7 @@ import Modal from "@mui/material/Modal";
 import { CardMedia, Container } from '@mui/material';
 import Typography from '@mui/material/Typography';
 //Redux
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
 //Router
 import {  useNavigate } from "react-router-dom";

@@ -1,9 +1,10 @@
 import React from "react";
-//MUI
-import { Grid, Typography, CardMedia, Box, useMediaQuery, useTheme } from "@mui/material";
 //Components
 import TileExplainer from "../components/TileExplainer";
 import Footer from "../components/Footer";
+//MUI
+import { Grid, Typography, CardMedia, Box, useMediaQuery, useTheme } from "@mui/material";
+
 //Images for body - funky
 import img1_magnet from '../img/Interface-Essential-Magnet--Streamline-Pixel.png';
 import imgs2Overlap1 from '../img/rectangle_145.png'; // Image 145
@@ -24,7 +25,7 @@ type WhyLightningProps = {
   //
 };
 
-const WhyLightning: React.FC<WhyLightningProps> = ({ }) =>{
+const WhyLightning: React.FC<WhyLightningProps> = () =>{
     const theme = useTheme();
     const isPhone = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is small
   
@@ -310,7 +311,7 @@ const WhyLightning: React.FC<WhyLightningProps> = ({ }) =>{
         </React.Fragment>
         <Footer />
       </React.Fragment>
-    )
+    );
 };
 
 export default WhyLightning;

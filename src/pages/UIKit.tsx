@@ -7,9 +7,9 @@ import TagMerchant from "../components/TagMerchant";
 import TagSocialLink from "../components/TagSocialLink";
 import TileEshop from "../components/TileEshop";
 //enums
-import { ButtonSide, ButtonColor } from "../enums";
+import { ButtonSide } from "../enums";
 //MUI
-import { Box, Container, Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import Typography from '@mui/material/Typography';
 //TypeScript
 import IEshop from "../ts/IEshop";
@@ -17,6 +17,7 @@ import IMerchant from "../ts/IMerchant";
 import TileMerchant from "../components/TileMerchant";
 import TileMerchantBig from "../components/TileMerchantBig";
 import ISocial from "../ts/ISocial";
+
 //Icons
 import IconPlus from '../icons/ico-btn-plus.png';
 import IconExclamationMark from "../icons/warning-box.png";
@@ -271,7 +272,7 @@ const UIKit: React.FC<UIKitProps> = ({ propFromApptsx = false, propStuff = "prop
             </React.Fragment>
 
         </React.Fragment>
-    )
+    );
 };
 
 export default UIKit;

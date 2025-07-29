@@ -14,7 +14,7 @@ import { Box, Container, Grid } from "@mui/material";
 import { useTheme, useMediaQuery } from '@mui/material';
 import Modal from "@mui/material/Modal";
 //Redux
-import { useDispatch,useSelector } from 'react-redux';
+import { /*useDispatch,*/ useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
 //Router
 import { useNavigate } from "react-router-dom";
@@ -30,14 +30,14 @@ type EshopsProps = {
     //
 };
 
-const Eshops: React.FC<EshopsProps> = ({ }) => {
+const Eshops: React.FC<EshopsProps> = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
     //
     const user = useSelector((state: RootState) => state.misc.user);
     //
     const eshops = useSelector((state: RootState) => state.data.eshops);
-    const likes = useSelector((state:RootState) => state.data.likes) ?? [];
+    const likes = useSelector((state: RootState) => state.data.likes) ?? [];
     const [likeCountsMap, setLikeCountsMap] = useState(new Map());
     // Search: searchText <- from <SearchBarVendors .../>, filteredEshops finds searchText in Eshop
     const [searchText, setSearchText] = useState('');
@@ -92,10 +92,10 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
         }
         return Promise.resolve();
     }
-    const FuncLoadMore = (): Promise<void> => {
+    /*const FuncLoadMore = (): Promise<void> => {
         console.log("Load More");
         return Promise.resolve();
-    }
+    }*/
     //Modal Stuff
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -206,7 +206,7 @@ const Eshops: React.FC<EshopsProps> = ({ }) => {
                 </Box>
             </Modal>
         </React.Fragment>
-    )
+    );
 };
 
 export default Eshops;

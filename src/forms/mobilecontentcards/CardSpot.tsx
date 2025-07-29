@@ -1,8 +1,8 @@
 import React from 'react';
 //MUI
-import { Box, Container, Grid } from "@mui/material";
+import { Box } from "@mui/material";
 //Redux
-import { useDispatch, useSelector } from 'react-redux';
+//import { useDispatch } from 'react-redux';
 //TypeScript
 import { IMerchantTile } from '../../ts/IMerchant';
 //Icons
@@ -14,7 +14,7 @@ type CardSpotProps=  {
 }
 
 const CardSpot: React.FC<CardSpotProps> = ({ likes, tile }) => {
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
   return (  
     <React.Fragment>
               {/* Modal Content */}

@@ -8,7 +8,7 @@ import {
 import ADMenu from "../components/ADMenu";
 import { Pwnspinner } from "pwnspinner";
 // Firebase
-import { Firestore, collection, getDocs, query } from "firebase/firestore";
+import { collection, getDocs, query } from "firebase/firestore";
 import { db } from "../components/Firebase";
 // TypeScript
 import IMerchant from "../ts/IMerchant";

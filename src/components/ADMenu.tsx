@@ -26,7 +26,7 @@ type ADMenuProps = {
     //
 }
 
-const ADMenu: React.FC<ADMenuProps> = ({ }) => {
+const ADMenu: React.FC<ADMenuProps> = () => {
     const theme = useTheme();
     const isPhone = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is small
         // Array to store link data

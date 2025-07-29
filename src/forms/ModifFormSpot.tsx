@@ -7,7 +7,7 @@ import UploadingImagesSpot from "../components/UploadingImagesSpot";
 import TagMerchant from "../components/TagMerchant";
 //Firebase
 import { db, storage } from "../components/Firebase";
-import { collection, addDoc, setDoc, doc, updateDoc } from "firebase/firestore";
+import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 //Map stuff
 import L from "leaflet";
@@ -114,7 +114,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         //
         setTags(merchant.tags);
         setSocials(merchant.socials);
-    }, []);
+    }, [merchant]);
 
     // CRUD Add/Upd + DummyPopulate/WrapSpot/PrepPics
     const AddSpot = async () => {
@@ -175,12 +175,19 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         }
     };
     const UpdateSpot = () => {
-        console.log("documentid=", documentid);
-        const updatedSpotWrapped = WrapSpotData({ updStatus: true });
-        console.log("Updating updatedSpotWrapped: ", updatedSpotWrapped)
-        //if(!keepPhotos) {
-        // Upload photos from 'files'
-        //}
+        try {
+            setIsSaving(true);
+            console.log("documentid=", documentid);
+            const updatedSpotWrapped = WrapSpotData({ updStatus: true });
+            console.log("Updating updatedSpotWrapped: ", updatedSpotWrapped);
+            //if(!keepPhotos) {
+            // Upload photos from 'files'
+            //}
+        } catch (error) {
+            console.error("Error adding merchant: ", error);
+        } finally {
+            setIsSaving(false);
+        }
     };
     const WrapSpotData = ({ updStatus }: { updStatus: boolean }): IMerchant => ({
         geometry: {
@@ -204,10 +211,12 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         },
         type: "Feature" //[x] Always a Feature
     });
-    const PrepPics = (): any => ({
+
+    /*const PrepPics = (): any => ({
         //dadada, do after Spot is prototyped for all (in loop 3x) via the ext.
         //https://www.npmjs.com/package/browser-image-compression
-    });
+    });*/
+
     const DebugPopulateDummySpot = async () => {
         // Random number for unique name to distinguish between Dummy Merchant
         const randomNumber = Math.floor(Math.random() * 10000) + 1;

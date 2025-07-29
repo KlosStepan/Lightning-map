@@ -1,8 +1,4 @@
 import React, { useEffect, useState } from "react";
-//MUI
-import Typography from '@mui/material/Typography';
-import { Grid, Box, useMediaQuery, useTheme } from '@mui/material';
-import Modal from "@mui/material/Modal";
 //Components
 import ADMenu from "../components/ADMenu";
 import ButtonUniversal from "../components/ButtonUniversal";
@@ -11,16 +7,21 @@ import TileAddedEshop from "../components/TileAddedEshop";
 import { ButtonColor, ButtonSide } from "../enums";
 //Firebase
 import { Firestore, QuerySnapshot, DocumentData, collection, getDocs, query, where } from "firebase/firestore";
-import { auth, db } from "../components/Firebase";
+import { db } from "../components/Firebase";
 //Forms
 import FormAddEshop from "../forms/FormAddEshop";
-//TypeScript
-import IEshop from "../ts/IEshop";
-import { IEshopADWrapper } from "../ts/IEshop";
+//MUI
+import Typography from '@mui/material/Typography';
+import { Grid, Box, useMediaQuery, useTheme } from '@mui/material';
+import Modal from "@mui/material/Modal";
 //Redux+RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
-import { setUserMerchants, setUserEshops } from "../redux-rtk/miscSlice";
+import { setUserEshops } from "../redux-rtk/miscSlice";
+//TypeScript
+import IEshop from "../ts/IEshop";
+import { IEshopADWrapper } from "../ts/IEshop";
+
 //Icons
 import IconPlus from '../icons/ico-btn-plus.png';
 
@@ -28,7 +29,7 @@ type ADMyEShopsProps = {
     //
 };
 
-const ADMyEShops: React.FC<ADMyEShopsProps> = ({ }) => {
+const ADMyEShops: React.FC<ADMyEShopsProps> = () => {
     const dispatch = useDispatch();
 
     //State
@@ -72,7 +73,7 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = ({ }) => {
             newMap.set(vendorid, (newMap.get(vendorid) || 0) + 1);
         });
         setLikeCountsMap(newMap); 
-    }, [uid, likes]);
+    }, [uid, likes, dispatch]);
     //Function for dynamicPadding(index)
     const dynamicPadding = (index: number) => {
         const spaceBetween = 8; // Up and Down space
@@ -159,7 +160,7 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = ({ }) => {
             {/* Menu down - for phone */}
             {isPhone && <ADMenu/>}
         </React.Fragment>
-    )
-}
+    );
+};
 
 export default ADMyEShops;

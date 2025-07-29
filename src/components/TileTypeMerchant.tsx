@@ -1,12 +1,12 @@
 import React from "react"
 //MUI
 import Box from '@mui/material/Box';
-import { Card, CardMedia, Grid } from '@mui/material';
-import { Container, CssBaseline, Paper } from "@mui/material";
+import { CardMedia } from '@mui/material';
+import { Container } from "@mui/material";
 import Typography from '@mui/material/Typography';
 //Router
 import { Link } from 'react-router-dom';
-
+//
 import { Pwnspinner } from "pwnspinner";
 
 // Define the style for the new purple box
@@ -96,7 +96,7 @@ const TileTypeMerchant: React.FC<TileTypeMerchantProps> = ({ caption, numPlaces,
                 </Container>
             </Link>
         </React.Fragment>
-    )
-}
+    );
+};
 
 export default TileTypeMerchant;

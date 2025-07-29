@@ -5,9 +5,9 @@ import Typography from '@mui/material/Typography';
 //Forms
 import ModifFormSpot from "./ModifFormSpot";
 //TypeScript
-import IMerchant, { IMerchantTile } from "../ts/IMerchant";
+import { IMerchantTile } from "../ts/IMerchant";
 //Redux/RTK
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
 //Icons + Styles
 import closeIcon from '../icons/close.png';

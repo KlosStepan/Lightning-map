@@ -6,9 +6,9 @@ import TagSocialLink from "./TagSocialLink";
 //enums
 import { ButtonColor, ButtonSide } from "../enums";
 //Firebase
-import { doc, collection, addDoc, deleteDoc, query, where, getDocs } from "firebase/firestore";
+import { collection, addDoc, deleteDoc, query, where, getDocs } from "firebase/firestore";
 import { serverTimestamp } from "firebase/firestore";
-import { auth, db } from "../components/Firebase";
+import { db } from "../components/Firebase";
 //MUI
 import Box from '@mui/material/Box';
 import Modal from "@mui/material/Modal";
@@ -29,7 +29,6 @@ import ISocial from "../ts/ISocial";
 import closeIcon from '../icons/close.png';
 //todo
 import WarningBox from "../icons/warning-box.png";
-import WarningBoxHover from "../icons/warning-box-hover.png";
 //
 import IconLightningPurple from "../icons/icon-lightning-purple.png";
 import IconLightningWhite from "../icons/icon-lightning-white.png"

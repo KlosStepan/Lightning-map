@@ -15,7 +15,7 @@ type FooterProps = {
     //
 }
 
-const Footer: React.FC<FooterProps> = ({ }) => {
+const Footer: React.FC<FooterProps> = ( ) => {
     return (
         <React.Fragment>
             <HrGreyCustomSeparator/>

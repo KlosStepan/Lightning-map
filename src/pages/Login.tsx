@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from "react";
-import Avatar from '@mui/material/Avatar';
+//import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
+//import Link from '@mui/material/Link';
+//import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+//import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { /*createTheme, ThemeProvider*/ } from '@mui/material/styles';
 import ContinueWithButton from '../components/ContinueWithButton';
 
 //
 import { useNavigate } from "react-router-dom";
-import { auth, logInWithEmailAndPassword, signInWithGoogle } from "../components/Firebase";
+import { auth, /*logInWithEmailAndPassword,*/ signInWithGoogle } from "../components/Firebase";
 
 //Login buttons stuff
-import LoginApple from '../img/login-apple.png';
+//import LoginApple from '../img/login-apple.png';
 import LoginGoogle from '../img/login-google.png';
 import LoginEmail from '../img/login-mail.png';
-import { isNullishCoalesce } from 'typescript';
+//import { isNullishCoalesce } from 'typescript';
 import { useAuthState } from "react-firebase-hooks/auth";
 
 // ✅ Path to your image
@@ -30,13 +30,13 @@ import mapWorldImage from '../img/map-world.jpg'; // adjust path if neede
 import Footer from "../components/Footer";
 
 // TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
+//const defaultTheme = createTheme();
 
 //TODO signIns
-const signInWithApple = (): Promise<void> => {
+/*const signInWithApple = (): Promise<void> => {
     console.log("TODO - signInWithApple");
     return Promise.resolve();
-};
+};*/
 
 //TODO - LoginProxy in TODO new Login/ folder w/ image
 //Will be stepped: Login general || Login e-mail/pass || Create Account || Password reset
@@ -49,7 +49,7 @@ export default function SignInSide() {
             password: data.get('password'),
         });
     };*/
-    const [user, loading, error] = useAuthState(auth);
+    const [user, loading /*, error*/] = useAuthState(auth);
     const navigate = useNavigate();
     const [loginWithEmail, setLoginWithEmail] = useState(false);
 
@@ -59,7 +59,7 @@ export default function SignInSide() {
             return;
         }
         if (user) navigate("/admin/dashboard");
-    }, [user, loading]);
+    }, [user, loading, navigate]);
 
     const signInWithEmail = async () => {
         setLoginWithEmail(true);
@@ -124,9 +124,9 @@ export default function SignInSide() {
                                 </Typography>
                                 <Box component="form" onSubmit={async (e) => {
                                     e.preventDefault();
-                                    const data = new FormData(e.currentTarget);
-                                    const email = data.get("email") as string;
-                                    const password = data.get("password") as string;
+                                    //const data = new FormData(e.currentTarget);
+                                    //const email = data.get("email") as string;
+                                    //const password = data.get("password") as string;
                                     //await logInWithEmailAndPassword(email, password);
                                 }} noValidate sx={{ mt: 1 }}>
                                     <TextField
@@ -173,4 +173,4 @@ export default function SignInSide() {
             <Footer/>
         </React.Fragment>
     );
-}
+};

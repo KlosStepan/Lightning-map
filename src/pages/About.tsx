@@ -24,7 +24,7 @@ type AboutProps = {
     //
 };
 
-const About: React.FC<AboutProps> = ({ }) => {
+const About: React.FC<AboutProps> = () => {
     const navigate = useNavigate();
 
     const tiles = [

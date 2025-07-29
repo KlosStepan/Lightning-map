@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDropzone } from "react-dropzone";
-import { Box, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import UplImgTile from "./UplImgTile";
 
 import uploadIcon from '../icons/upload.png';
@@ -100,7 +100,7 @@ const UploadingImagesSpot: React.FC<UploadingImagesSpotProps> = ({ files, setFil
                     {isDragReject && (<p>File(s) will be rejected</p>)} {/* Some files will be rejected */}
                     {!isDragActive && (
                         <p>
-                            <img src={uploadIcon} height={18} width={18} /> &nbsp; 
+                            <img src={uploadIcon} height={18} width={18} alt="Upload icon" /> &nbsp; 
                             {multipleImages ? "Upload images" : "Upload image"}
                         </p>
                     )}

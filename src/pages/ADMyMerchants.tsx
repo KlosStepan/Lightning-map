@@ -7,7 +7,7 @@ import ButtonUniversal from "../components/ButtonUniversal";
 import { ButtonColor, ButtonSide } from "../enums";
 //Firebase
 import { Firestore, QuerySnapshot, DocumentData, collection, getDocs, query, where } from "firebase/firestore";
-import { auth, db } from "../components/Firebase";
+import { db } from "../components/Firebase";
 //Forms
 import FormAddSpot from "../forms/FormAddSpot";
 //MUI
@@ -17,7 +17,7 @@ import Modal from "@mui/material/Modal";
 //Redux+RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
-import { setUserMerchants, setUserEshops } from "../redux-rtk/miscSlice";
+import { setUserMerchants } from "../redux-rtk/miscSlice";
 //TypeScript
 import IMerchant from "../ts/IMerchant";
 import { IMerchantADWrapper } from "../ts/IMerchant";
@@ -29,7 +29,7 @@ type ADMyMerchantsProps = {
     //
 };
 
-const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
+const ADMyMerchants: React.FC<ADMyMerchantsProps> = () => {
     const dispatch = useDispatch();
     // State
     const user = useSelector((state: RootState) => state.misc.user)
@@ -73,7 +73,7 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = ({ }) => {
             newMap.set(vendorid, (newMap.get(vendorid) || 0) + 1);
         });
         setLikeCountsMap(newMap);
-    }, [uid, likes]);
+    }, [uid, likes, dispatch]);
     // Function for dynamicPadding(index)
     const dynamicPadding = (index: number) => {
         const paddingValue = 24; // Between tiles space

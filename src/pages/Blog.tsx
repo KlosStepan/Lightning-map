@@ -1,16 +1,19 @@
 import React from "react";
-import Footer from "../components/Footer";
-import { Card, CardMedia, Grid } from '@mui/material';
+//Components
 import TileBlogpost from '../components/TileBlogpost';
+import Footer from "../components/Footer";
+//MUI
+import { Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 
+//images
 import dummyImg from '../img/dummy512x288.png';
 
 type BlogProps = {
-
+    //
 };
 
-const Blog: React.FC<BlogProps> = ({ }) => {
+const Blog: React.FC<BlogProps> = () => {
     return (
         <React.Fragment>
             <Typography variant="h1" component="h1">
@@ -69,6 +72,7 @@ const Blog: React.FC<BlogProps> = ({ }) => {
             </Grid>
             <Footer />
         </React.Fragment>
-    )
-}
+    );
+};
+
 export default Blog;

@@ -1,31 +1,29 @@
 import React from "react";
+//Components
+import ADMenu from "../components/ADMenu";
+import ButtonUniversal from "../components/ButtonUniversal";
 //MUI
 import Typography from '@mui/material/Typography';
 import Modal from "@mui/material/Modal";
 import { Grid, Box, useMediaQuery, useTheme } from '@mui/material';
-//Components
-import ADMenu from "../components/ADMenu";
-import ButtonUniversal from "../components/ButtonUniversal";
 //Redux+RTK
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from "../redux-rtk/store";
 import { ButtonColor } from "../enums";
 
 type ADMyAccountProps = {
     //
 };
 
-const ADMyAccount: React.FC<ADMyAccountProps> = ({ }) => {
+const ADMyAccount: React.FC<ADMyAccountProps> = () => {
     //Debug
     //const debug = useSelector((state: RootState) => state.misc.debug);
     //if (debug) {
     //    console.log("debug")
     //}
     //Functions for MyAccount
-    const FuncEdit = (): Promise<void> => {
+    /*const FuncEdit = (): Promise<void> => {
         console.log("Edit")
         return Promise.resolve();
-    }
+    }*/
     //Modal Stuff
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -88,6 +86,7 @@ const ADMyAccount: React.FC<ADMyAccountProps> = ({ }) => {
             {/* Menu down - for phone */}
             {isPhone && <ADMenu/>}
         </React.Fragment>
-    )
-}
+    );
+};
+
 export default ADMyAccount;

@@ -8,7 +8,7 @@ import { db, storage } from "../components/Firebase";
 import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 //Image Compression Library
-import imageCompression from 'browser-image-compression';
+//import imageCompression from 'browser-image-compression';
 //MUI
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -174,7 +174,8 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
         url: webRef.current?.value || "",
         visible: updStatus, //[x] Add->false, Update->true
     });
-    const PrepLogo = async (): Promise<Blob | null> => {
+
+    /*const PrepLogo = async (): Promise<Blob | null> => {
         console.log("prepLogo() called");
     
         if (!files.length) {
@@ -204,7 +205,8 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
             console.error("Error during image compression:", error);
             return null; // ✅ Return null if compression fails
         }
-    };
+    };*/
+
     const DebugPopulateDummyEshop = async () => {
         // Random number for unique name to distinguish between Dummy E-shops
         const randomNumber = Math.floor(Math.random() * 10000) + 1;

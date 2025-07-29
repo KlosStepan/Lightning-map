@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from "react";
-//MUI
-import Typography from '@mui/material/Typography';
-import Modal from "@mui/material/Modal";
-import { Grid, Box, useMediaQuery, useTheme } from '@mui/material';
+import React from "react";
 //Components
 import ADMenu from "../components/ADMenu";
-import ButtonUniversal from "../components/ButtonUniversal";
-import TileTypeMerchant from '../components/TileTypeMerchant';
+//MUI
+import { Grid, Box, useMediaQuery, useTheme } from '@mui/material';
+import Typography from '@mui/material/Typography';
 
 type ADManageUsersProps = {
-//
+    //
 };
 
-const ADManageUsers: React.FC<ADManageUsersProps> = ({ }) => {
+const ADManageUsers: React.FC<ADManageUsersProps> = () => {
     //Phone detection 
     const theme = useTheme();
     const isPhone = useMediaQuery(theme.breakpoints.down('sm'));

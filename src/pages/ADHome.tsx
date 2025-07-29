@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 //MUI
 import Typography from '@mui/material/Typography';
 import Modal from "@mui/material/Modal";
@@ -9,7 +9,7 @@ import ButtonUniversal from "../components/ButtonUniversal";
 import TileTypeMerchant from '../components/TileTypeMerchant';
 //Firebase
 import { collection, DocumentData, Firestore, getDocs, query, QuerySnapshot, where } from "firebase/firestore";
-import { auth, db } from "../components/Firebase";
+import { db } from "../components/Firebase";
 //Forms
 import FormADAdd from "../forms/FormADAdd";
 //Redux+RTK
@@ -30,7 +30,7 @@ type ADHomeProps = {
     //
 };
 
-const ADHome: React.FC<ADHomeProps> = ({ }) => {
+const ADHome: React.FC<ADHomeProps> = () => {
     const dispatch = useDispatch();
 
     //State
@@ -80,7 +80,7 @@ const ADHome: React.FC<ADHomeProps> = ({ }) => {
     
         getMerchants(db);
         getEshops(db);
-    }, [uid]); // Re-run when `uid` changes
+    }, [uid, dispatch]); // Re-run when `uid` changes
     
     
     //Functions
@@ -178,7 +178,7 @@ const ADHome: React.FC<ADHomeProps> = ({ }) => {
             {/* Menu down - for phone */}
             {isPhone && <ADMenu/>}
         </React.Fragment>
-    )
-}
+    );
+};  
 
 export default ADHome;

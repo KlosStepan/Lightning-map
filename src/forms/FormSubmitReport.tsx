@@ -1,18 +1,17 @@
 import React, { useRef } from "react";
 //Components
+import { db } from "../components/Firebase";
 import ButtonUniversal from "../components/ButtonUniversal";
-// Firebase (modular imports)
-import { getFirestore, collection, addDoc, Timestamp, serverTimestamp } from "firebase/firestore";
-import { getApp } from "firebase/app";
-//import { collection, addDoc, serverTimestamp } from "firebase/firestore"; 
-//import { db } from "../firebase/config"; // Ensure you import Firestore instance
-import { auth, db } from "../components/Firebase";
+//enums
+import { ButtonColor } from "../enums";
+//Firebase (modular imports)
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 //MUI
 import Box from '@mui/material/Box';
 import TextField from "@mui/material/TextField";
 import Typography from '@mui/material/Typography';
 //Redux
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
 //TypeScript
 import { IMerchantTile } from "../ts/IMerchant";
@@ -21,7 +20,6 @@ import IEshop from "../ts/IEshop";
 //Icons + Styles
 import closeIcon from '../icons/close.png';
 import { modalContainerStyle, modalTitleStyle, closeIconStyle } from './stylesForm';
-import { ButtonColor } from "../enums";
 
 type FormSubmitReportProps = {
     closeModal?: () => void;
@@ -84,28 +82,27 @@ const FormSubmitReport: React.FC<FormSubmitReportProps> = ({ closeModal, tile })
                     />
                 </Box>
                 <Box display="flex" justifyContent="flex-end" mt={2}>
-                {closeModal && (
-                    <ButtonUniversal 
-                        title="Cancel" 
+                    {closeModal && (
+                        <ButtonUniversal 
+                            title="Cancel" 
+                            color={ButtonColor.Purple}
+                            //color="#8000FF"
+                            hoverColor={ButtonColor.PurpleHover}
+                            //hoverColor="#6603C9"
+                            textColor="white" 
+                            actionDelegate={closeModal} 
+                        />
+                    )}
+                    <ButtonUniversal
+                        title="Submit"
                         color={ButtonColor.Purple}
-                        //color="#8000FF"
+                        //color="#F23CFF"
                         hoverColor={ButtonColor.PurpleHover}
-                        //hoverColor="#6603C9"
-                        textColor="white" 
-                        actionDelegate={closeModal} 
+                        //hoverColor="#DA16E3"
+                        textColor="white"
+                        actionDelegate={SubmitReport}
                     />
-                )}
-                <ButtonUniversal
-                    title="Submit"
-                    color={ButtonColor.Purple}
-                    //color="#F23CFF"
-                    hoverColor={ButtonColor.PurpleHover}
-                    //hoverColor="#DA16E3"
-                    textColor="white"
-                    actionDelegate={SubmitReport}
-                />
-
-            </Box>
+                </Box>
             </Box>
         </React.Fragment>
     );

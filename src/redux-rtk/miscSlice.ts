@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from 'firebase/auth'; // Import the Firebase User type
-import IMerchant from '../ts/IMerchant';
+//import IMerchant from '../ts/IMerchant';
 import { IMerchantADWrapper } from '../ts/IMerchant';
-import IEshop from '../ts/IEshop';
+//import IEshop from '../ts/IEshop';
 import { IEshopADWrapper } from '../ts/IEshop';
 
 export interface IMiscSlice {
