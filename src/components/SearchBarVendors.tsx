@@ -58,7 +58,7 @@ const SearchBarVendors: React.FC<SearchBarVendorsProps> = ({
         opacity: disabled ? 0.5 : 1,
         pointerEvents: disabled ? 'none' : 'auto',
       }}
-      onSubmit={(e) => e.preventDefault()}
+      onSubmit={(e: React.FormEvent) => e.preventDefault()}
     >
       <InputBase
         sx={inputBaseStyle}

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useMemo, useEffect} from "react";
 //Components
 import ButtonUniversal from "../components/ButtonUniversal";
 import LeafletMapTwo from "../components/LeafletMapTwo";
@@ -47,7 +47,10 @@ const MerchantsMap: React.FC<MerchantsMapProps> = () => {
     const user = useSelector((state: RootState) => state.misc.user);
     //
     const merchants = useSelector((state: RootState) => state.data.merchants);
-    const likes = useSelector((state: RootState) => state.data.likes) ?? [];
+    //const likes = useSelector((state: RootState) => state.data.likes) ?? [];
+    const rawLikes = useSelector((state: RootState) => state.data.likes);
+    const likes = useMemo(() => rawLikes ?? [], [rawLikes]);
+    //
     const [likeCountsMap, setLikeCountsMap] = useState(new Map());
     // useEffect, rerenderes on likes, as +1 gets updates locally instantly, then sent to backend 
     useEffect(() => {

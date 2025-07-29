@@ -2,6 +2,7 @@ import { createTheme } from '@mui/material/styles';
 import PixgamerRegularTtf from './fonts/PixgamerRegular-OVD6A.ttf';
 
 //const ibmPlexSansCondensed = require('@fontsource/ibm-plex-sans-condensed');
+import '@fontsource/ibm-plex-sans-condensed';
 
 //FONTS 'IBM Plex Sans Condensed'
 //      'PixGamer'

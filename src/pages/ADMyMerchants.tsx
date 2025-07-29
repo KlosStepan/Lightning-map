@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 //Components
 import ADMenu from "../components/ADMenu";
 import TileAddedMerchant from "../components/TileAddedMerchant";
@@ -36,7 +36,10 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = () => {
     let uid = user?.uid
     //
     const myMerchants = useSelector((state: RootState) => state.misc.userMerchants);
-    const likes = useSelector((state: RootState) => state.data.likes) ?? [];
+    //const likes = useSelector((state: RootState) => state.data.likes) ?? [];
+    const rawLikes = useSelector((state: RootState) => state.data.likes);
+    const likes = useMemo(() => rawLikes ?? [], [rawLikes]);
+    //
     const [likeCountsMap, setLikeCountsMap] = useState(new Map());
     // Debug
     const DEBUG = useSelector((state: RootState) => state.misc.debug);

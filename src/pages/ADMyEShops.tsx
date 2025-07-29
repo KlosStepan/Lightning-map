@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 //Components
 import ADMenu from "../components/ADMenu";
 import ButtonUniversal from "../components/ButtonUniversal";
@@ -37,7 +37,10 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = () => {
     let uid = user?.uid
     //
     const myEshops = useSelector((state: RootState) => state.misc.userEshops);
-    const likes = useSelector((state:RootState) => state.data.likes) ?? [];
+    //const likes = useSelector((state:RootState) => state.data.likes) ?? [];
+    const rawLikes = useSelector((state: RootState) => state.data.likes);
+    const likes = useMemo(() => rawLikes ?? [], [rawLikes]);
+    //
     const [likeCountsMap, setLikeCountsMap] = useState(new Map());
     //Debug
     const debug = useSelector((state: RootState) => state.misc.debug);

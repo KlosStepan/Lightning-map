@@ -122,7 +122,7 @@ export default function SignInSide() {
                                 <Typography variant="h1" component="h1">
                                     Login with Email
                                 </Typography>
-                                <Box component="form" onSubmit={async (e) => {
+                                <Box component="form" onSubmit={async (e: React.FormEvent) => {
                                     e.preventDefault();
                                     //const data = new FormData(e.currentTarget);
                                     //const email = data.get("email") as string;

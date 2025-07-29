@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useMemo, useEffect} from "react";
 //Components
 import SearchBarVendors from "../components/SearchBarVendors";
 import ButtonUniversal from "../components/ButtonUniversal";
@@ -37,7 +37,10 @@ const Eshops: React.FC<EshopsProps> = () => {
     const user = useSelector((state: RootState) => state.misc.user);
     //
     const eshops = useSelector((state: RootState) => state.data.eshops);
-    const likes = useSelector((state: RootState) => state.data.likes) ?? [];
+    //const likes = useSelector((state: RootState) => state.data.likes) ?? [];
+    const rawLikes = useSelector((state: RootState) => state.data.likes);
+    const likes = useMemo(() => rawLikes ?? [], [rawLikes]);
+    //
     const [likeCountsMap, setLikeCountsMap] = useState(new Map());
     // Search: searchText <- from <SearchBarVendors .../>, filteredEshops finds searchText in Eshop
     const [searchText, setSearchText] = useState('');
