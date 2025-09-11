@@ -6,9 +6,9 @@ import TagSocialLink from "./TagSocialLink";
 //enums
 import { ButtonColor, ButtonSide } from "../enums";
 //Firebase
-import { collection, addDoc, deleteDoc, query, where, getDocs } from "firebase/firestore";
-import { serverTimestamp } from "firebase/firestore";
-import { db } from "../components/Firebase";
+//import { collection, addDoc, deleteDoc, query, where, getDocs } from "firebase/firestore";
+//import { serverTimestamp } from "firebase/firestore";
+//import { db } from "../components/Firebase";
 //MUI
 import Box from '@mui/material/Box';
 import Modal from "@mui/material/Modal";
@@ -86,6 +86,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
     };
     //Gallery impl.
 
+    /*
     // ✅ Check if user has already liked this vendor
     useEffect(() => {
         if (!user) return; // Skip if user is not logged in
@@ -102,6 +103,8 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
 
         checkLike();
     }, [user, tile.id]);
+    */
+    /*
     const SwapLike = async () => {
         if (!user) {
             navigate("/login");
@@ -134,6 +137,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
             handleLikeChange(tile.id, 1);
         }
     };
+    */
     const FuncReport = (): Promise<void> => {
         console.log("Report merchant");
         if(!user) {
@@ -251,7 +255,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                                         hoverColor={ButtonColor.LightningHover}
                                         textColor={voted ? ButtonColor.White : ButtonColor.Black}
                                         hoverTextColor={voted ? ButtonColor.Black : ButtonColor.Black}
-                                        actionDelegate={SwapLike}
+                                        //actionDelegate={SwapLike}
                                     />
                                     <span>&nbsp; &nbsp;</span>
                                     <ButtonUniversal

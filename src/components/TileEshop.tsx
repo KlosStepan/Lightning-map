@@ -4,9 +4,9 @@ import ButtonUniversal from "./ButtonUniversal";
 //enums
 import { ButtonColor, ButtonSide } from "../enums";
 //Firebase
-import { collection, addDoc, deleteDoc, query, where, getDocs } from "firebase/firestore";
-import { serverTimestamp } from "firebase/firestore";
-import { db } from "../components/Firebase";
+//import { collection, addDoc, deleteDoc, query, where, getDocs } from "firebase/firestore";
+//import { serverTimestamp } from "firebase/firestore";
+//import { db } from "../components/Firebase";
 //Forms
 import FormSubmitReport from "../forms/FormSubmitReport";
 //MUI
@@ -57,6 +57,7 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
     //tmp debug; mby TODO clicked other - reset state of this to default false
     const [voted, setVoted] = useState<boolean>(false);
 
+    /*
     // ✅ Check if user has already liked this vendor
     useEffect(() => {
         if (!user) return; // Skip if user is not logged in
@@ -73,6 +74,8 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
 
         checkLike();
     }, [user, tile.id]);
+    */
+    /*
     const SwapLike = async () => {
         if (!user) {
             navigate("/login");
@@ -104,7 +107,7 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
             handleLikeChange(tile.id, 1);
         }
     };
-    
+    */
     //
     const FuncReport = (): Promise<void> => {
         console.log("Report merchant");
@@ -153,7 +156,7 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
                                 hoverColor={ButtonColor.LightningHover}
                                 //hoverColor="green"
                                 textColor={voted ? ButtonColor.White : ButtonColor.Black}
-                                actionDelegate={SwapLike}
+                                //actionDelegate={SwapLike}
                                 scale={0.75}
                             />) : <IconLightningNumber number={likes} scale={1} /> }
                         </div>

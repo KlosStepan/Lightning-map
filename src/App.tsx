@@ -2,9 +2,13 @@ import React, { useEffect } from "react";
 //Components
 import MenuHeader from './components/MenuHeader';
 //Firebase
-import { User, onAuthStateChanged } from "firebase/auth";
-import { collection, DocumentData, Firestore, getDocs, query, QuerySnapshot, where } from "firebase/firestore";
-import { auth, db } from "./components/Firebase";
+//import { User, onAuthStateChanged } from "firebase/auth";
+//import { collection, DocumentData, Firestore, getDocs, query, QuerySnapshot, where } from "firebase/firestore";
+//import { auth, db } from "./components/Firebase";
+import dummyEshops from './dummy/eshops.json';
+import dummyMerchants from './dummy/merchants.json';
+import dummyLikes from './dummy/likes.json';
+import dummyReports from './dummy/reports.json';
 //Pages
 import Homepage from './pages/Homepage';
 import MerchantsMap from './pages/MerchantsMap';
@@ -41,6 +45,7 @@ import UIKit from "./pages/UIKit";
 import SignUp from "./pages/SignUp";
 import LoginProxyTest from "./pages/LoginProxyTest";
 import LoginProxyForgotPassword from "./pages/LoginProxyForgotPassword";
+import IMerchant from "./ts/IMerchant";
 
 // Website menu
 const pages: ILink[] = [
@@ -75,6 +80,10 @@ function App() {
     }
 
     useEffect(() => {
+        dispatch(setMerchants(dummyMerchants as IMerchant[]));
+        dispatch(setEshops(dummyEshops));
+        dispatch(setLikes(dummyLikes)); // Optionally, provide dummy likes array
+        /*
         const getMerchants = async (db: Firestore) => {
             const merchantsSnapshot: QuerySnapshot<DocumentData> = await getDocs(query(collection(db, 'merchants'), where('properties.visible', '==', true)));
             const merchantsList = merchantsSnapshot.docs.map((doc: any) => doc.data());
@@ -113,6 +122,7 @@ function App() {
         });
 
         return () => unsubscribe();
+        */
     }, [dispatch])
     //}, [])
 

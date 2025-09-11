@@ -5,9 +5,9 @@ import ButtonUniversal from "./ButtonUniversal";
 //enums
 import { ButtonColor, ButtonSide } from "../enums";
 //Firebase
-import { doc, deleteDoc } from "firebase/firestore";
-import { ref, deleteObject, listAll } from "firebase/storage";
-import { db, storage } from "./Firebase";
+//import { doc, deleteDoc } from "firebase/firestore";
+//import { ref, deleteObject, listAll } from "firebase/storage";
+//import { db, storage } from "./Firebase";
 //Forms
 import FormEditSpot from "../forms/FormEditSpot";
 //Redux/RTK
@@ -74,6 +74,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
         if (!confirmDelete) return;
         // Mby out because of phones ^^
 
+        /*
         // Try delete |Merchant from Firestore DB| and |Image(s) from Storage|
         try {
             //
@@ -113,6 +114,7 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
          finally {
             setIsDeleting(false);
         }
+        */
     };
     
     return (

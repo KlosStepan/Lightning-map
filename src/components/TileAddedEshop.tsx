@@ -5,9 +5,9 @@ import TileEshop from './TileEshop';
 //enums
 import { ButtonColor, ButtonSide } from '../enums';
 //Firebase
-import { db, storage } from "../components/Firebase";
-import { deleteDoc, doc } from "firebase/firestore";
-import { deleteObject, ref, listAll } from "firebase/storage";
+//import { db, storage } from "../components/Firebase";
+//import { deleteDoc, doc } from "firebase/firestore";
+//import { deleteObject, ref, listAll } from "firebase/storage";
 //Forms
 import FormEditEshop from '../forms/FormEditEshop';
 //MUI
@@ -80,6 +80,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this e-shop?");
         if (!confirmDelete) return;
     
+        /*
         try {
             // Step 0: Set Deleting true
             setIsDeleting(true);
@@ -115,6 +116,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
         } finally {
             setIsDeleting(false);
         }
+        */
     };
     
     return (
