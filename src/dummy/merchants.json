@@ -1,0 +1,98 @@
+[
+  {
+    "type": "Feature",
+    "geometry": {
+      "coordinates": [14.4483471, 50.1033561],
+      "type": "Point"
+    },
+    "properties": {
+      "id": "63977929-fc0e-4695-9a04-3156e9d24c54",
+      "name": "Paralelní Polis",
+      "description": "Nunc diam sed fermentum lectus non. At varius sed non arcu tempor lorem elementum id duis. Justo.",
+      "address": {
+        "address": "Delnicka 43",
+        "city": "Praha 7",
+        "postalCode": "170 00"
+      },
+      "images": [
+        "/merchant-polis1.png",
+        "/merchant-polis2.png",
+        "/merchant-polis3.png",
+        "/merchant-polis4.png"
+      ],
+      "owner": "EM6jd7CDU4PdHgF7LJTTvyMPNrJ3",
+      "socials": [
+        {
+          "label": "Web",
+          "link": "https://www.paralelnipolis.com",
+          "network": "web"
+        },
+        {
+          "label": "FB",
+          "link": "https://www.facebook.com/paralelnipolis",
+          "network": "facebook"
+        },
+        {
+          "label": "IG",
+          "link": "https://www.instagram.com/paralelnipolis",
+          "network": "instagram"
+        },
+        {
+          "label": "X",
+          "link": "https://www.twitter.com/paralelnipolis",
+          "network": "twitter"
+        }
+      ],
+      "tags": ["Shops", "Services"],
+      "visible": true
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+      "coordinates": [14.4440644, 50.0719584],
+      "type": "Point"
+    },
+    "properties": {
+      "id": "10417593-72da-4ba3-ace0-93f6ba676b9e",
+      "name": "Blue Vegan Pig Shop",
+      "description": "Nunc diam sed fermentum lectus non. At varius sed non arcu tempor lorem elementum id duis. Justo.",
+      "address": {
+        "address": "Štefánikova 6",
+        "city": "Praha 5",
+        "postalCode": "150 00"
+      },
+      "images": [
+        "/merchant-bluepig1.png",
+        "/merchant-bluepig2.png",
+        "/merchant-bluepig3.png",
+        "/merchant-bluepig4.png"
+      ],
+      "owner": "EM6jd7CDU4PdHgF7LJTTvyMPNrJ3",
+      "socials": [
+        {
+          "label": "Web",
+          "link": "https://www.blueveganpigshop.com",
+          "network": "web"
+        },
+        {
+          "label": "FB",
+          "link": "https://www.facebook.com/blueveganpigshop",
+          "network": "facebook"
+        },
+        {
+          "label": "IG",
+          "link": "https://www.instagram.com/blueveganpigshop",
+          "network": "instagram"
+        },
+        {
+          "label": "X",
+          "link": "https://www.twitter.com/blueveganpigshop",
+          "network": "twitter"
+        }
+      ],
+      "tags": ["Food & Drinks", "Shops"],
+      "visible": true
+    }
+  }
+]

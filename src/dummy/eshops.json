@@ -1,0 +1,32 @@
+[
+  {
+    "id": "54ae38db-2a48-42a9-a569-e9e48ea90d46",
+    "name": "Alza.cz",
+    "description": "Největší prodejce elektroniky v ČR",
+    "logo": "/eshop-alza.png",
+    "country": "CZ",
+    "url": "https://www.alza.cz",
+    "owner": "EM6jd7CDU4PdHgF7LJTTvyMPNrJ3",
+    "visible": true
+  },
+  {
+    "id": "e20d248d-69cc-482d-9ce1-0a15cbe3bc2a",
+    "name": "Kafe za bitcoin",
+    "description": "Kafe, které si za peníze nekoupíš",
+    "logo": "/eshop-kafezabitcoin.png",
+    "country": "CZ",
+    "url": "https://www.kafezabitcoin.cz/",
+    "owner": "EM6jd7CDU4PdHgF7LJTTvyMPNrJ3",
+    "visible": true
+  },
+  {
+    "id": "b25efd17-3a50-4513-9dad-af47bbcfb687",
+    "name": "Bitcoinovej Kanál ",
+    "description": "Kicomuv merch Kicomuv merch Kicomuv merch",
+    "logo": "/eshop-bitcoinovejkanal.png",
+    "country": "CZ",
+    "url": "https://bitcoinovejkanal.cz/eshop/",
+    "owner": "EM6jd7CDU4PdHgF7LJTTvyMPNrJ3",
+    "visible": true
+  }
+]
