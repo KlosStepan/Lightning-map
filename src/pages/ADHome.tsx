@@ -8,8 +8,8 @@ import ADMenu from "../components/ADMenu";
 import ButtonUniversal from "../components/ButtonUniversal";
 import TileTypeMerchant from '../components/TileTypeMerchant';
 //Firebase
-import { collection, DocumentData, Firestore, getDocs, query, QuerySnapshot, where } from "firebase/firestore";
-import { db } from "../components/Firebase";
+//import { collection, DocumentData, Firestore, getDocs, query, QuerySnapshot, where } from "firebase/firestore";
+//import { db } from "../components/Firebase";
 //Forms
 import FormADAdd from "../forms/FormADAdd";
 //Redux+RTK
@@ -48,6 +48,7 @@ const ADHome: React.FC<ADHomeProps> = () => {
         console.log("cnt(myEshops): " + myEshops?.length)
     }
     useEffect(() => {
+        /*
         if (!uid) return; // Ensure uid is available before querying
     
         const getMerchants = async (db: Firestore) => {
@@ -80,6 +81,7 @@ const ADHome: React.FC<ADHomeProps> = () => {
     
         getMerchants(db);
         getEshops(db);
+        */
     }, [uid, dispatch]); // Re-run when `uid` changes
     
     

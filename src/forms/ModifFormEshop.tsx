@@ -4,9 +4,9 @@ import ButtonUniversal from "../components/ButtonUniversal";
 import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
 import UploadingImagesSpot from "../components/UploadingImagesSpot";
 //Firebase
-import { db, storage } from "../components/Firebase";
-import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+//import { db, storage } from "../components/Firebase";
+//import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
+//import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 //Image Compression Library
 //import imageCompression from 'browser-image-compression';
 //MUI
@@ -56,6 +56,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
     const [isAdding, setIsAdding] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
 
+    /*
     // CRUD Add/Upd + DummyPopulate/WrapEshop/PrepLogo
     const AddEshop = async () => {
         try {
@@ -105,10 +106,11 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
             setIsAdding(false);
         }
     };
-    
+    */
     
     //verify logo changed(/not) vv
     //|- run process prepLogo
+    /*
     //Promise (data, (/logo) ) -> Firebase (& OK|FAIL)
     const UpdateEshop = async () => {
         if (!documentid) {
@@ -163,7 +165,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
             setIsSaving(false);
         }
     };
-    
+    */
     const WrapEshopData = ({ updStatus }: { updStatus: boolean }): IEshop => ({
         id: updStatus ? eshop?.id || "" : uuidv4(), 
         country: "CZ", //[ ] TODO - implement FE on form (TLD/IP)
@@ -324,7 +326,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                         hoverColor={ButtonColor.PinkHover}
                         //hoverColor="#DA16E3"
                         textColor="white"
-                        actionDelegate={UpdateEshop}
+                        //actionDelegate={UpdateEshop}
                         disabled={isSaving}
                     />
                 ) : (
@@ -335,7 +337,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                         hoverColor={ButtonColor.PinkHover}
                         //hoverColor="#DA16E3"
                         textColor="white"
-                        actionDelegate={AddEshop}
+                        //actionDelegate={AddEshop}
                         disabled={isAdding}
                     />
                 )}

@@ -6,7 +6,7 @@ import ButtonUniversal from "../components/ButtonUniversal";
 //Enums
 import { ButtonColor } from "../enums";
 //Firebase
-import { createUserWithEmailAndPassword } from "firebase/auth";
+//import { createUserWithEmailAndPassword } from "firebase/auth";
 //Router
 import { useNavigate } from "react-router-dom";
 //MUI
@@ -32,7 +32,7 @@ export default function SignUpSplit() {
     if (!email || !password) return;
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      //await createUserWithEmailAndPassword(auth, email, password);
       navigate("/admin/dashboard"); // or wherever
     } catch (error) {
       console.error("Sign up error:", error);

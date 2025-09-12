@@ -6,9 +6,9 @@ import ToggleSocialInput from "../components/ToggleSocialInput";
 import UploadingImagesSpot from "../components/UploadingImagesSpot";
 import TagMerchant from "../components/TagMerchant";
 //Firebase
-import { db, storage } from "../components/Firebase";
-import { collection, addDoc, setDoc, doc } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+//import { db, storage } from "../components/Firebase";
+//import { collection, addDoc, setDoc, doc } from "firebase/firestore";
+//import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 //Map stuff
 import L from "leaflet";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
@@ -116,6 +116,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         setSocials(merchant.socials);
     }, [merchant]);
 
+    /*
     // CRUD Add/Upd + DummyPopulate/WrapSpot/PrepPics
     const AddSpot = async () => {
         try {
@@ -174,6 +175,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
             setIsAdding(false);
         }
     };
+    */
     const UpdateSpot = () => {
         try {
             setIsSaving(true);
@@ -426,7 +428,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                         hoverColor={ButtonColor.PinkHover}
                         //hoverColor="#DA16E3"
                         textColor="white"
-                        actionDelegate={AddSpot}
+                        //actionDelegate={AddSpot}
                         disabled={isAdding}
                     />
                 )}

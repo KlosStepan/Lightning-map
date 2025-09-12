@@ -8,11 +8,14 @@ import {
 import ADMenu from "../components/ADMenu";
 import { Pwnspinner } from "pwnspinner";
 // Firebase
-import { collection, getDocs, query } from "firebase/firestore";
-import { db } from "../components/Firebase";
+//import { collection, getDocs, query } from "firebase/firestore";
+//import { db } from "../components/Firebase";
 // TypeScript
 import IMerchant from "../ts/IMerchant";
 import IEshop from "../ts/IEshop";
+//
+import dummyMerchants from '../dummy/merchants.json';
+import dummyEshops from '../dummy/eshops.json';
 
 const ADApproveNewEntries: React.FC = () => {
     // Phone detection 
@@ -24,7 +27,7 @@ const ADApproveNewEntries: React.FC = () => {
     const [allEshops, setAllEshops] = useState<IEshop[] | null>(null);
 
     useEffect(() => {
-        const getAllMerchants = async () => {
+        /*const getAllMerchants = async () => {
             const allMerchantsSnapshot = await getDocs(query(collection(db, 'merchants')));
             const allMerchantsList = allMerchantsSnapshot.docs.map(doc => doc.data() as IMerchant);
             setAllMerchants(allMerchantsList);
@@ -37,7 +40,9 @@ const ADApproveNewEntries: React.FC = () => {
         };
 
         getAllMerchants();
-        getAllEshops();
+        getAllEshops();*/
+        setAllMerchants(dummyMerchants as IMerchant[]);
+        setAllEshops(dummyEshops as IEshop[]);
     }, []);
 
     // Toggle function for visibility

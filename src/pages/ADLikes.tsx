@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 // Components
 import ADMenu from "../components/ADMenu";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../components/Firebase";
+//Firebase
+//import { collection, getDocs } from "firebase/firestore";
+//import { db } from "../components/Firebase";
 // MUI
 import Typography from '@mui/material/Typography';
 import { Grid, Box, useMediaQuery, useTheme, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 // TypeScript
-interface ILike {
-    userid: string;
-    vendorid: string;
-    timestamp: number;
-}
+import ILike from "../ts/ILike";
+//
+import dummyLikes from '../dummy/likes.json';
 
 const ADLikes: React.FC = () => {
     // Phone detection
@@ -21,6 +20,7 @@ const ADLikes: React.FC = () => {
     const [likes, setLikes] = useState<ILike[]>([]);
 
     useEffect(() => {
+        /*
         const fetchLikes = async () => {
             try {
                 const querySnapshot = await getDocs(collection(db, "likes"));
@@ -38,6 +38,8 @@ const ADLikes: React.FC = () => {
         };
 
         fetchLikes();
+        */
+        setLikes(dummyLikes as ILike[]);
     }, []);
 
     return (

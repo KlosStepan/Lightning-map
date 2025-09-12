@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import '../_App.css';
-import { useAuthState } from "react-firebase-hooks/auth";
+//import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
-import {
+/*import {
     auth,
     registerWithEmailAndPassword,
     signInWithGoogle,
-} from "../components/Firebase";
+} from "../components/Firebase";*/
 
 //TODO  - hmm(?) this
 
@@ -14,16 +14,16 @@ function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
-    const [user, loading, error] = useAuthState(auth);
+    //const [user, loading, error] = useAuthState(auth);
     const navigate = useNavigate();
     const register = () => {
         if (!name) alert("Please enter name");
-        registerWithEmailAndPassword(name, email, password);
+        //registerWithEmailAndPassword(name, email, password);
     };
-    useEffect(() => {
+    /*useEffect(() => {
         if (loading) return;
         if (user) navigate("/dashboard");
-    }, [user, loading]);
+    }, [user, loading]);*/
     return (
         <>
             <style type="text/css">
@@ -62,7 +62,7 @@ function Register() {
                     </button>
                     <button
                         className="boxed btnStyle ptHover"
-                        onClick={signInWithGoogle}
+                        //onClick={signInWithGoogle}
                     >
                         Register with Google
                     </button>

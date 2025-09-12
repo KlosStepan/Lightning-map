@@ -6,8 +6,8 @@ import ButtonUniversal from "../components/ButtonUniversal";
 //enums
 import { ButtonColor, ButtonSide } from "../enums";
 //Firebase
-import { Firestore, QuerySnapshot, DocumentData, collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "../components/Firebase";
+//import { Firestore, QuerySnapshot, DocumentData, collection, getDocs, query, where } from "firebase/firestore";
+//import { db } from "../components/Firebase";
 //Forms
 import FormAddSpot from "../forms/FormAddSpot";
 //MUI
@@ -24,6 +24,8 @@ import { IMerchantADWrapper } from "../ts/IMerchant";
 
 //Icons
 import IconPlus from '../icons/ico-btn-plus.png';
+//
+import dummyMerchants from '../dummy/merchants.json';
 
 type ADMyMerchantsProps = {
     //
@@ -54,6 +56,7 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = () => {
     }
     // useEffect
     useEffect(() => {
+        /*
         if (!uid) return; // Ensure uid is available before querying
         //
         const getMerchants = async (db: Firestore) => {
@@ -71,6 +74,20 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = () => {
         };
         getMerchants(db);
         //
+        const newMap = new Map();
+        likes.forEach(({ vendorid }) => {
+            newMap.set(vendorid, (newMap.get(vendorid) || 0) + 1);
+        });
+        setLikeCountsMap(newMap);
+        */
+        // Load all merchants from dummy JSON instead of Firebase, no filtering by uid
+        const merchantsList = (dummyMerchants as IMerchant[]).map(merchant => ({
+            documentid: merchant.properties.id,
+            merchant
+        }));
+        dispatch(setUserMerchants(merchantsList));
+
+        // Likes mapping logic remains unchanged
         const newMap = new Map();
         likes.forEach(({ vendorid }) => {
             newMap.set(vendorid, (newMap.get(vendorid) || 0) + 1);

@@ -5,7 +5,7 @@ import ButtonUniversal from "../components/ButtonUniversal";
 //enums
 import { ButtonColor } from "../enums";
 //Firebase (modular imports)
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+//import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 //MUI
 import Box from '@mui/material/Box';
 import TextField from "@mui/material/TextField";
@@ -31,7 +31,7 @@ const FormSubmitReport: React.FC<FormSubmitReportProps> = ({ closeModal, tile })
     const user = useSelector((state: RootState) => state.misc.user);
 
     const reportRef = useRef<HTMLInputElement>(null);
-
+    /*
     const SubmitReport = async () => {
         if (!user) {
             console.error("User not logged in.");
@@ -55,6 +55,7 @@ const FormSubmitReport: React.FC<FormSubmitReportProps> = ({ closeModal, tile })
             console.error("Error submitting report:", error);
         }
     };
+    */
     return (
         <React.Fragment>
             <Box sx={modalContainerStyle}>
@@ -100,7 +101,7 @@ const FormSubmitReport: React.FC<FormSubmitReportProps> = ({ closeModal, tile })
                         hoverColor={ButtonColor.PurpleHover}
                         //hoverColor="#DA16E3"
                         textColor="white"
-                        actionDelegate={SubmitReport}
+                        //actionDelegate={SubmitReport}
                     />
                 </Box>
             </Box>

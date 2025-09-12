@@ -6,8 +6,8 @@ import TileAddedEshop from "../components/TileAddedEshop";
 //enums
 import { ButtonColor, ButtonSide } from "../enums";
 //Firebase
-import { Firestore, QuerySnapshot, DocumentData, collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "../components/Firebase";
+//import { Firestore, QuerySnapshot, DocumentData, collection, getDocs, query, where } from "firebase/firestore";
+//import { db } from "../components/Firebase";
 //Forms
 import FormAddEshop from "../forms/FormAddEshop";
 //MUI
@@ -24,7 +24,9 @@ import { IEshopADWrapper } from "../ts/IEshop";
 
 //Icons
 import IconPlus from '../icons/ico-btn-plus.png';
-
+//
+import dummyEshops from '../dummy/eshops.json';
+//
 type ADMyEShopsProps = {
     //
 };
@@ -54,6 +56,7 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = () => {
         return Promise.resolve();
     }
     useEffect(() => {
+        /*
         if (!uid) return; // Ensure uid is available before querying
     
         const getEshops = async (db: Firestore) => {
@@ -76,6 +79,20 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = () => {
             newMap.set(vendorid, (newMap.get(vendorid) || 0) + 1);
         });
         setLikeCountsMap(newMap); 
+        */
+        // Load from dummy JSON instead of Firebase
+        const eshopsList = (dummyEshops as IEshop[]).map(eshop => ({
+            documentid: eshop.id,
+            eshop
+        }));
+        dispatch(setUserEshops(eshopsList));
+
+        // Likes mapping logic remains unchanged
+        const newMap = new Map();
+        likes.forEach(({ vendorid }) => {
+            newMap.set(vendorid, (newMap.get(vendorid) || 0) + 1);
+        });
+        setLikeCountsMap(newMap);
     }, [uid, likes, dispatch]);
     //Function for dynamicPadding(index)
     const dynamicPadding = (index: number) => {
