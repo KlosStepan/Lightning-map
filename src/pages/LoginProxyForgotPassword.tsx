@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Typography, Box, TextField, Button } from "@mui/material";
 import LoginProxy from "./LoginProxy";
-import { sendPasswordReset } from "../components/Firebase"; // adjust if needed
+//import { sendPasswordReset } from "../components/Firebase"; // adjust if needed
 import { useNavigate } from "react-router-dom";
 
 const LoginProxyForgotPassword: React.FC = () => {
@@ -13,7 +13,7 @@ const LoginProxyForgotPassword: React.FC = () => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const email = data.get("email") as string;
-
+    /*
     try {
       await sendPasswordReset(email);
       setEmailSent(true);
@@ -21,6 +21,7 @@ const LoginProxyForgotPassword: React.FC = () => {
       console.error(err);
       setError("Failed to send password reset email. Please try again.");
     }
+    */
   };
 
   return (

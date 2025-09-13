@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 //Components
 import Footer from "../components/Footer";
-import { auth } from "../components/Firebase"; // adjust if needed
+//import { auth } from "../components/Firebase"; // adjust if needed
 import ButtonUniversal from "../components/ButtonUniversal";
 //Enums
 import { ButtonColor } from "../enums";

@@ -35,7 +35,8 @@ const ADHome: React.FC<ADHomeProps> = () => {
 
     //State
     const user = useSelector((state: RootState) => state.misc.user);
-    let uid = user?.uid
+    //let uid = user?.uid
+    let uid = 9999; //TODO remove
     const myMerchants = useSelector((state: RootState) => state.misc.userMerchants);
     const myEshops = useSelector((state: RootState) => state.misc.userEshops);
     //Data slicing
@@ -131,7 +132,7 @@ const ADHome: React.FC<ADHomeProps> = () => {
                                     Welcome back
                                 </Typography>
                                 <Typography variant="h1" component="h1">
-                                    {user?.displayName}
+                                    {/* user?.displayName */}
                                 </Typography>
                             </Grid>
                             <Grid item xs={2}>

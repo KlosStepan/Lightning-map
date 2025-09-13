@@ -36,7 +36,8 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = () => {
 
     //State
     const user = useSelector((state: RootState) => state.misc.user);
-    let uid = user?.uid
+    //let uid = user?.uid
+    let uid = 9999; //TODO remove
     //
     const myEshops = useSelector((state: RootState) => state.misc.userEshops);
     //const likes = useSelector((state:RootState) => state.data.likes) ?? [];

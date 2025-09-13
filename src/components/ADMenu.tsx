@@ -58,7 +58,7 @@ const ADMenu: React.FC<ADMenuProps> = () => {
                 ))}
                 
                 {/* Only show admin menu if user is logged in and has the specific email */}
-                {user && user.email === "stepanklos@gmail.com" && (
+                {user /* && user.email === "stepanklos@gmail.com" */ && (
                     <>
                         <span>&nbsp;</span>
                         {menuAdminLinks.map(({ icon, title, path }, index) => (
@@ -91,7 +91,7 @@ const ADMenu: React.FC<ADMenuProps> = () => {
                     >
                         <Grid container spacing={2}>
                             {/* Admin Menu */}
-                            {user && user.email === "stepanklos@gmail.com" && (
+                            {user /* && user.email === "stepanklos@gmail.com" */ && (
                                 <>
                                     {menuAdminLinks.map(({ icon, title, path }, index) => (
                                         <Grid item xs={3} key={index}>

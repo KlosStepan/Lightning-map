@@ -16,14 +16,15 @@ import ContinueWithButton from '../components/ContinueWithButton';
 
 //
 import { useNavigate } from "react-router-dom";
-import { auth, /*logInWithEmailAndPassword,*/ signInWithGoogle } from "../components/Firebase";
+//import { auth, /*logInWithEmailAndPassword,*/ signInWithGoogle } from "../components/Firebase";
 
 //Login buttons stuff
 //import LoginApple from '../img/login-apple.png';
 import LoginGoogle from '../img/login-google.png';
 import LoginEmail from '../img/login-mail.png';
 //import { isNullishCoalesce } from 'typescript';
-import { useAuthState } from "react-firebase-hooks/auth";
+
+//import { useAuthState } from "react-firebase-hooks/auth";
 
 // ✅ Path to your image
 import mapWorldImage from '../img/map-world.jpg'; // adjust path if neede
@@ -49,10 +50,11 @@ export default function SignInSide() {
             password: data.get('password'),
         });
     };*/
-    const [user, loading /*, error*/] = useAuthState(auth);
+    //const [user, loading /*, error*/] = useAuthState(auth);
     const navigate = useNavigate();
     const [loginWithEmail, setLoginWithEmail] = useState(false);
 
+    /*
     useEffect(() => {
         if (loading) {
             // maybe trigger a loading screen
@@ -60,7 +62,7 @@ export default function SignInSide() {
         }
         if (user) navigate("/admin/dashboard");
     }, [user, loading, navigate]);
-
+    */
     const signInWithEmail = async () => {
         setLoginWithEmail(true);
     };
@@ -99,7 +101,11 @@ export default function SignInSide() {
                                 Login
                             </Typography>
                             <div>&nbsp;</div>
-                            <ContinueWithButton icon={LoginGoogle} title="Google" actionDelegate={signInWithGoogle} />
+                            <ContinueWithButton
+                                icon={LoginGoogle}
+                                title="Google"
+                                //actionDelegate={signInWithGoogle}
+                            />
                             {/*<ContinueWithButton icon={LoginApple} title="Apple" actionDelegate={signInWithApple} />*/}
                             <ContinueWithButton icon={LoginEmail} title="e-mail" actionDelegate={signInWithEmail} />
                             <div>&nbsp;</div>

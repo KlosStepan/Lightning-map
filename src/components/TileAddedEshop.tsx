@@ -71,11 +71,13 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
         }
     
         // Check if the user is the owner of the e-shop
+        /*
         if (user?.uid !== eshop.eshop.owner) {
             console.error("You do not have permission to delete this e-shop.");
             return;
         }
-    
+        */
+       
         // Confirmation before deleting
         const confirmDelete = window.confirm("Are you sure you want to delete this e-shop?");
         if (!confirmDelete) return;

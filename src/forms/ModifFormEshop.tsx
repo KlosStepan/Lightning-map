@@ -172,7 +172,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
         description: descriptionRef.current?.value || "",
         logo: "N/A", //[x] TODO - some ref (?) into Storage/S3
         name: titleRef.current?.value || "",
-        owner: user?.uid || "", //[x] TODO fill from Firebase profile
+        owner: /* user?.uid || */ "", //[x] TODO fill from Firebase profile
         url: webRef.current?.value || "",
         visible: updStatus, //[x] Add->false, Update->true
     });

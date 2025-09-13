@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 //Components
 import ADMenu from "../components/ADMenu";
 // Firebase
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../components/Firebase"; // Ensure you have Firebase configured properly
+//import { collection, getDocs } from "firebase/firestore";
+//import { db } from "../components/Firebase"; // Ensure you have Firebase configured properly
 //MUI
 import Typography from '@mui/material/Typography';
 import { Grid, Box, useMediaQuery, useTheme, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
@@ -22,6 +22,7 @@ const ADReports: React.FC<ADReportsProps> = () => {
     const [reports, setReports] = useState<IReport[]>([]);
 
     useEffect(() => {
+        /*
         const fetchReports = async () => {
             try {
                 const querySnapshot = await getDocs(collection(db, "reports"));
@@ -41,9 +42,8 @@ const ADReports: React.FC<ADReportsProps> = () => {
                 console.error("Error fetching reports:", error);
             }
         };
-        
-
         fetchReports();
+        */
     }, []);
     return(
         <React.Fragment>

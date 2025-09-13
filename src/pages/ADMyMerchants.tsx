@@ -35,7 +35,8 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = () => {
     const dispatch = useDispatch();
     // State
     const user = useSelector((state: RootState) => state.misc.user)
-    let uid = user?.uid
+    //let uid = user?.uid
+    let uid = 9999; //TODO remove
     //
     const myMerchants = useSelector((state: RootState) => state.misc.userMerchants);
     //const likes = useSelector((state: RootState) => state.data.likes) ?? [];
