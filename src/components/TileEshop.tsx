@@ -21,6 +21,8 @@ import { RootState } from "../redux-rtk/store";
 import {  useNavigate } from "react-router-dom";
 //TypeScript
 import IEshop from "../ts/IEshop";
+//Utils
+import { getBackendImageUrl } from "../utils/image";
 
 //Icons
 import IconExclamationMark from "../icons/warning-box.png";
@@ -53,6 +55,8 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
     const navigate = useNavigate();
     //
     const user = useSelector((state: RootState) => state.misc.user);
+    //
+    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
 
     //tmp debug; mby TODO clicked other - reset state of this to default false
     const [voted, setVoted] = useState<boolean>(false);
@@ -172,7 +176,7 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
                     >
                         <CardMedia
                             component="img"
-                            image={tile.logo}
+                            image={getBackendImageUrl(tile.logo, apiBaseUrl || "")}
                             alt={tile.name}
                             sx={{
                                 maxWidth: "100%",  // ✅ Adjust width if needed

@@ -23,10 +23,6 @@ const Footer: React.FC<FooterProps> = ( ) => {
                 {/* First part: 1/2 */}
                 <Grid item xs={12} md={6}>
                     <Typography component="h1" variant="h1" >
-                    -dummy content page-
-                    </Typography>
-                    <span>&nbsp;</span>
-                    <Typography component="h1" variant="h1" >
                     Experience the Power of<br/> Lightning Network Everywhere
                     </Typography>
                     {/*<Typography component="h1" variant="h3" sx={{ color: '#6B7280' }}>Out Domains</Typography>*/}
@@ -37,10 +33,6 @@ const Footer: React.FC<FooterProps> = ( ) => {
                 </Grid>
                 {/* Second part: 1/4 */}
                 <Grid item xs={12} md={3}>
-                    <Typography component="h1" variant="h1" >
-                    -dummy content page-
-                    </Typography>
-                    <span>&nbsp;</span>
                     <Typography component="h1" variant="h3" sx={{ color: '#6B7280' }}>Support</Typography>
                     <Typography component="h2" variant="h2">stepan@lightningeverywhere.com</Typography>
                     <Typography component="h2" variant="h4">(^ not working yet)</Typography>
@@ -48,10 +40,6 @@ const Footer: React.FC<FooterProps> = ( ) => {
                 </Grid>
                 {/* Third part: 1/4 */}
                 <Grid item xs={12} md={3}>
-                    <Typography component="h1" variant="h1" >
-                    -dummy content page-
-                    </Typography>
-                    <span>&nbsp;</span>
                     <Typography component="h1" variant="h3" sx={{ color: '#6B7280' }}>Follow us on</Typography>
                     {/** */}
                     <Typography component="h2" variant="h2">Instagram</Typography>

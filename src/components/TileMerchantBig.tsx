@@ -34,6 +34,8 @@ import IconLightningPurple from "../icons/icon-lightning-purple.png";
 import IconLightningWhite from "../icons/icon-lightning-white.png"
 //Fake images
 import FormSubmitReport from "../forms/FormSubmitReport";
+//
+import { getBackendImageUrl } from "../utils/image";
 
 //Gallery impl.
 import { IconButton,  } from "@mui/material";
@@ -70,6 +72,8 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
     const dispatch = useDispatch();
     //
     const user = useSelector((state: RootState) => state.misc.user);
+    //
+    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
 
     //tmp debug; mby TODO clicked other - reset state of this to default false
     const [voted, setVoted] = useState<boolean>(false);
@@ -168,7 +172,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                                 <div style={{ position: "relative", /*width: 342,*/ height: 216, overflow: "hidden", borderRadius: 4 }}>
                                 <CardMedia
                                     component="img"
-                                    image={tile.images[currentImageIndex]}
+                                    image={getBackendImageUrl(tile.images[currentImageIndex], apiBaseUrl || "")}
                                     alt={tile.name}
                                     sx={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 4 }}
                                 />
@@ -188,7 +192,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                             ) : (
                                 <CardMedia
                                     component="img"
-                                    image={tile.images[0]}
+                                    image={getBackendImageUrl(tile.images[0], apiBaseUrl || "")}
                                     alt={tile.name}
                                     sx={{ /*width: 342,*/ height: 216, objectFit: "cover", borderRadius: 4 }}
                                 />

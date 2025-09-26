@@ -66,6 +66,7 @@ function App() {
     const debug = useSelector((state: RootState) => state.misc.debug)    
     //Call all hooks at the top level of the website
     const theme = useTheme();
+    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
     const merchants = useSelector((state: RootState) => state.data.merchants);
     const eshops = useSelector((state: RootState) => state.data.eshops);
     const likes = useSelector((state: RootState) => state.data.likes);
@@ -80,9 +81,30 @@ function App() {
     }
 
     useEffect(() => {
-        dispatch(setMerchants(dummyMerchants as IMerchant[]));
-        dispatch(setEshops(dummyEshops));
-        dispatch(setLikes(dummyLikes)); // Optionally, provide dummy likes array
+        //dispatch(setMerchants(dummyMerchants as IMerchant[]));
+        //dispatch(setEshops(dummyEshops));
+        //dispatch(setLikes(dummyLikes)); // Optionally, provide dummy likes array
+
+        //const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080/api";
+        const getMerchants = async () => {
+            const res = await fetch(`${apiBaseUrl}/merchants`);
+            const merchants = await res.json();
+            dispatch(setMerchants(merchants));
+        };
+        const getEshops = async () => {
+            const res = await fetch(`${apiBaseUrl}/eshops`);
+            const eshops = await res.json();
+            dispatch(setEshops(eshops));
+        };
+        const getLikes = async () => {
+            const res = await fetch(`${apiBaseUrl}/likes`);
+            const likes = await res.json();
+            dispatch(setLikes(likes));
+        };
+        getMerchants();
+        getEshops();
+        getLikes();
+
         /*
         const getMerchants = async (db: Firestore) => {
             const merchantsSnapshot: QuerySnapshot<DocumentData> = await getDocs(query(collection(db, 'merchants'), where('properties.visible', '==', true)));
@@ -123,7 +145,7 @@ function App() {
 
         return () => unsubscribe();
         */
-    }, [dispatch])
+    }, [dispatch, apiBaseUrl])
     //}, [])
 
     return (

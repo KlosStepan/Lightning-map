@@ -11,13 +11,15 @@ export interface IMiscSlice {
     user: /*User |*/ null;  // The user will now be of type Firebase User or null
     userMerchants: IMerchantADWrapper[] | null
     userEshops: IEshopADWrapper[] | null
+    apiBaseUrl: string | null;
 }
 const initialState: IMiscSlice = {
     debug: process.env.REACT_APP_DEBUG === 'true' ? true : false,
     blog: process.env.REACT_APP_BLOG === 'false' ? false : true,
     user: null,  // User is initially null, meaning no one is logged in
     userMerchants: null,
-    userEshops: null
+    userEshops: null,
+    apiBaseUrl: process.env.REACT_APP_API_BASE_URL || null
 };
 
 export const miscSlice = createSlice({

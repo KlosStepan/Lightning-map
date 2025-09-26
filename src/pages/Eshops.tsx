@@ -66,8 +66,8 @@ const Eshops: React.FC<EshopsProps> = () => {
     // useEffect, rerenderes on likes, as +1 gets updates locally instantly, then sent to backend 
     useEffect(() => {
         const newMap = new Map();
-        likes.forEach(({ vendorid }) => {
-            newMap.set(vendorid, (newMap.get(vendorid) || 0) + 1);
+        likes.forEach(({ entityId }) => {
+            newMap.set(entityId, (newMap.get(entityId) || 0) + 1);
         });
         setLikeCountsMap(newMap);
     }, [likes]); // Recalculate when `likes` change

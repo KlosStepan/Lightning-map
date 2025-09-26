@@ -39,7 +39,7 @@ const ADLikes: React.FC = () => {
 
         fetchLikes();
         */
-        setLikes(dummyLikes as ILike[]);
+        //setLikes(dummyLikes as ILike[]);
     }, []);
 
     return (
@@ -69,9 +69,9 @@ const ADLikes: React.FC = () => {
                                 <TableBody>
                                     {likes.map((like, index) => (
                                         <TableRow key={index}>
-                                            <TableCell>{like.userid}</TableCell>
-                                            <TableCell>{like.vendorid}</TableCell>
-                                            <TableCell>{new Date(like.timestamp).toLocaleString()}</TableCell>
+                                            <TableCell>{like.id}</TableCell>
+                                            <TableCell>{like.entityId}</TableCell>
+                                            <TableCell>{new Date(like.createdAt).toLocaleString()}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>

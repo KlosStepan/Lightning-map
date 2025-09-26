@@ -90,8 +90,8 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = () => {
 
         // Likes mapping logic remains unchanged
         const newMap = new Map();
-        likes.forEach(({ vendorid }) => {
-            newMap.set(vendorid, (newMap.get(vendorid) || 0) + 1);
+        likes.forEach(({ entityId }) => {
+            newMap.set(entityId, (newMap.get(entityId) || 0) + 1);
         });
         setLikeCountsMap(newMap);
     }, [uid, likes, dispatch]);

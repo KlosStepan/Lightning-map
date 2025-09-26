@@ -6,8 +6,13 @@ import { CardMedia, Container, Typography } from '@mui/material';
 import TagMerchant from "./TagMerchant";
 // TypeScript
 import { IMerchantTile } from "../ts/IMerchant";
+//Redux
+import { useSelector } from 'react-redux';
+import { RootState } from "../redux-rtk/store";
 // Icons
 import IconLightningNumber from "../icons/IconLightningNumber";
+//Utils
+import { getBackendImageUrl } from "../utils/image";
 
 type TileMerchantProps = {
     likes: string;
@@ -17,6 +22,8 @@ type TileMerchantProps = {
 };
 
 const TileMerchant: React.FC<TileMerchantProps> = ({ likes, tile, index, outOfBusiness = false }) => {
+    //
+    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
 
     // Determine grayscale effect and reduced effects based on `outOfBusiness` flag
     const containerOuterStyle = {
@@ -63,7 +70,7 @@ const TileMerchant: React.FC<TileMerchantProps> = ({ likes, tile, index, outOfBu
                 ) : (
                     <CardMedia
                         component="img"
-                        image={tile.images[0]}
+                        image={getBackendImageUrl(tile.images[0], apiBaseUrl || "")}
                         alt={tile.name}
                         sx={{
                             objectFit: 'cover',  // Adjust image size within its container
