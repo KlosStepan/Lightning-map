@@ -291,6 +291,26 @@ const About: React.FC<AboutProps> = () => {
                         <Box>
                             Something else maybe about author idk.
                             <div>&nbsp;</div>
+                            <Grid container spacing={2}>
+                                <Grid item xs={6}>
+                                    <Card sx={{ padding: 2, minHeight: 120 }}>
+                                        <Typography variant="h6">2/4 Box</Typography>
+                                        <Typography variant="body2">This is the wide box (2/4 width).</Typography>
+                                    </Card>
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <Card sx={{ padding: 2, minHeight: 120 }}>
+                                        <Typography variant="h6">1/4 Box</Typography>
+                                        <Typography variant="body2">This is a quarter-width box.</Typography>
+                                    </Card>
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <Card sx={{ padding: 2, minHeight: 120 }}>
+                                        <Typography variant="h6">1/4 Box</Typography>
+                                        <Typography variant="body2">This is another quarter-width box.</Typography>
+                                    </Card>
+                                </Grid>
+                            </Grid>
                         </Box>
                     </Grid>
                 </Grid>
