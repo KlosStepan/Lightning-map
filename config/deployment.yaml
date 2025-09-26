@@ -46,5 +46,7 @@ spec:
           value: "<FIREBASE_MEASUREMENT_ID>"
         - name: REACT_APP_BLOG
           value: "<BLOG>"
+        - name: REACT_APP_API_BASE_URL
+          value: "<API_BASE_URL>"
         - name: MESSAGE
           value: "Hello from Lightning Everywhere Deployment!"
