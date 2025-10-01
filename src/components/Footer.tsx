@@ -33,10 +33,17 @@ const Footer: React.FC<FooterProps> = ( ) => {
                 </Grid>
                 {/* Second part: 1/4 */}
                 <Grid item xs={12} md={3}>
-                    <Typography component="h1" variant="h3" sx={{ color: '#6B7280' }}>Support</Typography>
+                    <Typography component="h1" variant="h3" sx={{ color: '#6B7280' }}>Write us</Typography>
                     <Typography component="h2" variant="h2">stepan@lightningeverywhere.com</Typography>
-                    <Typography component="h2" variant="h4">(^ not working yet)</Typography>
+                    {/*<Typography component="h2" variant="h4">(^ not working yet)</Typography>*/}
                     <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <Typography component="h6" variant="h6">
+                        Backend API: &nbsp;
+                        <a href="https://lightning-everywhere.com/" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
+                            lightning-everywhere.com/
+                        </a>
+                    </Typography>
                 </Grid>
                 {/* Third part: 1/4 */}
                 <Grid item xs={12} md={3}>
@@ -50,7 +57,9 @@ const Footer: React.FC<FooterProps> = ( ) => {
                     <Typography component="h3" variant="h3">2025 © Lightning. Everywhere.</Typography>
                 </Grid>
                 <Grid item xs={12} md={3}>
-                    <Typography component="h3" variant="h3">GDPR</Typography>
+                    <Typography component="h6" variant="h6">
+                        GDPR
+                    </Typography>
                 </Grid>
                 <Grid item xs={12} md={3}>
                     <Typography component="h3" variant="h3">design: {/*<a href="https://filipsmekal.cz/"target="_blank">smékal</a>*/}smékal</Typography>
