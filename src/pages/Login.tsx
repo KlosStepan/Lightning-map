@@ -29,6 +29,8 @@ import LoginEmail from '../img/login-mail.png';
 // ✅ Path to your image
 import mapWorldImage from '../img/map-world.jpg'; // adjust path if neede
 import Footer from "../components/Footer";
+import { ButtonColor } from "../enums";
+import ButtonUniversal from "../components/ButtonUniversal";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 //const defaultTheme = createTheme();
@@ -101,11 +103,11 @@ export default function SignInSide() {
                                 Login
                             </Typography>
                             <div>&nbsp;</div>
-                            <ContinueWithButton
+                            {/*<ContinueWithButton
                                 icon={LoginGoogle}
                                 title="Google"
                                 //actionDelegate={signInWithGoogle}
-                            />
+                            />*/}
                             {/*<ContinueWithButton icon={LoginApple} title="Apple" actionDelegate={signInWithApple} />*/}
                             <ContinueWithButton icon={LoginEmail} title="e-mail" actionDelegate={signInWithEmail} />
                             <div>&nbsp;</div>
@@ -125,9 +127,21 @@ export default function SignInSide() {
                         </> 
                         ) : (
                             <>
+                                <Box display="flex" justifyContent="flex-start" alignItems="left" width="100%" mb={2}>
+                                    <ButtonUniversal
+                                        title="← Back"
+                                        color={ButtonColor.White}
+                                        //color="#8000FF"
+                                        hoverColor={ButtonColor.ReportDefault}
+                                        //hoverColor="#6603C9"
+                                        textColor="black"
+                                        actionDelegate={() => setLoginWithEmail(false)}
+                                    />
+                                </Box>
                                 <Typography variant="h1" component="h1">
-                                    Login with Email
+                                    Login using Email
                                 </Typography>
+
                                 <Box component="form" onSubmit={async (e: React.FormEvent) => {
                                     e.preventDefault();
                                     //const data = new FormData(e.currentTarget);
@@ -135,7 +149,7 @@ export default function SignInSide() {
                                     //const password = data.get("password") as string;
                                     //await logInWithEmailAndPassword(email, password);
                                 }} noValidate sx={{ mt: 1 }}>
-                                    <TextField
+                                    {/*<TextField
                                         margin="normal"
                                         required
                                         fullWidth
@@ -144,8 +158,16 @@ export default function SignInSide() {
                                         name="email"
                                         autoComplete="email"
                                         autoFocus
-                                    />
-                                    <TextField
+                                    />*/}
+                                    <Box mt={2}>
+                                        <Typography variant="h2" component="h5">Email</Typography>
+                                            <TextField
+                                                fullWidth
+                                                //inputRef={nameRef}
+                                                //defaultValue={edit ? merchant?.name : ""}
+                                            />
+                                    </Box>
+                                    {/*<TextField
                                         margin="normal"
                                         required
                                         fullWidth
@@ -154,22 +176,53 @@ export default function SignInSide() {
                                         type="password"
                                         id="password"
                                         autoComplete="current-password"
-                                    />
-                                    <FormControlLabel
+                                    />*/}
+                                    <Box mt={2}>
+                                        <Typography variant="h2" component="h5">Password</Typography>
+                                        <TextField
+                                            fullWidth
+                                            type="password"
+                                            //inputRef={nameRef}
+                                            //defaultValue={edit ? merchant?.name : ""}
+                                        />
+                                    </Box>
+                                    {/*<FormControlLabel
                                         control={<Checkbox value="remember" color="primary" />}
                                         label="Remember me"
+                                    />*/}
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                //checked={keepPhotos}
+                                                //onChange={(e) => setKeepPhotos(e.target.checked)}
+                                                color="primary"
+                                            />
+                                        }
+                                        label="Remember me"
+                                        sx={{ mr: 2 }}
                                     />
-                                    <Button
+                                    {/*<Button
                                         type="submit"
                                         fullWidth
                                         variant="contained"
                                         sx={{ mt: 3, mb: 2 }}
                                     >
                                         Sign In
-                                    </Button>
-                                    <Button onClick={() => setLoginWithEmail(false)} fullWidth>
-                                        ← Back
-                                    </Button>
+                                    </Button>*/}
+                                    {/*<Box display="flex" justifyContent="middle" mt={2}>*/}
+                                    <Box mt={2} display="flex" flexDirection="column" alignItems="center">
+                                    <ButtonUniversal
+                                        title={"Sign In"}
+                                        color={ButtonColor.Pink}
+                                        //color="#F23CFF"
+                                        hoverColor={ButtonColor.PinkHover}
+                                        //hoverColor="#DA16E3"
+                                        textColor="white"
+                                        //actionDelegate={UpdateSpot}
+                                        //disabled={isSaving}
+                                    />
+
+                                    </Box>
                                 </Box>
                             </>
                         )}
