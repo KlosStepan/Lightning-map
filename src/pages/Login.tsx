@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 //import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -43,7 +43,7 @@ import ButtonUniversal from "../components/ButtonUniversal";
 
 //TODO - LoginProxy in TODO new Login/ folder w/ image
 //Will be stepped: Login general || Login e-mail/pass || Create Account || Password reset
-export default function SignInSide() {
+const SignInSide: React.FC<any>=({}) => {
     /*const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -55,7 +55,38 @@ export default function SignInSide() {
     //const [user, loading /*, error*/] = useAuthState(auth);
     const navigate = useNavigate();
     const [loginWithEmail, setLoginWithEmail] = useState(false);
+    
+    // Add refs for email and password
+    const emailRef = useRef<HTMLInputElement>(null);
+    const passwordRef = useRef<HTMLInputElement>(null);
 
+    // Function to handle login
+    const loginUsingEmail = async () => {
+        const email = emailRef.current?.value || "";
+        const password = passwordRef.current?.value || "";
+
+        if (!email || !password) {
+            alert("Please enter both email and password.");
+            return;
+        }
+
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users/login`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password }),
+            });
+            const data = await response.json();
+            if (response.ok && data.token) {
+                console.log("Token:", data.token);
+                // Save token, redirect, etc.
+            } else {
+                alert(data.message || "Login failed");
+            }
+        } catch (error) {
+            alert("Network error");
+        }
+    };
     /*
     useEffect(() => {
         if (loading) {
@@ -109,7 +140,7 @@ export default function SignInSide() {
                                 //actionDelegate={signInWithGoogle}
                             />*/}
                             {/*<ContinueWithButton icon={LoginApple} title="Apple" actionDelegate={signInWithApple} />*/}
-                            <ContinueWithButton icon={LoginEmail} title="e-mail" actionDelegate={signInWithEmail} />
+                            <ContinueWithButton icon={LoginEmail} title="e-mail" actionDelegate={async () => setLoginWithEmail(true)} />
                             <div>&nbsp;</div>
                             <div>
                                 <span onClick={() => navigate("/forgot-password")} style={{ cursor: "pointer" }}>
@@ -149,41 +180,19 @@ export default function SignInSide() {
                                     //const password = data.get("password") as string;
                                     //await logInWithEmailAndPassword(email, password);
                                 }} noValidate sx={{ mt: 1 }}>
-                                    {/*<TextField
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        id="email"
-                                        label="Email Address"
-                                        name="email"
-                                        autoComplete="email"
-                                        autoFocus
-                                    />*/}
                                     <Box mt={2}>
                                         <Typography variant="h2" component="h5">Email</Typography>
                                             <TextField
                                                 fullWidth
-                                                //inputRef={nameRef}
-                                                //defaultValue={edit ? merchant?.name : ""}
+                                                inputRef={emailRef}
                                             />
                                     </Box>
-                                    {/*<TextField
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        name="password"
-                                        label="Password"
-                                        type="password"
-                                        id="password"
-                                        autoComplete="current-password"
-                                    />*/}
                                     <Box mt={2}>
                                         <Typography variant="h2" component="h5">Password</Typography>
                                         <TextField
                                             fullWidth
                                             type="password"
-                                            //inputRef={nameRef}
-                                            //defaultValue={edit ? merchant?.name : ""}
+                                            inputRef={passwordRef}
                                         />
                                     </Box>
                                     {/*<FormControlLabel
