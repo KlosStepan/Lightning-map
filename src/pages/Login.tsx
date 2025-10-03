@@ -40,10 +40,13 @@ import ButtonUniversal from "../components/ButtonUniversal";
     console.log("TODO - signInWithApple");
     return Promise.resolve();
 };*/
+type LoginProps = {
+    // Add props here if needed in the future
+};
 
 //TODO - LoginProxy in TODO new Login/ folder w/ image
 //Will be stepped: Login general || Login e-mail/pass || Create Account || Password reset
-const SignInSide: React.FC<any>=({}) => {
+const Login: React.FC<LoginProps> = ({}) => {
     /*const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -242,3 +245,5 @@ const SignInSide: React.FC<any>=({}) => {
         </React.Fragment>
     );
 };
+
+export default Login;
