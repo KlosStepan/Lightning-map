@@ -12,62 +12,82 @@ import {
 } from "@mui/material";
 import mapWorldImage from "../img/map-world.jpg";
 
+//Redux+RTK
+import { RootState } from "../redux-rtk/store";
+import { useSelector } from "react-redux";
+
 type SignUpProps = {
   // Add props here if needed in the future
 };
 
 const SignUp: React.FC<SignUpProps> = ({}) => {
+  // DEBUG
+  const DEBUG = useSelector((state: RootState) => state.misc.debug);
+
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
-const handleSignUp = async () => {
-  const firstName = firstNameRef.current?.value || "";
-  const lastName = lastNameRef.current?.value || "";
-  const email = emailRef.current?.value || "";
-  const password = passwordRef.current?.value || "";
+  // Debug function to populate fields
+  const DebugPopulateDummyUser = () => {
+    const randomNumber = Math.floor(Math.random() * 10000) + 1;
+    if (firstNameRef.current) firstNameRef.current.value = `Name-${randomNumber}`;
+    if (lastNameRef.current) lastNameRef.current.value = `Surname-${randomNumber}`;
+    if (emailRef.current) emailRef.current.value = `email${randomNumber}@example.com`;
+    if (passwordRef.current) passwordRef.current.value = "12345";
+  };
+  const handleSignUp = async () => {
+    const firstName = firstNameRef.current?.value || "";
+    const lastName = lastNameRef.current?.value || "";
+    const email = emailRef.current?.value || "";
+    const password = passwordRef.current?.value || "";
 
-  if (!firstName || !lastName || !email || !password) {
-    alert("Please fill in all fields.");
-    return;
-  }
+    console.log("[SignUp] Attempting registration with:", { firstName, lastName, email, password });
 
-  try {
-    // Register the user
-    const registerResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users/register`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ firstName, lastName, email, password }),
-    });
-    const registerData = await registerResponse.json();
-
-    if (!registerResponse.ok) {
-      alert(registerData.message || "Registration failed");
+    if (!firstName || !lastName || !email || !password) {
+      alert("Please fill in all fields.");
       return;
     }
 
-    // Login the user to get the token
-    const loginResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    const loginData = await loginResponse.json();
+    try {
+      // Register the user
+      const registerResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ firstName, lastName, email, password }),
+        credentials: "include" // <--- Important for cookies
+      });
+      const registerData = await registerResponse.json();
 
-    if (loginResponse.ok && loginData.token) {
-      //localStorage.setItem("jwt_token", loginData.token);
-      console.log("Token", loginData.token);
-      navigate("/admin/dashboard");
-    } else {
-      alert(loginData.message || "Login after registration failed");
+      console.log("[SignUp] Registration response:", registerData);
+
+      if (!registerResponse.ok) {
+        alert(registerData.message || "Registration failed");
+        return;
+      }
+
+      // Login the user to get the token (if needed)
+      const loginResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+        credentials: "include" // <--- Important for cookies
+      });
+      const loginData = await loginResponse.json();
+
+      console.log("[SignUp] Login response:", loginData);
+
+      // No redirect yet
+      // If using httpOnly cookies, the server should set the cookie in the Set-Cookie header with HttpOnly and Secure flags.
+      // Example (server-side): res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'strict' });
+
+    } catch (error) {
+      console.error("[SignUp] Network error:", error);
+      alert("Network error");
     }
-  } catch (error) {
-    alert("Network error");
-  }
-};
-
+  };
   return (
     <React.Fragment>
       <Grid container component="main" sx={{ height: "70vh" }}>
@@ -150,15 +170,27 @@ const handleSignUp = async () => {
                   type="password"
                 />
               </Box>
-              <Box mt={4} display="flex" flexDirection="column" alignItems="center">
+            <Box display="flex" flexDirection="row" justifyContent="center" mt={4}>
+              {DEBUG && (
                 <ButtonUniversal
-                  title="Create Account"
-                  color={ButtonColor.Pink}
-                  hoverColor={ButtonColor.PinkHover}
+                  title="^ Debug Dummy User"
+                  color={ButtonColor.Purple}
+                  hoverColor={ButtonColor.PurpleHover}
                   textColor="white"
-                  actionDelegate={handleSignUp}
+                  actionDelegate={DebugPopulateDummyUser}
                 />
-              </Box>
+              )}
+              <ButtonUniversal
+                title="Create Account"
+                color={ButtonColor.Pink}
+                hoverColor={ButtonColor.PinkHover}
+                textColor="white"
+                actionDelegate={handleSignUp}
+              />
+            </Box>
+            {/* Debug button */}
+            <Box mb={2}>
+            </Box>
               <Box mt={2} width="100%" display="flex" justifyContent="center" textAlign="center">
                 <span>
                   Already have an account?{" "}
