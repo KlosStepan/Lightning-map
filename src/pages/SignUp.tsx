@@ -38,6 +38,25 @@ const SignUp: React.FC<SignUpProps> = ({}) => {
     if (emailRef.current) emailRef.current.value = `email${randomNumber}@example.com`;
     if (passwordRef.current) passwordRef.current.value = "12345";
   };
+
+  const testLogin = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/logintest`, {
+        method: "GET",
+        credentials: "include"
+      });
+      const data = await response.json();
+      console.log("[SignUp] /logintest response:", data);
+      if (response.ok) {
+        alert("You are authenticated! " + JSON.stringify(data));
+      } else {
+        alert("Not authenticated: " + (data.message || response.status));
+      }
+    } catch (error) {
+      alert("Network error");
+    }
+  };
+
   const handleSignUp = async () => {
     const firstName = firstNameRef.current?.value || "";
     const lastName = lastNameRef.current?.value || "";
@@ -83,11 +102,14 @@ const SignUp: React.FC<SignUpProps> = ({}) => {
       // If using httpOnly cookies, the server should set the cookie in the Set-Cookie header with HttpOnly and Secure flags.
       // Example (server-side): res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'strict' });
 
-    } catch (error) {
+      await testLogin();
+
+    } catch (error) { 
       console.error("[SignUp] Network error:", error);
       alert("Network error");
     }
   };
+  
   return (
     <React.Fragment>
       <Grid container component="main" sx={{ height: "70vh" }}>
