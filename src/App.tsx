@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 //Components
 import MenuHeader from './components/MenuHeader';
+import ProtectedRoute from './components/ProtectedRoute';
 //Firebase
 //import { User, onAuthStateChanged } from "firebase/auth";
 //import { collection, DocumentData, Firestore, getDocs, query, QuerySnapshot, where } from "firebase/firestore";
@@ -168,21 +169,21 @@ function App() {
                             <Route path="/blog" element={<Blog />} /> {/*TODO blog enable/disable */}
                             <Route path="/about" element={<About />} />
                             <Route path="/login" element={<Login />} />
-                            <Route path="/login-test" element={<LoginProxyTest/>} />
+                            {/*<Route path="/login-test" element={<LoginProxyTest/>} /> */}
                             {/**/}
                             <Route path="/sign-up" element={<SignUp />} />
                             {/*<Route path="/forgot-password" element={<ForgotPassword />} />*/}
                             <Route path="/forgot-password" element={<LoginProxyForgotPassword />} />
                             {/*Admin Dashboard*/}
-                            <Route path="/admin/dashboard" element={<ADHome />} />
-                            <Route path="/admin/my-spots" element={<ADMyMerchants />} />
-                            <Route path="/admin/my-eshops" element={<ADMyEShops />} />
-                            <Route path="/admin/my-account" element={<ADMyAccount />} />
+                            <Route path="/admin/dashboard" element={<ProtectedRoute> <ADHome /> </ProtectedRoute>} />
+                            <Route path="/admin/my-spots" element={<ProtectedRoute> <ADMyMerchants /> </ProtectedRoute>} />
+                            <Route path="/admin/my-eshops" element={<ProtectedRoute> <ADMyEShops /> </ProtectedRoute>} />
+                            <Route path="/admin/my-account" element={<ProtectedRoute> <ADMyAccount /> </ProtectedRoute>} />
                             {/*Administration of Lightning Everywhere for admin*/}
-                            <Route path="/admin/manage-users" element={<ADManageUsers/>} />
-                            <Route path="/admin/new-entries" element={<ADApproveNewEntries/>} />
-                            <Route path="/admin/likes" element={<ADLikes/>} />
-                            <Route path="/admin/reports" element={<ADReports/>} />
+                            <Route path="/admin/manage-users" element={<ProtectedRoute> <ADManageUsers/> </ProtectedRoute>} />
+                            <Route path="/admin/new-entries" element={<ProtectedRoute> <ADApproveNewEntries/> </ProtectedRoute>} />
+                            <Route path="/admin/likes" element={<ProtectedRoute> <ADLikes/> </ProtectedRoute>} />
+                            <Route path="/admin/reports" element={<ProtectedRoute> <ADReports/> </ProtectedRoute>} />
                             {/*Mics*/}
                             <Route path="/uikit" element={<UIKit propFromApptsx={true}/>}/>
                         </Routes>

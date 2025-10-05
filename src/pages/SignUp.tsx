@@ -102,8 +102,8 @@ const SignUp: React.FC<SignUpProps> = ({}) => {
       // If using httpOnly cookies, the server should set the cookie in the Set-Cookie header with HttpOnly and Secure flags.
       // Example (server-side): res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'strict' });
 
-      await testLogin();
-
+      //await testLogin();
+      navigate("/admin/dashboard");
     } catch (error) { 
       console.error("[SignUp] Network error:", error);
       alert("Network error");
