@@ -51,13 +51,36 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                                 </Typography>
                             </Grid>
                             <Grid item xs={6} container justifyContent="flex-end">
-                                <ButtonUniversal
-                                    title="Edit"
-                                    color={ButtonColor.Pink}
-                                    hoverColor={ButtonColor.PinkHover}
-                                    textColor="white"
-                                    actionDelegate={handleOpen}
-                                />
+                                {editMode ? (
+                                    <>
+                                        <ButtonUniversal
+                                            title="Cancel changes"
+                                            color={ButtonColor.Purple}
+                                            hoverColor={ButtonColor.PurpleHover}
+                                            textColor="white"
+                                            actionDelegate={() => setEditMode(false)}
+                                            //style={{ marginRight: 8 }}
+                                        />
+                                        <ButtonUniversal
+                                            title="Save changes"
+                                            color={ButtonColor.Pink}
+                                            hoverColor={ButtonColor.PinkHover}
+                                            textColor="white"
+                                            actionDelegate={() => {
+                                                // TODO: Save logic here
+                                                setEditMode(false);
+                                            }}
+                                        />
+                                    </>
+                                ) : (
+                                    <ButtonUniversal
+                                        title="Edit"
+                                        color={ButtonColor.Pink}
+                                        hoverColor={ButtonColor.PinkHover}
+                                        textColor="white"
+                                        actionDelegate={() => setEditMode(true)}
+                                    />
+                                )}
                             </Grid>
                         </Grid>
                     </Box>
@@ -87,7 +110,7 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                                     fullWidth
                                     inputRef={firstNameRef}
                                     value={user?.firstName || ""}
-                                    disabled
+                                    disabled={!editMode}
                                 />
                             </Box>
                             <Box mt={2}>
@@ -98,7 +121,7 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                                     fullWidth
                                     inputRef={lastNameRef}
                                     value={user?.lastName || ""}
-                                    disabled
+                                    disabled={!editMode}
                                 />
                             </Box>
                             <Box mt={2}>
@@ -112,7 +135,7 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                                     disabled
                                 />
                             </Box>
-                            <Box mt={2}>
+                            {!editMode? (<Box mt={2}>
                                 <Typography variant="h2" component="h5">
                                     Password
                                 </Typography>
@@ -123,7 +146,11 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                                     type="password"
                                     disabled
                                 />
-                            </Box>
+                            </Box>) : (<>
+                            <div>Current password</div>
+                            <div>New password</div>
+                            </>
+                            )}
                             <span>&nbsp;</span>
                             <p><u>Delete my account</u></p>
                         </Box>
@@ -132,7 +159,7 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                 
             </Grid>
             {/* Modal */}
-            <Modal
+            {/*<Modal
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
@@ -142,7 +169,7 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                 <Box>
                     <div>Edit Modal stuff</div>
                 </Box>
-            </Modal>
+            </Modal>*/}
             {/* Menu down - for phone */}
             {isPhone && <ADMenu/>}
         </React.Fragment>
