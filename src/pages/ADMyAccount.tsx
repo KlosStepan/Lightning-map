@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 //Components
 import ADMenu from "../components/ADMenu";
 import ButtonUniversal from "../components/ButtonUniversal";
@@ -17,7 +17,7 @@ type ADMyAccountProps = {
 
 const ADMyAccount: React.FC<ADMyAccountProps> = () => {
     const [open, setOpen] = React.useState(false);
-    const [editMode, setEditMode] = React.useState(false); // <-- Add here .... Edit changes it -> then img pick & different buttons.
+    const [editMode, setEditMode] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const theme = useTheme();
@@ -26,12 +26,17 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
     // Get user from Redux
     const user = useSelector((state: RootState) => state.misc.user);
 
-    // Refs for editing (optional, for future edit functionality)
+    // Refs for editing
     const firstNameRef = useRef<HTMLInputElement>(null);
     const lastNameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
-
+    //
+    const currentPasswordRef = useRef<HTMLInputElement>(null);
+    const newPasswordRef = useRef<HTMLInputElement>(null);
+    const [showCurrentPassword, setShowCurrentPassword] = React.useState(false);
+    const [showNewPassword, setShowNewPassword] = React.useState(false);
+    
     return (
         <React.Fragment>
             <Grid container>
@@ -59,7 +64,6 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                                             hoverColor={ButtonColor.PurpleHover}
                                             textColor="white"
                                             actionDelegate={() => setEditMode(false)}
-                                            //style={{ marginRight: 8 }}
                                         />
                                         <ButtonUniversal
                                             title="Save changes"
@@ -86,27 +90,12 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                     </Box>
                     <Grid item xs={12} md={6}>
                         <Box sx={{ padding: 3 }}>
-                            {/*<Grid container spacing={2} alignItems="center">
-                                <Grid item xs={6}>
-                                    <Typography variant="h1" component="h1">
-                                        My Account
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={6} container justifyContent="flex-end">
-                                    <ButtonUniversal
-                                        title="Edit"
-                                        color={ButtonColor.Pink}
-                                        hoverColor={ButtonColor.PinkHover}
-                                        textColor="white"
-                                        actionDelegate={handleOpen}
-                                    />
-                                </Grid>
-                            </Grid>*/}
                             <Box mt={2}>
                                 <Typography variant="h2" component="h5">
                                     First Name
                                 </Typography>
                                 <TextField
+                                    //variant="outlined"
                                     fullWidth
                                     inputRef={firstNameRef}
                                     value={user?.firstName || ""}
@@ -118,6 +107,7 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                                     Last Name
                                 </Typography>
                                 <TextField
+                                    //variant="outlined"
                                     fullWidth
                                     inputRef={lastNameRef}
                                     value={user?.lastName || ""}
@@ -129,13 +119,30 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                                     Email
                                 </Typography>
                                 <TextField
+                                    //variant="outlined"
                                     fullWidth
                                     inputRef={emailRef}
                                     value={user?.email || ""}
                                     disabled
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            '&:hover fieldset': {
+                                                borderColor: 'rgba(0, 0, 0, 0.23)', // Standard grey border
+                                            },
+                                            '&.Mui-disabled:hover fieldset': {
+                                                borderColor: 'rgba(0, 0, 0, 0.23)', // Standard grey border for disabled state
+                                                opacity: 0.5, // Keep opacity
+                                            }
+                                        },
+                                    }}
                                 />
                             </Box>
-                            {!editMode? (<Box mt={2}>
+                            {/* Always show Password field (always disabled) */}
+
+
+                            {/* Show these fields only in edit mode */}
+                            {!editMode ?
+                                                        <Box mt={2}>
                                 <Typography variant="h2" component="h5">
                                     Password
                                 </Typography>
@@ -146,31 +153,67 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                                     type="password"
                                     disabled
                                 />
-                            </Box>) : (<>
-                            <div>Current password</div>
-                            <div>New password</div>
-                            </>
+                            </Box>
+                            : (
+                                <>
+                                    <Box mt={2}>
+                                        <Typography variant="h2" component="h5">
+                                            Current password
+                                        </Typography>
+                                        <TextField
+                                            variant="outlined"
+                                            fullWidth
+                                            inputRef={currentPasswordRef}
+                                            type={showCurrentPassword ? "text" : "password"}
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <span
+                                                        style={{ cursor: "pointer" }}
+                                                        onClick={() => setShowCurrentPassword((v) => !v)}
+                                                        title={showCurrentPassword ? "Hide" : "Show"}
+                                                    >
+                                                        {showCurrentPassword ? "🙈" : "👁️"}
+                                                    </span>
+                                                ),
+                                            }}
+                                        />
+                                    </Box>
+                                    <Box mt={2}>
+                                        <Typography variant="h2" component="h5">
+                                            New password
+                                        </Typography>
+                                        <TextField
+                                            variant="outlined"
+                                            fullWidth
+                                            inputRef={newPasswordRef}
+                                            type={showNewPassword ? "text" : "password"}
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <span
+                                                        style={{ cursor: "pointer" }}
+                                                        onClick={() => setShowNewPassword((v) => !v)}
+                                                        title={showNewPassword ? "Hide" : "Show"}
+                                                    >
+                                                        {showNewPassword ? "🙈" : "👁️"}
+                                                    </span>
+                                                ),
+                                            }}
+                                        />
+                                    </Box>
+                                </>
                             )}
-                            <span>&nbsp;</span>
-                            <p><u>Delete my account</u></p>
+
+                            {/* Only show delete account when not in edit mode */}
+                            {!editMode && (
+                                <>
+                                    <span>&nbsp;</span>
+                                    <p><u>Delete my account</u></p>
+                                </>
+                            )}
                         </Box>
                     </Grid>
                 </Grid>
-                
             </Grid>
-            {/* Modal */}
-            {/*<Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-                style={{overflow: 'scroll'}}
-              >
-                <Box>
-                    <div>Edit Modal stuff</div>
-                </Box>
-            </Modal>*/}
-            {/* Menu down - for phone */}
             {isPhone && <ADMenu/>}
         </React.Fragment>
     );
