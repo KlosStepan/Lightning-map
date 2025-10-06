@@ -15,6 +15,7 @@ import FormADAdd from "../forms/FormADAdd";
 //Redux+RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
+import { setMerchants, setEshops, setLikes } from '../redux-rtk/dataSlice';
 import { setUserMerchants, setUserEshops } from "../redux-rtk/miscSlice";
 //TypeScript
 import IEshop from "../ts/IEshop";
@@ -39,6 +40,8 @@ const ADHome: React.FC<ADHomeProps> = () => {
     let uid = 9999; //TODO remove
     const myMerchants = useSelector((state: RootState) => state.misc.userMerchants);
     const myEshops = useSelector((state: RootState) => state.misc.userEshops);
+    //
+    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
     //Data slicing
     //const myMerchants = merchants?.filter((merchant) => merchant.properties.owner === uid);
     //const myEshops = eshops?.filter((eshop) => eshop.owner === uid);
@@ -49,41 +52,25 @@ const ADHome: React.FC<ADHomeProps> = () => {
         console.log("cnt(myEshops): " + myEshops?.length)
     }
     useEffect(() => {
-        /*
-        if (!uid) return; // Ensure uid is available before querying
-    
-        const getMerchants = async (db: Firestore) => {
-            const merchantsSnapshot: QuerySnapshot<DocumentData> = await getDocs(
-                query(
-                    collection(db, 'merchants'),
-                    where('properties.owner', '==', uid) // Filter by owner only
-                )
-            );
-            const merchantsList: IMerchantADWrapper[] = merchantsSnapshot.docs.map((doc) => ({
-                documentid: doc.id,
-                merchant: doc.data() as IMerchant
-            }));
-            dispatch(setUserMerchants(merchantsList));
+        const getMerchants = async () => {
+            const res = await fetch(`${apiBaseUrl}/merchants`);
+            const merchants = await res.json();
+            dispatch(setMerchants(merchants));
         };
-    
-        const getEshops = async (db: Firestore) => {
-            const eshopsSnapshot: QuerySnapshot<DocumentData> = await getDocs(
-                query(
-                    collection(db, 'eshops'),
-                    where('owner', '==', uid) // Filter by owner only
-                )
-            );
-            const eshopsList: IEshopADWrapper[] = eshopsSnapshot.docs.map((doc) => ({
-                documentid: doc.id,
-                eshop: doc.data() as IEshop
-            }));
-            dispatch(setUserEshops(eshopsList));
+        const getEshops = async () => {
+            const res = await fetch(`${apiBaseUrl}/eshops`);
+            const eshops = await res.json();
+            dispatch(setEshops(eshops));
         };
-    
-        getMerchants(db);
-        getEshops(db);
-        */
-    }, [uid, dispatch]); // Re-run when `uid` changes
+        const getLikes = async () => {
+            const res = await fetch(`${apiBaseUrl}/likes`);
+            const likes = await res.json();
+            dispatch(setLikes(likes));
+        };
+        getMerchants();
+        getEshops();
+        getLikes();
+    }, [uid, dispatch, apiBaseUrl]); // Re-run when `uid` changes
     
     
     //Functions
