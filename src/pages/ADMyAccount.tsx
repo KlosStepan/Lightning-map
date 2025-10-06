@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useRef } from "react";
 //Components
 import ADMenu from "../components/ADMenu";
 import ButtonUniversal from "../components/ButtonUniversal";
 //MUI
 import Typography from '@mui/material/Typography';
 import Modal from "@mui/material/Modal";
-import { Grid, Box, useMediaQuery, useTheme } from '@mui/material';
+import { Grid, Box, useMediaQuery, useTheme, TextField } from '@mui/material';
 //Redux+RTK
+import { useSelector } from "react-redux";
+import { RootState } from "../redux-rtk/store";
 import { ButtonColor } from "../enums";
 
 type ADMyAccountProps = {
@@ -14,41 +16,34 @@ type ADMyAccountProps = {
 };
 
 const ADMyAccount: React.FC<ADMyAccountProps> = () => {
-    //Debug
-    //const debug = useSelector((state: RootState) => state.misc.debug);
-    //if (debug) {
-    //    console.log("debug")
-    //}
-    //Functions for MyAccount
-    /*const FuncEdit = (): Promise<void> => {
-        console.log("Edit")
-        return Promise.resolve();
-    }*/
-    //Modal Stuff
     const [open, setOpen] = React.useState(false);
+    const [editMode, setEditMode] = React.useState(false); // <-- Add here .... Edit changes it -> then img pick & different buttons.
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    //Phone detection
     const theme = useTheme();
     const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
+
+    // Get user from Redux
+    const user = useSelector((state: RootState) => state.misc.user);
+
+    // Refs for editing (optional, for future edit functionality)
+    const firstNameRef = useRef<HTMLInputElement>(null);
+    const lastNameRef = useRef<HTMLInputElement>(null);
+    const emailRef = useRef<HTMLInputElement>(null);
+    const passwordRef = useRef<HTMLInputElement>(null);
+
     return (
         <React.Fragment>
             <Grid container>
-                {!isPhone && <Grid item xs={3}>
-                    <Box
-                        sx={{
-                            padding: 2,
-                        }}
-                    >
-                        <ADMenu />
-                    </Box>
-                </Grid>}
+                {!isPhone && (
+                    <Grid item xs={3}>
+                        <Box sx={{ padding: 2 }}>
+                            <ADMenu />
+                        </Box>
+                    </Grid>
+                )}
                 <Grid item md={9} xs={12}>
-                    <Box
-                        sx={{
-                            padding: 3,
-                        }}
-                    >
+                    <Box sx={{ padding: 3 }}>
                         <Grid container spacing={2} alignItems="center">
                             <Grid item xs={6}>
                                 <Typography variant="h1" component="h1">
@@ -59,17 +54,82 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                                 <ButtonUniversal
                                     title="Edit"
                                     color={ButtonColor.Pink}
-                                    //color="#F23CFF"
                                     hoverColor={ButtonColor.PinkHover}
-                                    //hoverColor="#DA16E3"
                                     textColor="white"
                                     actionDelegate={handleOpen}
                                 />
                             </Grid>
                         </Grid>
-                        <div>Some user stuff goes here (depending on auth method I would say)</div>
                     </Box>
+                    <Grid item xs={12} md={6}>
+                        <Box sx={{ padding: 3 }}>
+                            {/*<Grid container spacing={2} alignItems="center">
+                                <Grid item xs={6}>
+                                    <Typography variant="h1" component="h1">
+                                        My Account
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={6} container justifyContent="flex-end">
+                                    <ButtonUniversal
+                                        title="Edit"
+                                        color={ButtonColor.Pink}
+                                        hoverColor={ButtonColor.PinkHover}
+                                        textColor="white"
+                                        actionDelegate={handleOpen}
+                                    />
+                                </Grid>
+                            </Grid>*/}
+                            <Box mt={2}>
+                                <Typography variant="h2" component="h5">
+                                    First Name
+                                </Typography>
+                                <TextField
+                                    fullWidth
+                                    inputRef={firstNameRef}
+                                    value={user?.firstName || ""}
+                                    disabled
+                                />
+                            </Box>
+                            <Box mt={2}>
+                                <Typography variant="h2" component="h5">
+                                    Last Name
+                                </Typography>
+                                <TextField
+                                    fullWidth
+                                    inputRef={lastNameRef}
+                                    value={user?.lastName || ""}
+                                    disabled
+                                />
+                            </Box>
+                            <Box mt={2}>
+                                <Typography variant="h2" component="h5">
+                                    Email
+                                </Typography>
+                                <TextField
+                                    fullWidth
+                                    inputRef={emailRef}
+                                    value={user?.email || ""}
+                                    disabled
+                                />
+                            </Box>
+                            <Box mt={2}>
+                                <Typography variant="h2" component="h5">
+                                    Password
+                                </Typography>
+                                <TextField
+                                    fullWidth
+                                    inputRef={passwordRef}
+                                    value="********"
+                                    type="password"
+                                    disabled
+                                />
+                            </Box>
+                            <span>&nbsp;</span>
+                            <p><u>Delete my account</u></p>
+                        </Box>
+                    </Grid>
                 </Grid>
+                
             </Grid>
             {/* Modal */}
             <Modal
