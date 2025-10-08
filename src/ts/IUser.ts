@@ -1,4 +1,4 @@
-export interface IUser {
+interface IUser {
   id: string;
   email: string;
   firstName: string;
@@ -6,3 +6,5 @@ export interface IUser {
   role: string;
   createdAt?: string;
 }
+
+export default IUser

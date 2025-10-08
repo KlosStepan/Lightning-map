@@ -27,6 +27,7 @@ import ISocial from "../ts/ISocial";
 //UUID generator
 import { v4 as uuidv4 } from 'uuid';
 import { ButtonColor } from "../enums";
+import { getBackendImageUrl } from "../utils/image";
 
 const tagsAll = ["Food & Drinks", "Shops", "Services"];
 
@@ -49,7 +50,8 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         if (merchant) console.log("merchant: true")
         console.log("</DEBUG> ModifFormSpot.tsx")
     }
-
+    // Add this with your other useSelector calls
+    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
     // Fields - 5x  Input
     const nameRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLInputElement>(null);
@@ -375,14 +377,22 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                             />
                             {merchant?.images.map((url, index) => (
                                 <span key={index} style={{ display: 'inline-block', width: 40, height: 40, border: '1px solid black', borderRadius: 4, marginRight: 4, overflow: 'hidden' }}>
-                                    <img src={url} alt={`thumb-${index}`} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: keepPhotos ? 'none' : 'grayscale(100%)' }} />
+                                    <img 
+                                        src={getBackendImageUrl(url, apiBaseUrl || "")} 
+                                        alt={`thumb-${index}`} 
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover', filter: keepPhotos ? 'none' : 'grayscale(100%)' }} 
+                                    />
                                 </span>
                             ))}
                         </Box>
                         <HrGreyCustomSeparator marginTop={5} marginBottom={5}/>
                     </React.Fragment>
                 )}
-                <UploadingImagesSpot files={files} setFiles={setFiles} disabled={(edit) ? keepPhotos : false} />
+                <UploadingImagesSpot
+                    files={files}
+                    setFiles={setFiles}
+                    disabled={(edit) ? keepPhotos : false}
+                />
             </Box>
             <Box display="flex" justifyContent="flex-end" mt={2}>
                 {/* Buttons at the bottom of the form */ }

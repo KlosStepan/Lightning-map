@@ -22,6 +22,7 @@ import IEshop from "../ts/IEshop";
 //UUID generator
 import { v4 as uuidv4 } from 'uuid';
 import { ButtonColor } from "../enums";
+import { getBackendImageUrl } from "../utils/image";
 
 type ModifFormEshopProps = {
     FuncCancel?: () => void; // Optional function to close modal from parent component
@@ -31,6 +32,8 @@ type ModifFormEshopProps = {
 );
 
 const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false, eshop, documentid }) => {
+    //
+    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
     // DEBUG
     const DEBUG = useSelector((state: RootState) => state.misc.debug);
     // DEBUG info
@@ -268,32 +271,41 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
             </Box>
             <Box mt={2}>
                 <Typography variant="h2" component="h5">Logo</Typography>
-                    {edit && (
-                        <React.Fragment>
-                            <Box display="flex" alignItems="center" flexWrap="wrap" mt={1}>
-                                {/*<Typography variant="h2" component="h5" sx={{ whiteSpace: 'nowrap', mr: 1 }}>*/}
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            checked={keepLogo}
-                                            onChange={(e) => setKeepLogo(e.target.checked)}
-                                            color="primary"
-                                        />
-                                    }
-                                    label="Keep logo"
-                                    sx={{ mr: 2 }}
-                                />
-                                {/*</Typography>*/}
-                                {eshop?.logo && (
-                                    <span style={{ display: 'inline-block', width: 40, height: 40, border: '1px solid black', borderRadius: 4, marginRight: 4, overflow: 'hidden' }}>
-                                        <img src={eshop.logo} alt="logo-thumb" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                    </span>
-                                )}
-                            </Box>
-                            <HrGreyCustomSeparator marginTop={5} marginBottom={5} />
-                        </React.Fragment>
-                    )}
-                <UploadingImagesSpot files={files} setFiles={setFiles} multipleImages={false} />
+                {edit && (
+                    <React.Fragment>
+                        <Box display="flex" alignItems="center" flexWrap="wrap" mt={1}>
+                            {/*<Typography variant="h2" component="h5" sx={{ whiteSpace: 'nowrap', mr: 1 }}>*/}
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={keepLogo}
+                                        onChange={(e) => setKeepLogo(e.target.checked)}
+                                        color="primary"
+                                    />
+                                }
+                                label="Keep logo"
+                                sx={{ mr: 2 }}
+                            />
+                            {/*</Typography>*/}
+                            {eshop?.logo && (
+                                <span style={{ display: 'inline-block', width: 40, height: 40, border: '1px solid black', borderRadius: 4, marginRight: 4, overflow: 'hidden' }}>
+                                    <img 
+                                        src={getBackendImageUrl(eshop.logo, apiBaseUrl || "")} 
+                                        alt="logo-thumb" 
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover', filter: keepLogo ? 'none' : 'grayscale(100%)' }} 
+                                    />
+                                </span>
+                            )}
+                        </Box>
+                        <HrGreyCustomSeparator marginTop={5} marginBottom={5} />
+                    </React.Fragment>
+                )}
+                <UploadingImagesSpot 
+                    files={files} 
+                    setFiles={setFiles} 
+                    disabled={(edit) ? keepLogo : false} 
+                    multipleImages={false} 
+                />
             </Box>
             <Box display="flex" justifyContent="flex-end" mt={2}>
                 { DEBUG && (

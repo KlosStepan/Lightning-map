@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 //import { User } from 'firebase/auth'; // Import the Firebase User type
-import { IUser } from "../ts/IUser";
+//import { IUser } from "../ts/IUser";
+import IUser from "../ts/IUser";
 //import IMerchant from '../ts/IMerchant';
 import { IMerchantADWrapper } from '../ts/IMerchant';
 //import IEshop from '../ts/IEshop';

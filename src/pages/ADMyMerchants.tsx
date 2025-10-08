@@ -17,7 +17,8 @@ import Modal from "@mui/material/Modal";
 //Redux+RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
-import { setUserMerchants } from "../redux-rtk/miscSlice";
+import { setMerchants, setEshops, setLikes } from '../redux-rtk/dataSlice';
+import { setUserMerchants, setUserEshops } from "../redux-rtk/miscSlice";
 //TypeScript
 import IMerchant from "../ts/IMerchant";
 import { IMerchantADWrapper } from "../ts/IMerchant";
@@ -33,6 +34,8 @@ type ADMyMerchantsProps = {
 
 const ADMyMerchants: React.FC<ADMyMerchantsProps> = () => {
     const dispatch = useDispatch();
+    //
+    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
     // State
     const user = useSelector((state: RootState) => state.misc.user)
     //let uid = user?.uid
@@ -57,36 +60,28 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = () => {
     }
     // useEffect
     useEffect(() => {
-        /*
-        if (!uid) return; // Ensure uid is available before querying
-        //
-        const getMerchants = async (db: Firestore) => {
-            const merchantsSnapshot: QuerySnapshot<DocumentData> = await getDocs(
-                query(
-                    collection(db, 'merchants'),
-                    where('properties.owner', '==', uid) // Filter by owner only
-                )
+        const getMerchants = async () => {
+            const res = await fetch(`${apiBaseUrl}/merchants`);
+            const merchants = await res.json();
+            dispatch(setMerchants(merchants));
+            
+            // Filter and convert merchants for the current user
+            const filteredMerchants = merchants.filter((merchant: IMerchant) => 
+                merchant.properties.owner === user?.id || 
+                (Array.isArray(merchant.properties.editor) && merchant.properties.editor.includes(user?.id)) ||
+                merchant.properties.editor === user?.id
             );
-            const merchantsList: IMerchantADWrapper[] = merchantsSnapshot.docs.map((doc) => ({
-                documentid: doc.id,
-                merchant: doc.data() as IMerchant
+            
+            // Convert to IMerchantADWrapper format
+            const userMerchantsList = filteredMerchants.map((merchant: IMerchant) => ({
+                documentid: merchant.properties.id,
+                merchant
             }));
-            dispatch(setUserMerchants(merchantsList));
+            
+            // Update user's merchants in Redux
+            dispatch(setUserMerchants(userMerchantsList));
         };
-        getMerchants(db);
-        //
-        const newMap = new Map();
-        likes.forEach(({ vendorid }) => {
-            newMap.set(vendorid, (newMap.get(vendorid) || 0) + 1);
-        });
-        setLikeCountsMap(newMap);
-        */
-        // Load all merchants from dummy JSON instead of Firebase, no filtering by uid
-        const merchantsList = (dummyMerchants as IMerchant[]).map(merchant => ({
-            documentid: merchant.properties.id,
-            merchant
-        }));
-        dispatch(setUserMerchants(merchantsList));
+        getMerchants();
 
         // Likes mapping logic remains unchanged
         const newMap = new Map();

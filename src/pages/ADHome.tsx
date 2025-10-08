@@ -22,6 +22,7 @@ import IEshop from "../ts/IEshop";
 import { IEshopADWrapper } from "../ts/IEshop";
 import IMerchant from "../ts/IMerchant";
 import { IMerchantADWrapper } from "../ts/IMerchant";
+import IUser from "../ts/IUser"
 //Images
 import mapofspotsimg from '../img/Interface-Essential-Map--Streamline-Pixel.png';
 import eshopsimg from '../img/Shopping-Shipping-Bag-1--Streamline-Pixel.png';
@@ -37,40 +38,72 @@ const ADHome: React.FC<ADHomeProps> = () => {
     //State
     const user = useSelector((state: RootState) => state.misc.user);
     //let uid = user?.uid
-    let uid = 9999; //TODO remove
-    const myMerchants = useSelector((state: RootState) => state.misc.userMerchants);
-    const myEshops = useSelector((state: RootState) => state.misc.userEshops);
+    //let uid = user?.id;
+    const merchants = useSelector((state: RootState) => state.data.merchants);
+    const eshops = useSelector((state: RootState) => state.data.eshops);
     //
     const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
-    //Data slicing
-    //const myMerchants = merchants?.filter((merchant) => merchant.properties.owner === uid);
-    //const myEshops = eshops?.filter((eshop) => eshop.owner === uid);
+
+    // Direct access to Redux store
+    const myMerchants = useSelector((state: RootState) => state.misc.userMerchants);
+    const myEshops = useSelector((state: RootState) => state.misc.userEshops);
+
     //Debug
     const debug = useSelector((state: RootState) => state.misc.debug);
     if (debug) {
         console.log("cnt(myMerchants): " + myMerchants?.length)
         console.log("cnt(myEshops): " + myEshops?.length)
     }
+
     useEffect(() => {
+        // Fetch data first
         const getMerchants = async () => {
             const res = await fetch(`${apiBaseUrl}/merchants`);
             const merchants = await res.json();
             dispatch(setMerchants(merchants));
+            
+            // Filter and convert merchants for the current user
+            const filteredMerchants = merchants.filter((merchant: IMerchant) => 
+                merchant.properties.owner === user?.id || 
+                (Array.isArray(merchant.properties.editor) && merchant.properties.editor.includes(user?.id)) ||
+                merchant.properties.editor === user?.id
+            );
+            
+            // Convert to IMerchantADWrapper format
+            const userMerchantsList = filteredMerchants.map((merchant: IMerchant) => ({
+                documentid: merchant.properties.id,
+                merchant
+            }));
+            
+            // Update user's merchants in Redux
+            dispatch(setUserMerchants(userMerchantsList));
         };
+        
         const getEshops = async () => {
             const res = await fetch(`${apiBaseUrl}/eshops`);
             const eshops = await res.json();
             dispatch(setEshops(eshops));
+            
+            // Filter and convert eshops for the current user
+            const filteredEshops = eshops.filter((eshop: IEshop) => 
+                eshop.owner === user?.id || 
+                (Array.isArray(eshop.editor) && eshop.editor.includes(user?.id)) ||
+                eshop.editor === user?.id
+            );
+            
+            // Convert to IEshopADWrapper format
+            const userEshopsList = filteredEshops.map((eshop: IEshop) => ({
+                documentid: eshop.id,
+                eshop
+            }));
+            
+            // Update user's eshops in Redux
+            dispatch(setUserEshops(userEshopsList));
         };
-        const getLikes = async () => {
-            const res = await fetch(`${apiBaseUrl}/likes`);
-            const likes = await res.json();
-            dispatch(setLikes(likes));
-        };
+        
         getMerchants();
         getEshops();
-        getLikes();
-    }, [uid, dispatch, apiBaseUrl]); // Re-run when `uid` changes
+    }, [user, dispatch, apiBaseUrl]); // Include user as dependency
     
     
     //Functions

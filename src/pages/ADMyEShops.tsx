@@ -17,7 +17,8 @@ import Modal from "@mui/material/Modal";
 //Redux+RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
-import { setUserEshops } from "../redux-rtk/miscSlice";
+import { setMerchants, setEshops, setLikes } from '../redux-rtk/dataSlice';
+import { setUserMerchants, setUserEshops } from "../redux-rtk/miscSlice";
 //TypeScript
 import IEshop from "../ts/IEshop";
 import { IEshopADWrapper } from "../ts/IEshop";
@@ -33,7 +34,8 @@ type ADMyEShopsProps = {
 
 const ADMyEShops: React.FC<ADMyEShopsProps> = () => {
     const dispatch = useDispatch();
-
+    //
+    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
     //State
     const user = useSelector((state: RootState) => state.misc.user);
     //let uid = user?.uid
@@ -57,36 +59,29 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = () => {
         return Promise.resolve();
     }
     useEffect(() => {
-        /*
-        if (!uid) return; // Ensure uid is available before querying
-    
-        const getEshops = async (db: Firestore) => {
-            const eshopsSnapshot: QuerySnapshot<DocumentData> = await getDocs(
-                query(
-                    collection(db, 'eshops'),
-                    where('owner', '==', uid) // Filter by owner only
-                )
+        const getEshops = async () => {
+            const res = await fetch(`${apiBaseUrl}/eshops`);
+            const eshops = await res.json();
+            dispatch(setEshops(eshops));
+            
+            // Filter and convert eshops for the current user
+            const filteredEshops = eshops.filter((eshop: IEshop) => 
+                eshop.owner === user?.id || 
+                (Array.isArray(eshop.editor) && eshop.editor.includes(user?.id)) ||
+                eshop.editor === user?.id
             );
-            const eshopsList: IEshopADWrapper[] = eshopsSnapshot.docs.map((doc) => ({
-                documentid: doc.id,
-                eshop: doc.data() as IEshop
+            
+            // Convert to IEshopADWrapper format
+            const userEshopsList = filteredEshops.map((eshop: IEshop) => ({
+                documentid: eshop.id,
+                eshop
             }));
-            dispatch(setUserEshops(eshopsList)); 
+            
+            // Update user's eshops in Redux
+            dispatch(setUserEshops(userEshopsList));
         };
-        getEshops(db);
-        //
-        const newMap = new Map();
-        likes.forEach(({ vendorid }) => {
-            newMap.set(vendorid, (newMap.get(vendorid) || 0) + 1);
-        });
-        setLikeCountsMap(newMap); 
-        */
-        // Load from dummy JSON instead of Firebase
-        const eshopsList = (dummyEshops as IEshop[]).map(eshop => ({
-            documentid: eshop.id,
-            eshop
-        }));
-        dispatch(setUserEshops(eshopsList));
+
+        getEshops();
 
         // Likes mapping logic remains unchanged
         const newMap = new Map();
