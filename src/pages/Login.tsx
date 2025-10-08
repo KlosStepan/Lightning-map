@@ -68,6 +68,8 @@ const Login: React.FC<LoginProps> = ({}) => {
         const email = emailRef.current?.value || "";
         const password = passwordRef.current?.value || "";
 
+        console.log("[Login] Attempting login with:", { email });
+
         if (!email || !password) {
             alert("Please enter both email and password.");
             return;
@@ -78,15 +80,20 @@ const Login: React.FC<LoginProps> = ({}) => {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),
+                credentials: "include"  // Important for HttpOnly cookies
             });
             const data = await response.json();
-            if (response.ok && data.token) {
-                console.log("Token:", data.token);
-                // Save token, redirect, etc.
+            
+            console.log("[Login] Login response:", data);
+            
+            if (response.ok) {
+                // Successful login
+                navigate("/admin/dashboard");
             } else {
                 alert(data.message || "Login failed");
             }
         } catch (error) {
+            console.error("[Login] Network error:", error);
             alert("Network error");
         }
     };
@@ -178,10 +185,7 @@ const Login: React.FC<LoginProps> = ({}) => {
 
                                 <Box component="form" onSubmit={async (e: React.FormEvent) => {
                                     e.preventDefault();
-                                    //const data = new FormData(e.currentTarget);
-                                    //const email = data.get("email") as string;
-                                    //const password = data.get("password") as string;
-                                    //await logInWithEmailAndPassword(email, password);
+                                    await loginUsingEmail();
                                 }} noValidate sx={{ mt: 1 }}>
                                     <Box mt={2}>
                                         <Typography variant="h2" component="h5">Email</Typography>
@@ -223,17 +227,13 @@ const Login: React.FC<LoginProps> = ({}) => {
                                     </Button>*/}
                                     {/*<Box display="flex" justifyContent="middle" mt={2}>*/}
                                     <Box mt={2} display="flex" flexDirection="column" alignItems="center">
-                                    <ButtonUniversal
-                                        title={"Sign In"}
-                                        color={ButtonColor.Pink}
-                                        //color="#F23CFF"
-                                        hoverColor={ButtonColor.PinkHover}
-                                        //hoverColor="#DA16E3"
-                                        textColor="white"
-                                        //actionDelegate={UpdateSpot}
-                                        //disabled={isSaving}
-                                    />
-
+                                        <ButtonUniversal
+                                            title={"Sign In"}
+                                            color={ButtonColor.Pink}
+                                            hoverColor={ButtonColor.PinkHover}
+                                            textColor="white"
+                                            actionDelegate={loginUsingEmail}
+                                        />
                                     </Box>
                                 </Box>
                             </>
