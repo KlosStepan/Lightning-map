@@ -90,6 +90,27 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                     </Box>
                     <Grid item xs={12} md={6}>
                         <Box sx={{ padding: 3 }}>
+                            {/* Display avatar value */}
+                            <Typography variant="h2" component="h5">
+                                Avatar:  {user?.avatar || "No avatar"}
+                            </Typography>
+                            {user?.avatar ? (
+                                <Box sx={{ 
+                                width: 100, 
+                                height: 100, 
+                                borderRadius: '50%',
+                                overflow: 'hidden',
+                                border: '2px solid #eee'
+                                }}>
+                                    <img 
+                                        src={`/avatars/${user.avatar}.png`}
+                                        alt="User Avatar" 
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    />
+                                </Box>
+                            ) : (
+                                <div>No avatar selected</div>
+                            )}
                             <Box mt={2}>
                                 <Typography variant="h2" component="h5">
                                     First Name

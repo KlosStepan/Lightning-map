@@ -62,6 +62,7 @@ const SignUp: React.FC<SignUpProps> = ({}) => {
     const lastName = lastNameRef.current?.value || "";
     const email = emailRef.current?.value || "";
     const password = passwordRef.current?.value || "";
+    const avatar = Math.floor(Math.random() * 12) + 1;
 
     console.log("[SignUp] Attempting registration with:", { firstName, lastName, email, password });
 
@@ -75,7 +76,7 @@ const SignUp: React.FC<SignUpProps> = ({}) => {
       const registerResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ firstName, lastName, email, password }),
+        body: JSON.stringify({ firstName, lastName, email, password, avatar }),
         credentials: "include" // <--- Important for cookies
       });
       const registerData = await registerResponse.json();
