@@ -173,7 +173,7 @@ const ADHome: React.FC<ADHomeProps> = () => {
                                 <Box sx={{ border: '1px solid #ddd', /*padding: 2,*/ height: '100%' }}>
                                     <TileTypeMerchant
                                     caption={item.caption}
-                                    numPlaces={item.numPlaces}
+                                    numPlaces={item.numPlaces || 0}
                                     imageSrc={item.imageSrc}
                                     //imageSrc={"null"}
                                     path={item.path}

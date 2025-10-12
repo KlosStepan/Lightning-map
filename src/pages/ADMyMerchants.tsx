@@ -153,11 +153,19 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = () => {
                             </Grid>
                         </Grid>
                         <Grid container spacing={2}>
-                            {myMerchants?.map((merchant: IMerchantADWrapper, index: number) => (
+                        {myMerchants && myMerchants.length > 0 ? (
+                            myMerchants.map((merchant: IMerchantADWrapper, index: number) => (
                             <Grid xs={12} sm={4} key={index} sx={{ ...dynamicPadding(index) }}>
                                 <TileAddedMerchant likes={likeCountsMap.get(merchant.merchant.properties.id) || 0} merchant={merchant} />
                             </Grid>
-                            ))}
+                            ))
+                        ) : (
+                            <Grid item xs={12}>
+                            <Typography variant="h2" sx={{ color: "#888", textAlign: "center", mt: 4 }}>
+                                No merchants found.
+                            </Typography>
+                            </Grid>
+                        )}
                         </Grid>
                     </Box>
                 </Grid>

@@ -148,16 +148,21 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = () => {
                                 />
                             </Grid>
                         </Grid>
-                        <p style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'Pixgamer', color: '#6B7280', paddingBottom:'2px' }}>
-                            {/*eshops?.length ? eshops?.length : 'X'*/} {/*results*/}
-                        </p>
                         <Grid container spacing={2} sx={{ marginRight: 0, marginLeft: 0 }}>
-                        {myEshops?.map((eshop: IEshopADWrapper, index) => (
-                            <Grid xs={12} sm={4} key={index} sx={isPhone ? {} : { ...dynamicPadding(index) }}>  {/* Apply padding only if not on a phone*/}
+                        {myEshops && myEshops.length > 0 ? (
+                            myEshops.map((eshop: IEshopADWrapper, index: number) => (
+                            <Grid xs={12} sm={4} key={index} sx={isPhone ? {} : { ...dynamicPadding(index) }}>
                                 <TileAddedEshop likes={likeCountsMap.get(eshop.eshop.id) || 0} eshop={eshop} />
                             </Grid>
-                        ))}
-                    </Grid>
+                            ))
+                        ) : (
+                            <Grid item xs={12}>
+                            <Typography variant="h2" sx={{ color: "#888", textAlign: "center", mt: 4 }}>
+                                No e-shops found.
+                            </Typography>
+                            </Grid>
+                        )}
+                        </Grid>
                     </Box>
                 </Grid>
             </Grid>

@@ -57,7 +57,7 @@ const TileTypeMerchant: React.FC<TileTypeMerchantProps> = ({ caption, numPlaces,
                         </div>
                         {/* Text - Top right */}
                         <Typography variant="h3" component="h3" sx={textTopRightStyle}>
-                        {numPlaces ? (
+                        {numPlaces !== null && numPlaces !== undefined ? (
                             <Box
                                 sx={{
                                     display: 'flex',
