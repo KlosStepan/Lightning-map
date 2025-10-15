@@ -178,18 +178,15 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                 <div style={{ fontFamily: 'PixGamer' }}>
                     {user ? (
                         <Link style={{ color: "inherit", textDecoration: "inherit", fontSize: '18px', display: 'flex', alignItems: 'center' }} to="/admin/dashboard">
-                            {/* user.photoURL  &&*/ (
-                                <img 
-                                    //src={user.photoURL} 
-                                    alt={ user?.firstName ?? 'User'} 
-                                    style={{ width: '28px', height: '28px', borderRadius: '50%' }}
-                                />
-                            )}
+                            <img
+                                src={user.avatar ? `/avatars/${user.avatar}.png` : '/avatars/default.png'}
+                                alt={user?.firstName ?? 'User'}
+                                style={{ width: '28px', height: '28px', borderRadius: '50%' }}
+                            />
                             &nbsp;
-                            {' ' +user?.firstName }
+                            {' ' + user?.firstName}
                         </Link>
                     ) : (
-                        // Otherwise, render the IconKey and LOGIN
                         <Link style={{ color: "inherit", textDecoration: "inherit", fontSize: '18px' }} to="/login">
                             <IconKey /> LOGIN
                         </Link>
