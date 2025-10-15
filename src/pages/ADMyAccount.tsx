@@ -23,7 +23,8 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
     const handleClose = () => setOpen(false);
     const theme = useTheme();
     const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
-
+    const debug = useSelector((state: RootState) => state.misc.debug);
+    
     // Get user from Redux
     const user = useSelector((state: RootState) => state.misc.user);
     //
@@ -36,12 +37,15 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
     const lastNameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
-    //
+    // Two extra passwords - Edit
     const currentPasswordRef = useRef<HTMLInputElement>(null);
     const newPasswordRef = useRef<HTMLInputElement>(null);
     const [showCurrentPassword, setShowCurrentPassword] = React.useState(false);
     const [showNewPassword, setShowNewPassword] = React.useState(false);
-    
+    // Add these state hooks at the top of your component
+    const [firstName, setFirstName] = useState(user?.firstName || "");
+    const [lastName, setLastName] = useState(user?.lastName || "");
+
     return (
         <React.Fragment>
             <Grid container>
@@ -68,7 +72,12 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                                             color={ButtonColor.Purple}
                                             hoverColor={ButtonColor.PurpleHover}
                                             textColor="white"
-                                            actionDelegate={() => setEditMode(false)}
+                                            actionDelegate={() => {
+                                                setFirstName(user?.firstName || "");
+                                                setLastName(user?.lastName || "");
+                                                setAvatar(user?.avatar || 1);
+                                                setEditMode(false);
+                                            }}
                                         />
                                         <ButtonUniversal
                                             title="Save changes"
@@ -87,7 +96,10 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                                         color={ButtonColor.Pink}
                                         hoverColor={ButtonColor.PinkHover}
                                         textColor="white"
-                                        actionDelegate={() => setEditMode(true)}
+                                        actionDelegate={() => {
+                                            setAvatar(user?.avatar || 1); // Reset avatar picker to current user avatar
+                                            setEditMode(true);
+                                        }}
                                     />
                                 )}
                             </Grid>
@@ -153,10 +165,9 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                                     First Name
                                 </Typography>
                                 <TextField
-                                    //variant="outlined"
                                     fullWidth
-                                    inputRef={firstNameRef}
-                                    value={user?.firstName || ""}
+                                    value={firstName}
+                                    onChange={e => setFirstName(e.target.value)}
                                     disabled={!editMode}
                                 />
                             </Box>
@@ -165,10 +176,9 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                                     Last Name
                                 </Typography>
                                 <TextField
-                                    //variant="outlined"
                                     fullWidth
-                                    inputRef={lastNameRef}
-                                    value={user?.lastName || ""}
+                                    value={lastName}
+                                    onChange={e => setLastName(e.target.value)}
                                     disabled={!editMode}
                                 />
                             </Box>
@@ -266,6 +276,22 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                                 <>
                                     <span>&nbsp;</span>
                                     <p><u>Delete my account</u></p>
+                                </>
+                            )}
+                            {debug && editMode && (
+                                <>
+                                    <div>&nbsp;</div>
+                                    <div>&lt;DEBUG&gt;</div>
+                                    <span style={{ color: "#888" }}>/api/logintest</span>
+                                    <div>
+                                        {`{email: ${user?.email}, password: ${currentPasswordRef.current?.value || ""}}`}
+                                    </div>
+                                    <div>&nbsp;</div>
+                                    <span style={{ color: "#888" }}>/api/users</span>
+                                    <div>
+                                        {`{firstName: ${firstName}, lastName: ${lastName}, email: ${user?.email}, avatar: ${avatar}, newPassword: ${newPasswordRef.current?.value || ""}}`}
+                                    </div>
+                                    <div>&lt;/DEBUG&gt;</div>
                                 </>
                             )}
                         </Box>
