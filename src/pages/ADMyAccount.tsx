@@ -24,7 +24,7 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
     const theme = useTheme();
     const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
     const debug = useSelector((state: RootState) => state.misc.debug);
-    
+
     // Get user from Redux
     const user = useSelector((state: RootState) => state.misc.user);
     //
@@ -46,6 +46,26 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
     const [firstName, setFirstName] = useState(user?.firstName || "");
     const [lastName, setLastName] = useState(user?.lastName || "");
 
+    // Modal Delete
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+    //
+    const handleOpenDeleteModal = () => setOpenDeleteModal(true);
+    const handleCloseDeleteModal = () => setOpenDeleteModal(false);
+
+    const handleDeleteAccount = async () => {
+        setIsDeleting(true);
+        try {
+            // TODO: Call your API to delete the account
+            // await fetch(...);
+            // Optionally, log out or redirect the user
+            setOpenDeleteModal(false);
+        } catch (error) {
+            // Handle error
+        } finally {
+            setIsDeleting(false);
+        }
+    };
     return (
         <React.Fragment>
             <Grid container>
@@ -274,8 +294,8 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                             {/* Only show delete account when not in edit mode */}
                             {!editMode && (
                                 <>
-                                    <span>&nbsp;</span>
-                                    <p><u>Delete my account</u></p>
+                                    <div>&nbsp;</div>
+                                    <span style={{ cursor: "pointer" }} onClick={handleOpenDeleteModal}><u>Delete my account</u></span>
                                 </>
                             )}
                             {debug && editMode && (
@@ -298,6 +318,50 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                     </Grid>
                 </Grid>
             </Grid>
+            <Modal
+                open={openDeleteModal}
+                onClose={handleCloseDeleteModal}
+                aria-labelledby="modal-delete-account"
+                aria-describedby="modal-delete-account-description"
+                style={{ overflow: 'scroll' }}
+            >
+                <Box
+                    sx={{
+                        borderRadius: '20px',
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: 400,
+                        backgroundColor: 'white',
+                        p: 4,
+                    }}
+                >
+                    <Typography id="modal-delete-account" variant="h1" component="h2">
+                        Delete My Account
+                    </Typography>
+                    <Typography id="modal-delete-account-description" sx={{ mt: 2 }}>
+                        Are you sure you want to delete your account? This action cannot be undone.
+                    </Typography>
+                    <Box display="flex" justifyContent="flex-end" mt={4} gap={2}>
+                        <ButtonUniversal
+                            title="Cancel"
+                            color={ButtonColor.Purple}
+                            hoverColor={ButtonColor.PurpleHover}
+                            textColor="white"
+                            actionDelegate={handleCloseDeleteModal}
+                        />
+                        <ButtonUniversal
+                            title={isDeleting ? "Deleting..." : "Delete"}
+                            color={ButtonColor.Pink}
+                            hoverColor={ButtonColor.PinkHover}
+                            textColor="white"
+                            actionDelegate={handleDeleteAccount}
+                            disabled={isDeleting}
+                        />
+                    </Box>
+                </Box>
+            </Modal>
             {isPhone && <ADMenu/>}
         </React.Fragment>
     );
