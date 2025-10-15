@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 //Components
 import ADMenu from "../components/ADMenu";
+import AvatarCircle from "../components/AvatarCircle";
 import ButtonUniversal from "../components/ButtonUniversal";
 //MUI
 import Typography from '@mui/material/Typography';
@@ -25,6 +26,10 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
 
     // Get user from Redux
     const user = useSelector((state: RootState) => state.misc.user);
+    //
+    const avatarList = [1,2,3,4,5,6,7,8,9,10,11,12,13];
+    const [avatar, setAvatar] = useState<number>(user?.avatar || 1);
+
 
     // Refs for editing
     const firstNameRef = useRef<HTMLInputElement>(null);
@@ -90,27 +95,59 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                     </Box>
                     <Grid item xs={12} md={6}>
                         <Box sx={{ padding: 3 }}>
-                            {/* Display avatar value */}
-                            <Typography variant="h2" component="h5">
-                                Avatar:  {user?.avatar || "No avatar"}
+                        {/* Avatar display and picker */}
+                        <Box mb={2}>
+                        {editMode ? (
+                            <>
+                            {/*<Typography variant="h2" component="h5">
+                                Pick your avatar
                             </Typography>
-                            {user?.avatar ? (
-                                <Box sx={{ 
+                            <Box sx={{ 
+                                width: 100, 
+                                height: 100, 
+                                borderRadius: '50%',
+                                overflow: 'hidden',
+                                border: '2px solid #eee',
+                                mb: 2
+                            }}>
+                                <img 
+                                src={`/avatars/${avatar}.png`}
+                                alt="Selected Avatar" 
+                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                />
+                            </Box>*/}
+                            {/* Avatar picker */}
+                            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mt: 1 }}>
+                                {avatarList.map((avNum) => (
+                                <AvatarCircle
+                                    key={avNum}
+                                    n={avNum}
+                                    fnct={setAvatar}
+                                    selected={avatar === avNum}
+                                />
+                                ))}
+                            </Box>
+                            </>
+                        ) : (
+                            user?.avatar ? (
+                            <Box sx={{ 
                                 width: 100, 
                                 height: 100, 
                                 borderRadius: '50%',
                                 overflow: 'hidden',
                                 border: '2px solid #eee'
-                                }}>
-                                    <img 
-                                        src={`/avatars/${user.avatar}.png`}
-                                        alt="User Avatar" 
-                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                    />
-                                </Box>
+                            }}>
+                                <img 
+                                src={`/avatars/${user.avatar}.png`}
+                                alt="User Avatar" 
+                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                />
+                            </Box>
                             ) : (
-                                <div>No avatar selected</div>
-                            )}
+                            <div>No avatar selected</div>
+                            )
+                        )}
+                        </Box>
                             <Box mt={2}>
                                 <Typography variant="h2" component="h5">
                                     First Name
