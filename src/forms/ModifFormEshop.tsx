@@ -180,6 +180,66 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
         visible: updStatus, //[x] Add->false, Update->true
     });
 
+    const uploadLogo = async (file: File): Promise<{ url: string; fileName: string }> => {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("category", "eshop-logos");
+
+        const res = await fetch(`${apiBaseUrl}/upload`, {
+            method: "POST",
+            body: formData,
+            credentials: "include",
+        });
+        if (!res.ok) throw new Error("Failed to upload logo");
+        return await res.json(); // { url, fileName, size }
+    };
+
+    const AddEshop = async () => {
+        try {
+            setIsAdding(true);
+
+            // Step 1: Upload logo if present
+            let logoFileName = "";
+            if (files.length > 0) {
+                const file = files[0];
+                if (file.size === 0 || !file.type.startsWith("image/")) {
+                    alert("Please select a valid image file.");
+                    setIsAdding(false);
+                    return;
+                }
+                const uploadResult = await uploadLogo(file);
+                logoFileName = uploadResult.fileName;
+            }
+
+            // Step 2: Prepare Eshop data
+            const newEshop = {
+                name: titleRef.current?.value || "",
+                description: descriptionRef.current?.value || "",
+                logoFile: logoFileName, // This is the file name, not the full URL
+                country: "CZ",
+                url: webRef.current?.value || "",
+                visible: false,
+            };
+
+            // Step 3: Send to backend
+            const res = await fetch(`${apiBaseUrl}/eshops/cud`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify(newEshop),
+            });
+            if (!res.ok) throw new Error("Failed to create eshop");
+            const createdEshop = await res.json();
+
+            // Optionally, show success or reload
+            window.location.reload();
+        } catch (error) {
+            console.error("Error adding E-shop: ", error);
+            alert("Error adding E-shop: " + error);
+        } finally {
+            setIsAdding(false);
+        }
+    };
     /*const PrepLogo = async (): Promise<Blob | null> => {
         console.log("prepLogo() called");
     
@@ -350,6 +410,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                         //hoverColor="#DA16E3"
                         textColor="white"
                         //actionDelegate={AddEshop}
+                        actionDelegate={AddEshop}
                         disabled={isAdding}
                     />
                 )}
