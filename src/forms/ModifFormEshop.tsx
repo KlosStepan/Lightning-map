@@ -240,6 +240,65 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
             setIsAdding(false);
         }
     };
+    // ---------- NEW UpdateEshop implementation ----------
+    const UpdateEshop = async (): Promise<void> => {
+        if (!documentid) {
+            console.error("No document ID provided.");
+            return;
+        }
+        try {
+            setIsSaving(true);
+
+            // 1) Possibly upload new logo (if a new file was chosen)
+            let logoUrl = eshop?.logo || ""; // default keep existing logo
+            if (files.length > 0) {
+                const file = files[0];
+                if (file.size === 0 || !file.type.startsWith("image/")) {
+                    alert("Please select a valid image file.");
+                    setIsSaving(false);
+                    return;
+                }
+                const uploadResult = await uploadLogo(file);
+                // backend serves image through /api/image?file=<objectName>
+                logoUrl = `${apiBaseUrl}/image?file=${encodeURIComponent(uploadResult.fileName)}`;
+            } else if (!keepLogo) {
+                // If user chose to remove logo (unchecked keepLogo) and didn't upload new one
+                logoUrl = "";
+            }
+            // 2) Build updated eshop object based on incoming `eshop` and form inputs
+            const updatedEshop = {
+                // preserve fields from existing eshop where appropriate
+                ...(eshop || {}),
+                name: titleRef.current?.value || eshop?.name || "",
+                description: descriptionRef.current?.value || eshop?.description || "",
+                url: webRef.current?.value || eshop?.url || "",
+                logo: logoUrl,
+                visible: true, // editing makes it visible per your WrapEshopData convention
+            };
+
+            // 3) Send PUT to backend (backend expects id in query param)
+            const res = await fetch(`${apiBaseUrl}/eshops/cud?id=${encodeURIComponent(documentid)}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify(updatedEshop),
+            });
+            if (!res.ok) {
+                const text = await res.text().catch(() => "");
+                throw new Error(`Failed to update eshop: ${res.status} ${text}`);
+            }
+            const result = await res.json();
+
+            // 4) Close modal and refresh UI (or update Redux instead)
+            if (FuncCancel) FuncCancel();
+            else window.location.reload();
+        } catch (err) {
+            console.error("Error updating E-shop:", err);
+            alert("Error updating E-shop: " + (err as Error).message);
+        } finally {
+            setIsSaving(false);
+        }
+    };
     /*const PrepLogo = async (): Promise<Blob | null> => {
         console.log("prepLogo() called");
     
