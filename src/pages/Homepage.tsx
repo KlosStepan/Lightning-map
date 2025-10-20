@@ -14,6 +14,8 @@ import { RootState } from "../redux-rtk/store";
 import { useSelector } from 'react-redux';
 //Router
 import { Link } from 'react-router-dom';
+// TypeScript 
+import IEshop from '../ts/IEshop';
 
 //Fake images
 import dummyImg1 from '../img/rectangle_149.png';
@@ -35,6 +37,9 @@ const Homepage: React.FC<HomepageProps> = () => {
     ////console.log("eshops")
     ////console.log(eshops)
 
+    // Count only visible e-shops
+    const visibleEshopsCount = eshops ? eshops.filter((e: IEshop) => e.visible).length : undefined;
+
     return (
         <React.Fragment>
             <React.Fragment>
@@ -49,7 +54,8 @@ const Homepage: React.FC<HomepageProps> = () => {
                     </Box>
                     <HomepageEvidenceSection
                         merchants={merchants ? merchants.length : undefined}
-                        eshops={eshops ? eshops.length : undefined}
+                        //eshops={eshops ? eshops.length : undefined}
+                        eshops={visibleEshopsCount}
                     />
                     <p>&nbsp;</p>
                 </Container>
