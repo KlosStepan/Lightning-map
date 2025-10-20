@@ -178,6 +178,92 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         }
     };
     */
+    const uploadImage = async (file: File, category = "merchants-photos"): Promise<{ url: string; fileName: string }> => {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("category", category);
+
+        const res = await fetch(`${apiBaseUrl}/upload`, {
+            method: "POST",
+            body: formData,
+            credentials: "include",
+        });
+        if (!res.ok) {
+            const txt = await res.text().catch(() => "");
+            throw new Error(`Upload failed: ${res.status} ${txt}`);
+        }
+        return await res.json(); // { url, fileName, size }
+    };
+    //
+    const AddSpot = async (): Promise<void> => {
+        try {
+            setIsAdding(true);
+
+            // Basic validation
+            if (!nameRef.current?.value) {
+                alert("Please enter a title/name.");
+                setIsAdding(false);
+                return;
+            }
+
+            // Validate files (if any)
+            for (const file of files) {
+                if (file.size === 0 || !file.type.startsWith("image/")) {
+                    alert("Please select valid image file(s).");
+                    setIsAdding(false);
+                    return;
+                }
+            }
+
+            // Upload images in parallel and collect fileNames (object names stored in MinIO)
+            const uploaded = await Promise.all(files.map((f) => uploadImage(f, "merchants-photos")).concat([]))
+                .catch((err) => { throw err; });
+
+            const imageFileNames = uploaded.map(u => u.fileName);
+
+            // Convert position [lat, lng] -> [lon, lat] expected by backend
+            const [lat, lon] = position;
+            const coordinates: [number, number] = [lon, lat];
+
+            // Build input object matching backend MerchantInput
+            const merchantInput = {
+                name: nameRef.current?.value || "",
+                description: descriptionRef.current?.value || "",
+                address: {
+                    address: addressRef.current?.value || "",
+                    city: cityRef.current?.value || "",
+                    postalCode: postalCodeRef.current?.value || "",
+                },
+                coordinates,
+                tags: tags || [],
+                socials: socials || [],
+                imageFiles: imageFileNames, // file names returned from /api/upload
+                visible: false, // new spots default hidden
+            };
+
+            // Send to backend
+            const res = await fetch(`${apiBaseUrl}/merchants/cud`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify(merchantInput),
+            });
+            if (!res.ok) {
+                const txt = await res.text().catch(() => "");
+                throw new Error(`Failed to create merchant: ${res.status} ${txt}`);
+            }
+
+            // Option: update Redux instead of full reload. For now close modal or reload.
+            if (FuncCancel) FuncCancel();
+            else window.location.reload();
+        } catch (err) {
+            console.error("AddSpot error:", err);
+            alert("Error adding spot: " + ((err as Error).message || err));
+        } finally {
+            setIsAdding(false);
+        }
+    };
+    //
     const UpdateSpot = () => {
         try {
             setIsSaving(true);
@@ -439,6 +525,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                         //hoverColor="#DA16E3"
                         textColor="white"
                         //actionDelegate={AddSpot}
+                        actionDelegate={AddSpot}
                         disabled={isAdding}
                     />
                 )}
