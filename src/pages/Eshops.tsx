@@ -44,23 +44,13 @@ const Eshops: React.FC<EshopsProps> = () => {
     const [likeCountsMap, setLikeCountsMap] = useState(new Map());
     // Search: searchText <- from <SearchBarVendors .../>, filteredEshops finds searchText in Eshop
     const [searchText, setSearchText] = useState('');
-    const filteredEshops = eshops?.filter((eshop: IEshop) => {
-        const fields = [
-            eshop.name,
-            eshop.description,
-            eshop.country,
-            eshop.url,
-        ];
-
+    const visibleEshops = eshops?.filter((e: IEshop) => e.visible);
+    const filteredEshops = visibleEshops?.filter((eshop: IEshop) => {
+        const fields = [eshop.name, eshop.description, eshop.country, eshop.url];
         const haystack = [
             ...fields,
-            ...fields.map(str =>
-            str.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-            )
-        ]
-            .join(' ')
-            .toLowerCase();
-
+            ...fields.map(str => str.normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
+        ].join(' ').toLowerCase();
         return haystack.includes(searchText.toLowerCase());
     });
     // useEffect, rerenderes on likes, as +1 gets updates locally instantly, then sent to backend 
