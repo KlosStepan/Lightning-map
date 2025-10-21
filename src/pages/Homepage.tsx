@@ -21,6 +21,7 @@ import IEshop from '../ts/IEshop';
 import dummyImg1 from '../img/rectangle_149.png';
 import dummyImg2 from '../img/rectangle_150.png';
 import dummyImg3 from '../img/rectangle_151.png';
+import IMerchant from "../ts/IMerchant";
 
 type HomepageProps = {
     //
@@ -37,6 +38,8 @@ const Homepage: React.FC<HomepageProps> = () => {
     ////console.log("eshops")
     ////console.log(eshops)
 
+    // Count only visible merchants
+    const visibleMerchantsCount = merchants ? merchants.filter((m: IMerchant) => m.properties.visible).length : undefined;
     // Count only visible e-shops
     const visibleEshopsCount = eshops ? eshops.filter((e: IEshop) => e.visible).length : undefined;
 
@@ -53,7 +56,8 @@ const Homepage: React.FC<HomepageProps> = () => {
                         <p>Discover spots and e-shops accepting payments via the Lightning Network and enjoy instant transactions without unnecessary waiting or high fees.</p>
                     </Box>
                     <HomepageEvidenceSection
-                        merchants={merchants ? merchants.length : undefined}
+                        //merchants={merchants ? merchants.length : undefined}
+                        merchants={visibleMerchantsCount}
                         //eshops={eshops ? eshops.length : undefined}
                         eshops={visibleEshopsCount}
                     />

@@ -95,7 +95,9 @@ const MerchantsMap: React.FC<MerchantsMapProps> = () => {
   
     // Function to filter merchants based on active filters + search text
     const [searchText, setSearchText] = useState('');
-    const filteredMerchants = merchants?.filter((merchant: IMerchant) => {
+    // First filter by visible, then apply search and tags
+    const visibleMerchants = merchants?.filter((m: IMerchant) => m.properties.visible);
+    const filteredMerchants = visibleMerchants?.filter((merchant: IMerchant) => {
       const { name, description, owner, tags, socials, address } = merchant.properties;
 
       const fields = [
