@@ -260,10 +260,11 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                 }
                 const uploadResult = await uploadLogo(file);
                 // backend serves image through /api/image?file=<objectName>
-                logoUrl = `${apiBaseUrl}/image?file=${encodeURIComponent(uploadResult.fileName)}`;
+                //logoUrl = `${apiBaseUrl}/image?file=${encodeURIComponent(uploadResult.fileName)}`;
+                logoUrl = uploadResult.fileName;
             } else if (!keepLogo) {
                 // If user chose to remove logo (unchecked keepLogo) and didn't upload new one
-                logoUrl = "";
+                logoUrl = ""; // TODO - show default eshop / merchant (when "", or merchants [])
             }
             // 2) Build updated eshop object based on incoming `eshop` and form inputs
             const updatedEshop = {
@@ -457,7 +458,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                         hoverColor={ButtonColor.PinkHover}
                         //hoverColor="#DA16E3"
                         textColor="white"
-                        //actionDelegate={UpdateEshop}
+                        actionDelegate={UpdateEshop}
                         disabled={isSaving}
                     />
                 ) : (
