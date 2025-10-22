@@ -263,18 +263,72 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
             setIsAdding(false);
         }
     };
-    //
-    const UpdateSpot = () => {
+    const UpdateSpot = async (): Promise<void> => {
+        if (!documentid) {
+            console.error("No document ID provided.");
+            return;
+        }
         try {
             setIsSaving(true);
-            console.log("documentid=", documentid);
-            const updatedSpotWrapped = WrapSpotData({ updStatus: true });
-            console.log("Updating updatedSpotWrapped: ", updatedSpotWrapped);
-            //if(!keepPhotos) {
-            // Upload photos from 'files'
-            //}
-        } catch (error) {
-            console.error("Error adding merchant: ", error);
+
+            // 1) Handle images: upload new if provided, else keep/remove
+            let imageFileNames = merchant?.images || [];
+            if (files.length > 0) {
+                // Validate files
+                for (const file of files) {
+                    if (file.size === 0 || !file.type.startsWith("image/")) {
+                        alert("Please select valid image file(s).");
+                        setIsSaving(false);
+                        return;
+                    }
+                }
+                // Upload new images
+                const uploaded = await Promise.all(
+                    files.map((file) => uploadImage(file, "merchants-photos"))
+                );
+                imageFileNames = uploaded.map(u => u.fileName);
+            } else if (!keepPhotos) {
+                // Remove images if unchecked and no new ones
+                imageFileNames = [];
+            }
+
+            // 2) Build updated merchant payload
+            const [lat, lon] = position;
+            const updatedMerchant = {
+                // preserve fields from existing merchant where appropriate
+                ...(merchant || {}),
+                name: nameRef.current?.value || merchant?.name || "",
+                description: descriptionRef.current?.value || merchant?.description || "",
+                address: {
+                    address: addressRef.current?.value || merchant?.address.address || "",
+                    city: cityRef.current?.value || merchant?.address.city || "",
+                    postalCode: postalCodeRef.current?.value || merchant?.address.postalCode || "",
+                },
+                images: imageFileNames,
+                tags: tags || merchant?.tags || [],
+                socials: socials || merchant?.socials || [],
+                visible: true,
+                coordinates: [lon, lat],
+            };
+
+            // 3) Send PUT to backend
+            const res = await fetch(`${apiBaseUrl}/merchants/cud?id=${encodeURIComponent(documentid)}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify(updatedMerchant),
+            });
+            if (!res.ok) {
+                const txt = await res.text().catch(() => "");
+                throw new Error(`Failed to update merchant: ${res.status} ${txt}`);
+            }
+
+            // 4) Close modal or reload
+            if (FuncCancel) FuncCancel();
+            else window.location.reload();
+        } catch (err) {
+            console.error("Error updating spot:", err);
+            alert("Error updating spot: " + ((err as Error).message || err));
         } finally {
             setIsSaving(false);
         }
