@@ -63,62 +63,53 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
 
     // Redirect Logic
     const [isDeleting, setIsDeleting] = useState(false);
+    // Base URL
+    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
 
     const FuncDelete = async (eshop: IEshopADWrapper, user: any): Promise<void> => {
         // DEBUG info
         if (DEBUG) {
-            console.log("Deleting E-shop with docRef:", eshop.documentid);
+            console.log("Deleting from `eshops` document with `documentid`", eshop.documentid);
         }
-    
-        // Check if the user is the owner of the e-shop
-        /*
-        if (user?.uid !== eshop.eshop.owner) {
-            console.error("You do not have permission to delete this e-shop.");
+
+        // Permission check
+        if (!user || user.id !== eshop.eshop.owner) {
+            alert("You do not have permission to delete this e-shop.");
             return;
         }
-        */
-       
+        if (!window.confirm("Are you sure you want to delete this e-shop?")) return;
+
         // Confirmation before deleting
         const confirmDelete = window.confirm("Are you sure you want to delete this e-shop?");
         if (!confirmDelete) return;
     
-        /*
+        setIsDeleting(true);
         try {
-            // Step 0: Set Deleting true
-            setIsDeleting(true);
-            
-            // Step 1: List all files in 'eshop-logos' directory
-            const logosRef = ref(storage, 'eshop-logos/');
-            const logoList = await listAll(logosRef);
-    
-            // Step 2: Loop through files and delete the ones that match the e-shop's document ID
-            const deletePromises = logoList.items
-                .filter(item => item.name.startsWith(eshop.documentid)) // Match files that start with e-shop document ID
-                .map(item => {
-                    return deleteObject(item).then(() => {
-                        console.log(`Logo ${item.name} deleted successfully.`);
-                    }).catch((error) => {
-                        console.error(`Error deleting logo ${item.name}:`, error);
-                    });
+            // 1. Delete logo from backend storage (MinIO)
+            if (eshop.eshop.logo) {
+                // If logo is a file name (not a full URL), send DELETE to /api/upload or your image delete endpoint
+                const logoFileName = eshop.eshop.logo.startsWith("eshop-logos/")
+                    ? eshop.eshop.logo
+                    : eshop.eshop.logo.split("file=")[1]; // If logo is a URL, extract file name
+                await fetch(`${apiBaseUrl}/upload?file=${encodeURIComponent(logoFileName)}`, {
+                    method: "DELETE",
+                    credentials: "include",
                 });
-    
-            // Wait for all delete operations to complete
-            await Promise.all(deletePromises);
-            console.log(`All logos for E-shop ${eshop.eshop.name} -> ${eshop.documentid} deleted successfully.`);
-    
-            // Step 3: Delete the e-shop document from Firestore
-            const docRef = doc(db, "eshops", eshop.documentid);
-            await deleteDoc(docRef);
-            console.log("E-shop document deleted from Firestore:", eshop.documentid);
-    
-            // Step 4: Reload the page after successful deletion
-            window.location.reload(); // This reloads the page to reflect the changes
-        } catch (error) {
-            console.error("Error deleting e-shop:", error);
+            }
+
+            // 2. Delete e-shop from backend
+            await fetch(`${apiBaseUrl}/eshops/cud?id=${encodeURIComponent(eshop.documentid)}`, {
+                method: "DELETE",
+                credentials: "include",
+            });
+
+            // 3. Reload or update UI
+            window.location.reload();
+        } catch (err) {
+            alert("Error deleting e-shop: " + ((err as Error).message || err));
         } finally {
             setIsDeleting(false);
         }
-        */
     };
     
     return (
