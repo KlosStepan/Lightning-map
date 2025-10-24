@@ -4,10 +4,6 @@ import ButtonUniversal from "../components/ButtonUniversal";
 import TileEshop from './TileEshop';
 //enums
 import { ButtonColor, ButtonSide } from '../enums';
-//Firebase
-//import { db, storage } from "../components/Firebase";
-//import { deleteDoc, doc } from "firebase/firestore";
-//import { deleteObject, ref, listAll } from "firebase/storage";
 //Forms
 import FormEditEshop from '../forms/FormEditEshop';
 //MUI
@@ -17,6 +13,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
 //TypeScript
 import { IEshopADWrapper } from '../ts/IEshop';
+
 //Icons
 import IconEdit from '../icons/ico-btn-edit.png';
 import IconTrash from '../icons/ico-btn-trash.png';
@@ -47,47 +44,45 @@ type TileAddedEshopProps = {
 };
 
 const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
-    // DEBUG
     const DEBUG = useSelector((state: RootState) => state.misc.debug);
+    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
 
-    // Check if the user owns the e-shop (optional, based on user UID)
     const user = useSelector((state: RootState) => state.misc.user);
-    // Modal Edit State
+
+    // Modal I. Edit State
     const [openEdit, setOpenEdit] = React.useState(false);
     const handleOpenEdit = () => setOpenEdit(true);
     const handleCloseEdit = () => setOpenEdit(false);
-    // Modal Delete State
+
+    // Modal II. Delete State
     const [openDelete, setOpenDelete] = React.useState(false);
     const handleOpenDelete = () => setOpenDelete(true);
     const handleCloseDelete = () => setOpenDelete(false);
 
     // Redirect Logic
     const [isDeleting, setIsDeleting] = useState(false);
-    // Base URL
-    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
 
     const FuncDelete = async (eshop: IEshopADWrapper, user: any): Promise<void> => {
         // DEBUG info
         if (DEBUG) {
             console.log("Deleting from `eshops` document with `documentid`", eshop.documentid);
         }
-
-        // Permission check
+        
+        // Check user permission
         if (!user || user.id !== eshop.eshop.owner) {
             alert("You do not have permission to delete this e-shop.");
             return;
         }
         if (!window.confirm("Are you sure you want to delete this e-shop?")) return;
 
-        // Confirmation before deleting
+        // Confirm deletion
         const confirmDelete = window.confirm("Are you sure you want to delete this e-shop?");
         if (!confirmDelete) return;
     
         setIsDeleting(true);
         try {
-            // 1. Delete logo from backend storage (MinIO)
+            // Delete logo from storage
             if (eshop.eshop.logo) {
-                // If logo is a file name (not a full URL), send DELETE to /api/upload or your image delete endpoint
                 const logoFileName = eshop.eshop.logo.startsWith("eshop-logos/")
                     ? eshop.eshop.logo
                     : eshop.eshop.logo.split("file=")[1]; // If logo is a URL, extract file name
@@ -97,15 +92,16 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
                 });
             }
 
-            // 2. Delete e-shop from backend
+            // Delete e-shop from backend
             await fetch(`${apiBaseUrl}/eshops/cud?id=${encodeURIComponent(eshop.documentid)}`, {
                 method: "DELETE",
                 credentials: "include",
             });
 
-            // 3. Reload or update UI
+            // Reload UI
             window.location.reload();
         } catch (err) {
+            console.error("Error deleting e-shop:", err);
             alert("Error deleting e-shop: " + ((err as Error).message || err));
         } finally {
             setIsDeleting(false);
@@ -125,9 +121,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
                     side={ButtonSide.Right}
                     title="Edit"
                     color={ButtonColor.Pink}
-                    //color="#F23CFF"
                     hoverColor={ButtonColor.PinkHover}
-                    //hoverColor="#DA16E3"
                     textColor="white"
                     actionDelegate={handleOpenEdit}
                 />{' '}
@@ -137,14 +131,12 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
                     side={ButtonSide.Right}
                     title="Delete"
                     color={ButtonColor.Purple}
-                    //color="#8000FF"
                     hoverColor={ButtonColor.PurpleHover}
-                    //hoverColor="#6603C9"
                     textColor="white"
                     actionDelegate={handleOpenDelete}
                 />
             </Box>
-            {/* Modal 1/2 - Edit Eshop (FormEditEshop edit=true, eshop={tile} vv /drill-down tile) */}
+            {/* MODAL I - EDIT eshop (FormEditEshop edit=true, eshop={tile} vv //drill down eshop tile) */}
             <Modal
                 open={openEdit}
                 onClose={handleCloseEdit}
@@ -156,11 +148,11 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
                     <FormEditEshop 
                         closeModal={handleCloseEdit} 
                         eshop={eshop.eshop} 
-                        documentid={eshop.documentid} // ✅ Pass document ID
+                        documentid={eshop.documentid}
                     />
                 </Box>
             </Modal>
-            {/* Modal 2/2 - Delete Eshop (popup w/ function to DEL stuff) */}
+            {/* MODAL II - DELETE eshop (popup w/ function to DELETE logo+eshop) */}
             <Modal open={openDelete} onClose={handleCloseDelete} style={{overflow: 'scroll'}}>
                 <Box
                     style={{
@@ -204,18 +196,14 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
                         <ButtonUniversal 
                             title="Cancel" 
                             color={ButtonColor.Purple}
-                            //color="#8000FF"
                             hoverColor={ButtonColor.PurpleHover}
-                            //hoverColor="#6603C9"
                             textColor="white" 
                             actionDelegate={handleCloseDelete} 
                         />
                         <ButtonUniversal
                             title={isDeleting ? "Deleting ..." : "Delete"}
                             color={ButtonColor.Pink}
-                            //color="#F23CFF"
                             hoverColor={ButtonColor.PinkHover}
-                            //hoverColor="#DA16E3"
                             textColor="white"
                             actionDelegate={ () => { FuncDelete(eshop, user); } }
                             disabled={isDeleting}
