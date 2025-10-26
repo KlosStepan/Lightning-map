@@ -1,24 +1,29 @@
 import React, { useEffect, useState } from "react";
-// Components
+//Components
 import ADMenu from "../components/ADMenu";
-//Redux+RTK
-import { useSelector } from "react-redux";
-// MUI
+//MUI
 import Typography from '@mui/material/Typography';
 import { Grid, Box, useMediaQuery, useTheme, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-// TypeScript
-import ILike from "../ts/ILike";
+//Redux+RTK
+import { useSelector } from "react-redux";
 import { RootState } from "../redux-rtk/store";
-//
-import dummyLikes from '../dummy/likes.json';
+//TypeScript
+import ILike from "../ts/ILike";
+import IEshop from "../ts/IEshop";
+import IMerchant from "../ts/IMerchant";
 
-const ADLikes: React.FC = () => {
-    // Phone detection
+type ADLikesProps = {
+//
+};
+
+const ADLikes: React.FC<ADLikesProps> = () => {
+    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
     const theme = useTheme();
     const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
-    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
 
     const [likes, setLikes] = useState<ILike[]>([]);
+    const [merchants, setMerchants] = useState<IMerchant[]>([]);
+    const [eshops, setEshops] = useState<IEshop[]>([]);
 
     useEffect(() => {
         const fetchLikes = async () => {
@@ -40,8 +45,42 @@ const ADLikes: React.FC = () => {
                 console.error("Error fetching likes:", error);
             }
         };
-        fetchLikes();
+        //fetchLikes();
+        const fetchAll = async () => {
+            try {
+                const [likesRes, merchantsRes, eshopsRes] = await Promise.all([
+                    fetch(`${apiBaseUrl}/likes`),
+                    fetch(`${apiBaseUrl}/merchants`),
+                    fetch(`${apiBaseUrl}/eshops`),
+                ]);
+                if (!likesRes.ok || !merchantsRes.ok || !eshopsRes.ok) throw new Error("Failed to fetch data");
+                const likesData = await likesRes.json();
+                const merchantsData = await merchantsRes.json();
+                const eshopsData = await eshopsRes.json();
+                setLikes(likesData.map((l: any) => ({
+                    id: l.id,
+                    owner: l.owner,
+                    entityId: l.entityId,
+                    entityType: l.entityType,
+                    createdAt: l.createdAt,
+                })));
+                setMerchants(merchantsData);
+                setEshops(eshopsData);
+            } catch (error) {
+                console.error("Error fetching likes/merchants/eshops:", error);
+            }
+        };
+        fetchAll();
     }, [apiBaseUrl]);
+
+    // Lookup maps
+    const merchantMap = React.useMemo(() => new Map(merchants.map(m => [m.properties.id, m.properties.name])), [merchants]);
+    const eshopMap = React.useMemo(() => new Map(eshops.map(e => [e.id, e.name])), [eshops]);
+    const getVendorName = (entityId: string, entityType: string) => {
+        if (entityType === "merchant") return merchantMap.get(entityId) || entityId;
+        if (entityType === "eshop") return eshopMap.get(entityId) || entityId;
+        return entityId;
+    };
 
     return (
         <React.Fragment>
@@ -56,27 +95,29 @@ const ADLikes: React.FC = () => {
                 <Grid item md={9} xs={12}>
                     <Box sx={{ padding: 3 }}>
                         <Typography variant="h1" component="h1">
-                            Likes (🗲) - Listing
+                            Likes (🗲) &nbsp; Listing
                         </Typography>
                         <TableContainer component={Paper} sx={{ marginTop: 2 }}>
                             <Table>
                                 <TableHead>
                                     <TableRow>
                                         <TableCell><b>User ID</b></TableCell>
-                                        <TableCell><b>Vendor ID</b></TableCell>
+                                        <TableCell><b>Vendor name</b></TableCell>
                                         <TableCell><b>Type</b></TableCell>
-                                        <TableCell><b>Timestamp</b></TableCell>
+                                        <TableCell><b>Timestamp vv</b></TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {likes.map((like, index) => (
-                                        <TableRow key={index}>
-                                            <TableCell>{like.owner}</TableCell>
-                                            <TableCell>{like.entityId}</TableCell>
-                                            <TableCell>{like.entityType}</TableCell>
-                                            <TableCell>{new Date(like.createdAt).toLocaleString()}</TableCell>
-                                        </TableRow>
-                                    ))}
+                                    {[...likes]
+                                        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                                        .map((like, index) => (
+                                            <TableRow key={index}>
+                                                <TableCell>{like.owner}</TableCell>
+                                                <TableCell>{getVendorName(like.entityId, like.entityType)}</TableCell>
+                                                <TableCell>{like.entityType}</TableCell>
+                                                <TableCell>{new Date(like.createdAt).toLocaleString()}</TableCell>
+                                            </TableRow>
+                                        ))}
                                 </TableBody>
                             </Table>
                         </TableContainer>
