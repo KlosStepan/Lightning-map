@@ -2,14 +2,7 @@ import React, { useEffect } from "react";
 //Components
 import MenuHeader from './components/MenuHeader';
 import ProtectedRoute from './components/ProtectedRoute';
-//Firebase
-//import { User, onAuthStateChanged } from "firebase/auth";
-//import { collection, DocumentData, Firestore, getDocs, query, QuerySnapshot, where } from "firebase/firestore";
-//import { auth, db } from "./components/Firebase";
-import dummyEshops from './dummy/eshops.json';
-import dummyMerchants from './dummy/merchants.json';
-import dummyLikes from './dummy/likes.json';
-import dummyReports from './dummy/reports.json';
+import LoginProxyForgotPassword from "./pages/LoginProxyForgotPassword";
 //Pages
 import Homepage from './pages/Homepage';
 import MerchantsMap from './pages/MerchantsMap';
@@ -33,7 +26,7 @@ import AppBar from '@mui/material/AppBar';
 import { Container, CssBaseline } from "@mui/material";
 import { Grid } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-//Redux
+//Redux+RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "./redux-rtk/store";
 import { setMerchants, setEshops, setLikes } from './redux-rtk/dataSlice';
@@ -44,9 +37,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ILink from './ts/ILink';
 import UIKit from "./pages/UIKit";
 import SignUp from "./pages/SignUp";
-import LoginProxyTest from "./pages/LoginProxyTest";
-import LoginProxyForgotPassword from "./pages/LoginProxyForgotPassword";
-import IMerchant from "./ts/IMerchant";
 
 // Website menu
 const pages: ILink[] = [
@@ -62,17 +52,17 @@ const pages: ILink[] = [
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function App() {
-    const dispatch = useDispatch();
-    //Debug
-    const debug = useSelector((state: RootState) => state.misc.debug)    
-    //Call all hooks at the top level of the website
-    const theme = useTheme();
+    const DEBUG = useSelector((state: RootState) => state.misc.debug)    
     const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
+    //
     const merchants = useSelector((state: RootState) => state.data.merchants);
     const eshops = useSelector((state: RootState) => state.data.eshops);
     const likes = useSelector((state: RootState) => state.data.likes);
     //
-    if (debug) {
+    const dispatch = useDispatch();
+    const theme = useTheme();
+
+    if (DEBUG) {
         console.log("<DEBUG> App.tsx");
         console.log("theme", theme);
         console.log("merchants", merchants);
@@ -82,11 +72,6 @@ function App() {
     }
 
     useEffect(() => {
-        //dispatch(setMerchants(dummyMerchants as IMerchant[]));
-        //dispatch(setEshops(dummyEshops));
-        //dispatch(setLikes(dummyLikes)); // Optionally, provide dummy likes array
-
-        //const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080/api";
         const getMerchants = async () => {
             const res = await fetch(`${apiBaseUrl}/merchants`);
             const merchants = await res.json();
@@ -102,52 +87,30 @@ function App() {
             const likes = await res.json();
             dispatch(setLikes(likes));
         };
+        //
+        const checkAuth = async () => {
+            try {
+                const res = await fetch(`${apiBaseUrl}/logintest`, {
+                    method: "GET",
+                    credentials: "include",
+                });
+                if (res.ok) {
+                    const user = await res.json();
+                    dispatch(setUser(user));
+                } else {
+                    dispatch(setUser(null));
+                }
+            } catch (err) {
+                dispatch(setUser(null));
+            }
+        };
+
         getMerchants();
         getEshops();
         getLikes();
-
-        /*
-        const getMerchants = async (db: Firestore) => {
-            const merchantsSnapshot: QuerySnapshot<DocumentData> = await getDocs(query(collection(db, 'merchants'), where('properties.visible', '==', true)));
-            const merchantsList = merchantsSnapshot.docs.map((doc: any) => doc.data());
-            //console.log("merchantsList");
-            //console.log(merchantsList);
-            dispatch(setMerchants(merchantsList));
-        }
-        const getEshopsCZ = async (db: Firestore) => {
-            const eshopsCZSnapshot: QuerySnapshot<DocumentData> = await getDocs(query(collection(db, 'eshops'), where('visible', '==', true)));
-            const listsEshopsCZ = eshopsCZSnapshot.docs.map((doc: any) => doc.data());
-            //console.log("listsEshops");
-            //console.log(listsEshopsCZ);
-            dispatch(setEshops(listsEshopsCZ));
-        }
-        const getLikes = async (db: Firestore) => {
-            const likesSnapshot: QuerySnapshot<DocumentData> = await getDocs(query(collection(db, "likes"))); // No filters
-            const likesList = likesSnapshot.docs.map((doc: any) => doc.data());
-            //console.log("likesList");
-            //console.log(likesList);
-            dispatch(setLikes(likesList));
-        };
-
-        getMerchants(db);
-        getEshopsCZ(db);
-        getLikes(db);
-
-        // Listen for changes in Firebase auth state
-        const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
-            if (user) {
-                // User is signed in, set the user in Redux state
-                dispatch(setUser(user));
-            } else {
-                // User is signed out, unset the user in Redux state
-                dispatch(setUser(null));
-            }
-        });
-
-        return () => unsubscribe();
-        */
-    }, [dispatch, apiBaseUrl])
-    //}, [])
+        //
+        checkAuth();
+    }, [dispatch, apiBaseUrl]);
 
     return (
         <Router>
