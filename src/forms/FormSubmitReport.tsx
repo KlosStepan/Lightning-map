@@ -28,7 +28,9 @@ type FormSubmitReportProps = {
 
 const FormSubmitReport: React.FC<FormSubmitReportProps> = ({ closeModal, tile }) => {
     //
+    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
     const user = useSelector((state: RootState) => state.misc.user);
+    const DEBUG = useSelector((state: RootState) => state.misc.debug);
 
     const reportRef = useRef<HTMLInputElement>(null);
     /*
@@ -56,6 +58,38 @@ const FormSubmitReport: React.FC<FormSubmitReportProps> = ({ closeModal, tile })
         }
     };
     */
+    const SubmitReport = async () => {
+        if (!user) {
+            alert("You must be logged in to submit a report.");
+            return;
+        }
+        try {
+            const entityType = "logo" in tile ? "eshop" : "merchant";
+            const reportData = {
+                entityId: tile.id,
+                entityType,
+                owner: user.id,
+                reason: reportRef.current?.value || "",
+            };
+            if (DEBUG) {
+                console.log(`[report] ${entityType} (id=${tile.id}) by user '${user.id}' reason: "${reportData.reason}"`);
+            }
+            const res = await fetch(`${apiBaseUrl}/reports/cud`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify(reportData),
+            });
+            if (!res.ok) {
+                const txt = await res.text().catch(() => "");
+                throw new Error(`Failed to submit report: ${res.status} ${txt}`);
+            }
+            if (closeModal) closeModal();
+            alert("Report submitted. Thank you!");
+        } catch (err) {
+            alert("Error submitting report: " + ((err as Error).message || err));
+        }
+    };
     return (
         <React.Fragment>
             <Box sx={modalContainerStyle}>
@@ -97,11 +131,9 @@ const FormSubmitReport: React.FC<FormSubmitReportProps> = ({ closeModal, tile })
                     <ButtonUniversal
                         title="Submit"
                         color={ButtonColor.Purple}
-                        //color="#F23CFF"
                         hoverColor={ButtonColor.PurpleHover}
-                        //hoverColor="#DA16E3"
                         textColor="white"
-                        //actionDelegate={SubmitReport}
+                        actionDelegate={SubmitReport}
                     />
                 </Box>
             </Box>
