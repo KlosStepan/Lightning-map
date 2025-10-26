@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 // Components
 import ADMenu from "../components/ADMenu";
-//Firebase
-//import { collection, getDocs } from "firebase/firestore";
-//import { db } from "../components/Firebase";
+//Redux+RTK
+import { useSelector } from "react-redux";
 // MUI
 import Typography from '@mui/material/Typography';
 import { Grid, Box, useMediaQuery, useTheme, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 // TypeScript
 import ILike from "../ts/ILike";
+import { RootState } from "../redux-rtk/store";
 //
 import dummyLikes from '../dummy/likes.json';
 
@@ -16,31 +16,32 @@ const ADLikes: React.FC = () => {
     // Phone detection
     const theme = useTheme();
     const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
+    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
 
     const [likes, setLikes] = useState<ILike[]>([]);
 
     useEffect(() => {
-        /*
         const fetchLikes = async () => {
             try {
-                const querySnapshot = await getDocs(collection(db, "likes"));
-                const fetchedLikes: ILike[] = querySnapshot.docs.map(doc => ({
-                    userid: doc.data().userid,
-                    vendorid: doc.data().vendorid,
-                    timestamp: doc.data().timestamp instanceof Object
-                        ? doc.data().timestamp.seconds * 1000  // Convert Firestore Timestamp
-                        : doc.data().timestamp || 0, // Raw number fallback
-                }));
-                setLikes(fetchedLikes);
+                const res = await fetch(`${apiBaseUrl}/likes`, {
+                    method: "GET",
+                    credentials: "include",
+                });
+                if (!res.ok) throw new Error("Failed to fetch likes");
+                const data = await res.json();
+                setLikes(data.map((l: any) => ({
+                    id: l.id,
+                    owner: l.owner,
+                    entityId: l.entityId,
+                    entityType: l.entityType,
+                    createdAt: l.createdAt,
+                })));
             } catch (error) {
                 console.error("Error fetching likes:", error);
             }
         };
-
         fetchLikes();
-        */
-        //setLikes(dummyLikes as ILike[]);
-    }, []);
+    }, [apiBaseUrl]);
 
     return (
         <React.Fragment>
@@ -63,14 +64,16 @@ const ADLikes: React.FC = () => {
                                     <TableRow>
                                         <TableCell><b>User ID</b></TableCell>
                                         <TableCell><b>Vendor ID</b></TableCell>
+                                        <TableCell><b>Type</b></TableCell>
                                         <TableCell><b>Timestamp</b></TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {likes.map((like, index) => (
                                         <TableRow key={index}>
-                                            <TableCell>{like.id}</TableCell>
+                                            <TableCell>{like.owner}</TableCell>
                                             <TableCell>{like.entityId}</TableCell>
+                                            <TableCell>{like.entityType}</TableCell>
                                             <TableCell>{new Date(like.createdAt).toLocaleString()}</TableCell>
                                         </TableRow>
                                     ))}
