@@ -5,20 +5,17 @@ import TagMerchant from "./TagMerchant";
 import TagSocialLink from "./TagSocialLink";
 //enums
 import { ButtonColor, ButtonSide } from "../enums";
-//Firebase
-//import { collection, addDoc, deleteDoc, query, where, getDocs } from "firebase/firestore";
-//import { serverTimestamp } from "firebase/firestore";
-//import { db } from "../components/Firebase";
 //MUI
 import Box from '@mui/material/Box';
 import Modal from "@mui/material/Modal";
 import { CardMedia, Container, Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { useMediaQuery, useTheme } from "@mui/material";
-//Redux
+//Redux+RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
 import { setSelected } from "../redux-rtk/mapFilteringSlice";
+import { setLikes } from "../redux-rtk/dataSlice";
 //Router
 import {  useNavigate } from "react-router-dom";
 //TypeScript
@@ -68,15 +65,15 @@ type TileMerchantBigProps = {
 };
 
 const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLikeChange = async () => {} }) => {
+    const DEBUG = useSelector((state: RootState) => state.misc.debug);
+    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
+    const user = useSelector((state: RootState) => state.misc.user);
+    //
     const navigate = useNavigate();
     const dispatch = useDispatch();
     //
-    const user = useSelector((state: RootState) => state.misc.user);
-    //
-    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
-
     //tmp debug; mby TODO clicked other - reset state of this to default false
-    const [voted, setVoted] = useState<boolean>(false);
+    //const [voted, setVoted] = useState<boolean>(false);
 
     //Gallery impl.
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -89,6 +86,81 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
         );
     };
     //Gallery impl.
+
+    // FIX: Move likes selector here!
+    const likesArr = useSelector((state: RootState) => state.data.likes) ?? [];
+
+    const [voted, setVoted] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (!user) return;
+        setVoted(false);
+        const found = likesArr.find(
+            (like) =>
+                like.entityId === tile.id &&
+                like.entityType === "merchant" &&
+                like.owner === user.id
+        );
+        if (found) setVoted(true);
+    }, [user, tile.id, likesArr]);
+
+    const SwapLike = async () => {
+        if (!user) {
+            navigate("/login");
+            return;
+        }
+        try {
+            const existingLike = likesArr.find(
+                (like) =>
+                    like.entityId === tile.id &&
+                    like.entityType === "merchant" &&
+                    like.owner === user.id
+            );
+            if (existingLike && existingLike.id) {
+                const res = await fetch(`${apiBaseUrl}/likes/cud?id=${existingLike.id}`, {
+                    method: "DELETE",
+                    credentials: "include",
+                });
+                if (!res.ok) {
+                    const txt = await res.text().catch(() => "");
+                    throw new Error(`Failed to unlike: ${res.status} ${txt}`);
+                }
+                if (DEBUG) {
+                    console.log(`[like] -1 (y) merchant (id=${tile.id}) by user '${user.id}'`);
+                }
+                setVoted(false);
+                handleLikeChange(tile.id, -1);
+                // Remove like locally
+                dispatch(setLikes(likesArr.filter(like => like.id !== existingLike.id)));
+            } else {
+                const res = await fetch(`${apiBaseUrl}/likes/cud`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "include",
+                    body: JSON.stringify({
+                        owner: user.id,
+                        entityId: tile.id,
+                        entityType: "merchant",
+                    }),
+                });
+                if (!res.ok) {
+                    const txt = await res.text().catch(() => "");
+                    throw new Error(`Failed to like: ${res.status} ${txt}`);
+                }
+                const newLike = await res.json();
+                if (DEBUG) {
+                    console.log(`[like] +1 (y) merchant (id=${tile.id}) by user '${user.id}'`);
+                }
+                setVoted(true);
+                handleLikeChange(tile.id, 1);
+                // Add like locally
+                dispatch(setLikes([...likesArr, newLike]));
+            }
+        } catch (err) {
+            console.error("SwapLike error:", err);
+            alert("Error: " + ((err as Error).message || err));
+        }
+    };
 
     /*
     // ✅ Check if user has already liked this vendor
@@ -142,6 +214,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
         }
     };
     */
+
     const FuncReport = (): Promise<void> => {
         console.log("Report merchant");
         if(!user) {
@@ -259,16 +332,14 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                                         hoverColor={ButtonColor.LightningHover}
                                         textColor={voted ? ButtonColor.White : ButtonColor.Black}
                                         hoverTextColor={voted ? ButtonColor.Black : ButtonColor.Black}
-                                        //actionDelegate={SwapLike}
+                                        actionDelegate={SwapLike}
                                     />
                                     <span>&nbsp; &nbsp;</span>
                                     <ButtonUniversal
                                         side={ButtonSide.Left}
                                         title="Navigate"
                                         color={ButtonColor.Pink}
-                                        //color="#F23CFF"
                                         hoverColor={ButtonColor.PinkHover}
-                                        //hoverColor="#DA16E3"
                                         textColor="white"
                                         actionDelegate={() => console.log("TODO NAVIGATE funct()")}
                                     />
