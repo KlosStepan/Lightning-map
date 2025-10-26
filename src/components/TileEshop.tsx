@@ -3,10 +3,6 @@ import React, { useState, useEffect } from "react";
 import ButtonUniversal from "./ButtonUniversal";
 //enums
 import { ButtonColor, ButtonSide } from "../enums";
-//Firebase
-//import { collection, addDoc, deleteDoc, query, where, getDocs } from "firebase/firestore";
-//import { serverTimestamp } from "firebase/firestore";
-//import { db } from "../components/Firebase";
 //Forms
 import FormSubmitReport from "../forms/FormSubmitReport";
 //MUI
@@ -14,9 +10,10 @@ import Box from '@mui/material/Box';
 import Modal from "@mui/material/Modal";
 import { CardMedia, Container } from '@mui/material';
 import Typography from '@mui/material/Typography';
-//Redux
-import { useSelector } from 'react-redux';
+//Redux+RTK
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
+import { setLikes } from "../redux-rtk/dataSlice";
 //Router
 import {  useNavigate } from "react-router-dom";
 //TypeScript
@@ -49,70 +46,85 @@ type TileEshopProps = {
     tile: IEshop;
     showReportButton?: boolean;
     handleLikeChange?: (vendorid: string, change: number) => Promise<void>;
-
 };
-const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = true, handleLikeChange = async () => {} }) => {
-    const navigate = useNavigate();
-    //
-    const user = useSelector((state: RootState) => state.misc.user);
-    //
-    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
 
-    //tmp debug; mby TODO clicked other - reset state of this to default false
+const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = true, handleLikeChange = async () => {} }) => {
+    const DEBUG = useSelector((state: RootState) => state.misc.debug);
+    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
+    const user = useSelector((state: RootState) => state.misc.user);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const likesArr = useSelector((state: RootState) => state.data.likes) ?? [];
     const [voted, setVoted] = useState<boolean>(false);
 
-    /*
-    // ✅ Check if user has already liked this vendor
     useEffect(() => {
-        if (!user) return; // Skip if user is not logged in
+        if (!user) return;
+        setVoted(false);
+        const found = likesArr.find(
+            (like) =>
+                like.entityId === tile.id &&
+                like.entityType === "eshop" &&
+                like.owner === user.id
+        );
+        if (found) setVoted(true);
+    }, [user, tile.id, likesArr]);
 
-        const checkLike = async () => {
-            const likeRef = collection(db, "likes");
-            const q = query(likeRef, where("userid", "==", user.uid), where("vendorid", "==", tile.id));
-            const querySnapshot = await getDocs(q);
-
-            if (!querySnapshot.empty) {
-                setVoted(true);
-            }
-        };
-
-        checkLike();
-    }, [user, tile.id]);
-    */
-    /*
     const SwapLike = async () => {
         if (!user) {
             navigate("/login");
             return;
         }
-    
-        const likeRef = collection(db, "likes");
-        const q = query(likeRef, where("userid", "==", user.uid), where("vendorid", "==", tile.id));
-        const querySnapshot = await getDocs(q);
-    
-        if (!querySnapshot.empty) {
-            // ❌ Unlike: Delete the specific like document (userid + vendorid pair)
-            const deletePromises = querySnapshot.docs.map((docSnap) => deleteDoc(docSnap.ref));
-            await Promise.all(deletePromises);
-            setVoted(false);
-
-            // 🔽 Call local function to decrement likes
-            handleLikeChange(tile.id, -1);
-        } else {
-            // ✅ Like: Add a new like document
-            await addDoc(likeRef, {
-                userid: user.uid,
-                vendorid: tile.id,
-                timestamp: serverTimestamp(), // Store Firestore timestamp
-            });
-            setVoted(true);
-
-            // 🔼 Call local function to increment likes
-            handleLikeChange(tile.id, 1);
+        try {
+            const existingLike = likesArr.find(
+                (like) =>
+                    like.entityId === tile.id &&
+                    like.entityType === "eshop" &&
+                    like.owner === user.id
+            );
+            if (existingLike && existingLike.id) {
+                const res = await fetch(`${apiBaseUrl}/likes/cud?id=${existingLike.id}`, {
+                    method: "DELETE",
+                    credentials: "include",
+                });
+                if (!res.ok) {
+                    const txt = await res.text().catch(() => "");
+                    throw new Error(`Failed to unlike: ${res.status} ${txt}`);
+                }
+                if (DEBUG) {
+                    console.log(`[like] -1 (y) eshop (id=${tile.id}) by user '${user.id}'`);
+                }
+                setVoted(false);
+                handleLikeChange(tile.id, -1);
+                dispatch(setLikes(likesArr.filter(like => like.id !== existingLike.id)));
+            } else {
+                const res = await fetch(`${apiBaseUrl}/likes/cud`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "include",
+                    body: JSON.stringify({
+                        owner: user.id,
+                        entityId: tile.id,
+                        entityType: "eshop",
+                    }),
+                });
+                if (!res.ok) {
+                    const txt = await res.text().catch(() => "");
+                    throw new Error(`Failed to like: ${res.status} ${txt}`);
+                }
+                const newLike = await res.json();
+                if (DEBUG) {
+                    console.log(`[like] +1 (y) eshop (id=${tile.id}) by user '${user.id}'`);
+                }
+                setVoted(true);
+                handleLikeChange(tile.id, 1);
+                dispatch(setLikes([...likesArr, newLike]));
+            }
+        } catch (err) {
+            console.error("SwapLike error:", err);
+            alert("Error: " + ((err as Error).message || err));
         }
     };
-    */
-    //
+
     const FuncReport = (): Promise<void> => {
         console.log("Report merchant");
         if(!user) {
@@ -124,6 +136,7 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
           }
         return Promise.resolve();
     };
+
     // Modal State
     const [openReportE, setOpenReportE] = React.useState(false);
     const handleOpenReportE = () => setOpenReportE(true);
@@ -140,9 +153,7 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
                                     side={ButtonSide.Left}
                                     title="R."
                                     color={ButtonColor.White}
-                                    //color="white"
                                     hoverColor={ButtonColor.ReportHover}
-                                    //hoverColor="#6B7280"
                                     textColor="#BEBEBE"
                                     actionDelegate={FuncReport}
                                     scale={0.75}
@@ -155,12 +166,10 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
                                 icon={voted ? IconLightningWhite : IconLightningPurple}
                                 side={ButtonSide.Left}
                                 title={likes}
-                                //color={voted ? "#D9D9D9" : "#F0F0F0"} // Darker when clicked
                                 color={voted ? ButtonColor.LightningActive : ButtonColor.LightningDefault}
                                 hoverColor={ButtonColor.LightningHover}
-                                //hoverColor="green"
                                 textColor={voted ? ButtonColor.White : ButtonColor.Black}
-                                //actionDelegate={SwapLike}
+                                actionDelegate={SwapLike}
                                 scale={0.75}
                             />) : <IconLightningNumber number={likes} scale={1} /> }
                         </div>
