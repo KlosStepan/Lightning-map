@@ -1,7 +1,10 @@
 interface IReport {
-    vendorid: string
-    userid: string
-    timestamp: string
-    report: string | undefined
+    id: string;
+    vendorid: string;
+    userid: string;
+    entityType: string;
+    reason: string;
+    timestamp: string;
+    report?: string; // Optional, for compatibility
 }
 export default IReport;
