@@ -72,9 +72,6 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
     const navigate = useNavigate();
     const dispatch = useDispatch();
     //
-    //tmp debug; mby TODO clicked other - reset state of this to default false
-    //const [voted, setVoted] = useState<boolean>(false);
-
     //Gallery impl.
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const handleNextImage = () => {
@@ -87,7 +84,6 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
     };
     //Gallery impl.
 
-    // FIX: Move likes selector here!
     const likesArr = useSelector((state: RootState) => state.data.likes) ?? [];
 
     const [voted, setVoted] = useState<boolean>(false);
@@ -161,59 +157,6 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
             alert("Error: " + ((err as Error).message || err));
         }
     };
-
-    /*
-    // ✅ Check if user has already liked this vendor
-    useEffect(() => {
-        if (!user) return; // Skip if user is not logged in
-        setVoted(false);
-        const checkLike = async () => {
-            const likeRef = collection(db, "likes");
-            const q = query(likeRef, where("userid", "==", user.uid), where("vendorid", "==", tile.id));
-            const querySnapshot = await getDocs(q);
-
-            if (!querySnapshot.empty) {
-                setVoted(true);
-            }
-        };
-
-        checkLike();
-    }, [user, tile.id]);
-    */
-    /*
-    const SwapLike = async () => {
-        if (!user) {
-            navigate("/login");
-            return;
-        }
-    
-        const likeRef = collection(db, "likes");
-        const q = query(likeRef, where("userid", "==", user.uid), where("vendorid", "==", tile.id));
-        const querySnapshot = await getDocs(q);
-    
-        if (!querySnapshot.empty) {
-            // ❌ Unlike: Delete the specific like document (userid + vendorid pair)
-            const deletePromises = querySnapshot.docs.map((docSnap) => deleteDoc(docSnap.ref));
-            await Promise.all(deletePromises);
-            setVoted(false);
-
-            // 🔽 Call local function to decrement likes
-            handleLikeChange(tile.id, -1);
-
-        } else {
-            // ✅ Like: Add a new like document
-            await addDoc(likeRef, {
-                userid: user.uid,
-                vendorid: tile.id,
-                timestamp: serverTimestamp(), // Store Firestore timestamp
-            });
-            setVoted(true);
-
-            // 🔼 Call local function to increment likes
-            handleLikeChange(tile.id, 1);
-        }
-    };
-    */
 
     const FuncReport = (): Promise<void> => {
         console.log("Report merchant");
