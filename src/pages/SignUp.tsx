@@ -61,23 +61,22 @@ const SignUp: React.FC<SignUpProps> = ({}) => {
     const firstName = firstNameRef.current?.value || "";
     const lastName = lastNameRef.current?.value || "";
     const email = emailRef.current?.value || "";
-    const password = passwordRef.current?.value || "";
     const avatar = Math.floor(Math.random() * 12) + 1;
 
-    console.log("[SignUp] Attempting registration with:", { firstName, lastName, email, password });
+    console.log("[SignUp] Attempting registration with:", { firstName, lastName, email, avatar });
 
-    if (!firstName || !lastName || !email || !password) {
+    if (!firstName || !lastName || !email) {
       alert("Please fill in all fields.");
       return;
     }
 
     try {
-      // Register the user
+      // Register the user WITHOUT password
       const registerResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ firstName, lastName, email, password, avatar }),
-        credentials: "include" // <--- Important for cookies
+        body: JSON.stringify({ firstName, lastName, email, avatar }),
+        credentials: "include"
       });
       const registerData = await registerResponse.json();
 
@@ -88,29 +87,15 @@ const SignUp: React.FC<SignUpProps> = ({}) => {
         return;
       }
 
-      // Login the user to get the token (if needed)
-      const loginResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-        credentials: "include" // <--- Important for cookies
-      });
-      const loginData = await loginResponse.json();
+      alert("Account created! Please check your email for your password.");
 
-      console.log("[SignUp] Login response:", loginData);
-
-      // No redirect yet
-      // If using httpOnly cookies, the server should set the cookie in the Set-Cookie header with HttpOnly and Secure flags.
-      // Example (server-side): res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'strict' });
-
-      //await testLogin();
-      navigate("/admin/dashboard");
-    } catch (error) { 
+      navigate("/login");
+    } catch (error) {
       console.error("[SignUp] Network error:", error);
       alert("Network error");
     }
   };
-  
+    
   return (
     <React.Fragment>
       <Grid container component="main" sx={{ height: "70vh" }}>
@@ -180,17 +165,6 @@ const SignUp: React.FC<SignUpProps> = ({}) => {
                   fullWidth
                   inputRef={emailRef}
                   //placeholder="Email"
-                />
-              </Box>
-              <Box mt={2}>
-                <Typography variant="h2" component="h5">
-                  Password
-                </Typography>
-                <TextField
-                  fullWidth
-                  inputRef={passwordRef}
-                  //placeholder="Password"
-                  type="password"
                 />
               </Box>
             <Box display="flex" flexDirection="row" justifyContent="center" mt={4}>
