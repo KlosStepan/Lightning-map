@@ -21,6 +21,8 @@ import ADManageUsers from "./pages/ADManageUsers";
 import ADApproveNewEntries from "./pages/ADApproveNewEntries";
 import ADLikes from "./pages/ADLikes";
 import ADReports from "./pages/ADReports";
+//Pages - AD Debug
+import TestAwsSes from "./pages/ADTestAwsSes";
 //MUI
 import AppBar from '@mui/material/AppBar';
 import { Container, CssBaseline } from "@mui/material";
@@ -149,6 +151,7 @@ function App() {
                             <Route path="/admin/reports" element={<ProtectedRoute> <ADReports/> </ProtectedRoute>} />
                             {/*Mics*/}
                             <Route path="/uikit" element={<UIKit propFromApptsx={true}/>}/>
+                            <Route path="/admin/test-aws-ses" element={<ProtectedRoute><TestAwsSes /></ProtectedRoute>} />
                         </Routes>
                     </React.Fragment>
                 </Grid>

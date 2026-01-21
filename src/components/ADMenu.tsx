@@ -27,6 +27,8 @@ type ADMenuProps = {
 }
 
 const ADMenu: React.FC<ADMenuProps> = () => {
+    const DEBUG = useSelector((state: RootState) => state.misc.debug);
+    //
     const theme = useTheme();
     const isPhone = useMediaQuery(theme.breakpoints.down('sm')); // Check if the screen size is small
         // Array to store link data
@@ -42,6 +44,9 @@ const ADMenu: React.FC<ADMenuProps> = () => {
         { icon: IcoADXLikes, title: "Likes (🗲)", path:"/admin/likes"},
         { icon: IcoADXReports, title: "Reports ( ! )", path:"/admin/reports"}
         //{ icon: null, title: "XXX", path:"/admin/xxx"}
+    ];
+    const debugMenuLinks = [
+        { icon: IcoADUser, title: "TEST AWS SES", path: "/admin/test-aws-ses" }
     ];
     //
     const user = useSelector((state: RootState) => state.misc.user);
@@ -62,6 +67,14 @@ const ADMenu: React.FC<ADMenuProps> = () => {
                     <>
                         <span>&nbsp;</span>
                         {menuAdminLinks.map(({ icon, title, path }, index) => (
+                            <ADMenuButton key={index} icon={icon} title={title} path={path} />
+                        ))}
+                    </>
+                )}
+                {DEBUG && (
+                    <>
+                        <span>&nbsp;</span>
+                        {debugMenuLinks.map(({ icon, title, path }, index) => (
                             <ADMenuButton key={index} icon={icon} title={title} path={path} />
                         ))}
                     </>
