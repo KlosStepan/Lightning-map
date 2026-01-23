@@ -39,8 +39,10 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     // Two extra passwords - Edit
-    const currentPasswordRef = useRef<HTMLInputElement>(null);
-    const newPasswordRef = useRef<HTMLInputElement>(null);
+    const [currentPassword, setCurrentPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    //const currentPasswordRef = useRef<HTMLInputElement>(null);
+    //const newPasswordRef = useRef<HTMLInputElement>(null);
     const [showCurrentPassword, setShowCurrentPassword] = React.useState(false);
     const [showNewPassword, setShowNewPassword] = React.useState(false);
     // Add these state hooks at the top of your component
@@ -452,7 +454,8 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                                         <TextField
                                             variant="outlined"
                                             fullWidth
-                                            inputRef={currentPasswordRef}
+                                            value={currentPassword}
+                                            onChange={e => setCurrentPassword(e.target.value)}
                                             type={showCurrentPassword ? "text" : "password"}
                                             InputProps={{
                                                 endAdornment: (
@@ -474,7 +477,8 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                                         <TextField
                                             variant="outlined"
                                             fullWidth
-                                            inputRef={newPasswordRef}
+                                            value={newPassword}
+                                            onChange={e => setNewPassword(e.target.value)}
                                             type={showNewPassword ? "text" : "password"}
                                             InputProps={{
                                                 endAdornment: (
@@ -515,7 +519,7 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                                     >
                                         <span style={{ color: "#888" }}>POST -&gt; <u>/api/logintest</u></span>
                                         <div style={{ fontFamily: "monospace", marginTop: 8 }}>
-                                            {`{email: ${user?.email}, password: ${currentPasswordRef.current?.value || ""}}`}
+                                            {`{email: ${user?.email}, password: ${currentPassword}}`}
                                         </div>
                                     </Box>
                                     2. Update User Profile Information <Box
@@ -528,7 +532,7 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                                     >
                                         <span style={{ color: "#888" }}>POST -&gt; <u>/api/users</u></span>
                                         <div style={{ fontFamily: "monospace", marginTop: 8 }}>
-                                            {`{firstName: ${firstName}, lastName: ${lastName}, email: ${user?.email}, avatar: ${avatar}, newPassword: ${newPasswordRef.current?.value || ""}}`}
+                                            {`{firstName: ${firstName}, lastName: ${lastName}, email: ${user?.email}, avatar: ${avatar}, newPassword: ${newPassword}}`}
                                         </div>
                                     </Box>
                                     {/*<div>&lt;/DEBUG&gt;</div>*/}
