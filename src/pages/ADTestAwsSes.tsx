@@ -23,9 +23,10 @@ const ADTestAwsSes: React.FC<ADTestAwsSesProps> = () => {
     const [result, setResult] = useState<string | null>(null);
 
     const populateDummyEmail = () => {
-        if (emailRef.current) emailRef.current.value = "your-verified-sandbox-email@example.com";
-        if (subjectRef.current) subjectRef.current.value = "Test Subject";
-        if (bodyRef.current) bodyRef.current.value = "This is a test email body.";
+        const randomNumber = Math.floor(Math.random() * 10000) + 1;
+        if (emailRef.current) emailRef.current.value = "stepan@lightningeverywhere.com";
+        if (subjectRef.current) subjectRef.current.value = `Test Subject #${randomNumber}`;
+        if (bodyRef.current) bodyRef.current.value = `This is a test email body #${randomNumber}.`;
     };
 
     const handleSend = async () => {
