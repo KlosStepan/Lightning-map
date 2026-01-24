@@ -58,7 +58,9 @@ const ButtonUniversal: React.FC<ButtonUniversalProps> = ({
         <Box
             sx={{
                 transform: `scale(${scale})`,
-                display: 'inline-block',
+                //display: 'inline-block',
+                width: fullWidth ? '100%' : 'auto',
+                display: 'block',
             }}
             //onMouseEnter={() => setIsHovered(true)}
             //onMouseLeave={() => setIsHovered(false)}
