@@ -1,15 +1,15 @@
 import React from 'react';
 //enums
-import { ButtonSide } from '../enums';
+import { ButtonSide, ButtonLayout } from '../enums';
 //MUI
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
-const boxContainerStyles = {
+/*const boxContainerStyles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-};
+};*/
 
 const iconStyles = {
     marginLeft: 1,
@@ -36,6 +36,7 @@ type ButtonUniversalProps = {
     scale?: number;
     type?: "button" | "submit" | "reset"; // <-- Add this line
     tabIndex?: number; // <-- Add this 2 tabIndex
+    layout?: ButtonLayout;
 };
 
 const ButtonUniversal: React.FC<ButtonUniversalProps> = ({
@@ -52,8 +53,11 @@ const ButtonUniversal: React.FC<ButtonUniversalProps> = ({
     scale = 1,
     type = "button", // <-- Default to "button"
     tabIndex, // <-- Add this 2 tabIndex
+    layout = ButtonLayout.Center,
 }) => {
     //const [isHovered, setIsHovered] = useState(false);
+    const justifyContent = layout === ButtonLayout.Expand ? 'space-between' : 'center';
+
     return (
         <Box
             sx={{
@@ -88,7 +92,14 @@ const ButtonUniversal: React.FC<ButtonUniversalProps> = ({
                 fullWidth={fullWidth}
                 disabled={disabled}
             >
-                <Box sx={{ ...boxContainerStyles }}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: justifyContent,
+                        width: '100%',
+                    }}
+                >
                     {side === 'L' && icon && (
                         <Box
                             component="img"

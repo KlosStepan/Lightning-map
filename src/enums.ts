@@ -5,6 +5,11 @@ export enum ButtonSide {
     Right = "R",
 }
 
+export enum ButtonLayout {
+    Center = "center",
+    Expand = "expand",
+}
+
 export enum ButtonColor {
     //
     Pink = "#F23CFF",
