@@ -27,13 +27,15 @@ type ButtonUniversalProps = {
     side?: ButtonSide;
     title: string;
     color: string;
-    hoverColor: string; // <-- New prop added here
+    hoverColor: string;
     textColor: string;
-    hoverTextColor?: string; // <-- NEW: optional hover text color
+    hoverTextColor?: string;
     actionDelegate?: () => Promise<void> | void;
     fullWidth?: boolean;
     disabled?: boolean;
     scale?: number;
+    type?: "button" | "submit" | "reset"; // <-- Add this line
+    tabIndex?: number; // <-- Add this 2 tabIndex
 };
 
 const ButtonUniversal: React.FC<ButtonUniversalProps> = ({
@@ -48,6 +50,8 @@ const ButtonUniversal: React.FC<ButtonUniversalProps> = ({
     fullWidth = false,
     disabled = false,
     scale = 1,
+    type = "button", // <-- Default to "button"
+    tabIndex, // <-- Add this 2 tabIndex
 }) => {
     //const [isHovered, setIsHovered] = useState(false);
     return (
@@ -62,6 +66,8 @@ const ButtonUniversal: React.FC<ButtonUniversalProps> = ({
             <Button
                 color="primary"
                 onClick={actionDelegate}
+                type={type} // <-- Pass type to MUI Button
+                tabIndex={tabIndex} // <-- Add this 2 tabIndex
                 sx={{
                     color: textColor,
                     backgroundColor: color,
@@ -71,11 +77,9 @@ const ButtonUniversal: React.FC<ButtonUniversalProps> = ({
                     justifyContent: 'center',
                     alignItems: 'center',
                     textTransform: 'none',
-                    transition: 'none', // <- disable animation
+                    transition: 'none',
                     '&:hover': {
-                        backgroundColor: hoverColor, // <- use explicit hoverColor
-                        //color: (isHovered && hoverTextColor) ? textColor : hoverTextColor,
-                        //color: isHovered ? (hoverTextColor ?? textColor) : textColor
+                        backgroundColor: hoverColor,
                         color: hoverTextColor ?? textColor
                     },
                 }}
@@ -93,7 +97,6 @@ const ButtonUniversal: React.FC<ButtonUniversalProps> = ({
                     )}
                     <Box component="span" sx={{
                         ...textStyles,
-                        //color: isHovered && hoverTextColor ? hoverTextColor : textColor,
                         }}
                     >
                         {title}

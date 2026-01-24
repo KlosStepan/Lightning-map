@@ -177,6 +177,7 @@ const Login: React.FC<LoginProps> = ({}) => {
                                         //hoverColor="#6603C9"
                                         textColor="black"
                                         actionDelegate={() => setLoginWithEmail(false)}
+                                        tabIndex={-1} // Skipped in tab order
                                     />
                                 </Box>
                                 <Typography variant="h1" component="h1">
@@ -202,30 +203,18 @@ const Login: React.FC<LoginProps> = ({}) => {
                                             inputRef={passwordRef}
                                         />
                                     </Box>
-                                    {/*<FormControlLabel
-                                        control={<Checkbox value="remember" color="primary" />}
-                                        label="Remember me"
-                                    />*/}
                                     <FormControlLabel
                                         control={
                                             <Checkbox
                                                 //checked={keepPhotos}
                                                 //onChange={(e) => setKeepPhotos(e.target.checked)}
                                                 color="primary"
+                                                tabIndex={-1} // <-- This removes it from tab order
                                             />
                                         }
                                         label="Remember me"
                                         sx={{ mr: 2 }}
                                     />
-                                    {/*<Button
-                                        type="submit"
-                                        fullWidth
-                                        variant="contained"
-                                        sx={{ mt: 3, mb: 2 }}
-                                    >
-                                        Sign In
-                                    </Button>*/}
-                                    {/*<Box display="flex" justifyContent="middle" mt={2}>*/}
                                     <Box mt={2} display="flex" flexDirection="column" alignItems="center">
                                         <ButtonUniversal
                                             title={"Sign In"}
@@ -233,6 +222,7 @@ const Login: React.FC<LoginProps> = ({}) => {
                                             hoverColor={ButtonColor.PinkHover}
                                             textColor="white"
                                             actionDelegate={loginUsingEmail}
+                                            type="submit" // <-- Add this!
                                         />
                                     </Box>
                                 </Box>
