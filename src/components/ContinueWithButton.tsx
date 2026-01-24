@@ -13,14 +13,15 @@ const ContinueWithButton: React.FC<ContinueWithButtonProps> = ({ icon, title, ac
     return (
         <Button
             color="primary"
-            onClick={actionDelegate} // Use actionDelegate as onClick handler
+            onClick={actionDelegate}
             sx={{
+                textTransform: "none",
                 backgroundColor: 'white',
                 borderRadius: '20px',
                 width: '100%',
                 padding: '4px',
-                marginTop: '12px',
-                marginBottom: '12px',
+                marginTop: '4px',
+                marginBottom: '4px',
                 '&:hover': {
                     // Optional: change color on hover
                 },
@@ -33,10 +34,11 @@ const ContinueWithButton: React.FC<ContinueWithButtonProps> = ({ icon, title, ac
                 sx={{
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center',
+                    justifyContent: 'space-between', // <-- key change
                     width: '100%',
                 }}
             >
+                {/* Left: Icon */}
                 <Box
                     component="img"
                     src={icon}
@@ -44,18 +46,23 @@ const ContinueWithButton: React.FC<ContinueWithButtonProps> = ({ icon, title, ac
                     sx={{
                         width: 24,
                         height: 24,
-                        marginRight: 1,
+                        marginLeft: 3,
+                        marginRight: 2,
+                        flexShrink: 0,
                     }}
                 />
+                {/* Center: Text */}
                 <Box
                     component="span"
                     sx={{
-                        textAlign: 'center',
-                        marginRight: 1,
+                        textAlign: 'left',
+                        flexGrow: 1, // <-- take up remaining space
+                        fontSize: '20px',
                     }}
                 >
                     Continue with {title}
                 </Box>
+                {/* Right: Arrow */}
                 <Box
                     component="img"
                     src={LoginArrowRight}
@@ -63,6 +70,9 @@ const ContinueWithButton: React.FC<ContinueWithButtonProps> = ({ icon, title, ac
                     sx={{
                         width: 24,
                         height: 24,
+                        marginLeft: 1,
+                        marginRight: 3,
+                        flexShrink: 0,
                     }}
                 />
             </Box>
