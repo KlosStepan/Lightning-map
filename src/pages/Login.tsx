@@ -5,6 +5,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+//enums
+import { ButtonSide } from '../enums';
+import IconEdit from '../icons/ico-btn-edit.png';
 //import Link from '@mui/material/Link';
 //import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -22,6 +25,9 @@ import { useNavigate } from "react-router-dom";
 //import LoginApple from '../img/login-apple.png';
 import LoginGoogle from '../img/login-google.png';
 import LoginEmail from '../img/login-mail.png';
+import LoginArrowRight from '../img/login-arrow-right.png';
+import ArrowRight from '../img/arrow-right.png';
+
 //import { isNullishCoalesce } from 'typescript';
 
 //import { useAuthState } from "react-firebase-hooks/auth";
@@ -29,7 +35,7 @@ import LoginEmail from '../img/login-mail.png';
 // ✅ Path to your image
 import mapWorldImage from '../img/map-world.jpg'; // adjust path if neede
 import Footer from "../components/Footer";
-import { ButtonColor } from "../enums";
+import { ButtonColor, ButtonLayout } from "../enums";
 import ButtonUniversal from "../components/ButtonUniversal";
 
 // TODO remove, this demo shouldn't need to reset the theme.
@@ -143,7 +149,7 @@ const Login: React.FC<LoginProps> = ({}) => {
                             <Typography variant="h1" component="h1">
                                 Login
                             </Typography>
-                            <div>&nbsp;</div>
+                            <span style={{ paddingTop: "12px" }} />
                             {/*<ContinueWithButton
                                 icon={LoginGoogle}
                                 title="Google"
@@ -169,7 +175,7 @@ const Login: React.FC<LoginProps> = ({}) => {
                         </> 
                         ) : (
                             <>
-                                <Box display="flex" justifyContent="flex-start" alignItems="left" width="100%" mb={2}>
+                                {/*<Box display="flex" justifyContent="flex-start" alignItems="left" width="100%" mb={2}>
                                     <ButtonUniversal
                                         title="← Back"
                                         color={ButtonColor.White}
@@ -180,31 +186,41 @@ const Login: React.FC<LoginProps> = ({}) => {
                                         actionDelegate={() => setLoginWithEmail(false)}
                                         tabIndex={-1} // Skipped in tab order
                                     />
-                                </Box>
+                                </Box>*/}
                                 <Typography variant="h1" component="h1">
-                                    Login using Email
+                                    Login {/*Login using Email*/}
                                 </Typography>
+                                <span style={{ paddingTop: "12px" }} />
 
                                 <Box component="form" onSubmit={async (e: React.FormEvent) => {
                                     e.preventDefault();
                                     await loginUsingEmail();
                                 }} noValidate sx={{ mt: 1 }}>
-                                    <Box mt={2}>
-                                        <Typography variant="h2" component="h5">Email</Typography>
-                                            <TextField
-                                                fullWidth
-                                                inputRef={emailRef}
-                                            />
+                                    <Box mt={1}>
+                                        {/*<Typography variant="h2" component="h5">E-mail</Typography>*/}
+                                        <TextField
+                                        fullWidth
+                                        type="email"
+                                        name="username"
+                                        placeholder="E-mail"
+                                        autoComplete="username"
+                                        required
+                                        inputRef={emailRef}
+                                        />
                                     </Box>
-                                    <Box mt={2}>
-                                        <Typography variant="h2" component="h5">Password</Typography>
+                                    <Box mt={1}>
+                                        {/*<Typography variant="h2" component="h5">Password</Typography>*/}
                                         <TextField
                                             fullWidth
                                             type="password"
+                                            name="password"
+                                            placeholder="Password"
+                                            autoComplete="off"
+                                            required
                                             inputRef={passwordRef}
                                         />
                                     </Box>
-                                    <FormControlLabel
+                                    {/*<FormControlLabel
                                         control={
                                             <Checkbox
                                                 //checked={keepPhotos}
@@ -215,16 +231,37 @@ const Login: React.FC<LoginProps> = ({}) => {
                                         }
                                         label="Remember me"
                                         sx={{ mr: 2 }}
-                                    />
-                                    <Box mt={2} display="flex" flexDirection="column" alignItems="center">
-                                        <ButtonUniversal
-                                            title={"Sign In"}
-                                            color={ButtonColor.Pink}
-                                            hoverColor={ButtonColor.PinkHover}
-                                            textColor="white"
-                                            actionDelegate={loginUsingEmail}
-                                            type="submit" // <-- Add this!
-                                        />
+                                    />*/}
+                                    <Box mt={2} display="flex" flexDirection="column" alignItems="center" width="100%">
+                                        <div style={{ fontFamily: "PixGamer", fontSize: "20px" }}>
+                                            <span onClick={() => navigate("/forgot-password")} style={{ cursor: "pointer" }}>
+                                                <u>I forgot my password</u>
+                                            </span>
+                                        </div>
+                                        <span style={{ paddingTop: "12px" }} />
+                                        <Box width="100%">
+                                            <ButtonUniversal
+                                                icon={ArrowRight}
+                                                side={ButtonSide.Right}
+                                                title={"Login"}
+                                                color={ButtonColor.Pink}
+                                                hoverColor={ButtonColor.PinkHover}
+                                                textColor="white"
+                                                actionDelegate={loginUsingEmail}
+                                                type="submit"
+                                                fullWidth={true} // <-- This makes the button stretch
+                                                layout={ButtonLayout.Expand}
+                                            />
+                                        </Box>
+                                        <span style={{ paddingTop: "12px" }} />
+                                        <div style={{ fontFamily: "PixGamer", fontSize: "20px" }}>
+                                            <span>
+                                                Don't you have an account?{" "}
+                                                <span onClick={async () => setLoginWithEmail(false)} style={{ cursor: "pointer" }}>
+                                                    <u>Sign up</u>
+                                                </span>
+                                            </span>
+                                        </div>
                                     </Box>
                                 </Box>
                             </>
