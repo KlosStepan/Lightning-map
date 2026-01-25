@@ -7,7 +7,8 @@ type AvatarCircleProps = {
   size?: number;
 };
 
-const AvatarCircle: React.FC<AvatarCircleProps> = ({ n, fnct, selected, size = 48 }) => (
+
+const AvatarCircle: React.FC<AvatarCircleProps> = ({ n, fnct, selected, size =  48 }) => (
   <div
     onClick={() => fnct(n)}
     style={{
@@ -15,18 +16,28 @@ const AvatarCircle: React.FC<AvatarCircleProps> = ({ n, fnct, selected, size = 4
       height: size,
       borderRadius: "50%",
       overflow: "hidden",
-      border: selected ? "2px solid #F23CFF" : "2px solid #ccc",
+      border: selected ? "2px solid #F23CFF" : "2px solid #fff", // Always white when not selected
       margin: 4,
       cursor: "pointer",
-      boxShadow: selected ? "0 0 8px #F23CFF" : undefined,
-      transition: "border 0.2s, box-shadow 0.2s",
-      display: "inline-block",
+      // boxShadow removed (no glow)
+      transition: "border 0.2s",
+      background: "white",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
     }}
   >
     <img
       src={`/avatars/${n}.png`}
       alt={`Avatar ${n}`}
-      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+      style={{
+        width: "70%",
+        height: "70%",
+        objectFit: "contain",
+        background: "white",
+        display: "block",
+        margin: "auto",
+      }}
     />
   </div>
 );
