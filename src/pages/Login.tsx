@@ -150,21 +150,22 @@ const Login: React.FC<LoginProps> = ({}) => {
                                 Login
                             </Typography>
                             <span style={{ paddingTop: "12px" }} />
-                            {/*<ContinueWithButton
+                            <ContinueWithButton
                                 icon={LoginGoogle}
                                 title="Google"
                                 //actionDelegate={signInWithGoogle}
-                            />*/}
+                                disabled={true}
+                            />
                             {/*<ContinueWithButton icon={LoginApple} title="Apple" actionDelegate={signInWithApple} />*/}
                             <ContinueWithButton icon={LoginEmail} title="e-mail" actionDelegate={async () => setLoginWithEmail(true)} />
                             <span style={{ paddingTop: "12px" }} />
-                            <div>
+                            <div style={{ fontFamily: "PixGamer", fontSize: "20px" }}>
                                 <span onClick={() => navigate("/forgot-password")} style={{ cursor: "pointer" }}>
                                     <u>I forgot my password</u>
                                 </span>
                             </div>
                             <span style={{ paddingTop: "12px" }} />
-                            <div>
+                            <div style={{ fontFamily: "PixGamer", fontSize: "20px" }}>
                                 <span>
                                     Don't you have an account?{" "}
                                     <span onClick={() => navigate("/sign-up")} style={{ cursor: "pointer" }}>
