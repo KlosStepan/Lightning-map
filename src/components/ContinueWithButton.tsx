@@ -7,13 +7,20 @@ type ContinueWithButtonProps = {
     icon: string;
     title: string;
     actionDelegate?: () => Promise<void>; // Update type to function
+    disabled?: boolean; // <-- Add this
 }
 
-const ContinueWithButton: React.FC<ContinueWithButtonProps> = ({ icon, title, actionDelegate }) => {
-    return (
+const ContinueWithButton: React.FC<ContinueWithButtonProps> = ({
+    icon,
+    title,
+    actionDelegate,
+    disabled = false, // <-- default to false
+}) => {
+return (
         <Button
             color="primary"
             onClick={actionDelegate}
+            disabled={disabled}
             sx={{
                 textTransform: "none",
                 backgroundColor: 'white',
@@ -22,19 +29,22 @@ const ContinueWithButton: React.FC<ContinueWithButtonProps> = ({ icon, title, ac
                 padding: '4px',
                 marginTop: '4px',
                 marginBottom: '4px',
+                filter: disabled ? 'grayscale(1)' : 'none', // <-- grayscale when disabled
+                pointerEvents: disabled ? 'none' : 'auto',   // <-- not hoverable when disabled
                 '&:hover': {
-                    // Optional: change color on hover
+                    backgroundColor: disabled ? 'white' : undefined,
                 },
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
+                opacity: disabled ? 0.7 : 1, // <-- slightly faded when disabled
             }}
         >
             <Box
                 sx={{
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'space-between', // <-- key change
+                    justifyContent: 'space-between',
                     width: '100%',
                 }}
             >
@@ -49,6 +59,7 @@ const ContinueWithButton: React.FC<ContinueWithButtonProps> = ({ icon, title, ac
                         marginLeft: 3,
                         marginRight: 2,
                         flexShrink: 0,
+                        filter: disabled ? 'grayscale(1)' : 'none', // <-- grayscale icon
                     }}
                 />
                 {/* Center: Text */}
@@ -56,8 +67,9 @@ const ContinueWithButton: React.FC<ContinueWithButtonProps> = ({ icon, title, ac
                     component="span"
                     sx={{
                         textAlign: 'left',
-                        flexGrow: 1, // <-- take up remaining space
+                        flexGrow: 1,
                         fontSize: '20px',
+                        color: disabled ? '#888' : 'inherit', // <-- grey text when disabled
                     }}
                 >
                     Continue with {title}
@@ -73,11 +85,12 @@ const ContinueWithButton: React.FC<ContinueWithButtonProps> = ({ icon, title, ac
                         marginLeft: 1,
                         marginRight: 3,
                         flexShrink: 0,
+                        filter: disabled ? 'grayscale(1)' : 'none', // <-- grayscale arrow
                     }}
                 />
             </Box>
         </Button>
-    )
+    );
 }
 
 export default ContinueWithButton;
