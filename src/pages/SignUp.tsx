@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Footer from "../components/Footer";
 import ButtonUniversal from "../components/ButtonUniversal";
-import { ButtonColor } from "../enums";
+import AvatarCircle from "../components/AvatarCircle";
+import { ButtonColor, ButtonLayout, ButtonSide } from "../enums";
 import { useNavigate } from "react-router-dom";
 import {
   Box,
@@ -9,25 +10,28 @@ import {
   CssBaseline,
   Typography,
   TextField,
+  avatarClasses,
 } from "@mui/material";
 import mapWorldImage from "../img/map-world.jpg";
 
 //Redux+RTK
 import { RootState } from "../redux-rtk/store";
 import { useSelector } from "react-redux";
+import ArrowRight from "../img/arrow-right.png";
 
 type SignUpProps = {
   // Add props here if needed in the future
 };
 
+const avatarList = [1,2,3,4,5,6,7,8,9,10,11,12,13];
+
 const SignUp: React.FC<SignUpProps> = ({}) => {
-  // DEBUG
   const DEBUG = useSelector((state: RootState) => state.misc.debug);
 
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
+  const [avatar, setAvatar] = useState<number>(0);
   const navigate = useNavigate();
 
   // Debug function to populate fields
@@ -36,25 +40,14 @@ const SignUp: React.FC<SignUpProps> = ({}) => {
     if (firstNameRef.current) firstNameRef.current.value = `Name-${randomNumber}`;
     if (lastNameRef.current) lastNameRef.current.value = `Surname-${randomNumber}`;
     if (emailRef.current) emailRef.current.value = `email${randomNumber}@example.com`;
-    if (passwordRef.current) passwordRef.current.value = "12345";
+    setAvatar(avatarList[Math.floor(Math.random() * avatarList.length)]); // <-- random avatar
   };
 
-  const testLogin = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/logintest`, {
-        method: "GET",
-        credentials: "include"
-      });
-      const data = await response.json();
-      console.log("[SignUp] /logintest response:", data);
-      if (response.ok) {
-        alert("You are authenticated! " + JSON.stringify(data));
-      } else {
-        alert("Not authenticated: " + (data.message || response.status));
-      }
-    } catch (error) {
-      alert("Network error");
-    }
+  const ClearFields = () => {
+    if (firstNameRef.current) firstNameRef.current.value = "";
+    if (lastNameRef.current) lastNameRef.current.value = "";
+    if (emailRef.current) emailRef.current.value = "";
+    setAvatar(0);
   };
 
   const handleSignUp = async () => {
@@ -63,15 +56,12 @@ const SignUp: React.FC<SignUpProps> = ({}) => {
     const email = emailRef.current?.value || "";
     const avatar = Math.floor(Math.random() * 12) + 1;
 
-    console.log("[SignUp] Attempting registration with:", { firstName, lastName, email, avatar });
-
     if (!firstName || !lastName || !email) {
       alert("Please fill in all fields.");
       return;
     }
 
     try {
-      // Register the user WITHOUT password
       const registerResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -80,22 +70,18 @@ const SignUp: React.FC<SignUpProps> = ({}) => {
       });
       const registerData = await registerResponse.json();
 
-      console.log("[SignUp] Registration response:", registerData);
-
       if (!registerResponse.ok) {
         alert(registerData.message || "Registration failed");
         return;
       }
 
       alert("Account created! Please check your email for your password.");
-
       navigate("/login");
     } catch (error) {
-      console.error("[SignUp] Network error:", error);
       alert("Network error");
     }
   };
-    
+
   return (
     <React.Fragment>
       <Grid container component="main" sx={{ height: "70vh" }}>
@@ -127,7 +113,10 @@ const SignUp: React.FC<SignUpProps> = ({}) => {
             <Typography variant="h1" component="h1">
               Create Account
             </Typography>
-            <div>&nbsp;</div>
+            <span style={{ paddingTop: "24px" }} />
+            <Typography variant="h3" component="h2">
+              Choose your avatar
+            </Typography>
             <Box
               component="form"
               onSubmit={async (e: React.FormEvent) => {
@@ -135,40 +124,86 @@ const SignUp: React.FC<SignUpProps> = ({}) => {
                 await handleSignUp();
               }}
               noValidate
-              sx={{ mt: 1 }}
+              sx={{ mt: 1/*, width: "100%"*/ }}
             >
-              <Box mt={2}>
-                <Typography variant="h2" component="h5">
-                  First Name
-                </Typography>
+            <Box
+              mt={1}
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 2,
+                justifyContent: "left",
+                maxWidth: 350, // <-- Match input field width
+                width: "100%",
+                margin: "0 auto", // Center horizontally
+              }}
+            >
+              {avatarList.map((avNum) => (
+                <AvatarCircle
+                  key={avNum}
+                  n={avNum}
+                  fnct={setAvatar}
+                  selected={avatar === avNum}
+                />
+              ))}
+            </Box>
+            <div style={{ paddingTop: "12px" }} />
+              <Box mt={1}>
                 <TextField
                   fullWidth
                   inputRef={firstNameRef}
-                  //placeholder="First name"
+                  placeholder="First name"
+                  autoComplete="given-name"
+                  required
+                  InputLabelProps={{ shrink: false }}
                 />
               </Box>
-              <Box mt={2}>
-                <Typography variant="h2" component="h5">
-                  Last Name
-                </Typography>
+              <Box mt={1}>
                 <TextField
                   fullWidth
                   inputRef={lastNameRef}
-                  //placeholder="Last name"
+                  placeholder="Last name"
+                  autoComplete="family-name"
+                  required
+                  InputLabelProps={{ shrink: false }}
                 />
               </Box>
-              <Box mt={2}>
-                <Typography variant="h2" component="h5">
-                  Email
-                </Typography>
+              <Box mt={1}>
                 <TextField
                   fullWidth
                   inputRef={emailRef}
-                  //placeholder="Email"
+                  type="email"
+                  placeholder="E-mail"
+                  autoComplete="email"
+                  required
+                  InputLabelProps={{ shrink: false }}
                 />
               </Box>
-            <Box display="flex" flexDirection="row" justifyContent="center" mt={4}>
-              {DEBUG && (
+              <Box mt={2} width="100%">
+                <ButtonUniversal
+                  icon={ArrowRight}
+                  side={ButtonSide.Right}
+                  title={"Create Account"}
+                  color={ButtonColor.Pink}
+                  hoverColor={ButtonColor.PinkHover}
+                  textColor="white"
+                  type="submit"
+                  fullWidth={true}
+                  layout={ButtonLayout.Expand}
+                />
+              </Box>
+              <div style={{ paddingTop: "12px" }} ></div>
+              <div style={{ fontFamily: "PixGamer", fontSize: "20px", textAlign: "center" }}>
+                <span>
+                  Already have an account?{" "}
+                  <span onClick={() => navigate("/login")} style={{ cursor: "pointer" }}>
+                    <u>Log in</u>
+                  </span>
+                </span>
+              </div>
+            </Box>
+            {DEBUG && (
+              <Box mt={2} display="flex" flexDirection="row" justifyContent="center" width="100%" gap={2}>
                 <ButtonUniversal
                   title="^ Debug Dummy User"
                   color={ButtonColor.Purple}
@@ -176,27 +211,15 @@ const SignUp: React.FC<SignUpProps> = ({}) => {
                   textColor="white"
                   actionDelegate={DebugPopulateDummyUser}
                 />
-              )}
-              <ButtonUniversal
-                title="Create Account"
-                color={ButtonColor.Pink}
-                hoverColor={ButtonColor.PinkHover}
-                textColor="white"
-                actionDelegate={handleSignUp}
-              />
-            </Box>
-            {/* Debug button */}
-            <Box mb={2}>
-            </Box>
-              <Box mt={2} width="100%" display="flex" justifyContent="center" textAlign="center">
-                <span>
-                  Already have an account?{" "}
-                  <span onClick={() => navigate("/login")} style={{ cursor: "pointer" }}>
-                    <u>Log in</u>
-                  </span>
-                </span>
+                <ButtonUniversal
+                  title="Clear"
+                  color={ButtonColor.Purple}
+                  hoverColor={ButtonColor.PurpleHover}
+                  textColor="white"
+                  actionDelegate={ClearFields}
+                />
               </Box>
-            </Box>
+            )}
           </Box>
         </Grid>
       </Grid>
