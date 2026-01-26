@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -6,7 +7,7 @@ import LoginArrowRight from '../img/login-arrow-right.png';
 type ContinueWithButtonProps = {
     icon: string;
     title: string;
-    actionDelegate?: () => Promise<void>; // Update type to function
+    actionDelegate?: () =>  void | Promise<void>; // Update type to function
     disabled?: boolean; // <-- Add this
 }
 
