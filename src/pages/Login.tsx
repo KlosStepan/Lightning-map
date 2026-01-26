@@ -16,6 +16,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { /*createTheme, ThemeProvider*/ } from '@mui/material/styles';
 import ContinueWithButton from '../components/ContinueWithButton';
+import { useGoogleLogin } from '@react-oauth/google';
 
 //
 import { useNavigate } from "react-router-dom";
@@ -68,6 +69,21 @@ const Login: React.FC<LoginProps> = ({}) => {
     // Add refs for email and password
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
+
+    const handleGoogleLogin = async (credentialResponse: any) => {
+        const idToken = credentialResponse.credential;
+        try {
+            const res = await axios.post<{ token: string }>('/api/auth/google', { token: idToken });
+            localStorage.setItem('authToken', res.data.token);
+            navigate("/admin/dashboard");
+        } catch (err) {
+            alert("Google login failed");
+        }
+    };
+    const googleLogin = useGoogleLogin({
+        onSuccess: handleGoogleLogin,
+        onError: () => alert("Google login failed"),
+    });
 
     // Function to handle login
     const loginUsingEmail = async () => {
@@ -153,8 +169,8 @@ const Login: React.FC<LoginProps> = ({}) => {
                             <ContinueWithButton
                                 icon={LoginGoogle}
                                 title="Google"
-                                //actionDelegate={signInWithGoogle}
-                                disabled={true}
+                                actionDelegate={googleLogin}
+                                disabled={!process.env.REACT_APP_GOOGLE_CLIENT_ID}
                             />
                             {/*<ContinueWithButton icon={LoginApple} title="Apple" actionDelegate={signInWithApple} />*/}
                             <ContinueWithButton icon={LoginEmail} title="e-mail" actionDelegate={async () => setLoginWithEmail(true)} />

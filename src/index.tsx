@@ -7,17 +7,20 @@ import reportWebVitals from './reportWebVitals';
 import { store } from './redux-rtk/store'
 import { ThemeProvider } from '@mui/material';
 import { theme } from "./theme"
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </ThemeProvider>
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID!}>
+      <ThemeProvider theme={theme}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </ThemeProvider>
+    </GoogleOAuthProvider>
   </React.StrictMode>
 );
 
