@@ -179,7 +179,13 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                     {user ? (
                         <Link style={{ color: "inherit", textDecoration: "inherit", fontSize: '18px', display: 'flex', alignItems: 'center' }} to="/admin/dashboard">
                             <img
-                                src={user.avatar ? `/avatars/${user.avatar}.png` : '/avatars/default.png'}
+                                src={
+                                    user.avatar
+                                        ? `/avatars/${user.avatar}.png`
+                                        : user.avatarUrl
+                                            ? user.avatarUrl
+                                            : '/avatars/default.png'
+                                }
                                 alt={user?.firstName ?? 'User'}
                                 style={{ width: '28px', height: '28px', borderRadius: '50%' }}
                             />
