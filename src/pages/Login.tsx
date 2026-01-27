@@ -17,6 +17,8 @@ import Typography from '@mui/material/Typography';
 import { /*createTheme, ThemeProvider*/ } from '@mui/material/styles';
 import ContinueWithButton from '../components/ContinueWithButton';
 import { useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
+import { GoogleLogin } from '@react-oauth/google';
 
 //
 import { useNavigate } from "react-router-dom";
@@ -70,16 +72,32 @@ const Login: React.FC<LoginProps> = ({}) => {
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
 
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
+
     const handleGoogleLogin = async (credentialResponse: any) => {
+        console.log("[GoogleLogin] credentialResponse:", credentialResponse);
         const idToken = credentialResponse.credential;
         try {
-            const res = await axios.post<{ token: string }>('/api/auth/google', { token: idToken });
-            localStorage.setItem('authToken', res.data.token);
+            const res = await axios.post(
+                `${apiBaseUrl}/auth/google`,
+                { token: idToken },
+                { withCredentials: true }
+            );
+            console.log("[GoogleLogin] backend response:", res);
+            // No need to store token in localStorage; backend should set cookie
+            // Optionally, re-check auth or reload user state here
             navigate("/admin/dashboard");
-        } catch (err) {
-            alert("Google login failed");
+        } catch (err: any) {
+            if (err.response) {
+                console.error("[GoogleLogin] backend error:", err.response.data);
+                alert("Google login failed: " + (err.response.data?.message || err.response.status));
+            } else {
+                console.error("[GoogleLogin] network error:", err);
+                alert("Google login failed: Network error");
+            }
         }
     };
+
     const googleLogin = useGoogleLogin({
         onSuccess: handleGoogleLogin,
         onError: () => alert("Google login failed"),
@@ -166,11 +184,31 @@ const Login: React.FC<LoginProps> = ({}) => {
                                 Login
                             </Typography>
                             <span style={{ paddingTop: "12px" }} />
-                            <ContinueWithButton
+                            {/*<ContinueWithButton
                                 icon={LoginGoogle}
                                 title="Google"
                                 actionDelegate={googleLogin}
                                 disabled={!process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                            />*/}
+                            <GoogleLogin
+                                onSuccess={async (credentialResponse) => {
+                                    const idToken = credentialResponse.credential;
+                                    if (!idToken) {
+                                    alert("Google login failed: missing ID token");
+                                    return;
+                                    }
+                                    try {
+                                    const res = await axios.post(
+                                        `${apiBaseUrl}/auth/google`,
+                                        { token: idToken },
+                                        { withCredentials: true }
+                                    );
+                                    navigate("/admin/dashboard");
+                                    } catch (err: any) {
+                                    alert("Google login failed");
+                                    }
+                                }}
+                                onError={() => alert("Google login failed")}
                             />
                             {/*<ContinueWithButton icon={LoginApple} title="Apple" actionDelegate={signInWithApple} />*/}
                             <ContinueWithButton icon={LoginEmail} title="e-mail" actionDelegate={async () => setLoginWithEmail(true)} />
