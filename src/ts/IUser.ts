@@ -5,7 +5,12 @@ interface IUser {
   lastName: string;
   role: string;
   createdAt?: string;
-  avatar?: number; // <-- Add this line
+  avatar?: number;
+
+  // Google SSO fields (optional)
+  avatarUrl?: string;   // <-- Add this line
+  googleId?: string;    // <-- Optional, if used
+  authSource?: string;  // <-- Optional, if used
 }
 
-export default IUser
+export default IUser;
