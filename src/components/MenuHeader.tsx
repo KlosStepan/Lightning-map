@@ -33,7 +33,7 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
     // DEBUG
     const debug = useSelector((state: RootState) => state.misc.debug)
     // BLOG 
-    const blogEnabled = useSelector((state: RootState) => state.misc.blog); // Get blog state from Redux
+    const blogEnabled = useSelector((state: RootState) => state.misc.blog);
 
     //
     const user = useSelector((state: RootState) => state.misc.user)
@@ -58,6 +58,24 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
         setAnchorElUser(null);
     };
 
+    // Small Avatar link component: prefer local avatar -> google avatarUrl -> default
+    const AvatarLink: React.FC = () => {
+        if (!user) {
+            return (
+                <Link style={{ color: "inherit", textDecoration: "inherit", fontSize: '18px' }} to="/login" aria-label="Login">
+                    <IconKey /> LOGIN
+                </Link>
+            );
+        }
+        const src = user.avatar ? `/avatars/${user.avatar}.png` : (user.avatarUrl ?? '/avatars/default.png');
+        return (
+            <Link style={{ color: "inherit", textDecoration: "inherit", fontSize: '18px', display: 'flex', alignItems: 'center' }} to="/admin/dashboard" aria-label="Open dashboard">
+                <img src={src} alt={user.firstName ?? 'User'} style={{ width: 28, height: 28, borderRadius: '50%' }} />
+                <span style={{ marginLeft: 8 }}>{user.firstName}</span>
+            </Link>
+        );
+    };
+
     // Conditionally log debug information
     if (debug) {
         console.log("<DEBUG> MenuHeader.tsx");
@@ -70,7 +88,6 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
             {/* Mobile logo sizing here vv */}
             <Box
                 sx={{
-                    display: { /*xs: "none", md: "none"*/ },
                     color: "inherit",
                     textDecoration: "inherit",
                 }}
@@ -84,7 +101,7 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                             sx={{
                                 height: '100%',
                                 width: 'auto',
-                                objectFit: 'contain', // or 'scale-down' if needed
+                                objectFit: 'contain',
                             }}
                         />
                     </Box>
@@ -137,7 +154,6 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                 href="#app-bar-with-responsive-menu"
                 sx={{
                     mr: 2,
-                    //display: { xs: 'flex', md: 'none' },
                     display: { xs: 'none', md: 'none' },
                     flexGrow: 1,
                     fontFamily: 'monospace',
@@ -161,10 +177,7 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                     if (page.title === "Blog" && !blogEnabled) return null;
                     
                     return (
-                        <Button
-                            key={page.title}
-                            onClick={handleCloseNavMenu}
-                        >
+                        <Button key={page.title} onClick={handleCloseNavMenu}>
                             <Link style={{ color: "inherit", textDecoration: "inherit", textTransform: "none", fontFamily: "PixGamer", fontSize: "24px" }} to={page.link}>
                                 /&nbsp;{page.title}
                             </Link>
@@ -176,27 +189,7 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
 
             <Box sx={{ flexGrow: 0, color: 'black' }}>
                 <div style={{ fontFamily: 'PixGamer' }}>
-                    {user ? (
-                        <Link style={{ color: "inherit", textDecoration: "inherit", fontSize: '18px', display: 'flex', alignItems: 'center' }} to="/admin/dashboard">
-                            <img
-                                src={
-                                    user.avatar
-                                        ? `/avatars/${user.avatar}.png`
-                                        : user.avatarUrl
-                                            ? user.avatarUrl
-                                            : '/avatars/default.png'
-                                }
-                                alt={user?.firstName ?? 'User'}
-                                style={{ width: '28px', height: '28px', borderRadius: '50%' }}
-                            />
-                            &nbsp;
-                            {' ' + user?.firstName}
-                        </Link>
-                    ) : (
-                        <Link style={{ color: "inherit", textDecoration: "inherit", fontSize: '18px' }} to="/login">
-                            <IconKey /> LOGIN
-                        </Link>
-                    )}
+                    <AvatarLink />
                 </div>
             </Box>
             
@@ -229,12 +222,12 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                 <Menu
                     sx={{
                         mt: '45px',
-                        width: { xs: '100%', md: 'auto' }, // Full width on mobile
+                        width: { xs: '100%', md: 'auto' },
                         '& .MuiPaper-root': {
-                            width: { xs: '100%', md: 'auto' }, // Menu paper width
-                            left: 0, // Ensure it aligns to the left on mobile
-                            marginTop: { xs: '10px', md: '0' }, // Adjust top margin on mobile
-                            borderRadius: { xs: 0, md: '4px' }, // Remove border radius on mobile for a seamless look
+                            width: { xs: '100%', md: 'auto' },
+                            left: 0,
+                            marginTop: { xs: '10px', md: '0' },
+                            borderRadius: { xs: 0, md: '4px' },
                         },
                     }}
                     id="menu-appbar"
@@ -260,12 +253,12 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                                 key={page.title}
                                 onClick={handleCloseUserMenu}
                                 sx={{
-                                    justifyContent: 'center', // Centers text horizontally
-                                    alignItems: 'center', // Centers text vertically
-                                    fontFamily: 'PixGamer', // Apply PixGamer font
-                                    textAlign: 'center', // Ensure text alignment
-                                    display: 'flex', // Use flexbox for centering
-                                    height: '100%', // Ensure full height usage
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    fontFamily: 'PixGamer',
+                                    textAlign: 'center',
+                                    display: 'flex',
+                                    height: '100%',
                                 }}
                             >
                                 <Link style={{ color: "inherit", textDecoration: "inherit", textTransform: "none", fontFamily: "PixGamer", fontSize: "24px" }} to={page.link}>
