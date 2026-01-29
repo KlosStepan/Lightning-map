@@ -158,7 +158,7 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = () => {
                         ) : (
                             <Grid item xs={12}>
                             <Typography variant="h2" sx={{ color: "#888", textAlign: "center", mt: 4 }}>
-                                No e-shops found.
+                                No e-shops found
                             </Typography>
                             </Grid>
                         )}

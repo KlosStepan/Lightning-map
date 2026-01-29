@@ -149,28 +149,23 @@ const ADHome: React.FC<ADHomeProps> = () => {
                         <Grid container spacing={2}>
                             <Grid item xs={10}>
                                 <Typography variant="h1" component="h1">
-                                    Welcome back
-                                </Typography>
-                                <Typography variant="h1" component="h1">
-                                    {/* user?.displayName */}
+                                    Welcome back { user?.firstName }
                                 </Typography>
                             </Grid>
                             <Grid item xs={2}>
-                                <ButtonUniversal
+                                {/*<ButtonUniversal
                                     title="+ Add"
                                     color={ButtonColor.Purple}
-                                    //color="#F23CFF"
                                     hoverColor={ButtonColor.PurpleHover}
-                                    //hoverColor="#DA16E3"
                                     textColor="white"
                                     actionDelegate={FuncAdd}
-                                />
+                                />*/}
                             </Grid>
                         </Grid>
                         <Grid container spacing={2}>
                         {items.map((item, index) => (
                             <Grid item md={4} xs={6} key={index}>
-                                <Box sx={{ border: '1px solid #ddd', /*padding: 2,*/ height: '100%' }}>
+                                <Box sx={{ /* border: '1px solid #ddd', padding: 2,*/ height: '100%' }}>
                                     <TileTypeMerchant
                                     caption={item.caption}
                                     numPlaces={item.numPlaces || 0}

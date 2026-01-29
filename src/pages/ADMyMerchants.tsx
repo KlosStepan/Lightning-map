@@ -162,7 +162,7 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = () => {
                         ) : (
                             <Grid item xs={12}>
                             <Typography variant="h2" sx={{ color: "#888", textAlign: "center", mt: 4 }}>
-                                No merchants found.
+                                No merchants found
                             </Typography>
                             </Grid>
                         )}
