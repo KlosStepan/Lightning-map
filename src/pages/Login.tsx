@@ -73,10 +73,15 @@ const Login: React.FC<LoginProps> = ({}) => {
     const passwordRef = useRef<HTMLInputElement>(null);
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
+    const googleButtonRef = useRef<HTMLDivElement | null>(null);
 
     const handleGoogleLogin = async (credentialResponse: any) => {
         console.log("[GoogleLogin] credentialResponse:", credentialResponse);
-        const idToken = credentialResponse.credential;
+        const idToken = credentialResponse?.credential;
+        if (!idToken) {
+            alert("Google login failed: missing ID token");
+            return;
+        }
         try {
             const res = await axios.post(
                 `${apiBaseUrl}/auth/google`,
@@ -84,16 +89,17 @@ const Login: React.FC<LoginProps> = ({}) => {
                 { withCredentials: true }
             );
             console.log("[GoogleLogin] backend response:", res);
-            // No need to store token in localStorage; backend should set cookie
-            // Optionally, re-check auth or reload user state here
             navigate("/admin/dashboard");
         } catch (err: any) {
             if (err.response) {
                 console.error("[GoogleLogin] backend error:", err.response.data);
-                alert("Google login failed: " + (err.response.data?.message || err.response.status));
+                alert(
+                    "Google login failed: " +
+                    (err.response.data?.message || err.response.status)
+                );
             } else {
                 console.error("[GoogleLogin] network error:", err);
-                alert("Google login failed: Network error");
+                alert("Google login failed: backend not reachable (is it running?)");
             }
         }
     };
@@ -190,7 +196,45 @@ const Login: React.FC<LoginProps> = ({}) => {
                                 actionDelegate={googleLogin}
                                 disabled={!process.env.REACT_APP_GOOGLE_CLIENT_ID}
                             />*/}
-                            <GoogleLogin
+                            <div
+                                ref={googleButtonRef}
+                                style={{ width: 0, height: 0, overflow: "hidden" }}
+                            >
+                                <GoogleLogin
+                                    onSuccess={handleGoogleLogin}
+                                    onError={() =>
+                                        alert(
+                                            "Google sign-in failed or was cancelled. Check browser pop-up/cookie settings and try again."
+                                        )
+                                    }
+                                />
+                            </div>
+                            {/* Styled button that triggers the hidden GoogleLogin */}
+                            <ContinueWithButton
+                                icon={LoginGoogle}
+                                title="Google"
+                                disabled={!process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                                actionDelegate={() => {
+                                    const root = googleButtonRef.current;
+                                    if (!root) {
+                                        alert("Google login is not ready yet. Please try again.");
+                                        return;
+                                    }
+                                    // Google renders a div[role=button] inside
+                                    const btn = root.querySelector(
+                                        "div[role=button], button"
+                                    ) as HTMLElement | null;
+                                    if (!btn) {
+                                        console.warn(
+                                            "[Login] Could not find inner Google button to click"
+                                        );
+                                        alert("Google login is not available. Please refresh and try again.");
+                                        return;
+                                    }
+                                    btn.click();
+                                }}
+                            />
+                            {/*<GoogleLogin
                                 onSuccess={async (credentialResponse) => {
                                     const idToken = credentialResponse.credential;
                                     if (!idToken) {
@@ -209,7 +253,7 @@ const Login: React.FC<LoginProps> = ({}) => {
                                     }
                                 }}
                                 onError={() => alert("Google login failed")}
-                            />
+                            />*/}
                             {/*<ContinueWithButton icon={LoginApple} title="Apple" actionDelegate={signInWithApple} />*/}
                             <ContinueWithButton icon={LoginEmail} title="e-mail" actionDelegate={async () => setLoginWithEmail(true)} />
                             <span style={{ paddingTop: "12px" }} />
