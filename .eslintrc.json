@@ -13,8 +13,8 @@
     "semi": ["error", "always"],
     "indent": ["error", 4],
     "quotes": ["error", "double"],
-    "react/react-in-jsx-scope": "off",
-    "@typescript-eslint/no-unused-vars": "warn"
+    "react/react-in-jsx-scope": "off"
+    // "@typescript-eslint/no-unused-expressions": "warn" // <-- REMOVE THIS LINE
   },
   "settings": {
     "react": {
