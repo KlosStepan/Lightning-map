@@ -1,30 +1,26 @@
 import React, { useEffect, useRef, useState } from "react";
-//Components
+// Components
 import ButtonUniversal from "../components/ButtonUniversal";
 import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
 import ToggleSocialInput from "../components/ToggleSocialInput";
 import UploadingImagesSpot from "../components/UploadingImagesSpot";
 import TagMerchant from "../components/TagMerchant";
-//Firebase
-//import { db, storage } from "../components/Firebase";
-//import { collection, addDoc, setDoc, doc } from "firebase/firestore";
-//import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-//Map stuff
+// Map stuff
 import L from "leaflet";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import group13 from '../icons/group13.png';
-//MUI
+// MUI
 import { Box, Checkbox, FormControlLabel } from '@mui/material';
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-//Redux+RTK
+// Redux + RTK
 import { RootState } from "../redux-rtk/store";
 import { useSelector } from "react-redux";
-//TypeScript
+// TypeScript
 import IMerchant from "../ts/IMerchant";
 import { IMerchantTile } from "../ts/IMerchant";
 import ISocial from "../ts/ISocial";
-//UUID generator
+// UUID Generator
 import { v4 as uuidv4 } from 'uuid';
 import { ButtonColor } from "../enums";
 import { getBackendImageUrl } from "../utils/image";
@@ -39,8 +35,9 @@ type ModifFormSpotProps = {
 );
 
 const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, merchant, documentid }) => {
-    // DEBUG
     const DEBUG = useSelector((state: RootState) => state.misc.debug);
+    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
+    const _user = useSelector((state: RootState) => state.misc.user);
     //
     if (DEBUG) {
         console.log("<DEBUG> ModifFormSpot.tsx")
@@ -50,9 +47,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         if (merchant) console.log("merchant: true")
         console.log("</DEBUG> ModifFormSpot.tsx")
     }
-    // Add this with your other useSelector calls
-    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
-    // Fields - 5x  Input
+    // Fields - 5x Input
     const nameRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLInputElement>(null);
     const addressRef = useRef<HTMLInputElement>(null);
@@ -74,7 +69,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         }
         setPosition([newPosition.lat, newPosition.lng]);
     };
-    // Socials - 5 Socials inputs, socials.map((social) => (
+    // Socials - 5 Socials Inputs, socials.map((social) => (
     const [socials, setSocials] = useState<ISocial[]>([
         { network: "web", label: "Web", link: null },
         { network: "facebook", label: "FB", link: null },
@@ -110,74 +105,36 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
     const [isAdding, setIsAdding] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     
-    // useEffect(() => {...} )
     useEffect(() => {
         if (!merchant) return; // Ensure we have merchant from props
         //
         setTags(merchant.tags);
         setSocials(merchant.socials);
     }, [merchant]);
+    
+    const _WrapSpotData = ({ updStatus }: { updStatus: boolean }): IMerchant => ({
+        geometry: {
+            coordinates: position || [0.0, 0.0],
+            type: "Point" //[x] Always Point
+        },
+        properties: {
+            id: updStatus ? merchant?.id || "" : uuidv4(), 
+            address: {
+                address: addressRef.current?.value || "",
+                city: cityRef.current?.value || "",
+                postalCode: postalCodeRef.current?.value || "",
+            },
+            description: descriptionRef.current?.value || "",
+            images: [], //[x] TODO some ref (?) into Storage/S3
+            owner: /* user?.uid  || */ "", //[x] TODO fill from Firebase profile
+            socials: socials || [],
+            tags: tags || [], //[x] TODO Implement FE on Form 
+            name: nameRef.current?.value || "",
+            visible: updStatus, //[x] Add->false, Update->true
+        },
+        type: "Feature" //[x] Always a Feature
+    });
 
-    /*
-    // CRUD Add/Upd + DummyPopulate/WrapSpot/PrepPics
-    const AddSpot = async () => {
-        try {
-            // Step 0/3 Set Adding true
-            setIsAdding(true);
-            // Step 1/3 Wrap Spot
-            const newSpot = WrapSpotData({ updStatus: false });
-            //console.log("Adding newSpot: ", newSpot);
-            // Step 2/3 Add Spot
-            const docRef = await addDoc(collection(db, "merchants"), newSpot);
-            console.log("Spot added with ID: ", docRef.id);
-            // Step 3/3 Upload Files
-            if (files.length>0) {
-                try {
-                    // Validate each file
-                    for (const file of files) {
-                        if (file.size === 0) {
-                            console.error("Selected file is empty:", file.name);
-                            return;
-                        }
-            
-                        if (!file.type.startsWith("image/")) {
-                            console.error("Selected file is not an image:", file.name);
-                            return;
-                        }
-                    }
-            
-                    console.log("Uploading", files.length, "files...");
-            
-                    // Upload all images and get their URLs
-                    const imageUrls = await Promise.all(
-                        files.map(async (file) => {
-                            const storageRef = ref(storage, `merchants-photos/${docRef.id}-${file.name}`);
-                            await uploadBytes(storageRef, file);
-                            return getDownloadURL(storageRef);
-                        })
-                    );
-            
-                    console.log("Uploaded image URLs:", imageUrls);
-            
-                    // Update Firestore Spot with array of image URLs
-                    await setDoc(doc(db, "merchants", docRef.id), {
-                        properties: { images: imageUrls }
-                    }, { merge: true });
-            
-                    console.log("Firestore updated with image URLs");
-                } catch (error) {
-                    console.error("Error uploading files:", error);
-                }
-            }
-            // Step 4/4 Once everything finishes (including images upload), reload the page
-            window.location.reload();
-        } catch (error) {
-            console.error("Error adding merchant: ", error);
-        } finally {
-            setIsAdding(false);
-        }
-    };
-    */
     const uploadImage = async (file: File, category = "merchants-photos"): Promise<{ url: string; fileName: string }> => {
         const formData = new FormData();
         formData.append("file", file);
@@ -333,28 +290,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
             setIsSaving(false);
         }
     };
-    const WrapSpotData = ({ updStatus }: { updStatus: boolean }): IMerchant => ({
-        geometry: {
-            coordinates: position || [0.0, 0.0],
-            type: "Point" //[x] Always Point
-        },
-        properties: {
-            id: updStatus ? merchant?.id || "" : uuidv4(), 
-            address: {
-                address: addressRef.current?.value || "",
-                city: cityRef.current?.value || "",
-                postalCode: postalCodeRef.current?.value || "",
-            },
-            description: descriptionRef.current?.value || "",
-            images: [], //[x] TODO some ref (?) into Storage/S3
-            owner: /* user?.uid  || */ "", //[x] TODO fill from Firebase profile
-            socials: socials || [],
-            tags: tags || [], //[x] TODO Implement FE on Form 
-            name: nameRef.current?.value || "",
-            visible: updStatus, //[x] Add->false, Update->true
-        },
-        type: "Feature" //[x] Always a Feature
-    });
+
 
     /*const PrepPics = (): any => ({
         //dadada, do after Spot is prototyped for all (in loop 3x) via the ext.
@@ -362,11 +298,11 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
     });*/
 
     const DebugPopulateDummySpot = async () => {
-        // Random number for unique name to distinguish between Dummy Merchant
+        // Dummy Merchant #rng-num
         const randomNumber = Math.floor(Math.random() * 10000) + 1;
         console.log(`DebugPopulateDummySpot() called; Spot: ${randomNumber}`);
 
-        // Populate inputs with text
+        // Populate inputs 
         if (nameRef.current) nameRef.current.value = `Dummy Spot Title ${randomNumber}`;
         if (descriptionRef.current) descriptionRef.current.value = `A brief dummy ${randomNumber} description.`;
         if (addressRef.current) addressRef.current.value = `123 Dummy Street`;
@@ -409,8 +345,6 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         }
     };
 
-    //
-    const user = useSelector((state: RootState) => state.misc.user);
     return (
         <React.Fragment>
             <React.Fragment>
@@ -540,9 +474,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                     <ButtonUniversal
                         title={"Populate-dummy-spot ^"}
                         color={ButtonColor.Pink}
-                        //color="#F23CFF"
                         hoverColor={ButtonColor.PinkHover}
-                        //hoverColor="#DA16E3"
                         textColor="white"
                         actionDelegate={DebugPopulateDummySpot}
                     />
@@ -551,9 +483,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                     <ButtonUniversal
                         title="Cancel"
                         color={ButtonColor.Purple}
-                        //color="#8000FF"
                         hoverColor={ButtonColor.PurpleHover}
-                        //hoverColor="#6603C9"
                         textColor="white"
                         actionDelegate={FuncCancel}
                     />
@@ -563,9 +493,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                     <ButtonUniversal
                         title={isSaving ? "Saving ..." : "Save"}
                         color={ButtonColor.Pink}
-                        //color="#F23CFF"
                         hoverColor={ButtonColor.PinkHover}
-                        //hoverColor="#DA16E3"
                         textColor="white"
                         actionDelegate={UpdateSpot}
                         disabled={isSaving}
@@ -574,11 +502,8 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                     <ButtonUniversal
                         title={isAdding ? "Adding ..." : "Add"}
                         color={ButtonColor.Pink}
-                        //color="#F23CFF"
                         hoverColor={ButtonColor.PinkHover}
-                        //hoverColor="#DA16E3"
                         textColor="white"
-                        //actionDelegate={AddSpot}
                         actionDelegate={AddSpot}
                         disabled={isAdding}
                     />

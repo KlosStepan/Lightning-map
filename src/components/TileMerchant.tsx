@@ -1,39 +1,39 @@
 import React from "react";
+// Components
+import TagMerchant from "./TagMerchant";
 // MUI
 import Box from '@mui/material/Box';
 import { CardMedia, Container, Typography } from '@mui/material';
-// Components
-import TagMerchant from "./TagMerchant";
-// TypeScript
-import { IMerchantTile } from "../ts/IMerchant";
-//Redux
+// Redux + RTK
 import { useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
+// TypeScript
+import { IMerchantTile } from "../ts/IMerchant";
+// Utils
+import { getBackendImageUrl } from "../utils/image";
+
 // Icons
 import IconLightningNumber from "../icons/IconLightningNumber";
-//Utils
-import { getBackendImageUrl } from "../utils/image";
 
 type TileMerchantProps = {
     likes: string;
     tile: IMerchantTile;
     index: number;
-    outOfBusiness?: boolean; // New flag
+    outOfBusiness?: boolean;
 };
 
-const TileMerchant: React.FC<TileMerchantProps> = ({ likes, tile, index, outOfBusiness = false }) => {
-    //
+const TileMerchant: React.FC<TileMerchantProps> = ({ likes, tile/*, index*/, outOfBusiness = false }) => {
     const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
-
+    
     // Determine grayscale effect and reduced effects based on `outOfBusiness` flag
     const containerOuterStyle = {
         padding: '0px 0px 0px 0px !important',
         gap: '10px',
         borderRadius: '16px',
-        backgroundColor: outOfBusiness ? '#d3d3d3' : 'white', // Set background to gray if out of business
-        filter: outOfBusiness ? 'grayscale(100%)' : 'none', // Apply grayscale effect
-        opacity: outOfBusiness ? 0.5 : 1, // Reduce opacity for closed businesses
-        pointerEvents: outOfBusiness ? 'none' : 'auto', // Disable interaction if out of business
+        backgroundColor: outOfBusiness ? '#d3d3d3' : 'white',
+        filter: outOfBusiness ? 'grayscale(100%)' : 'none',
+        opacity: outOfBusiness ? 0.5 : 1,
+        pointerEvents: outOfBusiness ? 'none' : 'auto',
     };
 
     // Upper part of Tile
@@ -73,11 +73,11 @@ const TileMerchant: React.FC<TileMerchantProps> = ({ likes, tile, index, outOfBu
                         image={getBackendImageUrl(tile.images[0], apiBaseUrl || "")}
                         alt={tile.name}
                         sx={{
-                            objectFit: 'cover',  // Adjust image size within its container
-                            height: '164px',     // Fixed height for consistency
+                            objectFit: 'cover', 
+                            height: '164px',
                             width: '100%',
-                            borderTopLeftRadius: '16px',  // Round the top-left corner
-                            borderTopRightRadius: '16px', // Round the top-right corner
+                            borderTopLeftRadius: '16px',
+                            borderTopRightRadius: '16px',
                         }}
                     />
                 )}
@@ -90,18 +90,15 @@ const TileMerchant: React.FC<TileMerchantProps> = ({ likes, tile, index, outOfBu
                     ))}
                 </Box>
             </Box>
-            {/*DEBUG NUMBER OF PHOTOS*/}
-            {/*<span>{tile.images.length}</span>*/}
             <Box sx={{ ...containerInnerStyleDown }}>
                 <Typography variant="h2" component="h2">
                     {tile.name}
                 </Typography>
                 <p style={{
                     fontSize: '16px',
-                    color: outOfBusiness ? '#9e9e9e' : '#6B7280', // Make text lighter if out of business
+                    color: outOfBusiness ? '#9e9e9e' : '#6B7280',
                     fontFamily: 'IBM Plex Sans Condensed',
                     marginTop: '2px',
-                    //lineHeight: '100%'
                 }}>
                     {tile.address.address + ' ' + tile.address.city + ' ' + tile.address.postalCode}
                 </p>

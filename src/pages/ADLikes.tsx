@@ -26,7 +26,7 @@ const ADLikes: React.FC<ADLikesProps> = () => {
     const [eshops, setEshops] = useState<IEshop[]>([]);
 
     useEffect(() => {
-        const fetchLikes = async () => {
+        /*const fetchLikes = async () => {
             try {
                 const res = await fetch(`${apiBaseUrl}/likes`, {
                     method: "GET",
@@ -44,7 +44,7 @@ const ADLikes: React.FC<ADLikesProps> = () => {
             } catch (error) {
                 console.error("Error fetching likes:", error);
             }
-        };
+        };*/
         //fetchLikes();
         const fetchAll = async () => {
             try {

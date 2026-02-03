@@ -103,6 +103,7 @@ function App() {
                     dispatch(setUser(null));
                 }
             } catch (err) {
+                console.error("[App] checkAuth failed:", err);
                 dispatch(setUser(null));
             }
         };

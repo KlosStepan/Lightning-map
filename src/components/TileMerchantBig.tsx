@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from "react";
-//Components
+import React, { useEffect, useMemo, useState } from "react";
+// Components
 import ButtonUniversal from "./ButtonUniversal";
 import TagMerchant from "./TagMerchant";
 import TagSocialLink from "./TagSocialLink";
-//enums
+// enums
 import { ButtonColor, ButtonSide } from "../enums";
-//MUI
+// MUI
 import Box from '@mui/material/Box';
 import Modal from "@mui/material/Modal";
 import { CardMedia, Container, Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { useMediaQuery, useTheme } from "@mui/material";
-//Redux+RTK
+// Redux + RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
 import { setSelected } from "../redux-rtk/mapFilteringSlice";
 import { setLikes } from "../redux-rtk/dataSlice";
-//Router
+// Router
 import {  useNavigate } from "react-router-dom";
-//TypeScript
+// TypeScript
 import { IMerchantTile } from "../ts/IMerchant";
 import ISocial from "../ts/ISocial";
 
@@ -65,13 +65,13 @@ type TileMerchantBigProps = {
 };
 
 const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLikeChange = async () => {} }) => {
-    const DEBUG = useSelector((state: RootState) => state.misc.debug);
-    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
-    const user = useSelector((state: RootState) => state.misc.user);
-    //
     const navigate = useNavigate();
     const dispatch = useDispatch();
     //
+    const DEBUG = useSelector((state: RootState) => state.misc.debug);
+    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
+    const user = useSelector((state: RootState) => state.misc.user);
+
     //Gallery impl.
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const handleNextImage = () => {
@@ -84,12 +84,18 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
     };
     //Gallery impl.
 
-    const likesArr = useSelector((state: RootState) => state.data.likes) ?? [];
+    const rawLikes = useSelector((state: RootState) => state.data.likes);
+
+    const likesArr = useMemo(
+        () => rawLikes ?? [],
+        [rawLikes]
+    );
 
     const [voted, setVoted] = useState<boolean>(false);
 
     useEffect(() => {
         if (!user) return;
+
         setVoted(false);
         const found = likesArr.find(
             (like) =>

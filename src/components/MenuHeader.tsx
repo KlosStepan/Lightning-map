@@ -1,5 +1,5 @@
 import React from "react"
-//MUI
+// MUI
 import { Box } from "@mui/material";
 import Button from '@mui/material/Button';
 import { CardMedia } from '@mui/material';
@@ -9,38 +9,34 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
-//Redux
+// Redux + RTK
 import { RootState } from "../redux-rtk/store";
 import { useSelector } from "react-redux";
-//Router
+// Router
 import { Link } from 'react-router-dom';
-//TypeScript
+// TypeScript
 import ILink from "../ts/ILink";
 
-//Icons
+// Icons
 import hamburger from '../icons/hamburger.png';
 import closeIcon2 from '../icons/close2.png';
-//Images imports
+// Images
 import logo from '../img/lightning-everywhere.png';
-import IconKey from "../icons/IconKey"; //Key for login account
+import IconKey from "../icons/IconKey";
 
 type MenuHeaderProps = {
     pages: ILink[];
     settings: string[];
 };
 
-const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
-    // DEBUG
-    const debug = useSelector((state: RootState) => state.misc.debug)
-    // BLOG 
+const MenuHeader: React.FC<MenuHeaderProps> = ({ pages/*, settings*/ }) => {
+    const DEBUG = useSelector((state: RootState) => state.misc.debug)
     const blogEnabled = useSelector((state: RootState) => state.misc.blog);
-
-    //
     const user = useSelector((state: RootState) => state.misc.user)
     //
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-    
+    //
     const handleCloseNavMenu = () => {
         console.log("handleCloseNavMenu");
         setAnchorElNav(null);
@@ -76,8 +72,7 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
         );
     };
 
-    // Conditionally log debug information
-    if (debug) {
+    if (DEBUG) {
         console.log("<DEBUG> MenuHeader.tsx");
         console.log("user", user);
         console.log("</DEBUG> MenuHeader.tsx")
@@ -184,17 +179,13 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                         </Button>
                     );
                 })}
-
             </Box>
-
             <Box sx={{ flexGrow: 0, color: 'black' }}>
                 <div style={{ fontFamily: 'PixGamer' }}>
                     <AvatarLink />
                 </div>
             </Box>
-            
             <Box>&nbsp;</Box>
-
             {/* here only on mobile vv */}
             <Box sx={{ display: { xs: 'flex', md: 'none' }, flexGrow: 0 }}>
                 {/* If anchorElUser is not null, show a CloseIcon */}
@@ -270,9 +261,8 @@ const MenuHeader: React.FC<MenuHeaderProps> = ({ pages, settings }) => {
                 </Menu>
             </Box>
             {/* here only on mobile ^^ */}
-
         </Toolbar>
-    )
+    );
 };
 
 export default MenuHeader;

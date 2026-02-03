@@ -1,21 +1,22 @@
-import axios from 'axios';
 import React from 'react';
+// MUI
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+// 1x icon
 import LoginArrowRight from '../img/login-arrow-right.png';
 
 type ContinueWithButtonProps = {
     icon: string;
     title: string;
-    actionDelegate?: () =>  void | Promise<void>; // Update type to function
-    disabled?: boolean; // <-- Add this
+    actionDelegate?: () =>  void | Promise<void>;
+    disabled?: boolean;
 }
 
 const ContinueWithButton: React.FC<ContinueWithButtonProps> = ({
     icon,
     title,
     actionDelegate,
-    disabled = false, // <-- default to false
+    disabled = false,
 }) => {
 return (
         <Button
@@ -30,15 +31,15 @@ return (
                 padding: '4px',
                 marginTop: '4px',
                 marginBottom: '4px',
-                filter: disabled ? 'grayscale(1)' : 'none', // <-- grayscale when disabled
-                pointerEvents: disabled ? 'none' : 'auto',   // <-- not hoverable when disabled
+                filter: disabled ? 'grayscale(1)' : 'none',
+                pointerEvents: disabled ? 'none' : 'auto',
                 '&:hover': {
                     backgroundColor: disabled ? 'white' : undefined,
                 },
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                opacity: disabled ? 0.7 : 1, // <-- slightly faded when disabled
+                opacity: disabled ? 0.7 : 1,
             }}
         >
             <Box
@@ -60,7 +61,7 @@ return (
                         marginLeft: 3,
                         marginRight: 2,
                         flexShrink: 0,
-                        filter: disabled ? 'grayscale(1)' : 'none', // <-- grayscale icon
+                        filter: disabled ? 'grayscale(1)' : 'none',
                     }}
                 />
                 {/* Center: Text */}
@@ -70,7 +71,7 @@ return (
                         textAlign: 'left',
                         flexGrow: 1,
                         fontSize: '20px',
-                        color: disabled ? '#888' : 'inherit', // <-- grey text when disabled
+                        color: disabled ? '#888' : 'inherit',
                     }}
                 >
                     Continue with {title}
@@ -86,12 +87,12 @@ return (
                         marginLeft: 1,
                         marginRight: 3,
                         flexShrink: 0,
-                        filter: disabled ? 'grayscale(1)' : 'none', // <-- grayscale arrow
+                        filter: disabled ? 'grayscale(1)' : 'none',
                     }}
                 />
             </Box>
         </Button>
     );
-}
+};
 
 export default ContinueWithButton;

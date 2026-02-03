@@ -1,25 +1,19 @@
 import React, { useRef, useState } from "react";
-//Components
+// Components
 import ButtonUniversal from "../components/ButtonUniversal";
 import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
 import UploadingImagesSpot from "../components/UploadingImagesSpot";
-//Firebase
-//import { db, storage } from "../components/Firebase";
-//import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
-//import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-//Image Compression Library
-//import imageCompression from 'browser-image-compression';
-//MUI
+// MUI
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { Checkbox, FormControlLabel } from '@mui/material';
-//Redux+RTK
+// Redux + RTK
 import { RootState } from "../redux-rtk/store";
 import { useSelector } from "react-redux";
-//TypeScript
+// TypeScript
 import IEshop from "../ts/IEshop";
-//UUID generator
+// UUID Generator
 import { v4 as uuidv4 } from 'uuid';
 import { ButtonColor } from "../enums";
 import { getBackendImageUrl } from "../utils/image";
@@ -32,11 +26,10 @@ type ModifFormEshopProps = {
 );
 
 const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false, eshop, documentid }) => {
-    //
-    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
-    // DEBUG
     const DEBUG = useSelector((state: RootState) => state.misc.debug);
-    // DEBUG info
+    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
+    const _user = useSelector((state: RootState) => state.misc.user);
+    //
     if (DEBUG) {
         console.log("<DEBUG> ModifFormEshop.tsx");
         console.log("--debugging on--")
@@ -44,9 +37,6 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
         if (documentid) console.log("Editing document with ID:", documentid);
         console.log("</DEBUG> ModifFormEshop.tsx")
     }
-    // Check if the user owns the e-shop (optional, based on user UID)
-    const user = useSelector((state: RootState) => state.misc.user);
-
     // Fields - 3x Input
     const titleRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLInputElement>(null);
@@ -59,117 +49,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
     const [isAdding, setIsAdding] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
 
-    /*
-    // CRUD Add/Upd + DummyPopulate/WrapEshop/PrepLogo
-    const AddEshop = async () => {
-        try {
-            // Step 0: Set Adding true
-            setIsAdding(true);
-
-            // Step 1: Prepare E-shop data without logo
-            const newEshop = WrapEshopData({ updStatus: false });
-            //console.log("Adding newEshop: ", newEshop);
-    
-            // Step 2: Add the E-shop to Firestore Database and retrieve docRef
-            const docRef = await addDoc(collection(db, "eshops"), newEshop);
-            console.log("E-shop added with docRef: ", docRef.id);
-    
-            // Step 3: Check for logo, upload logo to Storage if a file is provided
-            if (files.length > 0) {
-                const file = files[0];
-    
-                if (file.size === 0) {
-                    console.error("Selected file is empty. Please select a valid image.");
-                    return;
-                }
-    
-                if (!file.type.startsWith("image/")) {
-                    console.error("Selected file is not an image.");
-                    return;
-                }
-    
-                console.log("Uploading file:", file.name, "Size:", file.size);
-    
-                const storageRef = ref(storage, `eshop-logos/${docRef.id}-${file.name}`);
-                await uploadBytes(storageRef, file);
-                console.log("Image uploaded:", file.name);
-    
-                const imageUrl = await getDownloadURL(storageRef);
-                console.log("Image URL:", imageUrl);
-    
-                // Step 4: Add new logo URL to E-shop record in Firebase Database
-                await updateDoc(doc(db, "eshops", docRef.id), { logo: imageUrl });
-                console.log("E-shop updated with image URL");
-            }
-            // Step 4: Once everything finishes (including logo upload), reload the page
-            window.location.reload();
-        } catch (error) {
-            console.error("Error adding E-shop: ", error);
-        } finally {
-            setIsAdding(false);
-        }
-    };
-    */
-    
-    //verify logo changed(/not) vv
-    //|- run process prepLogo
-    /*
-    //Promise (data, (/logo) ) -> Firebase (& OK|FAIL)
-    const UpdateEshop = async () => {
-        if (!documentid) {
-            console.error("No document ID provided.");
-            return;
-        }
-
-        try {
-            setIsSaving(true);
-            // Prepare updated e-shop data
-            const updatedEshop = WrapEshopData({ updStatus: true });
-            console.log("Updating e-shop with data:", updatedEshop);
-    
-            // Ensure it's properly structured for Firestore update
-            await updateDoc(doc(db, "eshops", documentid), { ...updatedEshop });
-            console.log("E-shop document updated.");
-    
-            // Step 2: Handle logo update if a new file is uploaded
-            if (files.length > 0) {
-                const file = files[0];
-    
-                if (file.size === 0) {
-                    console.error("Selected file is empty.");
-                    return;
-                }
-    
-                if (!file.type.startsWith("image/")) {
-                    console.error("Selected file is not an image.");
-                    return;
-                }
-    
-                console.log("Uploading new logo:", file.name, "Size:", file.size);
-    
-                // Upload new logo to Firebase Storage
-                const storageRef = ref(storage, `eshop-logos/${documentid}-${file.name}`);
-                await uploadBytes(storageRef, file);
-                console.log("New logo uploaded.");
-    
-                // Get download URL
-                const newImageUrl = await getDownloadURL(storageRef);
-                console.log("New image URL:", newImageUrl);
-    
-                // Step 3: Update Firestore with the new logo URL
-                await updateDoc(doc(db, "eshops", documentid), { logo: newImageUrl });
-                console.log("Firestore updated with new logo.");
-            } else {
-                console.log("No new logo uploaded, skipping logo update.");
-            }
-        } catch (error) {
-            console.error("Error updating e-shop: ", error);
-        } finally {
-            setIsSaving(false);
-        }
-    };
-    */
-    const WrapEshopData = ({ updStatus }: { updStatus: boolean }): IEshop => ({
+    const _WrapEshopData = ({ updStatus }: { updStatus: boolean }): IEshop => ({
         id: updStatus ? eshop?.id || "" : uuidv4(), 
         country: "CZ", //[ ] TODO - implement FE on form (TLD/IP)
         description: descriptionRef.current?.value || "",
@@ -229,7 +109,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                 body: JSON.stringify(newEshop),
             });
             if (!res.ok) throw new Error("Failed to create eshop");
-            const createdEshop = await res.json();
+            //const createdEshop = await res.json();
 
             // Optionally, show success or reload
             window.location.reload();
@@ -288,7 +168,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                 const text = await res.text().catch(() => "");
                 throw new Error(`Failed to update eshop: ${res.status} ${text}`);
             }
-            const result = await res.json();
+            //const result = await res.json();
 
             // 4) Close modal and refresh UI (or update Redux instead)
             if (FuncCancel) FuncCancel();
@@ -300,6 +180,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
             setIsSaving(false);
         }
     };
+
     /*const PrepLogo = async (): Promise<Blob | null> => {
         console.log("prepLogo() called");
     
@@ -333,11 +214,11 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
     };*/
 
     const DebugPopulateDummyEshop = async () => {
-        // Random number for unique name to distinguish between Dummy E-shops
+        // Dummy E-shops #rng-num
         const randomNumber = Math.floor(Math.random() * 10000) + 1;
         console.log(`DebugPopulateDummyEshop() called; E-shop: ${randomNumber}`);
         
-        // Populate inputs with text
+        // Populate inputs
         if (titleRef.current) titleRef.current.value = `Sample E-shop ${randomNumber}`;
         if (descriptionRef.current) descriptionRef.current.value = `This is a dummy description ${randomNumber} for testing.`;
         if (webRef.current) webRef.current.value = `https://www.example${randomNumber}.com`;
@@ -376,9 +257,9 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                     fullWidth
                     inputRef={descriptionRef}
                     defaultValue={edit ? eshop?.description : ""}
-                    multiline // Enable multiline for the description field
-                    minRows={3} // Set the default number of rows to 3
-                    maxRows={5} // Optionally, set a maximum number of rows to expand to
+                    multiline
+                    minRows={3}
+                    maxRows={5}
                 />
             </Box>
             <Box mt={2}>
@@ -394,7 +275,6 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                 {edit && (
                     <React.Fragment>
                         <Box display="flex" alignItems="center" flexWrap="wrap" mt={1}>
-                            {/*<Typography variant="h2" component="h5" sx={{ whiteSpace: 'nowrap', mr: 1 }}>*/}
                             <FormControlLabel
                                 control={
                                     <Checkbox
@@ -406,7 +286,6 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                                 label="Keep logo"
                                 sx={{ mr: 2 }}
                             />
-                            {/*</Typography>*/}
                             {eshop?.logo && (
                                 <span style={{ display: 'inline-block', width: 40, height: 40, border: '1px solid black', borderRadius: 4, marginRight: 4, overflow: 'hidden' }}>
                                     <img 
@@ -432,9 +311,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                     <ButtonUniversal
                         title={"Populate-dummy-eshop ^"}
                         color={ButtonColor.Pink}
-                        //color="#F23CFF"
                         hoverColor={ButtonColor.PinkHover}
-                        //hoverColor="#DA16E3"
                         textColor="white"
                         actionDelegate={DebugPopulateDummyEshop}
                     />
@@ -443,9 +320,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                     <ButtonUniversal 
                         title="Cancel" 
                         color={ButtonColor.Purple}
-                        //color="#8000FF" 
                         hoverColor={ButtonColor.PurpleHover}
-                        //hoverColor="#6603C9"
                         textColor="white" 
                         actionDelegate={FuncCancel} 
                     />
@@ -454,9 +329,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                     <ButtonUniversal
                         title={isSaving ? "Saving ..." : "Save"}
                         color={ButtonColor.Pink}
-                        //color="#F23CFF"
                         hoverColor={ButtonColor.PinkHover}
-                        //hoverColor="#DA16E3"
                         textColor="white"
                         actionDelegate={UpdateEshop}
                         disabled={isSaving}
@@ -465,11 +338,8 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                     <ButtonUniversal
                         title={isAdding ? "Adding ..." : "Add"}
                         color={ButtonColor.Pink}
-                        //color="#F23CFF"
                         hoverColor={ButtonColor.PinkHover}
-                        //hoverColor="#DA16E3"
                         textColor="white"
-                        //actionDelegate={AddEshop}
                         actionDelegate={AddEshop}
                         disabled={isAdding}
                     />

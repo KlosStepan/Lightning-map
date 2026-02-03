@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from "react";
-//Components
+import React, { useEffect, useMemo, useState } from "react";
+// Components
 import ButtonUniversal from "./ButtonUniversal";
-//enums
+// Enums
 import { ButtonColor, ButtonSide } from "../enums";
-//Forms
+// Forms
 import FormSubmitReport from "../forms/FormSubmitReport";
-//MUI
+// MUI
 import Box from '@mui/material/Box';
 import Modal from "@mui/material/Modal";
 import { CardMedia, Container } from '@mui/material';
 import Typography from '@mui/material/Typography';
-//Redux+RTK
+// Redux + RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
 import { setLikes } from "../redux-rtk/dataSlice";
-//Router
+// Router
 import {  useNavigate } from "react-router-dom";
-//TypeScript
+// TypeScript
 import IEshop from "../ts/IEshop";
-//Utils
+// Utils
 import { getBackendImageUrl } from "../utils/image";
 
-//Icons
+// Icons
 import IconExclamationMark from "../icons/warning-box.png";
 import IconLightningPurple from "../icons/icon-lightning-purple.png";
 import IconLightningWhite from "../icons/icon-lightning-white.png"
@@ -49,16 +49,24 @@ type TileEshopProps = {
 };
 
 const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = true, handleLikeChange = async () => {} }) => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    //
     const DEBUG = useSelector((state: RootState) => state.misc.debug);
     const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
     const user = useSelector((state: RootState) => state.misc.user);
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const likesArr = useSelector((state: RootState) => state.data.likes) ?? [];
+    //
+    const rawLikes = useSelector((state: RootState) => state.data.likes);
     const [voted, setVoted] = useState<boolean>(false);
+    //
+    const likesArr = useMemo(
+        () => rawLikes ?? [],
+        [rawLikes]
+    );
 
     useEffect(() => {
         if (!user) return;
+
         setVoted(false);
         const found = likesArr.find(
             (like) =>
@@ -179,7 +187,7 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
-                            height: "200px",  // ✅ Set height to control vertical centering
+                            height: "200px",
                             width: "100%",
                         }}
                     >
@@ -188,9 +196,9 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
                             image={getBackendImageUrl(tile.logo, apiBaseUrl || "")}
                             alt={tile.name}
                             sx={{
-                                maxWidth: "100%",  // ✅ Adjust width if needed
-                                maxHeight: "100%", // ✅ Prevent overflow
-                                objectFit: "contain", // ✅ Ensure the image fits inside
+                                maxWidth: "100%",
+                                maxHeight: "100%",
+                                objectFit: "contain",
                             }}
                         />
                     </Box>

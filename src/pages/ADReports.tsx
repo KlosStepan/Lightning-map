@@ -1,32 +1,32 @@
 import React, { useEffect, useState } from "react";
-//Components
+// Components
 import ADMenu from "../components/ADMenu";
-//MUI
+// MUI
 import Typography from '@mui/material/Typography';
 import { Grid, Box, useMediaQuery, useTheme, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-//Redux+RTK
+// Redux + RTK
 import { useSelector } from "react-redux";
 import { RootState } from "../redux-rtk/store";
-//TypeScript
+// TypeScript
 import IReport from "../ts/IReport";
 import IEshop from "../ts/IEshop";
 import IMerchant from "../ts/IMerchant";
 
 type ADReportsProps = {
-//
+    //
 };
 
 const ADReports: React.FC<ADReportsProps> = () => {
     const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
     const theme = useTheme();
     const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
-
+    //
     const [reports, setReports] = useState<IReport[]>([]);
     const [merchants, setMerchants] = useState<IMerchant[]>([]);
     const [eshops, setEshops] = useState<IEshop[]>([]);
-
+    //
     useEffect(() => {
-        const fetchReports = async () => {
+        /*const fetchReports = async () => {
             try {
                 const res = await fetch(`${apiBaseUrl}/reports`, {
                     method: "GET",
@@ -47,7 +47,7 @@ const ADReports: React.FC<ADReportsProps> = () => {
             } catch (error) {
                 console.error("Error fetching reports:", error);
             }
-        };
+        };*/
         //fetchReports();
         const fetchAll = async () => {
             try {

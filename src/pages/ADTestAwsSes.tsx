@@ -1,20 +1,27 @@
-import React, { useRef, useState } from "react";
+import React, { useState, useRef } from "react";
+// Components
 import ADMenu from "../components/ADMenu";
 import ButtonUniversal from "../components/ButtonUniversal";
 import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
+// enums
 import { ButtonColor } from "../enums";
+// MUI
 import Typography from '@mui/material/Typography';
 import { Grid, Box, useMediaQuery, useTheme, TextField } from '@mui/material';
+// Redux + RTK
 import { RootState } from "../redux-rtk/store";
 import { useSelector } from "react-redux";
 
-type ADTestAwsSesProps = {};
+type ADTestAwsSesProps = {
+    //
+};
+
 const ADTestAwsSes: React.FC<ADTestAwsSesProps> = () => {
-    const theme = useTheme();
-    const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
     const DEBUG = useSelector((state: RootState) => state.misc.debug);
     const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
-
+    const theme = useTheme();
+    const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
+    //
     const emailRef = useRef<HTMLInputElement>(null);
     const subjectRef = useRef<HTMLInputElement>(null);
     const bodyRef = useRef<HTMLInputElement>(null);
@@ -61,6 +68,7 @@ const ADTestAwsSes: React.FC<ADTestAwsSesProps> = () => {
                 setResult(`Failed: ${res.status} ${txt}`);
             }
         } catch (err) {
+            console.error("[ADTestAwsSes] handleSend failed:", err);
             setResult("Network error");
         } finally {
             setIsSending(false);
@@ -72,6 +80,7 @@ const ADTestAwsSes: React.FC<ADTestAwsSesProps> = () => {
         if (subjectRef.current) subjectRef.current.value = "";
         if (bodyRef.current) bodyRef.current.value = "";
     };
+
     return (
         <React.Fragment>
             <Grid container>
