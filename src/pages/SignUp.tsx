@@ -1,40 +1,39 @@
 import React, { useRef, useState } from "react";
-import Footer from "../components/Footer";
-import ButtonUniversal from "../components/ButtonUniversal";
+// Components
 import AvatarCircle from "../components/AvatarCircle";
+import ButtonUniversal from "../components/ButtonUniversal";
+import Footer from "../components/Footer";
+// enums
 import { ButtonColor, ButtonLayout, ButtonSide } from "../enums";
+// MUI
+import { Box, Grid, CssBaseline, Typography, TextField } from "@mui/material";
+// Router
 import { useNavigate } from "react-router-dom";
-import {
-  Box,
-  Grid,
-  CssBaseline,
-  Typography,
-  TextField,
-  avatarClasses,
-} from "@mui/material";
-import mapWorldImage from "../img/map-world.jpg";
-
-//Redux+RTK
-import { RootState } from "../redux-rtk/store";
+// Redux + RTK
 import { useSelector } from "react-redux";
+import { RootState } from "../redux-rtk/store";
+
+// Icons
+import mapWorldImage from "../img/map-world.jpg";
 import ArrowRight from "../img/arrow-right.png";
 
 type SignUpProps = {
-  // Add props here if needed in the future
+  // 
 };
 
 const avatarList = [1,2,3,4,5,6,7,8,9,10,11,12,13];
 
 const SignUp: React.FC<SignUpProps> = ({}) => {
+  const navigate = useNavigate();
+  //
   const DEBUG = useSelector((state: RootState) => state.misc.debug);
-
+  // Profile info
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const [avatar, setAvatar] = useState<number>(0);
-  const navigate = useNavigate();
 
-  // Debug function to populate fields
+  // Debug Function - Populate Fields
   const DebugPopulateDummyUser = () => {
     const randomNumber = Math.floor(Math.random() * 10000) + 1;
     if (firstNameRef.current) firstNameRef.current.value = `Name-${randomNumber}`;
@@ -78,6 +77,7 @@ const SignUp: React.FC<SignUpProps> = ({}) => {
       alert("Account created! Please check your email for your password.");
       navigate("/login");
     } catch (error) {
+      console.error("[SignUp] handleSignUp failed:", error);
       alert("Network error");
     }
   };

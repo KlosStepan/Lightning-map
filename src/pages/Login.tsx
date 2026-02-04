@@ -1,80 +1,45 @@
-import React, { useEffect, useState, useRef } from "react";
-//import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-//enums
-import { ButtonSide } from '../enums';
-import IconEdit from '../icons/ico-btn-edit.png';
-//import Link from '@mui/material/Link';
-//import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-//import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import { /*createTheme, ThemeProvider*/ } from '@mui/material/styles';
-import ContinueWithButton from '../components/ContinueWithButton';
-import { useGoogleLogin } from '@react-oauth/google';
+import React, { useState, useRef } from "react";
+// Axios
 import axios from 'axios';
+// Components
+import ContinueWithButton from '../components/ContinueWithButton';
+import ButtonUniversal from "../components/ButtonUniversal";
+import Footer from "../components/Footer";
+// enums
+import { ButtonColor, ButtonLayout, ButtonSide } from "../enums";
+// MUI
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+// Router
+import { useNavigate } from "react-router-dom";
+// SSO w/ Google
 import { GoogleLogin } from '@react-oauth/google';
 
-//
-import { useNavigate } from "react-router-dom";
-//import { auth, /*logInWithEmailAndPassword,*/ signInWithGoogle } from "../components/Firebase";
-
-//Login buttons stuff
-//import LoginApple from '../img/login-apple.png';
+// Icons
 import LoginGoogle from '../img/login-google.png';
 import LoginEmail from '../img/login-mail.png';
-import LoginArrowRight from '../img/login-arrow-right.png';
 import ArrowRight from '../img/arrow-right.png';
+import mapWorldImage from '../img/map-world.jpg'; 
 
-//import { isNullishCoalesce } from 'typescript';
-
-//import { useAuthState } from "react-firebase-hooks/auth";
-
-// ✅ Path to your image
-import mapWorldImage from '../img/map-world.jpg'; // adjust path if neede
-import Footer from "../components/Footer";
-import { ButtonColor, ButtonLayout } from "../enums";
-import ButtonUniversal from "../components/ButtonUniversal";
-
-// TODO remove, this demo shouldn't need to reset the theme.
-//const defaultTheme = createTheme();
-
-//TODO signIns
-/*const signInWithApple = (): Promise<void> => {
-    console.log("TODO - signInWithApple");
-    return Promise.resolve();
-};*/
 type LoginProps = {
-    // Add props here if needed in the future
+    // 
 };
 
-//TODO - LoginProxy in TODO new Login/ folder w/ image
-//Will be stepped: Login general || Login e-mail/pass || Create Account || Password reset
-const Login: React.FC<LoginProps> = ({}) => {
-    /*const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
-    };*/
-    //const [user, loading /*, error*/] = useAuthState(auth);
+const Login: React.FC<LoginProps> = ({ }) => {
     const navigate = useNavigate();
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
+    //
     const [loginWithEmail, setLoginWithEmail] = useState(false);
-    
-    // Add refs for email and password
+    //
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
-
-    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
+    // Aux. ContinueWithButton(Google) -> &GoogleLogin | ref "hack"
     const googleButtonRef = useRef<HTMLDivElement | null>(null);
 
+    // Login via SSO Google
     const handleGoogleLogin = async (credentialResponse: any) => {
         console.log("[GoogleLogin] credentialResponse:", credentialResponse);
         const idToken = credentialResponse?.credential;
@@ -104,12 +69,7 @@ const Login: React.FC<LoginProps> = ({}) => {
         }
     };
 
-    const googleLogin = useGoogleLogin({
-        onSuccess: handleGoogleLogin,
-        onError: () => alert("Google login failed"),
-    });
-
-    // Function to handle login
+    // Login via Email
     const loginUsingEmail = async () => {
         const email = emailRef.current?.value || "";
         const password = passwordRef.current?.value || "";
@@ -142,18 +102,6 @@ const Login: React.FC<LoginProps> = ({}) => {
             console.error("[Login] Network error:", error);
             alert("Network error");
         }
-    };
-    /*
-    useEffect(() => {
-        if (loading) {
-            // maybe trigger a loading screen
-            return;
-        }
-        if (user) navigate("/admin/dashboard");
-    }, [user, loading, navigate]);
-    */
-    const signInWithEmail = async () => {
-        setLoginWithEmail(true);
     };
 
     return (
@@ -190,12 +138,6 @@ const Login: React.FC<LoginProps> = ({}) => {
                                 Login
                             </Typography>
                             <span style={{ paddingTop: "12px" }} />
-                            {/*<ContinueWithButton
-                                icon={LoginGoogle}
-                                title="Google"
-                                actionDelegate={googleLogin}
-                                disabled={!process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                            />*/}
                             <div
                                 ref={googleButtonRef}
                                 style={{ width: 0, height: 0, overflow: "hidden" }}
@@ -209,7 +151,7 @@ const Login: React.FC<LoginProps> = ({}) => {
                                     }
                                 />
                             </div>
-                            {/* Styled button that triggers the hidden GoogleLogin */}
+                            {/* Styled button: Triggers the hidden GoogleLogin (^ above) */}
                             <ContinueWithButton
                                 icon={LoginGoogle}
                                 title="Google"
@@ -234,26 +176,6 @@ const Login: React.FC<LoginProps> = ({}) => {
                                     btn.click();
                                 }}
                             />
-                            {/*<GoogleLogin
-                                onSuccess={async (credentialResponse) => {
-                                    const idToken = credentialResponse.credential;
-                                    if (!idToken) {
-                                    alert("Google login failed: missing ID token");
-                                    return;
-                                    }
-                                    try {
-                                    const res = await axios.post(
-                                        `${apiBaseUrl}/auth/google`,
-                                        { token: idToken },
-                                        { withCredentials: true }
-                                    );
-                                    navigate("/admin/dashboard");
-                                    } catch (err: any) {
-                                    alert("Google login failed");
-                                    }
-                                }}
-                                onError={() => alert("Google login failed")}
-                            />*/}
                             {/*<ContinueWithButton icon={LoginApple} title="Apple" actionDelegate={signInWithApple} />*/}
                             <ContinueWithButton icon={LoginEmail} title="e-mail" actionDelegate={async () => setLoginWithEmail(true)} />
                             <span style={{ paddingTop: "12px" }} />
@@ -274,18 +196,6 @@ const Login: React.FC<LoginProps> = ({}) => {
                         </> 
                         ) : (
                             <>
-                                {/*<Box display="flex" justifyContent="flex-start" alignItems="left" width="100%" mb={2}>
-                                    <ButtonUniversal
-                                        title="← Back"
-                                        color={ButtonColor.White}
-                                        //color="#8000FF"
-                                        hoverColor={ButtonColor.ReportDefault}
-                                        //hoverColor="#6603C9"
-                                        textColor="black"
-                                        actionDelegate={() => setLoginWithEmail(false)}
-                                        tabIndex={-1} // Skipped in tab order
-                                    />
-                                </Box>*/}
                                 <Typography variant="h1" component="h1">
                                     Login {/*Login using Email*/}
                                 </Typography>
@@ -296,7 +206,6 @@ const Login: React.FC<LoginProps> = ({}) => {
                                     await loginUsingEmail();
                                 }} noValidate sx={{ mt: 1 }}>
                                     <Box mt={1}>
-                                        {/*<Typography variant="h2" component="h5">E-mail</Typography>*/}
                                         <TextField
                                         fullWidth
                                         type="email"
@@ -308,7 +217,6 @@ const Login: React.FC<LoginProps> = ({}) => {
                                         />
                                     </Box>
                                     <Box mt={1}>
-                                        {/*<Typography variant="h2" component="h5">Password</Typography>*/}
                                         <TextField
                                             fullWidth
                                             type="password"
@@ -319,18 +227,6 @@ const Login: React.FC<LoginProps> = ({}) => {
                                             inputRef={passwordRef}
                                         />
                                     </Box>
-                                    {/*<FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                //checked={keepPhotos}
-                                                //onChange={(e) => setKeepPhotos(e.target.checked)}
-                                                color="primary"
-                                                tabIndex={-1} // <-- This removes it from tab order
-                                            />
-                                        }
-                                        label="Remember me"
-                                        sx={{ mr: 2 }}
-                                    />*/}
                                     <Box mt={2} display="flex" flexDirection="column" alignItems="center" width="100%">
                                         <div style={{ fontFamily: "PixGamer", fontSize: "20px" }}>
                                             <span onClick={() => navigate("/forgot-password")} style={{ cursor: "pointer" }}>

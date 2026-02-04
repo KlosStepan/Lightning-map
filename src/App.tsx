@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-//Components
+// Components
 import MenuHeader from './components/MenuHeader';
 import ProtectedRoute from './components/ProtectedRoute';
-import LoginProxyForgotPassword from "./pages/LoginProxyForgotPassword";
-//Pages
+import ForgotPassword from "./pages/ForgotPassword";
+// Pages
 import Homepage from './pages/Homepage';
 import MerchantsMap from './pages/MerchantsMap';
 import Eshops from './pages/Eshops';
@@ -11,34 +11,35 @@ import WhyLightning from './pages/WhyLightning';
 import Blog from './pages/Blog';
 import About from './pages/About';
 import Login from './pages/Login';
-//Pages - AD
+import SignUp from "./pages/SignUp";
+import UIKit from "./pages/UIKit"; // aux.
+// Pages - AD
 import ADHome from './pages/ADHome';
 import ADMyMerchants from './pages/ADMyMerchants';
-import ADMyEShops from './pages/ADMyEShops';
+import ADMyEshops from './pages/ADMyEshops';
 import ADMyAccount from './pages/ADMyAccount';
-//Pages - AD Admin
+// Pages - AD | Admin
 import ADManageUsers from "./pages/ADManageUsers";
 import ADApproveNewEntries from "./pages/ADApproveNewEntries";
 import ADLikes from "./pages/ADLikes";
 import ADReports from "./pages/ADReports";
-//Pages - AD Debug
-import TestAwsSes from "./pages/ADTestAwsSes";
-//MUI
+// Pages - AD | Admin Debug
+import TestAwsSes from "./pages/ADTestAwsSes"; // aux.
+// MUI
 import AppBar from '@mui/material/AppBar';
 import { Container, CssBaseline } from "@mui/material";
 import { Grid } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-//Redux+RTK
+// Redux + RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "./redux-rtk/store";
 import { setMerchants, setEshops, setLikes } from './redux-rtk/dataSlice';
 import { setUser } from "./redux-rtk/miscSlice";
-//Router
+// Router
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-//TypeScript
+// TypeScript
 import ILink from './ts/ILink';
-import UIKit from "./pages/UIKit";
-import SignUp from "./pages/SignUp";
+
 
 // Website menu
 const pages: ILink[] = [
@@ -54,15 +55,15 @@ const pages: ILink[] = [
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function App() {
-    const DEBUG = useSelector((state: RootState) => state.misc.debug)    
+    const dispatch = useDispatch();
+    const theme = useTheme();
+    //
     const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
+    const DEBUG = useSelector((state: RootState) => state.misc.debug)    
     //
     const merchants = useSelector((state: RootState) => state.data.merchants);
     const eshops = useSelector((state: RootState) => state.data.eshops);
     const likes = useSelector((state: RootState) => state.data.likes);
-    //
-    const dispatch = useDispatch();
-    const theme = useTheme();
 
     if (DEBUG) {
         console.log("<DEBUG> App.tsx");
@@ -129,30 +130,26 @@ function App() {
                         <Routes>
                             <Route path="/" element={<Homepage />} />
                             <Route path="/map" element={<MerchantsMap />} />
-                            {/*<Route path="/map" element={<MapDummy/>} />*/}
                             <Route path="/e-shops" element={<Eshops />} />
                             <Route path="/why-lightning" element={<WhyLightning />} />
-                            <Route path="/blog" element={<Blog />} /> {/*TODO blog enable/disable */}
+                            <Route path="/blog" element={<Blog />} /> {/* BLOG is either 1/0 */}
                             <Route path="/about" element={<About />} />
                             <Route path="/login" element={<Login />} />
-                            {/*<Route path="/login-test" element={<LoginProxyTest/>} /> */}
-                            {/**/}
                             <Route path="/sign-up" element={<SignUp />} />
-                            {/*<Route path="/forgot-password" element={<ForgotPassword />} />*/}
-                            <Route path="/forgot-password" element={<LoginProxyForgotPassword />} />
-                            {/*Admin Dashboard*/}
+                            <Route path="/forgot-password" element={<ForgotPassword />} />
+                            {/* Admin Dashboard */}
                             <Route path="/admin/dashboard" element={<ProtectedRoute> <ADHome /> </ProtectedRoute>} />
                             <Route path="/admin/my-spots" element={<ProtectedRoute> <ADMyMerchants /> </ProtectedRoute>} />
-                            <Route path="/admin/my-eshops" element={<ProtectedRoute> <ADMyEShops /> </ProtectedRoute>} />
+                            <Route path="/admin/my-eshops" element={<ProtectedRoute> <ADMyEshops /> </ProtectedRoute>} />
                             <Route path="/admin/my-account" element={<ProtectedRoute> <ADMyAccount /> </ProtectedRoute>} />
-                            {/*Administration of Lightning Everywhere for admin*/}
+                            {/* Admin Dashboard | for Admin */}
                             <Route path="/admin/manage-users" element={<ProtectedRoute> <ADManageUsers/> </ProtectedRoute>} />
                             <Route path="/admin/new-entries" element={<ProtectedRoute> <ADApproveNewEntries/> </ProtectedRoute>} />
                             <Route path="/admin/likes" element={<ProtectedRoute> <ADLikes/> </ProtectedRoute>} />
                             <Route path="/admin/reports" element={<ProtectedRoute> <ADReports/> </ProtectedRoute>} />
-                            {/*Mics*/}
+                            {/* Misc. */}
                             <Route path="/uikit" element={<UIKit propFromApptsx={true}/>}/>
-                            <Route path="/admin/test-aws-ses" element={<ProtectedRoute><TestAwsSes /></ProtectedRoute>} />
+                            <Route path="/admin/test-aws-ses" element={<ProtectedRoute> <TestAwsSes /> </ProtectedRoute>} />
                         </Routes>
                     </React.Fragment>
                 </Grid>

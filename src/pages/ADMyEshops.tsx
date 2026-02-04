@@ -1,33 +1,28 @@
 import React, { useEffect, useMemo, useState } from "react";
-//Components
+// Components
 import ADMenu from "../components/ADMenu";
 import ButtonUniversal from "../components/ButtonUniversal";
 import TileAddedEshop from "../components/TileAddedEshop";
-//enums
+// enums
 import { ButtonColor, ButtonSide } from "../enums";
-//Firebase
-//import { Firestore, QuerySnapshot, DocumentData, collection, getDocs, query, where } from "firebase/firestore";
-//import { db } from "../components/Firebase";
-//Forms
+// Forms
 import FormAddEshop from "../forms/FormAddEshop";
-//MUI
+// MUI
 import Typography from '@mui/material/Typography';
 import { Grid, Box, useMediaQuery, useTheme } from '@mui/material';
 import Modal from "@mui/material/Modal";
-//Redux+RTK
+// Redux + RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
-import { setMerchants, setEshops, setLikes } from '../redux-rtk/dataSlice';
-import { setUserMerchants, setUserEshops } from "../redux-rtk/miscSlice";
-//TypeScript
+import { setEshops } from '../redux-rtk/dataSlice';
+import { setUserEshops } from "../redux-rtk/miscSlice";
+// TypeScript
 import IEshop from "../ts/IEshop";
 import { IEshopADWrapper } from "../ts/IEshop";
 
-//Icons
+// Icons
 import IconPlus from '../icons/ico-btn-plus.png';
-//
-import dummyEshops from '../dummy/eshops.json';
-//
+
 type ADMyEShopsProps = {
     //
 };
@@ -35,52 +30,46 @@ type ADMyEShopsProps = {
 const ADMyEShops: React.FC<ADMyEShopsProps> = () => {
     const dispatch = useDispatch();
     //
+    const DEBUG = useSelector((state: RootState) => state.misc.debug);
     const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
-    //State
     const user = useSelector((state: RootState) => state.misc.user);
-    //let uid = user?.uid
-    let uid = 9999; //TODO remove
     //
     const myEshops = useSelector((state: RootState) => state.misc.userEshops);
-    //const likes = useSelector((state:RootState) => state.data.likes) ?? [];
     const rawLikes = useSelector((state: RootState) => state.data.likes);
     const likes = useMemo(() => rawLikes ?? [], [rawLikes]);
     //
     const [likeCountsMap, setLikeCountsMap] = useState(new Map());
-    //Debug
-    const debug = useSelector((state: RootState) => state.misc.debug);
-    if (debug) {
+
+    if (DEBUG) {
         console.log("cnt(myMerchants): " + myEshops?.length);
     }
+
     //Functions for Eshops
     const FuncAddEshop = (): Promise<void> => {
         console.log("AddEshop")
         handleOpen()
         return Promise.resolve();
     }
+
     useEffect(() => {
         const getEshops = async () => {
             const res = await fetch(`${apiBaseUrl}/eshops`);
             const eshops = await res.json();
             dispatch(setEshops(eshops));
-            
-            // Filter and convert eshops for the current user
+            // Filter E-shops for the Current User
             const filteredEshops = eshops.filter((eshop: IEshop) => 
                 eshop.owner === user?.id || 
                 (Array.isArray(eshop.editor) && eshop.editor.includes(user?.id)) ||
                 eshop.editor === user?.id
             );
-            
-            // Convert to IEshopADWrapper format
+            // Convert to IEshopADWrapper Format
             const userEshopsList = filteredEshops.map((eshop: IEshop) => ({
                 documentid: eshop.id,
                 eshop
             }));
-            
-            // Update user's eshops in Redux
+            // Update User's E-shops in Redux
             dispatch(setUserEshops(userEshopsList));
         };
-
         getEshops();
 
         // Likes mapping logic remains unchanged
@@ -89,8 +78,9 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = () => {
             newMap.set(entityId, (newMap.get(entityId) || 0) + 1);
         });
         setLikeCountsMap(newMap);
-    }, [uid, likes, dispatch]);
-    //Function for dynamicPadding(index)
+    }, [apiBaseUrl, user?.id, likes, dispatch]);
+
+    // Function for dynamicPadding(index) || TODO maybe fix/repolish
     const dynamicPadding = (index: number) => {
         const spaceBetween = 8; // Up and Down space
         const spaceTile = 8; // Between tiles space
@@ -103,13 +93,16 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = () => {
                 return { padding: `${spaceBetween}px ${spaceTile}px ${spaceBetween}px ${spaceTile}px !important` }; // Middle tiles
         }
     };
-    //Modal Stuff
+
+    // Modal Stuff
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    //Phone detection 
+
+    // Phone detection 
     const theme = useTheme();
     const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
+
     return (
         <React.Fragment>
             <Grid container>
@@ -122,6 +115,7 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = () => {
                         <ADMenu />
                     </Box>
                 </Grid>}
+                {/* Main Content */}
                 <Grid item md={9} xs={12}>
                     <Box
                         sx={{
@@ -140,33 +134,30 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = () => {
                                     side={ButtonSide.Left}
                                     title={isPhone?"Add":"Add e-shop"}
                                     color={ButtonColor.Pink}
-                                    //color="#F23CFF"
                                     hoverColor={ButtonColor.PinkHover}
-                                    //hoverColor="#DA16E3"
                                     textColor="white"
                                     actionDelegate={FuncAddEshop}
                                 />
                             </Grid>
                         </Grid>
                         <Grid container spacing={2} sx={{ marginRight: 0, marginLeft: 0 }}>
-                        {myEshops && myEshops.length > 0 ? (
-                            myEshops.map((eshop: IEshopADWrapper, index: number) => (
-                            <Grid xs={12} sm={4} key={index} sx={isPhone ? {} : { ...dynamicPadding(index) }}>
-                                <TileAddedEshop likes={likeCountsMap.get(eshop.eshop.id) || 0} eshop={eshop} />
-                            </Grid>
-                            ))
-                        ) : (
-                            <Grid item xs={12}>
-                            <Typography variant="h2" sx={{ color: "#888", textAlign: "center", mt: 4 }}>
-                                No e-shops found
-                            </Typography>
-                            </Grid>
-                        )}
+                            {myEshops && myEshops.length > 0 ? (
+                                myEshops.map((eshop: IEshopADWrapper, index: number) => (
+                                <Grid xs={12} sm={4} key={index} sx={isPhone ? {} : { ...dynamicPadding(index) }}>
+                                    <TileAddedEshop likes={likeCountsMap.get(eshop.eshop.id) || 0} eshop={eshop} />
+                                </Grid>
+                                ))
+                            ) : (
+                                <Grid item xs={12}>
+                                    <Typography variant="h2" sx={{ color: "#888", textAlign: "center", mt: 4 }}>
+                                        No e-shops found
+                                    </Typography>
+                                </Grid>
+                            )}
                         </Grid>
                     </Box>
                 </Grid>
             </Grid>
-            {/* Modal */}
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -178,7 +169,7 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = () => {
                     <FormAddEshop closeModal={handleClose}/>
                 </Box>
             </Modal>
-            {/* Menu down - for phone */}
+            {/* Menu Down - For phone */}
             {isPhone && <ADMenu/>}
         </React.Fragment>
     );
