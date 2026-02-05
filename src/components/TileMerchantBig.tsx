@@ -1,3 +1,5 @@
+////typescript
+// filepath: /home/stepo/projects/Lightning-map/src/components/TileMerchantBig.tsx
 import React, { useEffect, useMemo, useState } from "react";
 // Components
 import ButtonUniversal from "./ButtonUniversal";
@@ -5,39 +7,35 @@ import TagMerchant from "./TagMerchant";
 import TagSocialLink from "./TagSocialLink";
 // enums
 import { ButtonColor, ButtonSide } from "../enums";
+// Forms
+import FormSubmitReport from "../forms/FormSubmitReport";
 // MUI
 import Box from '@mui/material/Box';
 import Modal from "@mui/material/Modal";
 import { CardMedia, Container, Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { useMediaQuery, useTheme } from "@mui/material";
+import { useMediaQuery, useTheme, IconButton } from "@mui/material";
+// MUI | Gallery impl.
+import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 // Redux + RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
 import { setSelected } from "../redux-rtk/mapFilteringSlice";
 import { setLikes } from "../redux-rtk/dataSlice";
 // Router
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // TypeScript
 import { IMerchantTile } from "../ts/IMerchant";
 import ISocial from "../ts/ISocial";
-
-//Icons
-import closeIcon from '../icons/close.png';
-//todo
-import WarningBox from "../icons/warning-box.png";
-//
-import IconLightningPurple from "../icons/icon-lightning-purple.png";
-import IconLightningWhite from "../icons/icon-lightning-white.png"
-//Fake images
-import FormSubmitReport from "../forms/FormSubmitReport";
-//
+// Utils
 import { getBackendImageUrl } from "../utils/image";
 
-//Gallery impl.
-import { IconButton,  } from "@mui/material";
-import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
-//Gallery impl.
+// Icons
+import closeIcon from '../icons/close.png';
+import WarningBox from "../icons/warning-box.png";
+// Icons | Like / Unlike
+import IconLightningPurple from "../icons/icon-lightning-purple.png";
+import IconLightningWhite from "../icons/icon-lightning-white.png";
 
 const containerOuterStyle = {
     padding: '16px 12px',
@@ -60,7 +58,7 @@ const iconStyle = {
 
 type TileMerchantBigProps = {
     likes: string;
-    tile: IMerchantTile; 
+    tile: IMerchantTile;
     handleLikeChange?: (vendorid: string, change: number) => Promise<void>;
 };
 
@@ -72,7 +70,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
     const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
     const user = useSelector((state: RootState) => state.misc.user);
 
-    //Gallery impl.
+    // Gallery impl.
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const handleNextImage = () => {
         setCurrentImageIndex((prevIndex) => (prevIndex + 1) % tile.images.length);
@@ -82,7 +80,11 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
             prevIndex === 0 ? tile.images.length - 1 : prevIndex - 1
         );
     };
-    //Gallery impl.
+    // Reset gallery position whenever merchant / images change
+    useEffect(() => {
+        setCurrentImageIndex(0);
+    }, [tile.id, tile.images]);
+    // Gallery impl.
 
     const rawLikes = useSelector((state: RootState) => state.data.likes);
 
@@ -166,15 +168,15 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
 
     const FuncReport = (): Promise<void> => {
         console.log("Report merchant");
-        if(!user) {
-            navigate('/login')
-          }
-          else {
-            console.log("logged in")
-            handleOpenReport()
-          }
+        if (!user) {
+            navigate('/login');
+        } else {
+            console.log("logged in");
+            handleOpenReport();
+        }
         return Promise.resolve();
     };
+
     // Modal State
     const [openReport, setOpenReport] = React.useState(false);
     const handleOpenReport = () => setOpenReport(true);
@@ -183,6 +185,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
     // Inside the component
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
     return (
         <React.Fragment>
             <Container maxWidth="sm" sx={containerOuterStyle}>
@@ -191,32 +194,96 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                         {/* LEFT - Image section */}
                         <Grid item xs={12} sm={6}>
                             {tile.images.length > 1 ? (
-                                <div style={{ position: "relative", /*width: 342,*/ height: 216, overflow: "hidden", borderRadius: 4 }}>
-                                <CardMedia
-                                    component="img"
-                                    image={getBackendImageUrl(tile.images[currentImageIndex], apiBaseUrl || "")}
-                                    alt={tile.name}
-                                    sx={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 4 }}
-                                />
-                                <IconButton
-                                    onClick={handlePrevImage}
-                                    sx={{ position: "absolute", top: "50%", left: "10px", transform: "translateY(-50%)", color: "white", backgroundColor: "rgba(0,0,0,0.5)" }}
-                                >
-                                    <ArrowBackIos />
-                                </IconButton>
-                                <IconButton
-                                    onClick={handleNextImage}
-                                    sx={{ position: "absolute", top: "50%", right: "10px", transform: "translateY(-50%)", color: "white", backgroundColor: "rgba(0,0,0,0.5)" }}
-                                >
-                                    <ArrowForwardIos />
-                                </IconButton>
-                                </div>
+                                <>
+                                    <div
+                                        style={{
+                                            position: "relative",
+                                            height: 216,
+                                            overflow: "hidden",
+                                            borderRadius: 4,
+                                        }}
+                                    >
+                                        <CardMedia
+                                            component="img"
+                                            image={getBackendImageUrl(
+                                                tile.images[currentImageIndex],
+                                                apiBaseUrl || ""
+                                            )}
+                                            alt={tile.name}
+                                            sx={{
+                                                width: "100%",
+                                                height: "100%",
+                                                objectFit: "cover",
+                                                borderRadius: 4,
+                                            }}
+                                        />
+                                        <IconButton
+                                            onClick={handlePrevImage}
+                                            sx={{
+                                                position: "absolute",
+                                                top: "50%",
+                                                left: "10px",
+                                                transform: "translateY(-50%)",
+                                                color: "white",
+                                                backgroundColor: "rgba(0,0,0,0.5)",
+                                            }}
+                                        >
+                                            <ArrowBackIos />
+                                        </IconButton>
+                                        <IconButton
+                                            onClick={handleNextImage}
+                                            sx={{
+                                                position: "absolute",
+                                                top: "50%",
+                                                right: "10px",
+                                                transform: "translateY(-50%)",
+                                                color: "white",
+                                                backgroundColor: "rgba(0,0,0,0.5)",
+                                            }}
+                                        >
+                                            <ArrowForwardIos />
+                                        </IconButton>
+                                    </div>
+
+                                    {/* Informational indicator under photo (1/n segments, current is darker) */}
+                                    <Box
+                                        sx={{
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            mt: 1,
+                                            gap: 0.5,
+                                        }}
+                                    >
+                                        {tile.images.map((_, index) => (
+                                            <Box
+                                                key={index}
+                                                onClick={index === currentImageIndex ? undefined : () => setCurrentImageIndex(index)}
+                                                sx={{
+                                                    flex: 1, // each segment gets 1/n of the width
+                                                    height: 4,
+                                                    borderRadius: 999,
+                                                    backgroundColor:
+                                                        index === currentImageIndex
+                                                            ? "#4B5563" // darker for current (e.g. gray-700)
+                                                            : "#E5E7EB", // lighter for others (e.g. gray-200)
+                                                    transition: "background-color 0.2s ease",
+                                                    cursor: index === currentImageIndex ? "default" : "pointer",
+                                                }}
+                                            />
+                                        ))}
+                                    </Box>
+                                </>
                             ) : (
                                 <CardMedia
                                     component="img"
                                     image={getBackendImageUrl(tile.images[0], apiBaseUrl || "")}
                                     alt={tile.name}
-                                    sx={{ /*width: 342,*/ height: 216, objectFit: "cover", borderRadius: 4 }}
+                                    sx={{
+                                        height: 216,
+                                        objectFit: "cover",
+                                        borderRadius: 4,
+                                    }}
                                 />
                             )}
                         </Grid>
@@ -228,7 +295,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                                         <TagMerchant key={tag} tag={tag} />
                                     ))}
                                 </div>
-                                { !isMobile && (
+                                {!isMobile && (
                                     <div onClick={() => dispatch(setSelected(null))}>
                                         <Box
                                             component="img"
@@ -237,8 +304,8 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                                             sx={iconStyle}
                                             style={{ cursor: 'pointer', opacity: 1 }}
                                         />
-                                    </div>)
-                                }
+                                    </div>
+                                )}
                             </div>
                             <Typography variant="h1" component="h2" sx={{ textAlign: 'left', mt: 1 }}>
                                 {tile.name}
@@ -259,7 +326,6 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                                 ))}
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
-                                {/*HERE*/}
                                 <ButtonUniversal
                                     icon={WarningBox}
                                     side={ButtonSide.Left}
@@ -270,9 +336,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                                     hoverTextColor={ButtonColor.ReportHover}
                                     actionDelegate={FuncReport}
                                 />
-                                {/*HERE*/}
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    {/*TODO - swappable if clicked colors */}
                                     <ButtonUniversal
                                         icon={voted ? IconLightningWhite : IconLightningPurple}
                                         side={ButtonSide.Left}
@@ -303,8 +367,8 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                 onClose={handleCloseReport}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
-                style={{overflow: 'scroll'}}
-              >
+                style={{ overflow: 'scroll' }}
+            >
                 <Box>
                     <FormSubmitReport
                         closeModal={handleCloseReport}
