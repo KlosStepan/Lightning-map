@@ -1,6 +1,6 @@
 ////typescript
 // filepath: /home/stepo/projects/Lightning-map/src/components/TileMerchantBig.tsx
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 // Components
 import ButtonUniversal from "./ButtonUniversal";
 import TagMerchant from "./TagMerchant";
@@ -10,15 +10,15 @@ import { ButtonColor, ButtonSide } from "../enums";
 // Forms
 import FormSubmitReport from "../forms/FormSubmitReport";
 // MUI
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import { CardMedia, Container, Grid } from '@mui/material';
-import Typography from '@mui/material/Typography';
+import { CardMedia, Container, Grid } from "@mui/material";
+import Typography from "@mui/material/Typography";
 import { useMediaQuery, useTheme, IconButton } from "@mui/material";
 // MUI | Gallery impl.
 import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 // Redux + RTK
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux-rtk/store";
 import { setSelected } from "../redux-rtk/mapFilteringSlice";
 import { setLikes } from "../redux-rtk/dataSlice";
@@ -31,24 +31,24 @@ import ISocial from "../ts/ISocial";
 import { getBackendImageUrl } from "../utils/image";
 
 // Icons
-import closeIcon from '../icons/close.png';
+import closeIcon from "../icons/close.png";
 import WarningBox from "../icons/warning-box.png";
 // Icons | Like / Unlike
 import IconLightningPurple from "../icons/icon-lightning-purple.png";
 import IconLightningWhite from "../icons/icon-lightning-white.png";
 
 const containerOuterStyle = {
-    padding: '16px 12px',
-    gap: '10px',
-    borderRadius: '16px',
-    backgroundColor: 'white',
-    margin: '0px 0px 10px 0px',
-    maxWidth: '100% !important'
+    padding: "16px 12px",
+    gap: "10px",
+    borderRadius: "16px",
+    backgroundColor: "white",
+    margin: "0px 0px 10px 0px",
+    maxWidth: "100% !important",
 };
 
 const containerInnerStyle = {
-    bgcolor: '#ffffff',
-    gap: '20px',
+    bgcolor: "#ffffff",
+    gap: "20px",
 };
 
 const iconStyle = {
@@ -62,7 +62,11 @@ type TileMerchantBigProps = {
     handleLikeChange?: (vendorid: string, change: number) => Promise<void>;
 };
 
-const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLikeChange = async () => {} }) => {
+const TileMerchantBig: React.FC<TileMerchantBigProps> = ({
+    likes,
+    tile,
+    handleLikeChange = async () => {},
+}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     //
@@ -84,14 +88,114 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
     useEffect(() => {
         setCurrentImageIndex(0);
     }, [tile.id, tile.images]);
+
+    // Measure gallery width (for 40% threshold and 100% slide)
+    const galleryRef = useRef<HTMLDivElement | null>(null);
+    const [galleryWidth, setGalleryWidth] = useState(0);
+
+    useEffect(() => {
+        if (!galleryRef.current) return;
+        const updateWidth = () => {
+            if (galleryRef.current) {
+                setGalleryWidth(galleryRef.current.offsetWidth);
+            }
+        };
+        updateWidth();
+        window.addEventListener("resize", updateWidth);
+        return () => window.removeEventListener("resize", updateWidth);
+    }, []);
+
+    // Swipe / drag state
+    const [dragX, setDragX] = useState(0);
+    const [isDragging, setIsDragging] = useState(false);
+    const [isAnimating, setIsAnimating] = useState(false); // true only while finishing to 100%
+    const [pointerStartX, setPointerStartX] = useState<number | null>(null);
+
+    const startDrag = (x: number) => {
+        if (isAnimating) return; // ignore drags during animation
+        setPointerStartX(x);
+        setIsDragging(true);
+        setDragX(0);
+    };
+
+    const moveDrag = (x: number) => {
+        if (!isDragging || pointerStartX === null || isAnimating) return;
+        setDragX(x - pointerStartX);
+    };
+
+    const endDrag = () => {
+        if (!isDragging || isAnimating) return;
+        const finalX = dragX;
+
+        setIsDragging(false);
+        setPointerStartX(null);
+
+        const width = galleryWidth || 300; // fallback width
+        const SWIPE_TRIGGER = width * 0.4; // 40%
+
+        // If we didn't cross the threshold, just snap back
+        if (Math.abs(finalX) < SWIPE_TRIGGER) {
+            setDragX(0);
+            return;
+        }
+
+        // We DID cross the threshold: finish to full width, then swap index.
+        setIsAnimating(true);
+
+        if (finalX < 0) {
+            // Swiped left -> go to NEXT image.
+            setDragX(-width); // animate to -100%
+            setTimeout(() => {
+                handleNextImage();
+                setDragX(0);
+                setIsAnimating(false);
+            }, 200); // must match CSS transition duration
+        } else {
+            // Swiped right -> go to PREVIOUS image.
+            setDragX(width); // animate to +100%
+            setTimeout(() => {
+                handlePrevImage();
+                setDragX(0);
+                setIsAnimating(false);
+            }, 200);
+        }
+    };
+
+    const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+        startDrag(e.touches[0].clientX);
+    };
+    const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+        moveDrag(e.touches[0].clientX);
+    };
+    const handleTouchEnd = () => {
+        endDrag();
+    };
+
+    const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+        startDrag(e.clientX);
+    };
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!isDragging) return;
+        moveDrag(e.clientX);
+    };
+    const handleMouseUp = () => {
+        endDrag();
+    };
+    const handleMouseLeave = () => {
+        if (isDragging) endDrag();
+    };
+
+    // Helper: indices for current, next, prev
+    const currentIdx = currentImageIndex;
+    const nextIdx = (currentImageIndex + 1) % tile.images.length;
+    const prevIdx =
+        currentImageIndex === 0 ? tile.images.length - 1 : currentImageIndex - 1;
+
     // Gallery impl.
 
     const rawLikes = useSelector((state: RootState) => state.data.likes);
 
-    const likesArr = useMemo(
-        () => rawLikes ?? [],
-        [rawLikes]
-    );
+    const likesArr = useMemo(() => rawLikes ?? [], [rawLikes]);
 
     const [voted, setVoted] = useState<boolean>(false);
 
@@ -130,12 +234,14 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                     throw new Error(`Failed to unlike: ${res.status} ${txt}`);
                 }
                 if (DEBUG) {
-                    console.log(`[like] -1 (y) merchant (id=${tile.id}) by user '${user.id}'`);
+                    console.log(
+                        `[like] -1 (y) merchant (id=${tile.id}) by user '${user.id}'`
+                    );
                 }
                 setVoted(false);
                 handleLikeChange(tile.id, -1);
                 // Remove like locally
-                dispatch(setLikes(likesArr.filter(like => like.id !== existingLike.id)));
+                dispatch(setLikes(likesArr.filter((like) => like.id !== existingLike.id)));
             } else {
                 const res = await fetch(`${apiBaseUrl}/likes/cud`, {
                     method: "POST",
@@ -153,7 +259,9 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                 }
                 const newLike = await res.json();
                 if (DEBUG) {
-                    console.log(`[like] +1 (y) merchant (id=${tile.id}) by user '${user.id}'`);
+                    console.log(
+                        `[like] +1 (y) merchant (id=${tile.id}) by user '${user.id}'`
+                    );
                 }
                 setVoted(true);
                 handleLikeChange(tile.id, 1);
@@ -169,7 +277,7 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
     const FuncReport = (): Promise<void> => {
         console.log("Report merchant");
         if (!user) {
-            navigate('/login');
+            navigate("/login");
         } else {
             console.log("logged in");
             handleOpenReport();
@@ -196,27 +304,91 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                             {tile.images.length > 1 ? (
                                 <>
                                     <div
+                                        ref={galleryRef}
                                         style={{
                                             position: "relative",
                                             height: 216,
                                             overflow: "hidden",
                                             borderRadius: 4,
                                         }}
+                                        onTouchStart={handleTouchStart}
+                                        onTouchMove={handleTouchMove}
+                                        onTouchEnd={handleTouchEnd}
+                                        onMouseDown={handleMouseDown}
+                                        onMouseMove={handleMouseMove}
+                                        onMouseUp={handleMouseUp}
+                                        onMouseLeave={handleMouseLeave}
                                     >
+                                        {/* Previous image (visible when dragging right) */}
                                         <CardMedia
                                             component="img"
                                             image={getBackendImageUrl(
-                                                tile.images[currentImageIndex],
+                                                tile.images[prevIdx],
                                                 apiBaseUrl || ""
                                             )}
                                             alt={tile.name}
                                             sx={{
+                                                position: "absolute",
+                                                top: 0,
+                                                left: "-100%",
                                                 width: "100%",
                                                 height: "100%",
                                                 objectFit: "cover",
                                                 borderRadius: 4,
+                                                transform: `translateX(${dragX}px)`,
+                                                transition: isDragging
+                                                    ? "none"
+                                                    : "transform 0.2s ease-out",
                                             }}
                                         />
+
+                                        {/* Next image (visible when dragging left) */}
+                                        <CardMedia
+                                            component="img"
+                                            image={getBackendImageUrl(
+                                                tile.images[nextIdx],
+                                                apiBaseUrl || ""
+                                            )}
+                                            alt={tile.name}
+                                            sx={{
+                                                position: "absolute",
+                                                top: 0,
+                                                left: "100%",
+                                                width: "100%",
+                                                height: "100%",
+                                                objectFit: "cover",
+                                                borderRadius: 4,
+                                                transform: `translateX(${dragX}px)`,
+                                                transition: isDragging
+                                                    ? "none"
+                                                    : "transform 0.2s ease-out",
+                                            }}
+                                        />
+
+                                        {/* Current image */}
+                                        <CardMedia
+                                            component="img"
+                                            image={getBackendImageUrl(
+                                                tile.images[currentIdx],
+                                                apiBaseUrl || ""
+                                            )}
+                                            alt={tile.name}
+                                            sx={{
+                                                position: "absolute",
+                                                top: 0,
+                                                left: 0,
+                                                width: "100%",
+                                                height: "100%",
+                                                objectFit: "cover",
+                                                borderRadius: 4,
+                                                transform: `translateX(${dragX}px)`,
+                                                transition: isDragging
+                                                    ? "none"
+                                                    : "transform 0.2s ease-out",
+                                            }}
+                                        />
+
+                                        {/* Arrows */}
                                         <IconButton
                                             onClick={handlePrevImage}
                                             sx={{
@@ -258,17 +430,25 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                                         {tile.images.map((_, index) => (
                                             <Box
                                                 key={index}
-                                                onClick={index === currentImageIndex ? undefined : () => setCurrentImageIndex(index)}
+                                                onClick={
+                                                    index === currentImageIndex
+                                                        ? undefined
+                                                        : () => setCurrentImageIndex(index)
+                                                }
                                                 sx={{
-                                                    flex: 1, // each segment gets 1/n of the width
+                                                    flex: 1,
                                                     height: 4,
                                                     borderRadius: 999,
                                                     backgroundColor:
                                                         index === currentImageIndex
-                                                            ? "#4B5563" // darker for current (e.g. gray-700)
-                                                            : "#E5E7EB", // lighter for others (e.g. gray-200)
-                                                    transition: "background-color 0.2s ease",
-                                                    cursor: index === currentImageIndex ? "default" : "pointer",
+                                                            ? "#4B5563"
+                                                            : "#E5E7EB",
+                                                    transition:
+                                                        "background-color 0.2s ease",
+                                                    cursor:
+                                                        index === currentImageIndex
+                                                            ? "default"
+                                                            : "pointer",
                                                 }}
                                             />
                                         ))}
@@ -277,7 +457,10 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                             ) : (
                                 <CardMedia
                                     component="img"
-                                    image={getBackendImageUrl(tile.images[0], apiBaseUrl || "")}
+                                    image={getBackendImageUrl(
+                                        tile.images[0],
+                                        apiBaseUrl || ""
+                                    )}
                                     alt={tile.name}
                                     sx={{
                                         height: 216,
@@ -289,7 +472,13 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                         </Grid>
                         {/* RIGHT - Content section */}
                         <Grid item xs={12} sm={6}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                }}
+                            >
                                 <div>
                                     {tile.tags.map((tag: string) => (
                                         <TagMerchant key={tag} tag={tag} />
@@ -302,30 +491,67 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                                             src={closeIcon}
                                             alt="Close Icon"
                                             sx={iconStyle}
-                                            style={{ cursor: 'pointer', opacity: 1 }}
+                                            style={{ cursor: "pointer", opacity: 1 }}
                                         />
                                     </div>
                                 )}
                             </div>
-                            <Typography variant="h1" component="h2" sx={{ textAlign: 'left', mt: 1 }}>
+                            <Typography
+                                variant="h1"
+                                component="h2"
+                                sx={{ textAlign: "left", mt: 1 }}
+                            >
                                 {tile.name}
                             </Typography>
-                            <Typography sx={{ textAlign: 'left', fontFamily: 'IBM Plex Sans Condensed', fontSize: '16px', mt: 1, color: '#737373' }}>
+                            <Typography
+                                sx={{
+                                    textAlign: "left",
+                                    fontFamily: "IBM Plex Sans Condensed",
+                                    fontSize: "16px",
+                                    mt: 1,
+                                    color: "#737373",
+                                }}
+                            >
                                 {`${tile.address.address} ${tile.address.city} ${tile.address.postalCode}`}
                             </Typography>
-                            <Typography sx={{ fontSize: '16px', fontFamily: 'IBM Plex Sans Condensed', color: '#404040' }}>
+                            <Typography
+                                sx={{
+                                    fontSize: "16px",
+                                    fontFamily: "IBM Plex Sans Condensed",
+                                    color: "#404040",
+                                }}
+                            >
                                 {tile.description}
                             </Typography>
                             <div>
-                                <Typography variant="subtitle1" sx={{ fontFamily: 'PixGamer', fontSize: 24, color: '#737373', display: 'inline' }}>
+                                <Typography
+                                    variant="subtitle1"
+                                    sx={{
+                                        fontFamily: "PixGamer",
+                                        fontSize: 24,
+                                        color: "#737373",
+                                        display: "inline",
+                                    }}
+                                >
                                     Socials
                                 </Typography>
                                 &nbsp;
                                 {tile.socials.map((social: ISocial, index: number) => (
-                                    <TagSocialLink key={index} social={social} scale={0.8} />
+                                    <TagSocialLink
+                                        key={index}
+                                        social={social}
+                                        scale={0.8}
+                                    />
                                 ))}
                             </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    marginTop: "10px",
+                                }}
+                            >
                                 <ButtonUniversal
                                     icon={WarningBox}
                                     side={ButtonSide.Left}
@@ -336,15 +562,25 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                                     hoverTextColor={ButtonColor.ReportHover}
                                     actionDelegate={FuncReport}
                                 />
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <div style={{ display: "flex", alignItems: "center" }}>
                                     <ButtonUniversal
-                                        icon={voted ? IconLightningWhite : IconLightningPurple}
+                                        icon={
+                                            voted ? IconLightningWhite : IconLightningPurple
+                                        }
                                         side={ButtonSide.Left}
                                         title={likes}
-                                        color={voted ? ButtonColor.LightningActive : ButtonColor.LightningDefault}
+                                        color={
+                                            voted
+                                                ? ButtonColor.LightningActive
+                                                : ButtonColor.LightningDefault
+                                        }
                                         hoverColor={ButtonColor.LightningHover}
-                                        textColor={voted ? ButtonColor.White : ButtonColor.Black}
-                                        hoverTextColor={voted ? ButtonColor.Black : ButtonColor.Black}
+                                        textColor={
+                                            voted ? ButtonColor.White : ButtonColor.Black
+                                        }
+                                        hoverTextColor={
+                                            voted ? ButtonColor.Black : ButtonColor.Black
+                                        }
                                         actionDelegate={SwapLike}
                                     />
                                     <span>&nbsp; &nbsp;</span>
@@ -354,7 +590,9 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                                         color={ButtonColor.Pink}
                                         hoverColor={ButtonColor.PinkHover}
                                         textColor="white"
-                                        actionDelegate={() => console.log("TODO NAVIGATE funct()")}
+                                        actionDelegate={() =>
+                                            console.log("TODO NAVIGATE funct()")
+                                        }
                                     />
                                 </div>
                             </div>
@@ -367,13 +605,10 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({ likes, tile, handleLi
                 onClose={handleCloseReport}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
-                style={{ overflow: 'scroll' }}
+                style={{ overflow: "scroll" }}
             >
                 <Box>
-                    <FormSubmitReport
-                        closeModal={handleCloseReport}
-                        tile={tile}
-                    />
+                    <FormSubmitReport closeModal={handleCloseReport} tile={tile} />
                 </Box>
             </Modal>
         </React.Fragment>
