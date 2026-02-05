@@ -1,17 +1,26 @@
+////typescript
+// filepath: /home/stepo/projects/Lightning-map/src/pages/ForgotPassword.tsx
 import React, { useRef, useState } from "react";
-import { Box, Grid, CssBaseline, TextField, Typography } from "@mui/material";
+// Components
 import Footer from "../components/Footer";
-import { ButtonColor, ButtonLayout, ButtonSide } from "../enums";
 import ButtonUniversal from "../components/ButtonUniversal";
+// enums
+import { ButtonColor, ButtonLayout, ButtonSide } from "../enums";
+// MUI
+import { Box, Grid, CssBaseline, TextField, Typography } from "@mui/material";
+// Router
+import { useNavigate } from "react-router-dom";
+
+// Icons
 import ArrowRight from "../img/arrow-right.png";
 import mapWorldImage from "../img/map-world.jpg";
-import { useNavigate } from "react-router-dom";
 
 const ForgotPassword: React.FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const [emailSent, setEmailSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,9 +29,30 @@ const ForgotPassword: React.FC = () => {
       setError("Please enter your email.");
       return;
     }
-    // TODO: Implement password reset logic here
-    setEmailSent(true);
-    setError(null);
+
+    try {
+      setError(null);
+      setEmailSent(false);
+
+      const res = await fetch(`${apiBaseUrl}/users/reset-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!res.ok) {
+        const txt = await res.text().catch(() => "");
+        console.error("[ForgotPassword] reset-password failed:", res.status, txt);
+        setError("Could not send reset link. Please try again.");
+        return;
+      }
+
+      // Success – backend accepted the request
+      setEmailSent(true);
+    } catch (err) {
+      console.error("[ForgotPassword] network error:", err);
+      setError("Network error. Please try again.");
+    }
   };
 
   return (
@@ -61,7 +91,7 @@ const ForgotPassword: React.FC = () => {
               component="form"
               onSubmit={handleSubmit}
               noValidate
-              sx={{ mt: 1/*, width: "100%"*/ }}
+              sx={{ mt: 1 }}
             >
               <Box mt={1}>
                 <TextField
@@ -100,7 +130,7 @@ const ForgotPassword: React.FC = () => {
                   />
                 </Box>
                 <span style={{ paddingTop: "12px" }} />
-                <div style={{ fontFamily: "PixGamer", fontSize: "20px", /*color: "#888",*/ textAlign: "center" }}>
+                <div style={{ fontFamily: "PixGamer", fontSize: "20px", textAlign: "center" }}>
                   <span>
                     Have you changed your password yet?{" "}
                     <span
