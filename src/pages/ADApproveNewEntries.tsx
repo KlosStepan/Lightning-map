@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
+// Components
+import ADMenu from "../components/ADMenu";
+import { Pwnspinner } from "pwnspinner";
 // MUI
 import { 
     Typography, Grid, List, ListItem, ListItemText, Box, Paper, 
     useMediaQuery, useTheme, Switch, ListItemSecondaryAction 
 } from '@mui/material';
-// Components
-import ADMenu from "../components/ADMenu";
-import { Pwnspinner } from "pwnspinner";
-// Firebase
-//import { collection, getDocs, query } from "firebase/firestore";
-//import { db } from "../components/Firebase";
 // TypeScript
 import IMerchant from "../ts/IMerchant";
 import IEshop from "../ts/IEshop";
-//
+
+// dummy
 import dummyMerchants from '../dummy/merchants.json';
 import dummyEshops from '../dummy/eshops.json';
 
@@ -117,8 +115,7 @@ const ADApproveNewEntries: React.FC = () => {
                                     )}
                                 </Paper>
                             </Grid>
-
-                            {/* EShops */}
+                            {/* Eshops */}
                             <Grid item xs={12} md={6}>
                                 <Paper elevation={3} sx={{ padding: 2, borderRadius: 2 }}>
                                     <Typography variant="h2" component="h2">E-Shops</Typography>

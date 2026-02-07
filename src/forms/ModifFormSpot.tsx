@@ -126,7 +126,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
             },
             description: descriptionRef.current?.value || "",
             images: [], //[x] TODO some ref (?) into Storage/S3
-            owner: /* user?.uid  || */ "", //[x] TODO fill from Firebase profile
+            owner: /* user?.uid  || */ "", //[x] User's `id` from collection users
             socials: socials || [],
             tags: tags || [], //[x] TODO Implement FE on Form 
             name: nameRef.current?.value || "",

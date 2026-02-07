@@ -1,16 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-//import { User } from 'firebase/auth'; // Import the Firebase User type
-//import { IUser } from "../ts/IUser";
 import IUser from "../ts/IUser";
-//import IMerchant from '../ts/IMerchant';
 import { IMerchantADWrapper } from '../ts/IMerchant';
-//import IEshop from '../ts/IEshop';
 import { IEshopADWrapper } from '../ts/IEshop';
 
 export interface IMiscSlice {
     debug: boolean;
     blog: boolean;
-    user: IUser | null;  // Use IUser type here
+    user: IUser | null;
     userMerchants: IMerchantADWrapper[] | null
     userEshops: IEshopADWrapper[] | null
     apiBaseUrl: string | null;
@@ -34,11 +30,10 @@ export const miscSlice = createSlice({
         setBlog: (state, action: PayloadAction<boolean>) => {
             state.blog = action.payload
         },
-        //TODO - minimum User data only (to avoid User big chunk) || mby?
         setUser: (state, action: PayloadAction<IUser | null>) => {
-            state.user = action.payload;  // Set or unset the Firebase User object
+            state.user = action.payload;
         },
-        //Adding User related stuff
+        // User's owned stuff
         setUserMerchants: (state, action: PayloadAction<IMerchantADWrapper[]>) => {
             state.userMerchants = action.payload
         },

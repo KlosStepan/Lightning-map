@@ -7,7 +7,6 @@ export default [
             "node_modules/",
             "src/App.test.tsx",
             "src/pages/UIKit.tsx",
-            "src/pages/Register.tsx",
         ],
         languageOptions: {
             parser: (await import("@typescript-eslint/parser")).default,

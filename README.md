@@ -29,14 +29,6 @@ npm start
 ## Dev // For Local Development with `direnv`  
 In `projects/Lightning-map` create `.envrc` with following content
 ```
-export REACT_APP_FIREBASE_API_KEY="xyz"
-export REACT_APP_FIREBASE_AUTH_DOMAIN="xyz"
-export REACT_APP_FIREBASE_PROJECT_ID="xyz"
-export REACT_APP_FIREBASE_STORAGE_BUCKET="xyz"
-export REACT_APP_FIREBASE_MESSAGING_SENDER_ID="xyz"
-export REACT_APP_FIREBASE_APP_ID="xyz"
-export REACT_APP_FIREBASE_MEASUREMENT_ID="xyz"
-
 export REACT_APP_DEBUG=true
 export REACT_APP_BLOG=false
 ```  
@@ -44,7 +36,7 @@ and then use `direnv allow` which results in
 ```
 [stepo@archlinux Lightning-map]$ direnv allow
 direnv: loading ~/projects/Lightning-map/.envrc
-direnv: export +REACT_APP_FIREBASE_API_KEY +REACT_APP_FIREBASE_APP_ID +REACT_APP_FIREBASE_AUTH_DOMAIN +REACT_APP_FIREBASE_MEASUREMENT_ID +REACT_APP_FIREBASE_MESSAGING_SENDER_ID +REACT_APP_FIREBASE_PROJECT_ID +REACT_APP_FIREBASE_STORAGE_BUCKET
+direnv: export ...
 ```  
 to ensure full functionality.
 
