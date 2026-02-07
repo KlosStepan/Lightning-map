@@ -68,6 +68,7 @@ function App() {
     if (DEBUG) {
         console.log("<DEBUG> App.tsx");
         console.log("theme", theme);
+        console.log("apiBaseUrl", apiBaseUrl);
         console.log("merchants", merchants);
         console.log("eshops", eshops);
         console.log("likes", likes);
@@ -75,6 +76,13 @@ function App() {
     }
 
     useEffect(() => {
+        if (!apiBaseUrl) {
+            if (DEBUG) {
+                console.error("[App] apiBaseUrl is null – check REACT_APP_API_BASE_URL");
+            }
+            return;
+        }
+
         const getMerchants = async () => {
             const res = await fetch(`${apiBaseUrl}/merchants`);
             const merchants = await res.json();
@@ -90,7 +98,6 @@ function App() {
             const likes = await res.json();
             dispatch(setLikes(likes));
         };
-        //
         const checkAuth = async () => {
             try {
                 const res = await fetch(`${apiBaseUrl}/logintest`, {
@@ -112,9 +119,8 @@ function App() {
         getMerchants();
         getEshops();
         getLikes();
-        //
         checkAuth();
-    }, [dispatch, apiBaseUrl]);
+    }, [dispatch, apiBaseUrl, DEBUG]);
 
     return (
         <Router>

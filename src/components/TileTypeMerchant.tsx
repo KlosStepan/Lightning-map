@@ -1,3 +1,5 @@
+////typescript
+// filepath: /home/stepo/projects/Lightning-map/src/components/TileTypeMerchant.tsx
 import React from "react"
 //MUI
 import Box from '@mui/material/Box';
@@ -8,6 +10,9 @@ import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 //
 import { Pwnspinner } from "pwnspinner";
+// Redux
+import { useSelector } from "react-redux";
+import { RootState } from "../redux-rtk/store";
 
 // Define the style for the new purple box
 const purpleBoxStyle = {
@@ -40,6 +45,18 @@ type TileTypeMerchantProps = {
 
 //This is either E-shop or Merchant on Homepage / ADHome
 const TileTypeMerchant: React.FC<TileTypeMerchantProps> = ({ caption, numPlaces, imageSrc, path }) => {
+    const DEBUG = useSelector((state: RootState) => state.misc.debug);
+
+    if (DEBUG) {
+        console.log("[TileTypeMerchant] props:", {
+            caption,
+            numPlaces,
+            imageSrc,
+            path,
+            typeOfNumPlaces: typeof numPlaces,
+        });
+    }
+    
     return (
         <React.Fragment>
             <Link style={{ color: "inherit", textDecoration: "inherit"/*, fontSize: '18px' */ }} to={path}>
