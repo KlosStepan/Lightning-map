@@ -3,6 +3,8 @@ import React, { useRef, useState } from "react";
 import ButtonUniversal from "../components/ButtonUniversal";
 import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
 import UploadingImagesSpot from "../components/UploadingImagesSpot";
+// enums
+import { ButtonColor } from "../enums";
 // MUI
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -13,9 +15,7 @@ import { RootState } from "../redux-rtk/store";
 import { useSelector } from "react-redux";
 // TypeScript
 import IEshop from "../ts/IEshop";
-// UUID Generator
-import { v4 as uuidv4 } from 'uuid';
-import { ButtonColor } from "../enums";
+// Utils
 import { getBackendImageUrl } from "../utils/image";
 
 type ModifFormEshopProps = {
@@ -49,18 +49,82 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
     const [isAdding, setIsAdding] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
 
-    const _WrapEshopData = ({ updStatus }: { updStatus: boolean }): IEshop => ({
-        id: updStatus ? eshop?.id || "" : uuidv4(), 
-        country: "CZ", //[ ] TODO - implement FE on form (TLD/IP)
-        description: descriptionRef.current?.value || "",
-        logo: "N/A", //[x] TODO - some ref (?) into Storage/S3
-        name: titleRef.current?.value || "",
-        owner: /* user?.uid || */ "", //[x] User's `id` from collection users
-        url: webRef.current?.value || "",
-        visible: updStatus, //[x] Add->false, Update->true
-    });
+    /**
+     * Resolve final logo file name to send to backend.
+     *
+     * ADD  (updStatus=false):
+     *   - file selected: upload -> return new fileName
+     *   - no file:       return ""
+     *
+     * UPDATE (updStatus=true):
+     *   - file selected: upload -> return new fileName
+     *   - no file, keepLogo=true:  return existing eshop.logo (if any)
+     *   - no file, keepLogo=false: return ""
+     */
+    const ResolveLogoFilename = async (updStatus: boolean): Promise<string> => {
+        // 1) If user selected a new file, validate & upload (shared for add/update)
+        if (files.length > 0) {
+            const file = files[0];
+            if (file.size === 0 || !file.type.startsWith("image/")) {
+                throw new Error("Please select a valid image file.");
+            }
+            const uploadResult = await UploadLogo(file);
+            return uploadResult.fileName;
+        }
 
-    const uploadLogo = async (file: File): Promise<{ url: string; fileName: string }> => {
+        // 2) No new file selected
+        if (!updStatus) {
+            // ADD, no logo uploaded
+            return "";
+        }
+
+        // UPDATE
+        if (keepLogo) {
+            // Keep existing logo if present
+            return eshop?.logo || "";
+        }
+
+        // Update + !keepLogo + no new file -> clear logo
+        return "";
+    };   
+
+    const WrapEshopData = ({ updStatus, logoFileName, }: { updStatus: boolean; logoFileName: string; }) => {
+        if (updStatus && eshop) {
+            // UPDATE: start from existing eshop, override editable fields
+            return {
+                ...eshop, // keeps id, owner, createdAt, etc.
+                name: titleRef.current?.value || eshop.name,
+                description: descriptionRef.current?.value || eshop.description,
+                url: webRef.current?.value || eshop.url,
+                logo: logoFileName,   // backend stores file name in logo
+                visible: true,        // your convention: edited => visible
+            };
+        }
+
+        // ADD: minimal creation payload (no id, no owner; backend fills both)
+        return {
+            name: titleRef.current?.value || "",
+            description: descriptionRef.current?.value || "",
+            logoFile: logoFileName,  // backend expects `logoFile` on create
+            country: "CZ",
+            url: webRef.current?.value || "",
+            visible: false,          // new e-shops hidden by default
+        };
+    };
+
+    type EshopCUDMethod = "POST" | "PUT" | "DELETE";
+    const EshopCUD = async ( method: EshopCUDMethod, body: any, opts?: { id?: string } ): Promise<Response> => {
+        const idPart = opts?.id ? `?id=${encodeURIComponent(opts.id)}` : "";
+        const res = await fetch(`${apiBaseUrl}/eshops/cud${idPart}`, {
+            method,
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify(body),
+        });
+        return res;
+    };  
+
+    const UploadLogo = async (file: File): Promise<{ url: string; fileName: string }> => {
         const formData = new FormData();
         formData.append("file", file);
         formData.append("category", "eshop-logos");
@@ -78,7 +142,13 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
         try {
             setIsAdding(true);
 
-            // Step 1: Upload logo if present
+            if (!titleRef.current?.value) {
+                alert("Please enter a title/name.");
+                setIsAdding(false);
+                return;
+            }
+
+            // 1) Resolve logo file name (handles upload/validation)
             let logoFileName = "";
             if (files.length > 0) {
                 const file = files[0];
@@ -87,31 +157,20 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                     setIsAdding(false);
                     return;
                 }
-                const uploadResult = await uploadLogo(file);
+                const uploadResult = await UploadLogo(file);
                 logoFileName = uploadResult.fileName;
             }
 
-            // Step 2: Prepare Eshop data
-            const newEshop = {
-                name: titleRef.current?.value || "",
-                description: descriptionRef.current?.value || "",
-                logoFile: logoFileName, // This is the file name, not the full URL
-                country: "CZ",
-                url: webRef.current?.value || "",
-                visible: false,
-            };
-
-            // Step 3: Send to backend
-            const res = await fetch(`${apiBaseUrl}/eshops/cud`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                credentials: "include",
-                body: JSON.stringify(newEshop),
+            // 2) Wrap data for ADD (no id, no owner)
+            const newEshop = WrapEshopData({
+                updStatus: false,
+                logoFileName,
             });
-            if (!res.ok) throw new Error("Failed to create eshop");
-            //const createdEshop = await res.json();
 
-            // Optionally, show success or reload
+            // 3) Send to backend
+            const res = await EshopCUD("POST", newEshop);
+            if (!res.ok) throw new Error("Failed to create eshop");
+
             window.location.reload();
         } catch (error) {
             console.error("Error adding E-shop: ", error);
@@ -120,7 +179,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
             setIsAdding(false);
         }
     };
-    // ---------- NEW UpdateEshop implementation ----------
+
     const UpdateEshop = async (): Promise<void> => {
         if (!documentid) {
             console.error("No document ID provided.");
@@ -129,48 +188,28 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
         try {
             setIsSaving(true);
 
-            // 1) Possibly upload new logo (if a new file was chosen)
-            let logoUrl = eshop?.logo || ""; // default keep existing logo
-            if (files.length > 0) {
-                const file = files[0];
-                if (file.size === 0 || !file.type.startsWith("image/")) {
-                    alert("Please select a valid image file.");
-                    setIsSaving(false);
-                    return;
-                }
-                const uploadResult = await uploadLogo(file);
-                // backend serves image through /api/image?file=<objectName>
-                //logoUrl = `${apiBaseUrl}/image?file=${encodeURIComponent(uploadResult.fileName)}`;
-                logoUrl = uploadResult.fileName;
-            } else if (!keepLogo) {
-                // If user chose to remove logo (unchecked keepLogo) and didn't upload new one
-                logoUrl = ""; // TODO - show default eshop / merchant (when "", or merchants [])
+            // 1) Resolve logo file name (handles upload/keep/clear)
+            let logoFileName: string;
+            try {
+                logoFileName = await ResolveLogoFilename(true); // UPDATE mode
+            } catch (err) {
+                alert((err as Error).message);
+                setIsSaving(false);
+                return;
             }
-            // 2) Build updated eshop object based on incoming `eshop` and form inputs
-            const updatedEshop = {
-                // preserve fields from existing eshop where appropriate
-                ...(eshop || {}),
-                name: titleRef.current?.value || eshop?.name || "",
-                description: descriptionRef.current?.value || eshop?.description || "",
-                url: webRef.current?.value || eshop?.url || "",
-                logo: logoUrl,
-                visible: true, // editing makes it visible per your WrapEshopData convention
-            };
 
-            // 3) Send PUT to backend (backend expects id in query param)
-            const res = await fetch(`${apiBaseUrl}/eshops/cud?id=${encodeURIComponent(documentid)}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                credentials: "include",
-                body: JSON.stringify(updatedEshop),
+            // 2 Wrap
+            const updatedEshop = WrapEshopData({
+                updStatus: true,
+                logoFileName,
             });
+            // 3 Send
+            const res = await EshopCUD("PUT", updatedEshop, { id: documentid });
             if (!res.ok) {
                 const text = await res.text().catch(() => "");
                 throw new Error(`Failed to update eshop: ${res.status} ${text}`);
             }
-            //const result = await res.json();
 
-            // 4) Close modal and refresh UI (or update Redux instead)
             if (FuncCancel) FuncCancel();
             else window.location.reload();
         } catch (err) {
@@ -181,6 +220,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
         }
     };
 
+    // TODO - image: only name, in eshop-logo/{name} AND full/O-{name} (O - original), rewire + rework 2 CUD backend too  
     /*const PrepLogo = async (): Promise<Blob | null> => {
         console.log("prepLogo() called");
     
