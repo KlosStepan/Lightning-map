@@ -2,9 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 // Components
 import ButtonUniversal from "../components/ButtonUniversal";
 import HrGreyCustomSeparator from "../components/HrGreyCustomSeparator";
+import TagMerchant from "../components/TagMerchant";
 import ToggleSocialInput from "../components/ToggleSocialInput";
 import UploadingImagesSpot from "../components/UploadingImagesSpot";
-import TagMerchant from "../components/TagMerchant";
+// enums
+import { ButtonColor } from "../enums";
 // Map stuff
 import L from "leaflet";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
@@ -14,15 +16,12 @@ import { Box, Checkbox, FormControlLabel } from '@mui/material';
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 // Redux + RTK
-import { RootState } from "../redux-rtk/store";
 import { useSelector } from "react-redux";
+import { RootState } from "../redux-rtk/store";
 // TypeScript
-import IMerchant from "../ts/IMerchant";
 import { IMerchantTile } from "../ts/IMerchant";
 import ISocial from "../ts/ISocial";
-// UUID Generator
-import { v4 as uuidv4 } from 'uuid';
-import { ButtonColor } from "../enums";
+// Utils
 import { getBackendImageUrl } from "../utils/image";
 
 const tagsAll = ["Food & Drinks", "Shops", "Services"];
@@ -111,29 +110,100 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         setTags(merchant.tags);
         setSocials(merchant.socials);
     }, [merchant]);
-    
-    const _WrapSpotData = ({ updStatus }: { updStatus: boolean }): IMerchant => ({
-        geometry: {
-            coordinates: position || [0.0, 0.0],
-            type: "Point" //[x] Always Point
-        },
-        properties: {
-            id: updStatus ? merchant?.id || "" : uuidv4(), 
+
+    /**
+     * Resolve final imageFileNames for merchant.
+     *
+     * ADD  (updStatus=false):
+     *   - files selected: upload all -> return new fileNames
+     *   - no files:       return []
+     *
+     * UPDATE (updStatus=true):
+     *   - files selected: upload all -> return new fileNames
+     *   - no files, keepPhotos=true:  return existing merchant.images (if any)
+     *   - no files, keepPhotos=false: return []
+     */
+    const ResolveImageFileNames = async (updStatus: boolean): Promise<string[]> => {
+        // 1) If user selected new files, validate & upload (shared for add/update)
+        if (files.length > 0) {
+            for (const file of files) {
+                if (file.size === 0 || !file.type.startsWith("image/")) {
+                    throw new Error("Please select valid image file(s).");
+                }
+            }
+
+            const uploaded = await Promise.all(
+                files.map((file) =>
+                    uploadImage(file, "merchants-photos")
+                )
+            );
+
+            return uploaded.map((u) => u.fileName);
+        }
+
+        // 2) No new files selected
+        if (!updStatus) {
+            // ADD, no images uploaded
+            return [];
+        }
+
+        // UPDATE
+        if (keepPhotos) {
+            // Keep existing images if present
+            return merchant?.images || [];
+        }
+
+        // Update + !keepPhotos + no new files -> clear images
+        return [];
+    };
+    const WrapSpotData = ({ updStatus, imageFileNames, coordinates }: { updStatus: boolean, imageFileNames: string[], coordinates: [number, number]}) => {
+        if (updStatus && merchant) {
+            // UPDATE: start from existing merchant, override editable fields
+            return {
+                ...merchant, // keep id, owner, createdAt, etc.
+                name: nameRef.current?.value || merchant.name || "",
+                description: descriptionRef.current?.value || merchant.description || "",
+                address: {
+                    address: addressRef.current?.value || merchant.address.address || "",
+                    city: cityRef.current?.value || merchant.address.city || "",
+                    postalCode: postalCodeRef.current?.value || merchant.address.postalCode || "",
+                },
+                images: imageFileNames,
+                tags: tags || merchant.tags || [],
+                socials: socials || merchant.socials || [],
+                visible: true,              // your convention: edited => visible
+                coordinates,                // [lon, lat]
+            };
+        }
+
+        // ADD: MerchantInput (no id, no owner)
+        return {
+            name: nameRef.current?.value || "",
+            description: descriptionRef.current?.value || "",
             address: {
                 address: addressRef.current?.value || "",
                 city: cityRef.current?.value || "",
                 postalCode: postalCodeRef.current?.value || "",
             },
-            description: descriptionRef.current?.value || "",
-            images: [], //[x] TODO some ref (?) into Storage/S3
-            owner: /* user?.uid  || */ "", //[x] User's `id` from collection users
+            coordinates,                   // [lon, lat]
+            tags: tags || [],
             socials: socials || [],
-            tags: tags || [], //[x] TODO Implement FE on Form 
-            name: nameRef.current?.value || "",
-            visible: updStatus, //[x] Add->false, Update->true
-        },
-        type: "Feature" //[x] Always a Feature
-    });
+            imageFiles: imageFileNames,    // backend takes file names from /upload
+            visible: false,                // new spots default hidden
+        };
+    };
+
+    type MerchantCUDMethod = "POST" | "PUT" | "DELETE";  
+    const MerchantCUD = async ( method: MerchantCUDMethod, body: any, opts?: { id?: string }): Promise<Response> => {
+        const idPart = opts?.id ? `?id=${encodeURIComponent(opts.id)}` : "";
+        const res = await fetch(`${apiBaseUrl}/merchants/cud${idPart}`, {
+            method,
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify(body),
+        });
+        return res;
+    };
 
     const uploadImage = async (file: File, category = "merchants-photos"): Promise<{ url: string; fileName: string }> => {
         const formData = new FormData();
@@ -151,7 +221,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         }
         return await res.json(); // { url, fileName, size }
     };
-    //
+
     const AddSpot = async (): Promise<void> => {
         try {
             setIsAdding(true);
@@ -163,54 +233,34 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                 return;
             }
 
-            // Validate files (if any)
-            for (const file of files) {
-                if (file.size === 0 || !file.type.startsWith("image/")) {
-                    alert("Please select valid image file(s).");
-                    setIsAdding(false);
-                    return;
-                }
+            // 1) Resolve image file names (handles validation/upload)
+            let imageFileNames: string[];
+            try {
+                imageFileNames = await ResolveImageFileNames(false); // ADD mode
+            } catch (err) {
+                alert((err as Error).message);
+                setIsAdding(false);
+                return;
             }
-
-            // Upload images in parallel and collect fileNames (object names stored in MinIO)
-            const uploaded = await Promise.all(files.map((f) => uploadImage(f, "merchants-photos")).concat([]))
-                .catch((err) => { throw err; });
-
-            const imageFileNames = uploaded.map(u => u.fileName);
 
             // Convert position [lat, lng] -> [lon, lat] expected by backend
             const [lat, lon] = position;
             const coordinates: [number, number] = [lon, lat];
 
-            // Build input object matching backend MerchantInput
-            const merchantInput = {
-                name: nameRef.current?.value || "",
-                description: descriptionRef.current?.value || "",
-                address: {
-                    address: addressRef.current?.value || "",
-                    city: cityRef.current?.value || "",
-                    postalCode: postalCodeRef.current?.value || "",
-                },
+            // 2) Wrap input for ADD
+            const merchantInput = WrapSpotData({
+                updStatus: false,
+                imageFileNames,
                 coordinates,
-                tags: tags || [],
-                socials: socials || [],
-                imageFiles: imageFileNames, // file names returned from /api/upload
-                visible: false, // new spots default hidden
-            };
-
-            // Send to backend
-            const res = await fetch(`${apiBaseUrl}/merchants/cud`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                credentials: "include",
-                body: JSON.stringify(merchantInput),
             });
+
+            // 3) Send to backend via MerchantCUD
+            const res = await MerchantCUD("POST", merchantInput);
             if (!res.ok) {
                 const txt = await res.text().catch(() => "");
                 throw new Error(`Failed to create merchant: ${res.status} ${txt}`);
             }
 
-            // Option: update Redux instead of full reload. For now close modal or reload.
             if (FuncCancel) FuncCancel();
             else window.location.reload();
         } catch (err) {
@@ -220,61 +270,38 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
             setIsAdding(false);
         }
     };
+
     const UpdateSpot = async (): Promise<void> => {
         if (!documentid) {
             console.error("No document ID provided.");
             return;
         }
+
         try {
             setIsSaving(true);
 
-            // 1) Handle images: upload new if provided, else keep/remove
-            let imageFileNames = merchant?.images || [];
-            if (files.length > 0) {
-                // Validate files
-                for (const file of files) {
-                    if (file.size === 0 || !file.type.startsWith("image/")) {
-                        alert("Please select valid image file(s).");
-                        setIsSaving(false);
-                        return;
-                    }
-                }
-                // Upload new images
-                const uploaded = await Promise.all(
-                    files.map((file) => uploadImage(file, "merchants-photos"))
-                );
-                imageFileNames = uploaded.map(u => u.fileName);
-            } else if (!keepPhotos) {
-                // Remove images if unchecked and no new ones
-                imageFileNames = [];
+            // 1) Resolve image file names (handles upload/keep/clear)
+            let imageFileNames: string[];
+            try {
+                imageFileNames = await ResolveImageFileNames(true); // UPDATE mode
+            } catch (err) {
+                alert((err as Error).message);
+                setIsSaving(false);
+                return;
             }
 
-            // 2) Build updated merchant payload
+            // 2) Build updated merchant payload via wrapper
             const [lat, lon] = position;
-            const updatedMerchant = {
-                // preserve fields from existing merchant where appropriate
-                ...(merchant || {}),
-                name: nameRef.current?.value || merchant?.name || "",
-                description: descriptionRef.current?.value || merchant?.description || "",
-                address: {
-                    address: addressRef.current?.value || merchant?.address.address || "",
-                    city: cityRef.current?.value || merchant?.address.city || "",
-                    postalCode: postalCodeRef.current?.value || merchant?.address.postalCode || "",
-                },
-                images: imageFileNames,
-                tags: tags || merchant?.tags || [],
-                socials: socials || merchant?.socials || [],
-                visible: true,
-                coordinates: [lon, lat],
-            };
+            const coordinates: [number, number] = [lon, lat];
 
-            // 3) Send PUT to backend
-            const res = await fetch(`${apiBaseUrl}/merchants/cud?id=${encodeURIComponent(documentid)}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                credentials: "include",
-                body: JSON.stringify(updatedMerchant),
+            const updatedMerchant = WrapSpotData({
+                updStatus: true,
+                imageFileNames,
+                coordinates,
             });
+
+            // 3) Send PUT to backend via MerchantCUD
+            const res = await MerchantCUD("PUT", updatedMerchant, { id: documentid });
             if (!res.ok) {
                 const txt = await res.text().catch(() => "");
                 throw new Error(`Failed to update merchant: ${res.status} ${txt}`);
