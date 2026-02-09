@@ -336,7 +336,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         if (cityRef.current) cityRef.current.value = `Dummy City`;
         if (postalCodeRef.current) postalCodeRef.current.value = `12345`;
         // Default dummy position
-        setPosition([14.4378, 50.0755]);
+        setPosition([50.0755, 14.4378]);
         // Fake Social Networks
         setSocials([
             { network: "web", label: "Web", link: "https://dummyweb.com" },
