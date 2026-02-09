@@ -1,7 +1,9 @@
-// Define the ISocial type for individual social links
+// ts/ISocial.ts
+
 interface ISocial {
-    network: 'web' | 'facebook' | 'instagram' | 'twitter' | 'threads'; // Supported networks
-    label: string; // Label like "Web", "FB", "IG", "X", "@"
-    link: string | null; // URL of the social link
+    network: 'web' | 'facebook' | 'instagram' | 'twitter' | 'threads';
+    label: string;
+    link: string | null;
 }
+
 export default ISocial;

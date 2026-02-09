@@ -1,3 +1,5 @@
+// ts/IReport.ts
+
 interface IReport {
     id: string;
     vendorid: string;
@@ -5,6 +7,7 @@ interface IReport {
     entityType: string;
     reason: string;
     timestamp: string;
-    report?: string; // Optional, for compatibility
+    report?: string;
 }
+
 export default IReport;

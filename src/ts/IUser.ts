@@ -1,3 +1,5 @@
+// ts/IUser.ts
+
 interface IUser {
   id: string;
   email: string;
@@ -7,10 +9,10 @@ interface IUser {
   createdAt?: string;
   avatar?: number;
 
-  // Google SSO fields (optional)
-  avatarUrl?: string;   // <-- Add this line
-  googleId?: string;    // <-- Optional, if used
-  authSource?: string;  // <-- Optional, if used
+  // Google SSO Fields, opt.
+  avatarUrl?: string;   // <-- Optional, AvatarURL Google
+  googleId?: string;    // <-- Optional, Google ID
+  authSource?: string;  // <-- Optional, field like authsource: "google"
 }
 
 export default IUser;

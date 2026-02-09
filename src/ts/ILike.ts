@@ -1,8 +1,11 @@
+// ts/ILike.ts
+
 interface ILike {
-    id: string; // uuid
-    owner: string; // user id
-    entityId: string; // merchant or eshop id
+    id: string;
+    owner: string;
+    entityId: string;
     entityType: "merchant" | "eshop";
-    createdAt: string; // ISO date string
+    createdAt: string;
 }
+
 export default ILike;

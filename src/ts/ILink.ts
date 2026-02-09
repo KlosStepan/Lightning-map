@@ -1,5 +1,8 @@
+// ts/Link.ts
+
 interface ILink {
-    title: string
-    link: string
+    title: string;
+    link: string;
 }
-export default ILink
+
+export default ILink;

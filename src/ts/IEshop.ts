@@ -1,4 +1,5 @@
 // ts/IEshop.ts
+
 import IBaseEntity from "./IBaseEntity"; // Import IBaseEntity
 
 interface IEshop extends IBaseEntity {
@@ -8,9 +9,9 @@ interface IEshop extends IBaseEntity {
 }
 
 interface IEshopADWrapper {
-    documentid: string
-    eshop: IEshop
+    documentid: string;
+    eshop: IEshop;
 }
 
-export default IEshop
+export default IEshop;
 export type { IEshopADWrapper };
