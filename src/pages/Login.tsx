@@ -177,18 +177,19 @@ const Login: React.FC<LoginProps> = ({ }) => {
                                 }}
                             />
                             {/*<ContinueWithButton icon={LoginApple} title="Apple" actionDelegate={signInWithApple} />*/}
-                            <ContinueWithButton icon={LoginEmail} title="e-mail" actionDelegate={async () => setLoginWithEmail(true)} />
+                            <ContinueWithButton icon={LoginEmail} title="e-mail" disabled={true} actionDelegate={async () => setLoginWithEmail(true)} />
                             <span style={{ paddingTop: "12px" }} />
-                            <div style={{ fontFamily: "PixGamer", fontSize: "20px" }}>
-                                <span onClick={() => navigate("/forgot-password")} style={{ cursor: "pointer" }}>
+                            
+                            <div style={{ fontFamily: "PixGamer", fontSize: "20px", color:"grey" }}>
+                                <span /*onClick={() => navigate("/forgot-password")} style={{ cursor: "pointer" }}*/>
                                     <u>I forgot my password</u>
                                 </span>
                             </div>
                             <span style={{ paddingTop: "12px" }} />
-                            <div style={{ fontFamily: "PixGamer", fontSize: "20px" }}>
+                            <div style={{ fontFamily: "PixGamer", fontSize: "20px", color:"grey" }}>
                                 <span>
                                     Don't you have an account?{" "}
-                                    <span onClick={() => navigate("/sign-up")} style={{ cursor: "pointer" }}>
+                                    <span /*onClick={() => navigate("/sign-up")} style={{ cursor: "pointer" }}*/>
                                         <u>Sign up</u>
                                     </span>
                                 </span>
