@@ -5,6 +5,8 @@ import axios from 'axios';
 import ContinueWithButton from '../components/ContinueWithButton';
 import ButtonUniversal from "../components/ButtonUniversal";
 import Footer from "../components/Footer";
+import Tooltip from "@mui/material/Tooltip";
+
 // enums
 import { ButtonColor, ButtonLayout, ButtonSide } from "../enums";
 // MUI
@@ -177,24 +179,38 @@ const Login: React.FC<LoginProps> = ({ }) => {
                                 }}
                             />
                             {/*<ContinueWithButton icon={LoginApple} title="Apple" actionDelegate={signInWithApple} />*/}
-                            <ContinueWithButton icon={LoginEmail} title="e-mail" disabled={true} actionDelegate={async () => setLoginWithEmail(true)} />
-                            <span style={{ paddingTop: "12px" }} />
-                            
-                            <div style={{ fontFamily: "PixGamer", fontSize: "20px", color:"grey" }}>
-                                <span /*onClick={() => navigate("/forgot-password")} style={{ cursor: "pointer" }}*/>
-                                    <u>I forgot my password</u>
+                            <Tooltip
+                                title={
+                                <span style={{ fontSize: "0.8rem" }}>
+                                    E-mail login is temporarily unavailable.
+                                    <br />
+                                    We’re currently setting up a new mailing service mechanism due to AWS SES crypto restrictions.
                                 </span>
-                            </div>
-                            <span style={{ paddingTop: "12px" }} />
-                            <div style={{ fontFamily: "PixGamer", fontSize: "20px", color:"grey" }}>
-                                <span>
-                                    Don't you have an account?{" "}
-                                    <span /*onClick={() => navigate("/sign-up")} style={{ cursor: "pointer" }}*/>
-                                        <u>Sign up</u>
-                                    </span>
+                                }
+                                placement="right"
+                                arrow
+                            >
+                                <span style={{width:"100%"}}>
+                                    <ContinueWithButton icon={LoginEmail} title="e-mail" disabled={true} actionDelegate={async () => setLoginWithEmail(true)} />
+                                    <span style={{ paddingTop: "12px" }} />
+                                    
+                                    <div style={{ fontFamily: "PixGamer", fontSize: "20px", color:"grey", textAlign: "center" }}>
+                                        <span /*onClick={() => navigate("/forgot-password")} style={{ cursor: "pointer" }}*/>
+                                            <u>I forgot my password</u>
+                                        </span>
+                                    </div>
+                                    <span style={{ paddingTop: "12px" }} />
+                                    <div style={{ fontFamily: "PixGamer", fontSize: "20px", color:"grey", textAlign: "center" }}>
+                                        <span>
+                                            Don't you have an account?{" "}
+                                            <span /*onClick={() => navigate("/sign-up")} style={{ cursor: "pointer" }}*/>
+                                                <u>Sign up</u>
+                                            </span>
+                                        </span>
+                                    </div>
                                 </span>
-                            </div>
-                        </> 
+                            </Tooltip>
+                        </>
                         ) : (
                             <>
                                 <Typography variant="h1" component="h1">
