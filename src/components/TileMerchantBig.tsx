@@ -1,6 +1,13 @@
 ////typescript
 // filepath: /home/stepo/projects/Lightning-map/src/components/TileMerchantBig.tsx
 import React, { useEffect, useMemo, useRef, useState } from "react";
+
+// Swiper
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import type { Swiper as SwiperType } from "swiper";
+import "swiper/css";
+
 // Components
 import ButtonUniversal from "./ButtonUniversal";
 import TagMerchant from "./TagMerchant";
@@ -36,6 +43,7 @@ import WarningBox from "../icons/warning-box.png";
 // Icons | Like / Unlike
 import IconLightningPurple from "../icons/icon-lightning-purple.png";
 import IconLightningWhite from "../icons/icon-lightning-white.png";
+import { maxWidth } from "@mui/system";
 
 const containerOuterStyle = {
     padding: "16px 12px",
@@ -49,6 +57,7 @@ const containerOuterStyle = {
 const containerInnerStyle = {
     bgcolor: "#ffffff",
     gap: "20px",
+    //maxWidth: "380px",
 };
 
 const iconStyle = {
@@ -74,127 +83,17 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({
     const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
     const user = useSelector((state: RootState) => state.misc.user);
 
-    // Gallery impl.
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const handleNextImage = () => {
-        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % tile.images.length);
-    };
-    const handlePrevImage = () => {
-        setCurrentImageIndex((prevIndex) =>
-            prevIndex === 0 ? tile.images.length - 1 : prevIndex - 1
-        );
-    };
-    // Reset gallery position whenever merchant / images change
+    // ===== Swiper slider state (LEFT side) =====
+    const [activeIndex, setActiveIndex] = useState(0);
+    const swiperRef = useRef<SwiperType | null>(null);
+
     useEffect(() => {
-        setCurrentImageIndex(0);
+        setActiveIndex(0);
+        swiperRef.current?.slideTo(0);
     }, [tile.id, tile.images]);
 
-    // Measure gallery width (for 40% threshold and 100% slide)
-    const galleryRef = useRef<HTMLDivElement | null>(null);
-    const [galleryWidth, setGalleryWidth] = useState(0);
-
-    useEffect(() => {
-        if (!galleryRef.current) return;
-        const updateWidth = () => {
-            if (galleryRef.current) {
-                setGalleryWidth(galleryRef.current.offsetWidth);
-            }
-        };
-        updateWidth();
-        window.addEventListener("resize", updateWidth);
-        return () => window.removeEventListener("resize", updateWidth);
-    }, []);
-
-    // Swipe / drag state
-    const [dragX, setDragX] = useState(0);
-    const [isDragging, setIsDragging] = useState(false);
-    const [isAnimating, setIsAnimating] = useState(false); // true only while finishing to 100%
-    const [pointerStartX, setPointerStartX] = useState<number | null>(null);
-
-    const startDrag = (x: number) => {
-        if (isAnimating) return; // ignore drags during animation
-        setPointerStartX(x);
-        setIsDragging(true);
-        setDragX(0);
-    };
-
-    const moveDrag = (x: number) => {
-        if (!isDragging || pointerStartX === null || isAnimating) return;
-        setDragX(x - pointerStartX);
-    };
-
-    const endDrag = () => {
-        if (!isDragging || isAnimating) return;
-        const finalX = dragX;
-
-        setIsDragging(false);
-        setPointerStartX(null);
-
-        const width = galleryWidth || 300; // fallback width
-        const SWIPE_TRIGGER = width * 0.4; // 40%
-
-        // If we didn't cross the threshold, just snap back
-        if (Math.abs(finalX) < SWIPE_TRIGGER) {
-            setDragX(0);
-            return;
-        }
-
-        // We DID cross the threshold: finish to full width, then swap index.
-        setIsAnimating(true);
-
-        if (finalX < 0) {
-            // Swiped left -> go to NEXT image.
-            setDragX(-width); // animate to -100%
-            setTimeout(() => {
-                handleNextImage();
-                setDragX(0);
-                setIsAnimating(false);
-            }, 200); // must match CSS transition duration
-        } else {
-            // Swiped right -> go to PREVIOUS image.
-            setDragX(width); // animate to +100%
-            setTimeout(() => {
-                handlePrevImage();
-                setDragX(0);
-                setIsAnimating(false);
-            }, 200);
-        }
-    };
-
-    const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-        startDrag(e.touches[0].clientX);
-    };
-    const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-        moveDrag(e.touches[0].clientX);
-    };
-    const handleTouchEnd = () => {
-        endDrag();
-    };
-
-    const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-        startDrag(e.clientX);
-    };
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!isDragging) return;
-        moveDrag(e.clientX);
-    };
-    const handleMouseUp = () => {
-        endDrag();
-    };
-    const handleMouseLeave = () => {
-        if (isDragging) endDrag();
-    };
-
-    // Helper: indices for current, next, prev
-    const currentIdx = currentImageIndex;
-    const nextIdx = (currentImageIndex + 1) % tile.images.length;
-    const prevIdx =
-        currentImageIndex === 0 ? tile.images.length - 1 : currentImageIndex - 1;
-
-    // Gallery impl.
-
+    // Likes
     const rawLikes = useSelector((state: RootState) => state.data.likes);
-
     const likesArr = useMemo(() => rawLikes ?? [], [rawLikes]);
 
     const [voted, setVoted] = useState<boolean>(false);
@@ -290,134 +189,95 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({
     const handleOpenReport = () => setOpenReport(true);
     const handleCloseReport = () => setOpenReport(false);
 
-    // Inside the component
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     return (
         <React.Fragment>
             <Container maxWidth="sm" sx={containerOuterStyle}>
-                <Box sx={{ ...containerInnerStyle }}>
+                <Box sx={{ ...containerInnerStyle, maxWidth: isMobile? "340px" : "100%" }}>
                     <Grid container spacing={2}>
-                        {/* LEFT - Image section */}
+                        {/* LEFT - Image section (Swiper) */}
                         <Grid item xs={12} sm={6}>
                             {tile.images.length > 1 ? (
                                 <>
-                                    <div
-                                        ref={galleryRef}
-                                        style={{
+                                    <Box
+                                        sx={{
                                             position: "relative",
                                             height: 216,
                                             overflow: "hidden",
-                                            borderRadius: 4,
+                                            borderRadius: 1,
                                         }}
-                                        onTouchStart={handleTouchStart}
-                                        onTouchMove={handleTouchMove}
-                                        onTouchEnd={handleTouchEnd}
-                                        onMouseDown={handleMouseDown}
-                                        onMouseMove={handleMouseMove}
-                                        onMouseUp={handleMouseUp}
-                                        onMouseLeave={handleMouseLeave}
                                     >
-                                        {/* Previous image (visible when dragging right) */}
-                                        <CardMedia
-                                            component="img"
-                                            image={getBackendImageUrl(
-                                                tile.images[prevIdx],
-                                                apiBaseUrl || ""
-                                            )}
-                                            alt={tile.name}
-                                            sx={{
-                                                position: "absolute",
-                                                top: 0,
-                                                left: "-100%",
-                                                width: "100%",
-                                                height: "100%",
-                                                objectFit: "cover",
-                                                borderRadius: 4,
-                                                transform: `translateX(${dragX}px)`,
-                                                transition: isDragging
-                                                    ? "none"
-                                                    : "transform 0.2s ease-out",
+                                        <Swiper
+                                            modules={[Navigation]}
+                                            slidesPerView={1}
+                                            onSwiper={(swiper: SwiperType) => {
+                                                swiperRef.current = swiper;
                                             }}
-                                        />
+                                            onSlideChange={(swiper: SwiperType) =>
+                                                setActiveIndex(swiper.realIndex)
+                                            }
+                                            style={{ height: "100%" }}
+                                        >
+                                            {tile.images.map((img, index) => (
+                                                <SwiperSlide key={index}>
+                                                    <CardMedia
+                                                        component="img"
+                                                        image={getBackendImageUrl(
+                                                            img,
+                                                            apiBaseUrl || ""
+                                                        )}
+                                                        alt={tile.name}
+                                                        sx={{
+                                                            height: 216,
+                                                            objectFit: "cover",
+                                                        }}
+                                                    />
+                                                </SwiperSlide>
+                                            ))}
+                                        </Swiper>
 
-                                        {/* Next image (visible when dragging left) */}
-                                        <CardMedia
-                                            component="img"
-                                            image={getBackendImageUrl(
-                                                tile.images[nextIdx],
-                                                apiBaseUrl || ""
-                                            )}
-                                            alt={tile.name}
-                                            sx={{
-                                                position: "absolute",
-                                                top: 0,
-                                                left: "100%",
-                                                width: "100%",
-                                                height: "100%",
-                                                objectFit: "cover",
-                                                borderRadius: 4,
-                                                transform: `translateX(${dragX}px)`,
-                                                transition: isDragging
-                                                    ? "none"
-                                                    : "transform 0.2s ease-out",
-                                            }}
-                                        />
-
-                                        {/* Current image */}
-                                        <CardMedia
-                                            component="img"
-                                            image={getBackendImageUrl(
-                                                tile.images[currentIdx],
-                                                apiBaseUrl || ""
-                                            )}
-                                            alt={tile.name}
-                                            sx={{
-                                                position: "absolute",
-                                                top: 0,
-                                                left: 0,
-                                                width: "100%",
-                                                height: "100%",
-                                                objectFit: "cover",
-                                                borderRadius: 4,
-                                                transform: `translateX(${dragX}px)`,
-                                                transition: isDragging
-                                                    ? "none"
-                                                    : "transform 0.2s ease-out",
-                                            }}
-                                        />
-
-                                        {/* Arrows */}
+                                        {/* LEFT ARROW */}
                                         <IconButton
-                                            onClick={handlePrevImage}
+                                            onClick={() =>
+                                                swiperRef.current?.slidePrev()
+                                            }
                                             sx={{
                                                 position: "absolute",
                                                 top: "50%",
-                                                left: "10px",
+                                                left: 10,
                                                 transform: "translateY(-50%)",
                                                 color: "white",
-                                                backgroundColor: "rgba(0,0,0,0.5)",
+                                                backgroundColor:
+                                                    "rgba(0,0,0,0.5)",
+                                                zIndex: 2,
                                             }}
                                         >
                                             <ArrowBackIos />
                                         </IconButton>
+
+                                        {/* RIGHT ARROW */}
                                         <IconButton
-                                            onClick={handleNextImage}
+                                            onClick={() =>
+                                                swiperRef.current?.slideNext()
+                                            }
                                             sx={{
                                                 position: "absolute",
                                                 top: "50%",
-                                                right: "10px",
+                                                right: 10,
                                                 transform: "translateY(-50%)",
                                                 color: "white",
-                                                backgroundColor: "rgba(0,0,0,0.5)",
+                                                backgroundColor:
+                                                    "rgba(0,0,0,0.5)",
+                                                zIndex: 2,
                                             }}
                                         >
                                             <ArrowForwardIos />
                                         </IconButton>
-                                    </div>
+                                    </Box>
 
-                                    {/* Informational indicator under photo (1/n segments, current is darker) */}
+                                    {/* Bottom Progress Bars */}
                                     <Box
                                         sx={{
                                             display: "flex",
@@ -430,23 +290,23 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({
                                         {tile.images.map((_, index) => (
                                             <Box
                                                 key={index}
-                                                onClick={
-                                                    index === currentImageIndex
-                                                        ? undefined
-                                                        : () => setCurrentImageIndex(index)
+                                                onClick={() =>
+                                                    swiperRef.current?.slideTo(
+                                                        index
+                                                    )
                                                 }
                                                 sx={{
                                                     flex: 1,
                                                     height: 4,
                                                     borderRadius: 999,
                                                     backgroundColor:
-                                                        index === currentImageIndex
+                                                        index === activeIndex
                                                             ? "#4B5563"
                                                             : "#E5E7EB",
                                                     transition:
                                                         "background-color 0.2s ease",
                                                     cursor:
-                                                        index === currentImageIndex
+                                                        index === activeIndex
                                                             ? "default"
                                                             : "pointer",
                                                 }}
@@ -465,12 +325,13 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({
                                     sx={{
                                         height: 216,
                                         objectFit: "cover",
-                                        borderRadius: 4,
+                                        borderRadius: 1,
                                     }}
                                 />
                             )}
                         </Grid>
-                        {/* RIGHT - Content section */}
+
+                        {/* RIGHT - Content section (unchanged layout) */}
                         <Grid item xs={12} sm={6}>
                             <div
                                 style={{
