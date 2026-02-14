@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 // TypeScript
 import IEshop from "../ts/IEshop";
 // Utils
+import imageCompression from "browser-image-compression";
 import { getBackendImageUrl } from "../utils/image";
 
 type ModifFormEshopProps = {
@@ -88,6 +89,50 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
         return "";
     };   
 
+
+    // TODO - image: only name, in eshop-logo/{name} AND full/O-{name} (O - original), rewire + rework 2 CUD backend too  
+    const PrepLogo = async (): Promise<Blob | null> => {
+        if (!files.length) {
+            console.error("No file selected for PrepLogo.");
+            return null;
+        }
+
+        const imageFile = files[0];
+        console.log(
+            "Original File size:",
+            (imageFile.size / 1024 / 1024).toFixed(2),
+            "MB"
+        );
+
+        const options = {
+            maxSizeMB: 0.5,        // target <= 0.5 MB
+            maxWidthOrHeight: 512, // longest side 512px
+            useWebWorker: true,
+        };
+
+        try {
+            const compressedFile: Blob = await imageCompression(imageFile, options);
+            console.log(
+                "Compressed File size:",
+                (compressedFile.size / 1024 / 1024).toFixed(2),
+                "MB"
+            );
+            return compressedFile;
+        } catch (error) {
+            console.error("Error during image compression:", error);
+            return null;
+        }
+    };
+
+    // derive a safe base file name from the original File
+    const getBaseFileName = (file: File): string => {
+        const originalName = file.name || "logo.png";
+        const dotIndex = originalName.lastIndexOf(".");
+        const base = dotIndex > 0 ? originalName.slice(0, dotIndex) : originalName;
+        const ext = dotIndex > 0 ? originalName.slice(dotIndex) : ".png";
+        return `${base}${ext}`;
+    };
+
     const WrapEshopData = ({ updStatus, logoFileName, }: { updStatus: boolean; logoFileName: string; }) => {
         if (updStatus && eshop) {
             // UPDATE: start from existing eshop, override editable fields
@@ -125,17 +170,54 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
     };  
 
     const UploadLogo = async (file: File): Promise<{ url: string; fileName: string }> => {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("category", "eshop-logos");
+        // 1) Prepare compressed logo
+        const preparedBlob = await PrepLogo(); // uses files[0]
+        const baseFileName = getBaseFileName(file);
 
-        const res = await fetch(`${apiBaseUrl}/upload`, {
+        // If PrepLogo failed for some reason, fall back to original as "prepared"
+        const preparedFile = preparedBlob
+            ? new File([preparedBlob], baseFileName, { type: file.type })
+            : file;
+
+        // 2) Upload prepared logo -> eshop-logos/{FILENAME}
+        const formPrepared = new FormData();
+        formPrepared.append("file", preparedFile, baseFileName);
+        formPrepared.append("category", "eshop-logos");
+
+        const resPrepared = await fetch(`${apiBaseUrl}/upload`, {
             method: "POST",
-            body: formData,
+            body: formPrepared,
             credentials: "include",
         });
-        if (!res.ok) throw new Error("Failed to upload logo");
-        return await res.json(); // { url, fileName, size }
+        if (!resPrepared.ok) {
+            const txt = await resPrepared.text().catch(() => "");
+            throw new Error(`Failed to upload prepared logo: ${resPrepared.status} ${txt}`);
+        }
+        const preparedResult = await resPrepared.json(); // { url, fileName, size }
+
+        // 3) Upload original logo -> original/o-{FILENAME}
+        const originalName = `o-${baseFileName}`;
+        const formOriginal = new FormData();
+        formOriginal.append("file", file, originalName);
+        formOriginal.append("category", "original");
+
+        const resOriginal = await fetch(`${apiBaseUrl}/upload`, {
+            method: "POST",
+            body: formOriginal,
+            credentials: "include",
+        });
+        if (!resOriginal.ok) {
+            const txt = await resOriginal.text().catch(() => "");
+            throw new Error(`Failed to upload original logo: ${resOriginal.status} ${txt}`);
+        }
+        // You can read JSON if needed:
+        await resOriginal.json();
+
+        // 4) Return the prepared logo info (this is what you store in DB and show in UI)
+        return {
+            url: preparedResult.url,
+            fileName: preparedResult.fileName,
+        };
     };
 
     const AddEshop = async () => {
@@ -220,38 +302,6 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
         }
     };
 
-    // TODO - image: only name, in eshop-logo/{name} AND full/O-{name} (O - original), rewire + rework 2 CUD backend too  
-    /*const PrepLogo = async (): Promise<Blob | null> => {
-        console.log("prepLogo() called");
-    
-        if (!files.length) {
-            console.error("No file selected.");
-            return null;
-        }
-    
-        const imageFile = files[0];
-        console.log("Original File:", imageFile);
-        console.log("originalFile instanceof Blob:", imageFile instanceof Blob);
-        console.log(`originalFile size: ${(imageFile.size / 1024 / 1024).toFixed(2)} MB`);
-    
-        const options = {
-            maxSizeMB: 1,
-            maxWidthOrHeight: 100,
-            useWebWorker: true,
-        };
-    
-        try {
-            const compressedFile: Blob = await imageCompression(imageFile, options);
-            console.log("Compressed File:", compressedFile);
-            console.log("compressedFile instanceof Blob:", compressedFile instanceof Blob);
-            console.log(`compressedFile size: ${(compressedFile.size / 1024 / 1024).toFixed(2)} MB`);
-    
-            return compressedFile; // ✅ Return the compressed Blob
-        } catch (error) {
-            console.error("Error during image compression:", error);
-            return null; // ✅ Return null if compression fails
-        }
-    };*/
 
     const DebugPopulateDummyEshop = async () => {
         // Dummy E-shops #rng-num
