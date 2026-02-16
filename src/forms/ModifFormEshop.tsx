@@ -179,10 +179,10 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
             ? new File([preparedBlob], baseFileName, { type: file.type })
             : file;
 
-        // 2) Upload prepared logo -> eshop-logos/{FILENAME}
+        // 2) Upload prepared logo -> eshop = eshop-logos, then eshop-logos/{FILENAME}
         const formPrepared = new FormData();
         formPrepared.append("file", preparedFile, baseFileName);
-        formPrepared.append("category", "eshop-logos");
+        formPrepared.append("category", "eshop");
 
         const resPrepared = await fetch(`${apiBaseUrl}/upload`, {
             method: "POST",
@@ -196,6 +196,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
         const preparedResult = await resPrepared.json(); // { url, fileName, size }
 
         // 3) Upload original logo -> original/o-{FILENAME}
+        // HOTFIX for simplification, to prepend o- here (should be more) 
         const originalName = `o-${baseFileName}`;
         const formOriginal = new FormData();
         formOriginal.append("file", file, originalName);
