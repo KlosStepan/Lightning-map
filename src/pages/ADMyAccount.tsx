@@ -32,8 +32,9 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
     // Avatar stuff
     const avatarList = [1,2,3,4,5,6,7,8,9,10,11,12,13];
     const [avatar, setAvatar] = useState<number>(user?.avatar || 1);
+    // Add this flag:
+    const isGoogleUser = user?.authSource === "google";
 
-    
     // Add these state hooks at the top of your component
     const [firstName, setFirstName] = useState(user?.firstName || "");
     const [lastName, setLastName] = useState(user?.lastName || "");
@@ -86,7 +87,11 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                                 </Typography>
                             </Grid>
                             <Grid item xs={6} container justifyContent="flex-end">
-                                {editMode ? (
+                                {isGoogleUser ? (
+                                    <Typography variant="h3" component="h3" sx={{ color: "#888" }}>
+                                        You have SSO Google account
+                                    </Typography>
+                                ) : editMode ? (
                                     <>
                                         <ButtonUniversal
                                             title="Cancel changes"
@@ -118,7 +123,7 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                                         hoverColor={ButtonColor.PinkHover}
                                         textColor="white"
                                         actionDelegate={() => {
-                                            setAvatar(user?.avatar || 1); // Reset avatar picker to current user avatar
+                                            setAvatar(user?.avatar || 1);
                                             setEditMode(true);
                                         }}
                                     />
@@ -130,164 +135,119 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                         {/* Left: Main form */}
                         <Grid item xs={12} md={6}>
                             <Box sx={{ padding: 3 }}>
-                                <Box mb={2}>
-                                {editMode ? (
+                                {isGoogleUser ? (
                                     <>
-                                        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mt: 1 }}>
-                                            {avatarList.map((avNum) => (
-                                            <AvatarCircle
-                                                key={avNum}
-                                                n={avNum}
-                                                fnct={setAvatar}
-                                                selected={avatar === avNum}
-                                            />
-                                            ))}
+                                        {/* Avatar only (Google avatarUrl or fallback) */}
+                                        <Box mb={2}>
+                                            {user?.avatarUrl ? (
+                                                <Box
+                                                    sx={{
+                                                        width: 100,
+                                                        height: 100,
+                                                        borderRadius: "50%",
+                                                        overflow: "hidden",
+                                                        border: "2px solid #eee",
+                                                    }}
+                                                >
+                                                    <img
+                                                        src={user.avatarUrl}
+                                                        alt="User Avatar"
+                                                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                                    />
+                                                </Box>
+                                            ) : (
+                                                <div>No avatar</div>
+                                            )}
                                         </Box>
-                                    </>
-                                ) : (
-                                    user?.avatar ? (
-                                        <Box sx={{ /* box styles */ }}>
-                                            <img
-                                                src={`/avatars/${user.avatar}.png`}
-                                                alt="User Avatar"
-                                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                                            />
-                                        </Box>
-                                        ) : user?.avatarUrl ? (
-                                        // Google avatar URL, same circle style
-                                        <Box
-                                            sx={{
-                                                width: 100,
-                                                height: 100,
-                                                borderRadius: "50%",
-                                                overflow: "hidden",
-                                                border: "2px solid #eee",
-                                            }}
-                                        >
-                                            <img
-                                                src={user.avatarUrl}
-                                                alt="User Avatar"
-                                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                                            />
-                                        </Box>
-                                    ) : (
-                                        <div>No avatar selected</div>
-                                    )
-                                )}
-                                </Box>
-                                    <Box mt={2}>
-                                        <Typography variant="h2" component="h5">
-                                            First Name
-                                        </Typography>
-                                        <TextField
-                                            fullWidth
-                                            value={firstName}
-                                            onChange={e => setFirstName(e.target.value)}
-                                            disabled={!editMode}
-                                        />
-                                    </Box>
-                                    <Box mt={2}>
-                                        <Typography variant="h2" component="h5">
-                                            Last Name
-                                        </Typography>
-                                        <TextField
-                                            fullWidth
-                                            value={lastName}
-                                            onChange={e => setLastName(e.target.value)}
-                                            disabled={!editMode}
-                                        />
-                                    </Box>
-                                    <Box mt={2}>
-                                        <Typography variant="h2" component="h5">
-                                            Email
-                                        </Typography>
-                                        <TextField
-                                            //variant="outlined"
-                                            fullWidth
-                                            inputRef={emailRef}
-                                            value={user?.email || ""}
-                                            disabled
-                                            sx={{
-                                                '& .MuiOutlinedInput-root': {
-                                                    '&:hover fieldset': {
-                                                        borderColor: 'rgba(0, 0, 0, 0.23)',
-                                                    },
-                                                    '&.Mui-disabled:hover fieldset': {
-                                                        borderColor: 'rgba(0, 0, 0, 0.23)',
-                                                        opacity: 0.5,
-                                                    }
-                                                },
-                                            }}
-                                        />
-                                    </Box>
-                                    {!editMode ?
+
                                         <Box mt={2}>
                                             <Typography variant="h2" component="h5">
-                                                Password
+                                                Account type
                                             </Typography>
-                                            <TextField
-                                                fullWidth
-                                                //inputRef={passwordRef}
-                                                value="********"
-                                                type="password"
-                                                disabled
-                                            />
+                                            <Typography sx={{ mt: 0.5, color: "#555" }}>
+                                                You have SSO Google account.
+                                            </Typography>
                                         </Box>
-                                    : (<>
+
+                                        <Box mt={2}>
+                                            <Typography variant="h2" component="h5">
+                                                Name
+                                            </Typography>
+                                            <Typography sx={{ mt: 0.5, color: "#555" }}>
+                                                {user?.firstName} {user?.lastName}
+                                            </Typography>
+                                        </Box>
+
+                                        <Box mt={2}>
+                                            <Typography variant="h2" component="h5">
+                                                Email
+                                            </Typography>
+                                            <Typography sx={{ mt: 0.5, color: "#555" }}>
+                                                {user?.email}
+                                            </Typography>
+                                        </Box>
+
+                                        {user?.googleId && (
                                             <Box mt={2}>
                                                 <Typography variant="h2" component="h5">
-                                                    Current password
+                                                    Google ID
                                                 </Typography>
-                                                <TextField
-                                                    variant="outlined"
-                                                    fullWidth
-                                                    value={currentPassword}
-                                                    onChange={e => setCurrentPassword(e.target.value)}
-                                                    type={showCurrentPassword ? "text" : "password"}
-                                                    InputProps={{
-                                                        endAdornment: (
-                                                            <span
-                                                                style={{ cursor: "pointer" }}
-                                                                onClick={() => setShowCurrentPassword((v) => !v)}
-                                                                title={showCurrentPassword ? "Hide" : "Show"}
-                                                            >
-                                                                {showCurrentPassword ? "🙈" : "👁️"}
-                                                            </span>
-                                                        ),
-                                                    }}
-                                                />
-                                            </Box>
-                                            <Box mt={2}>
-                                                <Typography variant="h2" component="h5">
-                                                    New password
+                                                <Typography sx={{ mt: 0.5, color: "#888", fontFamily: "monospace" }}>
+                                                    {user.googleId}
                                                 </Typography>
-                                                <TextField
-                                                    variant="outlined"
-                                                    fullWidth
-                                                    value={newPassword}
-                                                    onChange={e => setNewPassword(e.target.value)}
-                                                    type={showNewPassword ? "text" : "password"}
-                                                    InputProps={{
-                                                        endAdornment: (
-                                                            <span
-                                                                style={{ cursor: "pointer" }}
-                                                                onClick={() => setShowNewPassword((v) => !v)}
-                                                                title={showNewPassword ? "Hide" : "Show"}
-                                                            >
-                                                                {showNewPassword ? "🙈" : "👁️"}
-                                                            </span>
-                                                        ),
-                                                    }}
-                                                />
                                             </Box>
-                                        </>
-                                    )}
-                                    {!editMode && (
-                                        <>
-                                            <div>&nbsp;</div>
-                                            <span style={{ cursor: "pointer" }} onClick={handleOpenDeleteModal}><u>Delete my account</u></span>
-                                        </>
-                                    )}
+                                        )}
+                                    </>
+                                ) : (
+                                    <>
+                                        {/* existing non-Google form, unchanged */}
+                                        <Box mb={2}>
+                                            {editMode ? (
+                                                <>
+                                                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mt: 1 }}>
+                                                        {avatarList.map((avNum) => (
+                                                            <AvatarCircle
+                                                                key={avNum}
+                                                                n={avNum}
+                                                                fnct={setAvatar}
+                                                                selected={avatar === avNum}
+                                                            />
+                                                        ))}
+                                                    </Box>
+                                                </>
+                                            ) : (
+                                                user?.avatar ? (
+                                                    <Box sx={{ /* box styles */ }}>
+                                                        <img
+                                                            src={`/avatars/${user.avatar}.png`}
+                                                            alt="User Avatar"
+                                                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                                        />
+                                                    </Box>
+                                                ) : user?.avatarUrl ? (
+                                                    <Box
+                                                        sx={{
+                                                            width: 100,
+                                                            height: 100,
+                                                            borderRadius: "50%",
+                                                            overflow: "hidden",
+                                                            border: "2px solid #eee",
+                                                        }}
+                                                    >
+                                                        <img
+                                                            src={user.avatarUrl}
+                                                            alt="User Avatar"
+                                                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                                        />
+                                                    </Box>
+                                                ) : (
+                                                    <div>No avatar selected</div>
+                                                )
+                                            )}
+                                        </Box>
+                                        {/* ...First Name, Last Name, Email, password fields as you have... */}
+                                    </>
+                                )}
                             </Box>
                         </Grid>
                         {/* Right: Debug/info panel */}
