@@ -226,7 +226,9 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({
                                                         component="img"
                                                         image={getBackendImageUrl(
                                                             img,
-                                                            apiBaseUrl || ""
+                                                            apiBaseUrl || "",
+                                                            "merchant",
+                                                            false
                                                         )}
                                                         alt={tile.name}
                                                         sx={{
@@ -319,7 +321,9 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({
                                     component="img"
                                     image={getBackendImageUrl(
                                         tile.images[0],
-                                        apiBaseUrl || ""
+                                        apiBaseUrl || "",
+                                        "merchant",
+                                        false
                                     )}
                                     alt={tile.name}
                                     sx={{

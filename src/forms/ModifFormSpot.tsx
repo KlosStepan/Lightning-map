@@ -23,6 +23,7 @@ import { IMerchantTile } from "../ts/IMerchant";
 import ISocial from "../ts/ISocial";
 // Utils
 import { getBackendImageUrl } from "../utils/image";
+import imageCompression from "browser-image-compression"; // <-- add this
 
 const tagsAll = ["Food & Drinks", "Shops", "Services"];
 
@@ -134,7 +135,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
 
             const uploaded = await Promise.all(
                 files.map((file) =>
-                    uploadImage(file, "merchants-photos")
+                    uploadImage(file)
                 )
             );
 
@@ -205,21 +206,55 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         return res;
     };
 
-    const uploadImage = async (file: File, category = "merchants-photos"): Promise<{ url: string; fileName: string }> => {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("category", category);
+    // REPLACE the old uploadImage with this
+    const uploadImage = async (file: File): Promise<{ url: string; fileName: string }> => {
+        // 1) Prepare compressed image
+        const preparedBlob = await PrepImage(file);
+        const baseFileName = getBaseFileName(file);
 
-        const res = await fetch(`${apiBaseUrl}/upload`, {
+        // If PrepImage failed for some reason, fall back to original as "prepared"
+        const preparedFile = preparedBlob
+            ? new File([preparedBlob], baseFileName, { type: file.type })
+            : file;
+
+        // 2) Upload prepared image -> merchant (maps to merchants-photos/{baseFileName})
+        const formPrepared = new FormData();
+        formPrepared.append("file", preparedFile, baseFileName);
+        formPrepared.append("category", "merchant");
+
+        const resPrepared = await fetch(`${apiBaseUrl}/upload`, {
             method: "POST",
-            body: formData,
+            body: formPrepared,
             credentials: "include",
         });
-        if (!res.ok) {
-            const txt = await res.text().catch(() => "");
-            throw new Error(`Upload failed: ${res.status} ${txt}`);
+        if (!resPrepared.ok) {
+            const txt = await resPrepared.text().catch(() => "");
+            throw new Error(`Failed to upload prepared image: ${resPrepared.status} ${txt}`);
         }
-        return await res.json(); // { url, fileName, size }
+        const preparedResult = await resPrepared.json(); // { url, fileName, size }
+
+        // 3) Upload original image -> original/o-{baseFileName}
+        const originalName = `o-${baseFileName}`;
+        const formOriginal = new FormData();
+        formOriginal.append("file", file, originalName);
+        formOriginal.append("category", "original");
+
+        const resOriginal = await fetch(`${apiBaseUrl}/upload`, {
+            method: "POST",
+            body: formOriginal,
+            credentials: "include",
+        });
+        if (!resOriginal.ok) {
+            const txt = await resOriginal.text().catch(() => "");
+            throw new Error(`Failed to upload original image: ${resOriginal.status} ${txt}`);
+        }
+        await resOriginal.json(); // optional
+
+        // 4) Return prepared image info; fileName is what we store in merchant.images
+        return {
+            url: preparedResult.url,
+            fileName: preparedResult.fileName,
+        };
     };
 
     const AddSpot = async (): Promise<void> => {
@@ -319,11 +354,42 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
     };
 
 
-    /*const PrepPics = (): any => ({
-        //dadada, do after Spot is prototyped for all (in loop 3x) via the ext.
-        //https://www.npmjs.com/package/browser-image-compression
-    });*/
+    // Compress / resize a single merchant image
+    const PrepImage = async (file: File): Promise<Blob | null> => {
+        console.log(
+            "Original merchant image size:",
+            (file.size / 1024 / 1024).toFixed(2),
+            "MB"
+        );
 
+        const options = {
+            maxSizeMB: 0.8,          // allow a bit larger than logo
+            maxWidthOrHeight: 1280,  // longest side 1280px
+            useWebWorker: true,
+        };
+
+        try {
+            const compressedFile: Blob = await imageCompression(file, options);
+            console.log(
+                "Compressed merchant image size:",
+                (compressedFile.size / 1024 / 1024).toFixed(2),
+                "MB"
+            );
+            return compressedFile;
+        } catch (error) {
+            console.error("Error during merchant image compression:", error);
+            return null;
+        }
+    };
+
+    // Derive a safe base file name from the original File
+    const getBaseFileName = (file: File): string => {
+        const originalName = file.name || "photo.jpg";
+        const dotIndex = originalName.lastIndexOf(".");
+        const base = dotIndex > 0 ? originalName.slice(0, dotIndex) : originalName;
+        const ext = dotIndex > 0 ? originalName.slice(dotIndex) : ".jpg";
+        return `${base}${ext}`;
+    };
     const DebugPopulateDummySpot = async () => {
         // Dummy Merchant #rng-num
         const randomNumber = Math.floor(Math.random() * 10000) + 1;
@@ -479,7 +545,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                             {merchant?.images.map((url, index) => (
                                 <span key={index} style={{ display: 'inline-block', width: 40, height: 40, border: '1px solid black', borderRadius: 4, marginRight: 4, overflow: 'hidden' }}>
                                     <img 
-                                        src={getBackendImageUrl(url, apiBaseUrl || "")} 
+                                        src={getBackendImageUrl(url, apiBaseUrl || "", "merchant", false)} 
                                         alt={`thumb-${index}`} 
                                         style={{ width: '100%', height: '100%', objectFit: 'cover', filter: keepPhotos ? 'none' : 'grayscale(100%)' }} 
                                     />

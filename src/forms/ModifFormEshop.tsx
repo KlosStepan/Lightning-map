@@ -380,7 +380,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                             {eshop?.logo && (
                                 <span style={{ display: 'inline-block', width: 40, height: 40, border: '1px solid black', borderRadius: 4, marginRight: 4, overflow: 'hidden' }}>
                                     <img 
-                                        src={getBackendImageUrl(eshop.logo, apiBaseUrl || "")} 
+                                        src={getBackendImageUrl(eshop.logo, apiBaseUrl || "", "eshop", false)} 
                                         alt="logo-thumb" 
                                         style={{ width: '100%', height: '100%', objectFit: 'cover', filter: keepLogo ? 'none' : 'grayscale(100%)' }} 
                                     />

@@ -70,7 +70,7 @@ const TileMerchant: React.FC<TileMerchantProps> = ({ likes, tile/*, index*/, out
                 ) : (
                     <CardMedia
                         component="img"
-                        image={getBackendImageUrl(tile.images[0], apiBaseUrl || "")}
+                        image={getBackendImageUrl(tile.images[0], apiBaseUrl || "", "merchant", false)}
                         alt={tile.name}
                         sx={{
                             objectFit: 'cover', 
