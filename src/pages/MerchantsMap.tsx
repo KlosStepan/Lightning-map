@@ -261,7 +261,7 @@ const MerchantsMap: React.FC<MerchantsMapProps> = () => {
                   <Grid>&nbsp;</Grid>
                   <Grid container spacing={2}>
                     <span style={{ textAlign: 'left', marginLeft: '0px', fontFamily: 'PixGamer', color: '#6B7280', fontSize:'20px', fontWeight:'400' }}>
-                      {filteredMerchants?.length ? filteredMerchants?.length : 'X'} results
+                      {filteredMerchants?.length ? filteredMerchants?.length : '0'} results
                     </span>
                   </Grid>
                   <Grid>&nbsp;</Grid>
