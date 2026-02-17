@@ -73,7 +73,7 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
             alert("You do not have permission to delete this e-shop.");
             return;
         }
-        if (!window.confirm("Are you sure you want to delete this e-shop?")) return;
+        //if (!window.confirm("Are you sure you want to delete this e-shop?")) return;
 
         // Confirm deletion
         const confirmDelete = window.confirm("Are you sure you want to delete this e-shop?");
@@ -83,13 +83,14 @@ const TileAddedEshop: React.FC<TileAddedEshopProps> = ({ likes, eshop }) => {
         try {
             // Delete logo from storage
             if (eshop.eshop.logo) {
-                const logoFileName = eshop.eshop.logo.startsWith("eshop-logos/")
-                    ? eshop.eshop.logo
-                    : eshop.eshop.logo.split("file=")[1]; // If logo is a URL, extract file name
-                await fetch(`${apiBaseUrl}/upload?file=${encodeURIComponent(logoFileName)}`, {
-                    method: "DELETE",
-                    credentials: "include",
-                });
+                const fileName = eshop.eshop.logo; // just "foo.png"
+                await fetch(
+                    `${apiBaseUrl}/upload?file=${encodeURIComponent(fileName)}&category=eshop`,
+                    {
+                        method: "DELETE",
+                        credentials: "include",
+                    }
+                );
             }
 
             // Delete e-shop from backend

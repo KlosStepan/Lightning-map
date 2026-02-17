@@ -193,7 +193,12 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
             const txt = await resPrepared.text().catch(() => "");
             throw new Error(`Failed to upload prepared logo: ${resPrepared.status} ${txt}`);
         }
+
         const preparedResult = await resPrepared.json(); // { url, fileName, size }
+        // preparedResult.fileName = "eshop-logos/dummy-eshop-1771291510.png"
+
+        // Unstrap folder: keep only "dummy-eshop-1771291510.png"
+        const baseName = preparedResult.fileName.split("/").pop()!;
 
         // 3) Upload original logo -> original/o-{FILENAME}
         // HOTFIX for simplification, to prepend o- here (should be more) 
@@ -217,7 +222,8 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
         // 4) Return the prepared logo info (this is what you store in DB and show in UI)
         return {
             url: preparedResult.url,
-            fileName: preparedResult.fileName,
+            //fileName: baseFileName,
+            fileName: baseName,
         };
     };
 
@@ -251,9 +257,10 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
             });
 
             // 3) Send to backend
+
             const res = await EshopCUD("POST", newEshop);
             if (!res.ok) throw new Error("Failed to create eshop");
-
+            //console.log("newEshop", newEshop)
             window.location.reload();
         } catch (error) {
             console.error("Error adding E-shop: ", error);
