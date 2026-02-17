@@ -54,7 +54,11 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = () => {
     useEffect(() => {
         const getMerchants = async () => {
             const res = await fetch(`${apiBaseUrl}/merchants`);
-            const merchants = await res.json();
+            const data = await res.json();
+
+            // Normalize to array to avoid `.filter` on null/undefined
+            const merchants: IMerchant[] = Array.isArray(data) ? data : [];
+
             dispatch(setMerchants(merchants));
             
             // Filter and convert merchants for the current user

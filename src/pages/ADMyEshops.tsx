@@ -54,8 +54,13 @@ const ADMyEShops: React.FC<ADMyEShopsProps> = () => {
     useEffect(() => {
         const getEshops = async () => {
             const res = await fetch(`${apiBaseUrl}/eshops`);
-            const eshops = await res.json();
+            const data = await res.json();
+
+            // Ensure we always work with an array
+            const eshops: IEshop[] = Array.isArray(data) ? data : [];
+
             dispatch(setEshops(eshops));
+            
             // Filter E-shops for the Current User
             const filteredEshops = eshops.filter((eshop: IEshop) => 
                 eshop.owner === user?.id || 
