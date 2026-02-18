@@ -57,7 +57,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                 throw new Error("Please select a valid image file.");
             }
 
-            // Upload new logo (prepared + original)
+            // Upload new logo (compressed + original)
             const uploadResult = await UploadLogo(file);
             const newFileName = uploadResult.fileName; // plain "foo.png"
             
@@ -66,7 +66,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
         throw new Error("No new logo successfully updated.");
     };
 
-    // TODO - image: only name, in eshop-logo/{name} AND full/O-{name} (O - original), rewire + rework 2 CUD backend too  
+    // Compress logo via. browser-image-compression in WebWorker
     const PrepLogo = async (): Promise<Blob | null> => {
         if (!files.length) {
             console.error("No file selected for PrepLogo.");
@@ -100,8 +100,8 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
         }
     };
 
-    // derive a safe base file name from the original File
-    const getBaseFileName = (file: File): string => {
+    // Derive a safe base filename from the original File
+    const GetBaseFileName = (file: File): string => {
         const originalName = file.name || "logo.png";
         const dotIndex = originalName.lastIndexOf(".");
         const base = dotIndex > 0 ? originalName.slice(0, dotIndex) : originalName;
@@ -117,7 +117,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                 name: titleRef.current?.value || eshop.name,
                 description: descriptionRef.current?.value || eshop.description,
                 url: webRef.current?.value || eshop.url,
-                logo: logoFileName,   // backend stores file name in logo
+                logo: logoFileName,
                 visible: true,        // your convention: edited => visible
             };
         }
@@ -126,7 +126,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
         return {
             name: titleRef.current?.value || "",
             description: descriptionRef.current?.value || "",
-            logoFile: logoFileName,  // backend expects `logoFile` on create
+            logoFile: logoFileName,
             country: "CZ",
             url: webRef.current?.value || "",
             visible: false,          // new e-shops hidden by default
@@ -146,16 +146,16 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
     };  
 
     const UploadLogo = async (file: File): Promise<{ url: string; fileName: string }> => {
-        // 1) Prepare compressed logo
+        // 1) Prepare Compressed Logo
         const preparedBlob = await PrepLogo(); // uses files[0]
-        const baseFileName = getBaseFileName(file);
+        const baseFileName = GetBaseFileName(file);
 
         // If PrepLogo failed for some reason, fall back to original as "prepared"
         const preparedFile = preparedBlob
             ? new File([preparedBlob], baseFileName, { type: file.type })
             : file;
 
-        // 2) Upload prepared logo -> eshop = eshop-logos, then eshop-logos/{FILENAME}
+        // 2) Upload prepared logo, as: category = eshop -> eshop-logos, then eshop-logos/{FILENAME}
         const formPrepared = new FormData();
         formPrepared.append("file", preparedFile, baseFileName);
         formPrepared.append("category", "eshop");
@@ -176,7 +176,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
         // Unstrap folder: keep only "dummy-eshop-1771291510.png"
         const baseName = preparedResult.fileName.split("/").pop()!;
 
-        // 3) Upload original logo -> original/o-{FILENAME}
+        // 3) Upload original logo to original/o-{FILENAME}
         // HOTFIX for simplification, to prepend o- here (should be more) 
         const originalName = `o-${baseFileName}`;
         const formOriginal = new FormData();
@@ -192,13 +192,13 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
             const txt = await resOriginal.text().catch(() => "");
             throw new Error(`Failed to upload original logo: ${resOriginal.status} ${txt}`);
         }
-        // You can read JSON if needed:
+
+        // We can read response JSON if needed
         await resOriginal.json();
 
-        // 4) Return the prepared logo info (this is what you store in DB and show in UI)
+        // 4) Return the uploaded logo name in eshop-logos/{filename} original/o-{filename}
         return {
             url: preparedResult.url,
-            //fileName: baseFileName,
             fileName: baseName,
         };
     };
@@ -258,32 +258,32 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
             // 1) Resolve logo file name (handles upload/keep/clear)
             let logoFileName: string;
             try {
+                // NOT KEEP -> upload new, use new filename
                 if(!keepLogo) {
                     logoFileName = await UploadLogoWhenUpdate();
                 } else {
                     logoFileName = eshop.logo;
                 }
-                //logoFileName = await ResolveLogoFilename(true); // UPDATE mode
             } catch (err) {
                 alert((err as Error).message);
                 setIsSaving(false);
                 return;
             }
 
-            // 2 Wrap
+            // 2 Wrap Eshop
             const updatedEshop = WrapEshopData({
                 updStatus: true,
                 logoFileName,
             });
 
-            // 3 Send
+            // 3 Send Eshop
             const res = await EshopCUD("PUT", updatedEshop, { id: documentid });
             if (!res.ok) {
                 const text = await res.text().catch(() => "");
                 throw new Error(`Failed to update eshop: ${res.status} ${text}`);
             }
 
-            // 4 Delete old logo 
+            // 4 Delete old logo if everything goes well
             if(!keepLogo) {
                 try{
                     await fetch(
@@ -297,10 +297,9 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                  catch (err) {
                     console.error("Error deleting old logo:", err);
                     alert("Error deleting old logo: " + ((err as Error).message || err));
-                } finally {
-                    //setIsDeleting(false);
                 }
             }
+
             if (FuncCancel) FuncCancel();
             else window.location.reload();
         } catch (err) {
