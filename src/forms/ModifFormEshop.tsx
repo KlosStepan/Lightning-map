@@ -49,46 +49,22 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
     // Redirect logic
     const [isAdding, setIsAdding] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
-
-    /**
-     * Resolve final logo file name to send to backend.
-     *
-     * ADD  (updStatus=false):
-     *   - file selected: upload -> return new fileName
-     *   - no file:       return ""
-     *
-     * UPDATE (updStatus=true):
-     *   - file selected: upload -> return new fileName
-     *   - no file, keepLogo=true:  return existing eshop.logo (if any)
-     *   - no file, keepLogo=false: return ""
-     */
-    const ResolveLogoFilename = async (updStatus: boolean): Promise<string> => {
-        // 1) If user selected a new file, validate & upload (shared for add/update)
+ 
+    const UploadLogoWhenUpdate = async (): Promise<string> => {
         if (files.length > 0) {
             const file = files[0];
             if (file.size === 0 || !file.type.startsWith("image/")) {
                 throw new Error("Please select a valid image file.");
             }
+
+            // Upload new logo (prepared + original)
             const uploadResult = await UploadLogo(file);
-            return uploadResult.fileName;
+            const newFileName = uploadResult.fileName; // plain "foo.png"
+            
+            return newFileName;
         }
-
-        // 2) No new file selected
-        if (!updStatus) {
-            // ADD, no logo uploaded
-            return "";
-        }
-
-        // UPDATE
-        if (keepLogo) {
-            // Keep existing logo if present
-            return eshop?.logo || "";
-        }
-
-        // Update + !keepLogo + no new file -> clear logo
-        return "";
-    };   
-
+        throw new Error("No new logo successfully updated.");
+    };
 
     // TODO - image: only name, in eshop-logo/{name} AND full/O-{name} (O - original), rewire + rework 2 CUD backend too  
     const PrepLogo = async (): Promise<Blob | null> => {
@@ -277,11 +253,17 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
         }
         try {
             setIsSaving(true);
+            let oldFileName = eshop.logo;
 
             // 1) Resolve logo file name (handles upload/keep/clear)
             let logoFileName: string;
             try {
-                logoFileName = await ResolveLogoFilename(true); // UPDATE mode
+                if(!keepLogo) {
+                    logoFileName = await UploadLogoWhenUpdate();
+                } else {
+                    logoFileName = eshop.logo;
+                }
+                //logoFileName = await ResolveLogoFilename(true); // UPDATE mode
             } catch (err) {
                 alert((err as Error).message);
                 setIsSaving(false);
@@ -293,6 +275,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                 updStatus: true,
                 logoFileName,
             });
+
             // 3 Send
             const res = await EshopCUD("PUT", updatedEshop, { id: documentid });
             if (!res.ok) {
@@ -300,6 +283,24 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
                 throw new Error(`Failed to update eshop: ${res.status} ${text}`);
             }
 
+            // 4 Delete old logo 
+            if(!keepLogo) {
+                try{
+                    await fetch(
+                        `${apiBaseUrl}/upload?file=${encodeURIComponent(oldFileName)}&category=eshop`,
+                        {
+                            method: "DELETE",
+                            credentials: "include",
+                        }
+                    );
+                }
+                 catch (err) {
+                    console.error("Error deleting old logo:", err);
+                    alert("Error deleting old logo: " + ((err as Error).message || err));
+                } finally {
+                    //setIsDeleting(false);
+                }
+            }
             if (FuncCancel) FuncCancel();
             else window.location.reload();
         } catch (err) {
