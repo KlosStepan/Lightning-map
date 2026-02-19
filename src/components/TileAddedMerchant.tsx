@@ -82,17 +82,14 @@ const TileAddedMerchant: React.FC<TileAddedMerchantProps> = ({ likes, merchant }
         try {
             // Delete all images from storage
             if (merch.merchant.properties.images && merch.merchant.properties.images.length > 0) {
-                for (const img of merch.merchant.properties.images) {
-                    // If image is a file name, use directly; if it's a URL, extract file name after "file="
-                    const fileName = img.startsWith("merchants-photos/")
-                        ? img
-                        : img.includes("file=")
-                            ? img.split("file=")[1]
-                            : img;
-                    await fetch(`${apiBaseUrl}/upload?file=${encodeURIComponent(fileName)}`, {
-                        method: "DELETE",
-                        credentials: "include",
-                    });
+                for (const image of merch.merchant.properties.images) {
+                    await fetch(
+                        `${apiBaseUrl}/upload?file=${encodeURIComponent(image)}&category=merchant`,
+                        {
+                            method: "DELETE",
+                            credentials: "include",
+                        }
+                    );
                 }
             }
 

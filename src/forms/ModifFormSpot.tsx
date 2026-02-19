@@ -112,20 +112,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         setSocials(merchant.socials);
     }, [merchant]);
 
-    /**
-     * Resolve final imageFileNames for merchant.
-     *
-     * ADD  (updStatus=false):
-     *   - files selected: upload all -> return new fileNames
-     *   - no files:       return []
-     *
-     * UPDATE (updStatus=true):
-     *   - files selected: upload all -> return new fileNames
-     *   - no files, keepPhotos=true:  return existing merchant.images (if any)
-     *   - no files, keepPhotos=false: return []
-     */
-    const ResolveImageFileNames = async (updStatus: boolean): Promise<string[]> => {
-        // 1) If user selected new files, validate & upload (shared for add/update)
+    const UploadImagesReturnNames = async (): Promise<string[]> => {
         if (files.length > 0) {
             for (const file of files) {
                 if (file.size === 0 || !file.type.startsWith("image/")) {
@@ -134,29 +121,14 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
             }
 
             const uploaded = await Promise.all(
-                files.map((file) =>
-                    uploadImage(file)
-                )
+                files.map((file) => UploadImage(file))
             );
 
-            return uploaded.map((u) => u.fileName);
+            return uploaded.map((u) => u.fileName); // should be plain names
         }
-
-        // 2) No new files selected
-        if (!updStatus) {
-            // ADD, no images uploaded
-            return [];
-        }
-
-        // UPDATE
-        if (keepPhotos) {
-            // Keep existing images if present
-            return merchant?.images || [];
-        }
-
-        // Update + !keepPhotos + no new files -> clear images
-        return [];
+        throw new Error("No new images successfully updated.");
     };
+
     const WrapSpotData = ({ updStatus, imageFileNames, coordinates }: { updStatus: boolean, imageFileNames: string[], coordinates: [number, number]}) => {
         if (updStatus && merchant) {
             // UPDATE: start from existing merchant, override editable fields
@@ -206,18 +178,17 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         return res;
     };
 
-    // REPLACE the old uploadImage with this
-    const uploadImage = async (file: File): Promise<{ url: string; fileName: string }> => {
+    const UploadImage = async (file: File): Promise<{ url: string; fileName: string }> => {
         // 1) Prepare compressed image
         const preparedBlob = await PrepImage(file);
-        const baseFileName = getBaseFileName(file);
+        const baseFileName = GetBaseFileName(file);
 
         // If PrepImage failed for some reason, fall back to original as "prepared"
         const preparedFile = preparedBlob
             ? new File([preparedBlob], baseFileName, { type: file.type })
             : file;
 
-        // 2) Upload prepared image -> merchant (maps to merchants-photos/{baseFileName})
+        // 2) Upload prepared photo as: merchant = merchants-photos, then merchants-photos/{FILENAME}
         const formPrepared = new FormData();
         formPrepared.append("file", preparedFile, baseFileName);
         formPrepared.append("category", "merchant");
@@ -231,9 +202,15 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
             const txt = await resPrepared.text().catch(() => "");
             throw new Error(`Failed to upload prepared image: ${resPrepared.status} ${txt}`);
         }
+
         const preparedResult = await resPrepared.json(); // { url, fileName, size }
+        // preparedResult.fileName = "merchant-photos/dummy-merchant-1771291510.png"
+
+        // Unstrap folder: keep only "dummy-merchant-1771291510.png"
+        const baseName = preparedResult.fileName.split("/").pop()!;
 
         // 3) Upload original image -> original/o-{baseFileName}
+        // HOTFIX for simplification, to prepend o- here (should be more) 
         const originalName = `o-${baseFileName}`;
         const formOriginal = new FormData();
         formOriginal.append("file", file, originalName);
@@ -246,14 +223,17 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
         });
         if (!resOriginal.ok) {
             const txt = await resOriginal.text().catch(() => "");
-            throw new Error(`Failed to upload original image: ${resOriginal.status} ${txt}`);
+            throw new Error(`Failed to upload original photos: ${resOriginal.status} ${txt}`);
         }
+
+        // We can read response JSON if needed
         await resOriginal.json(); // optional
 
-        // 4) Return prepared image info; fileName is what we store in merchant.images
+        // 4) Return the uploaded logo name in merchants-photos/{filename} original/o-{filename}
         return {
             url: preparedResult.url,
-            fileName: preparedResult.fileName,
+            //fileName: preparedResult.fileName,
+            fileName : baseName,
         };
     };
 
@@ -271,7 +251,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
             // 1) Resolve image file names (handles validation/upload)
             let imageFileNames: string[];
             try {
-                imageFileNames = await ResolveImageFileNames(false); // ADD mode
+                imageFileNames = await UploadImagesReturnNames(); // ADD mode
             } catch (err) {
                 alert((err as Error).message);
                 setIsAdding(false);
@@ -283,21 +263,17 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
             const coordinates: [number, number] = [lon, lat];
 
             // 2) Wrap input for ADD
-            const merchantInput = WrapSpotData({
+            const newMerchant = WrapSpotData({
                 updStatus: false,
                 imageFileNames,
                 coordinates,
             });
 
             // 3) Send to backend via MerchantCUD
-            const res = await MerchantCUD("POST", merchantInput);
-            if (!res.ok) {
-                const txt = await res.text().catch(() => "");
-                throw new Error(`Failed to create merchant: ${res.status} ${txt}`);
-            }
-
-            if (FuncCancel) FuncCancel();
-            else window.location.reload();
+            const res = await MerchantCUD("POST", newMerchant);
+            if (!res.ok) throw new Error("Failed to create merchant");
+            //console.log("newMerchant", newMerchant)
+            window.location.reload();
         } catch (err) {
             console.error("AddSpot error:", err);
             alert("Error adding spot: " + ((err as Error).message || err));
@@ -311,21 +287,26 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
             console.error("No document ID provided.");
             return;
         }
-
         try {
             setIsSaving(true);
+            const oldFileNames = merchant?.images ? [...merchant.images] : [];
 
-            // 1) Resolve image file names (handles upload/keep/clear)
-            let imageFileNames: string[];
+            // 1 Resolve photo filenames
+            let imageFileNames: string[] = [];
             try {
-                imageFileNames = await ResolveImageFileNames(true); // UPDATE mode
+                // NOT KEEP -> upload new, use new filenames
+                if(!keepPhotos) {
+                    imageFileNames = await UploadImagesReturnNames(); // UPDATE mode
+                } else {
+                    imageFileNames = merchant.images;
+                }
             } catch (err) {
                 alert((err as Error).message);
                 setIsSaving(false);
                 return;
             }
 
-            // 2) Build updated merchant payload via wrapper
+            // 2 Wrap Merchant
             const [lat, lon] = position;
             const coordinates: [number, number] = [lon, lat];
 
@@ -335,19 +316,40 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                 coordinates,
             });
 
-            // 3) Send PUT to backend via MerchantCUD
+            // 3 Send Merchant
             const res = await MerchantCUD("PUT", updatedMerchant, { id: documentid });
             if (!res.ok) {
                 const txt = await res.text().catch(() => "");
                 throw new Error(`Failed to update merchant: ${res.status} ${txt}`);
             }
 
-            // 4) Close modal or reload
-            if (FuncCancel) FuncCancel();
-            else window.location.reload();
+            // 4 Delete old photos if everything goes well
+            if (!keepPhotos) {
+                for (const fileName of oldFileNames) {
+                    try {
+                        await fetch(
+                            `${apiBaseUrl}/upload?file=${encodeURIComponent(
+                                fileName
+                            )}&category=merchant`,
+                            {
+                                method: "DELETE",
+                                credentials: "include",
+                            }
+                        );
+                    } catch (err) {
+                        console.error("Error deleting old merchant photo:", err);
+                        alert(
+                            "Error deleting old merchant photo: " +
+                                ((err as Error).message || err)
+                        );
+                    }
+                }
+            }
+
+            window.location.reload();
         } catch (err) {
             console.error("Error updating spot:", err);
-            alert("Error updating spot: " + ((err as Error).message || err));
+            alert("Error updating spot: " + ((err as Error).message));
         } finally {
             setIsSaving(false);
         }
@@ -383,7 +385,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
     };
 
     // Derive a safe base file name from the original File
-    const getBaseFileName = (file: File): string => {
+    const GetBaseFileName = (file: File): string => {
         const originalName = file.name || "photo.jpg";
         const dotIndex = originalName.lastIndexOf(".");
         const base = dotIndex > 0 ? originalName.slice(0, dotIndex) : originalName;
