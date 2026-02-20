@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 // Redux + RTK
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../redux-rtk/miscSlice";
+import { RootState } from "../redux-rtk/store";
 // Router
 import { Navigate } from "react-router-dom";
 
@@ -12,13 +13,15 @@ type ProtectedRouteProps = {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const dispatch = useDispatch();
   //
+  const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
+  //
   const [authChecked, setAuthChecked] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   //
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/logintest`, {
+        const response = await fetch(`${apiBaseUrl}/logintest`, {
           method: "GET",
           credentials: "include",
         });

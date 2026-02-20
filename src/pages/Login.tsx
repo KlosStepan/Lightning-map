@@ -15,6 +15,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+// Redux + RTK
+import { useSelector } from "react-redux";
+import { RootState } from "../redux-rtk/store";
 // Router
 import { useNavigate } from "react-router-dom";
 // SSO w/ Google
@@ -32,7 +35,8 @@ type LoginProps = {
 
 const Login: React.FC<LoginProps> = ({ }) => {
     const navigate = useNavigate();
-    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
+    //
+    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
     //
     const [loginWithEmail, setLoginWithEmail] = useState(false);
     //
@@ -84,7 +88,7 @@ const Login: React.FC<LoginProps> = ({ }) => {
         }
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users/login`, {
+            const response = await fetch(`${apiBaseUrl}/users/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),

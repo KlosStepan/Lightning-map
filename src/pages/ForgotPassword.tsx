@@ -6,6 +6,9 @@ import Footer from "../components/Footer";
 import ButtonUniversal from "../components/ButtonUniversal";
 // enums
 import { ButtonColor, ButtonLayout, ButtonSide } from "../enums";
+// Redux + RTK
+import { useSelector } from "react-redux";
+import { RootState } from "../redux-rtk/store";
 // MUI
 import { Box, Grid, CssBaseline, TextField, Typography } from "@mui/material";
 // Router
@@ -20,7 +23,7 @@ const ForgotPassword: React.FC = () => {
   const [emailSent, setEmailSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
+  const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

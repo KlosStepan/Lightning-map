@@ -26,6 +26,7 @@ const avatarList = [1,2,3,4,5,6,7,8,9,10,11,12,13];
 const SignUp: React.FC<SignUpProps> = ({}) => {
   const navigate = useNavigate();
   //
+  const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
   const DEBUG = useSelector((state: RootState) => state.misc.debug);
   // Profile info
   const firstNameRef = useRef<HTMLInputElement>(null);
@@ -61,7 +62,7 @@ const SignUp: React.FC<SignUpProps> = ({}) => {
     }
 
     try {
-      const registerResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/users/register`, {
+      const registerResponse = await fetch(`${apiBaseUrl}/users/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ firstName, lastName, email, avatar }),
