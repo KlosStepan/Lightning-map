@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+////typescript
+// filepath: /home/stepo/projects/Lightning-map/src/pages/ADReports.tsx
+import React, { useEffect } from "react";
 // Components
 import ADMenu from "../components/ADMenu";
 // MUI
@@ -7,6 +9,8 @@ import { Grid, Box, useMediaQuery, useTheme, Table, TableBody, TableCell, TableC
 // Redux + RTK
 import { useSelector } from "react-redux";
 import { RootState } from "../redux-rtk/store";
+// Hooks
+import { useFetchAll, useFetchReports } from "../hooks";
 // TypeScript
 import IReport from "../ts/IReport";
 import IEshop from "../ts/IEshop";
@@ -20,67 +24,35 @@ const ADReports: React.FC<ADReportsProps> = () => {
     const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
     const theme = useTheme();
     const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
-    //
-    const [reports, setReports] = useState<IReport[]>([]);
-    const [merchants, setMerchants] = useState<IMerchant[]>([]);
-    const [eshops, setEshops] = useState<IEshop[]>([]);
-    //
+
+    const { fetchAll } = useFetchAll();
+    const { reports, loadingReports, reportsError, fetchReports } = useFetchReports();
+
+    // Merchants / eshops from Redux
+    const merchants = useSelector((state: RootState) => state.data.merchants) ?? [];
+    const eshops = useSelector((state: RootState) => state.data.eshops) ?? [];
+
     useEffect(() => {
-        /*const fetchReports = async () => {
-            try {
-                const res = await fetch(`${apiBaseUrl}/reports`, {
-                    method: "GET",
-                    credentials: "include",
-                });
-                if (!res.ok) throw new Error("Failed to fetch reports");
-                const data = await res.json();
-                // Map backend fields to IReport shape for table
-                setReports(data.map((r: any) => ({
-                    id: r.id,
-                    vendorid: r.entityId,
-                    userid: r.owner,
-                    entityType: r.entityType,
-                    reason: r.reason,
-                    timestamp: r.createdAt,
-                    report: r.reason, // for compatibility with old code
-                })));
-            } catch (error) {
-                console.error("Error fetching reports:", error);
-            }
-        };*/
-        //fetchReports();
-        const fetchAll = async () => {
-            try {
-                const [reportsRes, merchantsRes, eshopsRes] = await Promise.all([
-                    fetch(`${apiBaseUrl}/reports`),
-                    fetch(`${apiBaseUrl}/merchants`),
-                    fetch(`${apiBaseUrl}/eshops`),
-                ]);
-                if (!reportsRes.ok || !merchantsRes.ok || !eshopsRes.ok) throw new Error("Failed to fetch data");
-                const reportsData = await reportsRes.json();
-                const merchantsData = await merchantsRes.json();
-                const eshopsData = await eshopsRes.json();
-                setReports(reportsData.map((r: any) => ({
-                    id: r.id,
-                    vendorid: r.entityId,
-                    userid: r.owner,
-                    entityType: r.entityType,
-                    reason: r.reason,
-                    timestamp: r.createdAt,
-                    report: r.reason,
-                })));
-                setMerchants(merchantsData);
-                setEshops(eshopsData);
-            } catch (error) {
-                console.error("Error fetching reports/merchants/eshops:", error);
-            }
-        };
-        fetchAll();
+        if (!apiBaseUrl) return;
+
+        fetchAll().catch((err: unknown) => {
+            console.error("[ADReports] fetchAll failed:", err);
+        });
+        fetchReports().catch((err: unknown) => {
+            console.error("[ADReports] fetchReports failed:", err);
+        });
     }, [apiBaseUrl]);
 
-    // Lookup maps
-    const merchantMap = React.useMemo(() => new Map(merchants.map(m => [m.properties.id, m.properties.name])), [merchants]);
-    const eshopMap = React.useMemo(() => new Map(eshops.map(e => [e.id, e.name])), [eshops]);
+    // Lookup maps (based on Redux data)
+    const merchantMap = React.useMemo(
+        () => new Map(merchants.map((m: IMerchant) => [m.properties.id, m.properties.name])),
+        [merchants]
+    );
+    const eshopMap = React.useMemo(
+        () => new Map(eshops.map((e: IEshop) => [e.id, e.name])),
+        [eshops]
+    );
+
     const getVendorName = (vendorid: string, entityType: string) => {
         if (entityType === "merchant") return merchantMap.get(vendorid) || vendorid;
         if (entityType === "eshop") return eshopMap.get(vendorid) || vendorid;
@@ -105,33 +77,47 @@ const ADReports: React.FC<ADReportsProps> = () => {
                                     Reports ( ! ) &nbsp; Listing
                                 </Typography>
                             </Grid>
-                        <TableContainer component={Paper} sx={{ marginTop: 2 }}>
+                        </Grid>
+
+                        {reportsError && (
+                            <Typography color="error" sx={{ mt: 2 }}>
+                                {reportsError}
+                            </Typography>
+                        )}
+
+                        <TableContainer
+                            component={Paper}
+                            sx={{ marginTop: 2, opacity: loadingReports ? 0.6 : 1 }}
+                        >
                             <Table>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell><b>Vendor name</b></TableCell>
                                         <TableCell><b>User ID</b></TableCell>
+                                        <TableCell><b>Vendor name</b></TableCell>
                                         <TableCell><b>Type</b></TableCell>
-                                        <TableCell><b>Timestamp vv</b></TableCell>
-                                        <TableCell><b>Report</b></TableCell>
+                                        <TableCell><b>Reason</b></TableCell>
+                                        <TableCell><b>Timestamp</b></TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {[...reports]
-                                        .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
-                                        .map((report, index) => (
+                                        .sort(
+                                            (a: IReport, b: IReport) =>
+                                                new Date(b.timestamp).getTime() -
+                                                new Date(a.timestamp).getTime()
+                                        )
+                                        .map((r, index) => (
                                             <TableRow key={index}>
-                                                <TableCell>{getVendorName(report.vendorid, report.entityType)}</TableCell>
-                                                <TableCell>{report.userid}</TableCell>
-                                                <TableCell>{report.entityType}</TableCell>
-                                                <TableCell>{new Date(report.timestamp).toLocaleString()}</TableCell>
-                                                <TableCell>{report.reason}</TableCell>
+                                                <TableCell>{r.userid}</TableCell>
+                                                <TableCell>{getVendorName(r.vendorid, r.entityType)}</TableCell>
+                                                <TableCell>{r.entityType}</TableCell>
+                                                <TableCell>{r.reason}</TableCell>
+                                                <TableCell>{new Date(r.timestamp).toLocaleString()}</TableCell>
                                             </TableRow>
                                         ))}
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                        </Grid>
                     </Box>
                 </Grid>
             </Grid>

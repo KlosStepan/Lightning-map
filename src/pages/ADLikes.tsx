@@ -1,13 +1,17 @@
+////typescript
+// filepath: /home/stepo/projects/Lightning-map/src/pages/ADLikes.tsx
 import React, { useEffect, useState } from "react";
-//Components
+// Components
 import ADMenu from "../components/ADMenu";
-//MUI
+// MUI
 import Typography from '@mui/material/Typography';
 import { Grid, Box, useMediaQuery, useTheme, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-//Redux+RTK
+// Redux + RTK
 import { useSelector } from "react-redux";
 import { RootState } from "../redux-rtk/store";
-//TypeScript
+// Hooks
+import { useFetchAll } from "../hooks";
+// TypeScript
 import ILike from "../ts/ILike";
 import IEshop from "../ts/IEshop";
 import IMerchant from "../ts/IMerchant";
@@ -17,65 +21,32 @@ type ADLikesProps = {
 };
 
 const ADLikes: React.FC<ADLikesProps> = () => {
-    const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
     const theme = useTheme();
     const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const [likes, setLikes] = useState<ILike[]>([]);
-    const [merchants, setMerchants] = useState<IMerchant[]>([]);
-    const [eshops, setEshops] = useState<IEshop[]>([]);
+    const { fetchAll } = useFetchAll();
+
+    // Read from Redux instead of local fetch
+    const likes = useSelector((state: RootState) => state.data.likes) ?? [];
+    const merchants = useSelector((state: RootState) => state.data.merchants) ?? [];
+    const eshops = useSelector((state: RootState) => state.data.eshops) ?? [];
 
     useEffect(() => {
-        /*const fetchLikes = async () => {
-            try {
-                const res = await fetch(`${apiBaseUrl}/likes`, {
-                    method: "GET",
-                    credentials: "include",
-                });
-                if (!res.ok) throw new Error("Failed to fetch likes");
-                const data = await res.json();
-                setLikes(data.map((l: any) => ({
-                    id: l.id,
-                    owner: l.owner,
-                    entityId: l.entityId,
-                    entityType: l.entityType,
-                    createdAt: l.createdAt,
-                })));
-            } catch (error) {
-                console.error("Error fetching likes:", error);
-            }
-        };*/
-        //fetchLikes();
-        const fetchAll = async () => {
-            try {
-                const [likesRes, merchantsRes, eshopsRes] = await Promise.all([
-                    fetch(`${apiBaseUrl}/likes`),
-                    fetch(`${apiBaseUrl}/merchants`),
-                    fetch(`${apiBaseUrl}/eshops`),
-                ]);
-                if (!likesRes.ok || !merchantsRes.ok || !eshopsRes.ok) throw new Error("Failed to fetch data");
-                const likesData = await likesRes.json();
-                const merchantsData = await merchantsRes.json();
-                const eshopsData = await eshopsRes.json();
-                setLikes(likesData.map((l: any) => ({
-                    id: l.id,
-                    owner: l.owner,
-                    entityId: l.entityId,
-                    entityType: l.entityType,
-                    createdAt: l.createdAt,
-                })));
-                setMerchants(merchantsData);
-                setEshops(eshopsData);
-            } catch (error) {
-                console.error("Error fetching likes/merchants/eshops:", error);
-            }
-        };
-        fetchAll();
-    }, [apiBaseUrl]);
+    fetchAll().catch((err: unknown) => {
+        console.error("[ADLikes] fetchAll failed:", err);
+    });
+    }, [fetchAll]);
 
     // Lookup maps
-    const merchantMap = React.useMemo(() => new Map(merchants.map(m => [m.properties.id, m.properties.name])), [merchants]);
-    const eshopMap = React.useMemo(() => new Map(eshops.map(e => [e.id, e.name])), [eshops]);
+    const merchantMap = React.useMemo(
+        () => new Map(merchants.map((m: IMerchant) => [m.properties.id, m.properties.name])),
+        [merchants]
+    );
+    const eshopMap = React.useMemo(
+        () => new Map(eshops.map((e: IEshop) => [e.id, e.name])),
+        [eshops]
+    );
+
     const getVendorName = (entityId: string, entityType: string) => {
         if (entityType === "merchant") return merchantMap.get(entityId) || entityId;
         if (entityType === "eshop") return eshopMap.get(entityId) || entityId;
@@ -109,7 +80,11 @@ const ADLikes: React.FC<ADLikesProps> = () => {
                                 </TableHead>
                                 <TableBody>
                                     {[...likes]
-                                        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                                        .sort(
+                                            (a: ILike, b: ILike) =>
+                                                new Date(b.createdAt).getTime() -
+                                                new Date(a.createdAt).getTime()
+                                        )
                                         .map((like, index) => (
                                             <TableRow key={index}>
                                                 <TableCell>{like.owner}</TableCell>
