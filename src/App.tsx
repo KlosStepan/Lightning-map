@@ -33,8 +33,8 @@ import { useTheme } from '@mui/material/styles';
 // Redux + RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "./redux-rtk/store";
-import { setMerchants, setEshops, setLikes } from './redux-rtk/dataSlice';
-import { setUser } from "./redux-rtk/miscSlice";
+// Hooks
+import { useFetchAll } from "./hooks";
 // Router
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // TypeScript
@@ -65,6 +65,8 @@ function App() {
     const eshops = useSelector((state: RootState) => state.data.eshops);
     const likes = useSelector((state: RootState) => state.data.likes);
 
+    const { fetchAll } = useFetchAll();
+
     if (DEBUG) {
         console.log("<DEBUG> App.tsx");
         console.log("theme", theme);
@@ -83,45 +85,11 @@ function App() {
             return;
         }
 
-        const getMerchants = async () => {
-            const res = await fetch(`${apiBaseUrl}/merchants`);
-            const merchants = await res.json();
-            dispatch(setMerchants(merchants));
-        };
-        const getEshops = async () => {
-            const res = await fetch(`${apiBaseUrl}/eshops`);
-            const eshops = await res.json();
-            dispatch(setEshops(eshops));
-        };
-        const getLikes = async () => {
-            const res = await fetch(`${apiBaseUrl}/likes`);
-            const likes = await res.json();
-            dispatch(setLikes(likes));
-        };
-        const checkAuth = async () => {
-            try {
-                const res = await fetch(`${apiBaseUrl}/logintest`, {
-                    method: "GET",
-                    credentials: "include",
-                });
-                if (res.ok) {
-                    const user = await res.json();
-                    dispatch(setUser(user));
-                } else {
-                    dispatch(setUser(null));
-                }
-            } catch (err) {
-                console.error("[App] checkAuth failed:", err);
-                dispatch(setUser(null));
-            }
-        };
-
-        getMerchants();
-        getEshops();
-        getLikes();
-        checkAuth();
-    }, [dispatch, apiBaseUrl, DEBUG]);
-
+        fetchAll().catch((err: unknown) => {
+            console.error("[App] fetchAll failed:", err);
+        });
+    }, [apiBaseUrl, DEBUG, fetchAll, dispatch]);
+    
     return (
         <Router>
             <CssBaseline />
