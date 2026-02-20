@@ -1,6 +1,6 @@
 ////typescript
 // filepath: /home/stepo/projects/Lightning-map/src/hooks/index.ts
-import { useState } from "react";
+import { useState, useCallback } from "react";
 // Redux + RTK
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux-rtk/store";
@@ -15,7 +15,7 @@ export const useFetchAll = () => {
   const dispatch = useDispatch();
   const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
 
-  const fetchAll = async (): Promise<void> => {
+  const fetchAll = useCallback(async (): Promise<void> => {
     if (!apiBaseUrl) {
       console.error("[useFetchAll] apiBaseUrl is null – cannot fetch data");
       return;
@@ -42,12 +42,12 @@ export const useFetchAll = () => {
     } else {
       dispatch(setUser(null));
     }
-  };
+  }, [apiBaseUrl, dispatch]);
 
   return { fetchAll };
 };
 
-// --- new hook: useFetchReports ---
+// --- useFetchReports stays as is ---
 
 export const useFetchReports = () => {
   const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
@@ -55,7 +55,7 @@ export const useFetchReports = () => {
   const [loadingReports, setLoadingReports] = useState(false);
   const [reportsError, setReportsError] = useState<string | null>(null);
 
-  const fetchReports = async (): Promise<void> => {
+  const fetchReports = useCallback(async (): Promise<void> => {
     if (!apiBaseUrl) {
       console.error("[useFetchReports] apiBaseUrl is null – cannot fetch reports");
       setReportsError("API base URL is not configured");
@@ -87,7 +87,7 @@ export const useFetchReports = () => {
     } finally {
       setLoadingReports(false);
     }
-  };
+  }, [apiBaseUrl]);
 
   return { reports, loadingReports, reportsError, fetchReports };
 };
