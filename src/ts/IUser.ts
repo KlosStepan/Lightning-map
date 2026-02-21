@@ -13,6 +13,10 @@ interface IUser {
   avatarUrl?: string;   // <-- Optional, AvatarURL Google
   googleId?: string;    // <-- Optional, Google ID
   authSource?: string;  // <-- Optional, field like authsource: "google"
+
+  // NEW: per-type caps
+  maxEshops?: number;
+  maxMerchants?: number;
 }
 
 export default IUser;

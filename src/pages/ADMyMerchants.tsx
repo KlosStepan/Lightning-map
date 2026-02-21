@@ -1,3 +1,5 @@
+////typescript
+// filepath: /home/stepo/projects/Lightning-map/src/pages/ADMyMerchants.tsx
 import React, { useEffect, useMemo, useState } from "react";
 // Components
 import ADMenu from "../components/ADMenu";
@@ -11,6 +13,7 @@ import FormAddSpot from "../forms/FormAddSpot";
 import Typography from '@mui/material/Typography';
 import { Grid, Box, useMediaQuery, useTheme } from '@mui/material';
 import Modal from "@mui/material/Modal";
+import Tooltip from "@mui/material/Tooltip";
 // Redux + RTK
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux-rtk/store";
@@ -40,13 +43,26 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = () => {
     //
     const [likeCountsMap, setLikeCountsMap] = useState(new Map());
     
+    // NEW: caps
+    const maxMerchants = user?.maxMerchants;
+    const currentMerchantsCount = myMerchants?.length ?? 0;
+    const hasReachedMerchantLimit =
+        typeof maxMerchants === "number" && currentMerchantsCount >= maxMerchants;
+
     if (DEBUG) {
-        console.log("cnt(myMerchants): " + myMerchants?.length);
+        console.log("cnt(myMerchants): " + myMerchants?.length, "maxMerchants:", maxMerchants);
     }
 
     // Functions for Merchants
     const FuncAddSpot = (): Promise<void> => {
-        console.log("AddSpot")
+        console.log("AddSpot");
+        if (hasReachedMerchantLimit) {
+            alert(
+              `You reached the maximum number of spots/merchants (${maxMerchants}). ` +
+              `Please contact support if you need a higher limit.`
+            );
+            return Promise.resolve();
+        }
         handleOpen();
         return Promise.resolve();
     }
@@ -131,9 +147,40 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = () => {
                     >
                         <Grid container spacing={2} alignItems="center">
                             <Grid item xs={6}>
-                                <Typography variant="h1" component="h1">
-                                    Added spots
-                                </Typography>
+                                <Tooltip
+                                    arrow
+                                    title={
+                                        <span style={{ fontSize: "0.8rem" }}>
+                                            Hit {" "}
+                                            <b>{maxMerchants ?? "your current"}</b>{" "}
+                                            merchants limit? This is a safety cap to prevent abuse.
+                                            <br />
+                                            <br />
+                                            For higher limits, please contact{" "}
+                                            <b>stepan(at)lightningeverywhere.com</b>.
+                                            <br />
+                                            Thank you for understanding.
+                                        </span>
+                                    }
+                                >
+                                    <Typography
+                                        variant="h1"
+                                        component="h1"
+                                        sx={{ cursor: "help" }}
+                                    >
+                                        Added spots{" "}
+                                        {typeof maxMerchants === "number" && (
+                                            <span
+                                                style={{
+                                                    fontSize: "0.8em",
+                                                    color: "#6B7280",
+                                                }}
+                                            >
+                                                (avail. limit {currentMerchantsCount}/{maxMerchants})
+                                            </span>
+                                        )}
+                                    </Typography>
+                                </Tooltip>
                             </Grid>
                             <Grid item xs={6} container justifyContent="flex-end">
                                 <ButtonUniversal
@@ -144,9 +191,15 @@ const ADMyMerchants: React.FC<ADMyMerchantsProps> = () => {
                                     hoverColor={ButtonColor.PinkHover}
                                     textColor="white"
                                     actionDelegate={FuncAddSpot}
+                                    disabled={hasReachedMerchantLimit}
                                 />
                             </Grid>
                         </Grid>
+                        {hasReachedMerchantLimit && (
+                            <Typography sx={{ mt: 1, color: "#888" }}>
+                                You have reached your spots/merchants limit ({maxMerchants}).
+                            </Typography>
+                        )}
                         <Grid container spacing={2}>
                             {myMerchants && myMerchants.length > 0 ? (
                                 myMerchants.map((merchant: IMerchantADWrapper, index: number) => (

@@ -27,8 +27,11 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
     const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
     const DEBUG = useSelector((state: RootState) => state.misc.debug);
 
-    // Get user from Redux
+    // Get user + owned entities from Redux
     const user = useSelector((state: RootState) => state.misc.user);
+    const myMerchants = useSelector((state: RootState) => state.misc.userMerchants);
+    const myEshops = useSelector((state: RootState) => state.misc.userEshops);
+
     // Avatar stuff
     const avatarList = [1,2,3,4,5,6,7,8,9,10,11,12,13];
     const [avatar, setAvatar] = useState<number>(user?.avatar || 1);
@@ -251,6 +254,28 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                             </Box>
                         </Grid>
                         {/* Right: Debug/info panel */}
+                        <>
+                            <Box mt={3}>
+                                <Typography variant="h2" component="h5">
+                                    Limits
+                                </Typography>
+                                <Typography sx={{ mt: 0.5, color: "#555" }}>
+                                    Spots / merchants:&nbsp;
+                                    <b>
+                                    {myMerchants?.length ?? 0}
+                                        {" / "}
+                                    {user?.maxMerchants}
+                                    </b>
+                                </Typography>
+                                <Typography sx={{ mt: 0.5, color: "#555" }}>
+                                    E-shops:&nbsp;
+                                        <b>
+                                        {myEshops?.length}
+                                        {" / "}
+                                        {user?.maxEshops}
+                                        </b>
+                                </Typography>
+                            </Box>
                         {DEBUG && editMode ? (
                             <Grid item xs={12} md={6}>
                                 <Box sx={{ padding: 3, borderRadius: 2, minHeight: 300 }}>
@@ -285,6 +310,7 @@ const ADMyAccount: React.FC<ADMyAccountProps> = () => {
                                 </Box>
                             </Grid>
                         ) : null}
+                        </>
                     </Grid>
                     </Box>
                 </Grid>
