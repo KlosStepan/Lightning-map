@@ -34,5 +34,7 @@ spec:
           value: "<BLOG>"
         - name: REACT_APP_API_BASE_URL
           value: "<API_BASE_URL>"
+        - name: REACT_APP_GOOGLE_CLIENT_ID
+          value: "<GOOGLE_CLIENT_ID>"
         - name: MESSAGE
           value: "Hello from Lightning Everywhere Deployment!"
