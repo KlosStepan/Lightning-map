@@ -1,5 +1,5 @@
 # Lightning Everywhere
-This project aims to collect all available `Spots` & `E-shops` that accept Lightning Network.
+This project aims to collect all available `Merchants` & `E-shops` that accept Lightning Network.
 
 ## Design
 https://www.figma.com/design/0xgUxXI1FKn5PJYybNnAyv/LightningEverywhere?node-id=32-11&t=zdPUxTvmZHIG2Hsj-0
@@ -7,7 +7,7 @@ https://www.figma.com/design/0xgUxXI1FKn5PJYybNnAyv/LightningEverywhere?node-id=
 ## Preview
 Everybody will be able to Register / Sign Up With Google to add pin to our map soon. 
 <p align="center">
-  <img src="src/img/LightningEverywhere.png" alt="lightningeverywhere"/>
+  <img src="src/img/LightningEverywhere2.png" alt="lightningeverywhere"/>
 </p>
 
 ## IN PROGRESS
