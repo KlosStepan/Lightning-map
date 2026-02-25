@@ -144,9 +144,10 @@ const Login: React.FC<LoginProps> = ({ }) => {
                                 Login
                             </Typography>
                             <span style={{ paddingTop: "12px" }} />
+                            <span>DEBUG (v)</span>
                             <div
                                 ref={googleButtonRef}
-                                style={{ width: 0, height: 0, overflow: "hidden" }}
+                                style={{ /*width: 0, height: 0, overflow: "hidden"*/ }}
                             >
                                 <GoogleLogin
                                     onSuccess={handleGoogleLogin}
