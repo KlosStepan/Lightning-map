@@ -46,7 +46,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
       }
     };
     checkAuth();
-  }, [dispatch]);
+  }, [apiBaseUrl, dispatch]);
 
   if (!authChecked) return null;
 
