@@ -83,6 +83,8 @@ function App() {
                 console.error("[App] apiBaseUrl is null – check REACT_APP_API_BASE_URL");
             }
             return;
+        } else {
+            console.log("[App] apiBaseUrl", apiBaseUrl);
         }
 
         fetchAll().catch((err: unknown) => {
