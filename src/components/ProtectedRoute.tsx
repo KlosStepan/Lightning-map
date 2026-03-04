@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
+// Axios
+import axios from "axios";
 // Redux + RTK
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../redux-rtk/miscSlice";
 import { RootState } from "../redux-rtk/store";
+// Types
+import IUser from "../ts/IUser";
 // Router
 import { Navigate } from "react-router-dom";
 
@@ -12,40 +16,35 @@ type ProtectedRouteProps = {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const dispatch = useDispatch();
-  //
   const apiBaseUrl = useSelector((state: RootState) => state.misc.apiBaseUrl);
-  //
+
   const [authChecked, setAuthChecked] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  //
+
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await fetch(`${apiBaseUrl}/logintest`, {
-          method: "GET",
-          credentials: "include",
+        const res = await axios.get<IUser>(`${apiBaseUrl}/logintest`, {
+          withCredentials: true,
         });
-        if (response.ok) {
-          const data = await response.json();
-          console.log("[ProtectedRoute] /logintest response:", data);
-          setIsAuthenticated(true);
-          dispatch(setUser(data || null));
-          console.log("[ProtectedRoute] setUser dispatched:", data || null);
-        } else {
-          setIsAuthenticated(false);
-          dispatch(setUser(null));
-          console.log("[ProtectedRoute] Not authenticated, setUser(null) dispatched");
-        }
+
+        const user = res.data; // IUser
+        console.log("[ProtectedRoute] /logintest response:", user);
+
+        setIsAuthenticated(true);
+        dispatch(setUser(user));
+        console.log("[ProtectedRoute] setUser dispatched:", user);
       } catch (err) {
         console.error("[ProtectedRoute] checkAuth failed:", err);
         setIsAuthenticated(false);
         dispatch(setUser(null));
-        console.log("[ProtectedRoute] Network error, setUser(null) dispatched");
+        console.log("[ProtectedRoute] Not authenticated / network error");
       } finally {
         setAuthChecked(true);
       }
     };
-    checkAuth();
+
+    if (apiBaseUrl) checkAuth();
   }, [apiBaseUrl, dispatch]);
 
   if (!authChecked) return null;

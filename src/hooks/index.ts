@@ -21,11 +21,11 @@ export const useFetchAll = () => {
       return;
     }
 
-    const [merchantsRes, eshopsRes, likesRes/*, authRes*/] = await Promise.all([
+    const [merchantsRes, eshopsRes, likesRes, authRes] = await Promise.all([
       fetch(`${apiBaseUrl}/merchants`),
       fetch(`${apiBaseUrl}/eshops`),
       fetch(`${apiBaseUrl}/likes`),
-      //fetch(`${apiBaseUrl}/logintest`, { method: "GET", credentials: "include" }),
+      fetch(`${apiBaseUrl}/logintest`, { method: "GET", credentials: "include" }),
     ]);
 
     const merchants: IMerchant[] = await merchantsRes.json();
@@ -36,12 +36,12 @@ export const useFetchAll = () => {
     dispatch(setEshops(eshops));
     dispatch(setLikes(likes));
 
-    /*if (authRes.ok) {
+    if (authRes.ok) {
       const user = await authRes.json();
       dispatch(setUser(user));
     } else {
       dispatch(setUser(null));
-    }*/
+    }
   }, [apiBaseUrl, dispatch]);
 
   return { fetchAll };
