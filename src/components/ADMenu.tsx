@@ -103,7 +103,7 @@ const ADMenu: React.FC<ADMenuProps> = () => {
                             {/* Admin Menu */}
                             {user /* && user.email === "stepanklos@gmail.com" */ && (
                                 <>
-                                    {menuAdminLinks.map(({ icon, title, path }) => (
+                                    {/*{menuAdminLinks.map(({ icon, title, path }) => (
                                         <Grid item xs={3} key={path}>
                                             <Link to={path} style={{ textDecoration: 'none' }}>
                                                 <Box sx={{ textAlign: 'center' }}>
@@ -114,7 +114,7 @@ const ADMenu: React.FC<ADMenuProps> = () => {
                                     ))}
                                     <Grid item xs={12}>
                                         <HrGreyCustomSeparator marginTop="0px" marginBottom="0px" />
-                                    </Grid>
+                                    </Grid>*/}
                                 </>
                             )}
                             {/* Normal Menu */}
