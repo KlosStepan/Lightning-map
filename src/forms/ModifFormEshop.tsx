@@ -129,7 +129,7 @@ const ModifFormEshop: React.FC<ModifFormEshopProps> = ({FuncCancel, edit = false
             logoFile: logoFileName,
             country: "CZ",
             url: webRef.current?.value || "",
-            visible: false,          // new e-shops hidden by default
+            visible: true,          // NEW ESHOP VISIBLE BY DEFAULT
         };
     };
 

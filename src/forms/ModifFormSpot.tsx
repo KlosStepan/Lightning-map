@@ -162,7 +162,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
             tags: tags || [],
             socials: socials || [],
             imageFiles: imageFileNames,    // backend takes file names from /upload
-            visible: false,                // new spots default hidden
+            visible: true,          // NEW SPOT VISIBLE BY DEFAULT
         };
     };
 
