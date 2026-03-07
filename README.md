@@ -1,7 +1,7 @@
 # Lightning Everywhere
-This project aims to collect all available `Merchants` & `E-shops` that accept Lightning Network worldwide.
+This project aims to collect all available `Merchants` & `E-shops` that accept Lightning Network [^1] (Bitcoin L2) worldwide.
 
-## Figma  design: smékal [^1]
+## Figma  design: smékal [^2]
 https://www.figma.com/design/0xgUxXI1FKn5PJYybNnAyv/LightningEverywhere?node-id=32-11&t=zdPUxTvmZHIG2Hsj-0
 
 ## Preview
@@ -36,7 +36,7 @@ export REACT_APP_BLOG=false
 export REACT_APP_API_BASE_URL="http://localhost:8080/api"
 export REACT_APP_GOOGLE_CLIENT_ID=
 ```  
-then use direnv [^2] run `direnv allow` which looks like  
+then use direnv [^3] run `direnv allow` which looks like  
 ```
 [stepo@archlinux Lightning-map]$ direnv allow
 direnv: loading ~/projects/Lightning-map/.envrc
@@ -60,5 +60,6 @@ Lightning Everywhere notes
 
 Long live https://lightningeverywhere.com/
 
-[^1]: https://filipsmekal.cz/
-[^2]: https://man.archlinux.org/man/direnv.1.en
+[^1]: https://lightning.network/
+[^2]: https://filipsmekal.cz/
+[^3]: https://man.archlinux.org/man/direnv.1.en
