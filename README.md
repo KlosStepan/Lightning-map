@@ -7,7 +7,11 @@ https://www.figma.com/design/0xgUxXI1FKn5PJYybNnAyv/LightningEverywhere?node-id=
 ## Preview
 Everybody will be able to Register / Sign Up With Google to add pin to our map soon. 
 <p align="center">
-  <img src="src/img/LightningEverywhere2.png" alt="lightningeverywhere"/>
+  <!-- Desktop (75% width) -->
+  <img src="src/img/LightningEverywhere2.png" alt="lightningeverywhere desktop" width="70%" />
+  <span>&nbsp;</span>
+  <!-- Mobile (25% width, tall screenshot) -->
+  <img src="src/img/LightningEverywhere2-mobile.png" alt="lightningeverywhere mobile" width="22.7%" />
 </p>
 
 ## IN PROGRESS
