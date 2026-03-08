@@ -35,6 +35,11 @@ export const mapFilteringSlice = createSlice({
           }
         });
         state.filters["All"] = !areAllTrue;  // Update "All" based on the toggle state
+
+        // ✅ If user just turned ALL filters OFF -> close any open selected tile
+        if (state.filters["All"] === false) {
+          state.selected = null;
+        }
       } else {
         // Toggle the individual filter
         state.filters[filter] = !state.filters[filter];
@@ -44,6 +49,15 @@ export const mapFilteringSlice = createSlice({
           .filter((key) => key !== "All")
           .every(key => state.filters[key]);
         state.filters["All"] = areAllSelected;
+
+        // ✅ NEW: if user reached "all unselected" (all individual filters false), close selected tile
+        const areAllUnselected = Object.keys(state.filters)
+          .filter((key) => key !== "All")
+          .every((key) => state.filters[key] === false);
+
+        if (areAllUnselected) {
+          state.selected = null;
+        }
       }
     },
     setSelected: (state, action: PayloadAction<IMerchant|null>) => {
