@@ -36,5 +36,7 @@ spec:
           value: "<API_BASE_URL>"
         - name: REACT_APP_GOOGLE_CLIENT_ID
           value: "<GOOGLE_CLIENT_ID>"
+        - name: REACT_APP_GA_MEASUREMENT_ID
+          value: "<GA_MEASUREMENT_ID>"
         - name: MESSAGE
           value: "Hello from Lightning Everywhere Deployment!"

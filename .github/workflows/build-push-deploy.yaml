@@ -27,6 +27,7 @@ jobs:
           --build-arg REACT_APP_BLOG="${{ secrets.REACT_APP_BLOG }}" \
           --build-arg REACT_APP_API_BASE_URL="${{ secrets.REACT_APP_API_BASE_URL }}" \
           --build-arg REACT_APP_GOOGLE_CLIENT_ID="${{ secrets.REACT_APP_GOOGLE_CLIENT_ID }}" \
+          --build-arg REACT_APP_GA_MEASUREMENT_ID="${{ secrets.REACT_APP_GA_MEASUREMENT_ID }}" \
           -t stepanklos/lightningeverywhere:$(echo $GITHUB_SHA | head -c7) .
 
     - name: Dockerhub login
@@ -44,6 +45,7 @@ jobs:
         sed -i 's|<BLOG>|'${{ secrets.REACT_APP_BLOG }}'|' $GITHUB_WORKSPACE/config/deployment.yaml
         sed -i 's|<API_BASE_URL>|'${{ secrets.REACT_APP_API_BASE_URL }}'|' $GITHUB_WORKSPACE/config/deployment.yaml
         sed -i 's|<GOOGLE_CLIENT_ID>|'${{ secrets.REACT_APP_GOOGLE_CLIENT_ID }}'|' $GITHUB_WORKSPACE/config/deployment.yaml
+        sed -i 's|<GA_MEASUREMENT_ID>|'${{ secrets.REACT_APP_GA_MEASUREMENT_ID }}'|' $GITHUB_WORKSPACE/config/deployment.yaml
 
     - name: Save DigitalOcean kubeconfig with short-lived credentials
       run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.CLUSTER_NAME }}

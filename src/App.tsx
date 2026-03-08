@@ -37,8 +37,11 @@ import { RootState } from "./redux-rtk/store";
 import { useFetchAll } from "./hooks";
 // Router
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 // TypeScript
 import ILink from './ts/ILink';
+// Utils
+import { gaPageView } from "./utils/ga";
 
 
 // Website menu
@@ -53,6 +56,17 @@ const pages: ILink[] = [
 
 //TODO change to ILink[] too for administration etc.
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
+
+const AnalyticsListener: React.FC = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    gaPageView(location.pathname + location.search);
+  }, [location]);
+
+  return null;
+};
+
 
 function App() {
     const dispatch = useDispatch();
@@ -94,6 +108,7 @@ function App() {
     
     return (
         <Router>
+            <AnalyticsListener />
             <CssBaseline />
             <Grid container justifyContent="center">
                 <Grid item xs={10} md={11} lg={7}>
