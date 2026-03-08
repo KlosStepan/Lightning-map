@@ -193,12 +193,11 @@ const TileEshop: React.FC<TileEshopProps> = ({ likes, tile, showReportButton = t
                     >
                         <CardMedia
                             component="img"
-                            image={getBackendImageUrl(
-                                tile.logo,
-                                apiBaseUrl || "",
-                                "eshop",        // category
-                                false           // original? false => preview
-                            )}
+                            image={
+                                tile.logo && tile.logo.trim() !== ""
+                                ? getBackendImageUrl(tile.logo, apiBaseUrl || "", "eshop", false)
+                                : "/dummy-eshop.png"
+                            }
                             alt={tile.name}
                             sx={{
                                 maxWidth: "100%",

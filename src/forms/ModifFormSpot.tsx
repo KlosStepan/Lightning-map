@@ -113,20 +113,19 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
     }, [merchant]);
 
     const UploadImagesReturnNames = async (): Promise<string[]> => {
-        if (files.length > 0) {
-            for (const file of files) {
-                if (file.size === 0 || !file.type.startsWith("image/")) {
-                    throw new Error("Please select valid image file(s).");
-                }
-            }
-
-            const uploaded = await Promise.all(
-                files.map((file) => UploadImage(file))
-            );
-
-            return uploaded.map((u) => u.fileName); // should be plain names
+        // ✅ Allow merchant with 0 photos
+        if (files.length === 0) {
+            return [];
         }
-        throw new Error("No new images successfully updated.");
+
+        for (const file of files) {
+            if (file.size === 0 || !file.type.startsWith("image/")) {
+                throw new Error("Please select valid image file(s).");
+            }
+        }
+
+        const uploaded = await Promise.all(files.map((file) => UploadImage(file)));
+        return uploaded.map((u) => u.fileName); // plain names
     };
 
     const WrapSpotData = ({ updStatus, imageFileNames, coordinates }: { updStatus: boolean, imageFileNames: string[], coordinates: [number, number]}) => {
@@ -489,8 +488,10 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                     />
                 </Box>
             </React.Fragment>
+            <HrGreyCustomSeparator/>
             <Box mt={2}>
                 {/* Map - with 🗲 Picker */}
+                <Typography variant="h2" component="h5">Pin merchant on map!</Typography>
                 <MapContainer center={[latitude, longitude]} zoom={13} ref={mapRef2} style={{ height: "22vh", width: "100%" }}>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -509,7 +510,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
             </Box>
             <HrGreyCustomSeparator marginTop={10} marginBottom={5}/>
             <Box>
-                <Typography variant="h2" component="h5">Tags &nbsp; &nbsp;
+                <Typography variant="h2" component="h5">Tags: &nbsp; &nbsp;
                     {tagsAll.map((tag: string) => (
                         <React.Fragment key={tag}>
                             <TagMerchant tag={tag} edit={true} selected={tags.includes(tag)} actionDelegate={handleTagPressed} /> &nbsp;
@@ -530,6 +531,7 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
             </Box>
             <HrGreyCustomSeparator marginTop={0} marginBottom={0}/>
             <Box mt={2}>
+                <Typography variant="h2" component="h5">Photos</Typography>
                 {edit && (
                     <React.Fragment>
                         <Box display="flex" alignItems="center" flexWrap="wrap" mt={1}>

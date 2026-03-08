@@ -319,12 +319,11 @@ const TileMerchantBig: React.FC<TileMerchantBigProps> = ({
                             ) : (
                                 <CardMedia
                                     component="img"
-                                    image={getBackendImageUrl(
-                                        tile.images[0],
-                                        apiBaseUrl || "",
-                                        "merchant",
-                                        false
-                                    )}
+                                    image={
+                                    tile.images?.[0] && tile.images[0].trim() !== ""
+                                        ? getBackendImageUrl(tile.images[0], apiBaseUrl || "", "merchant", false)
+                                        : "/dummy-merchant.png"
+                                    }
                                     alt={tile.name}
                                     sx={{
                                         height: 216,

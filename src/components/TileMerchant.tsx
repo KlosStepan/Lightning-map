@@ -65,22 +65,22 @@ const TileMerchant: React.FC<TileMerchantProps> = ({ likes, tile/*, index*/, out
     return (
         <Container maxWidth="sm" sx={{ ...containerOuterStyle }}>
             <Box sx={{ ...containerInnerStyleUp }}>
-                {tile.images.length < 1 ? (
-                    <div>--picture missing--</div> /* TODO dummy Merchant img*/
-                ) : (
-                    <CardMedia
-                        component="img"
-                        image={getBackendImageUrl(tile.images[0], apiBaseUrl || "", "merchant", false)}
-                        alt={tile.name}
-                        sx={{
-                            objectFit: 'cover', 
-                            height: '164px',
-                            width: '100%',
-                            borderTopLeftRadius: '16px',
-                            borderTopRightRadius: '16px',
-                        }}
-                    />
-                )}
+                <CardMedia
+                    component="img"
+                    image={
+                        tile.images?.[0] && tile.images[0].trim() !== ""
+                        ? getBackendImageUrl(tile.images[0], apiBaseUrl || "", "merchant", false)
+                        : "/dummy-merchant.png"
+                    }
+                    alt={tile.name}
+                    sx={{
+                        objectFit: 'cover', 
+                        height: '164px',
+                        width: '100%',
+                        borderTopLeftRadius: '16px',
+                        borderTopRightRadius: '16px',
+                    }}
+                />
                 <Box sx={{ ...topRight }}>
                     <IconLightningNumber number={likes} scale={1} />
                 </Box>
