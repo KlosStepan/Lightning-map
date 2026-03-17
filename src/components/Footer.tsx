@@ -46,11 +46,29 @@ const Footer: React.FC<FooterProps> = ( ) => {
                 </Grid>
                 {/* Third part: 1/4 */}
                 <Grid item xs={12} md={3}>
-                    <Typography component="h1" variant="h3" sx={{ color: '#6B7280' }}>Follow us on</Typography>
-                    {/** */}
-                    <Typography component="h2" variant="h2">Instagram</Typography>
-                    <Typography component="h2" variant="h2">X</Typography>
-                    <Typography component="h2" variant="h2">LinkedIN</Typography>
+                    <Typography component="h1" variant="h3" sx={{ color: '#6B7280' }}>
+                        Follow us on
+                    </Typography>
+
+                    <Typography component="h2" variant="h2">
+                        <a
+                            href="https://x.com/LightningEveryw"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ color: "inherit", textDecoration: "none" }}
+                        >
+                            X (Twitter)
+                        </a>
+                    </Typography>
+                    <Typography>
+                        &nbsp;
+                    </Typography>
+                    <Typography component="h2" variant="h2" sx={{ color: '#6B7280' }}>
+                        Instagram (N/A yet)
+                    </Typography>
+                    <Typography component="h2" variant="h2" sx={{ color: '#6B7280' }}>
+                        LinkedIN (N/A yet)
+                    </Typography>
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <Typography component="h3" variant="h3">2025 © Lightning. Everywhere.</Typography>
