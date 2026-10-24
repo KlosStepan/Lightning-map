@@ -56,4 +56,5 @@ Phone variants are common: map moves above the list (80vw × 30vh), the selected
 
 - Imported assets (`src/icons`, `src/img`) via `import x from "../icons/x.png"`.
 - Backend-hosted images: `getBackendImageUrl(fileName, apiBaseUrl, "merchant" | "eshop")`. Fallbacks when missing: `/dummy-merchant.png`, `/dummy-eshop.png` (in `public/`).
+- Map tiles: always use `MAP_TILE_URL` / `MAP_TILE_ATTRIBUTION` from `src/utils/mapTiles.ts` (CARTO with key, OSM fallback) — never hard-code a tile URL.
 - Map markers: `LeafletMapTwo` builds `L.divIcon`s with inline HTML (pin png + name pill); selected = purple.

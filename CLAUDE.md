@@ -28,7 +28,7 @@ CI=true npm test                 # Jest via react-scripts; only a placeholder te
 ```
 
 Env vars are **read at build time** (CRA inlines `process.env.REACT_APP_*`). Locally they come from `.envrc` via direnv (gitignored):
-`REACT_APP_API_BASE_URL`, `REACT_APP_DEBUG`, `REACT_APP_BLOG`, `REACT_APP_GOOGLE_CLIENT_ID`, `REACT_APP_GA_MEASUREMENT_ID`. Restart `npm start` after changing them.
+`REACT_APP_API_BASE_URL`, `REACT_APP_DEBUG`, `REACT_APP_BLOG`, `REACT_APP_GOOGLE_CLIENT_ID`, `REACT_APP_GA_MEASUREMENT_ID`, `REACT_APP_CARTO_API_KEY` (map tiles; empty → OSM fallback, see `src/utils/mapTiles.ts`). Restart `npm start` after changing them.
 
 ## Directory map
 
@@ -46,7 +46,7 @@ src/
   redux-rtk/           store.ts + slices: misc (env/user), data (merchants/eshops/likes), mapFiltering
   hooks/index.ts       useFetchAll, useFetchReports
   ts/                  Domain interfaces, one per file: I{BaseEntity,Merchant,Eshop,Like,Report,User,Social,Link}
-  utils/               ga.ts (analytics), image.ts (getBackendImageUrl)
+  utils/               ga.ts (analytics), image.ts (getBackendImageUrl), mapTiles.ts (Leaflet tile URL + attribution)
   icons/ img/ fonts/   Imported assets (webpack). public/ = static files served from / (dummy-*.png fallbacks)
   dummy/               Sample JSON (only ADApproveNewEntries still uses it)
 config/deployment.yaml K8s Service+Deployment with <PLACEHOLDER> tokens filled by CI

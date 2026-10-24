@@ -35,6 +35,8 @@ export REACT_APP_DEBUG=true
 export REACT_APP_BLOG=false
 export REACT_APP_API_BASE_URL="http://localhost:8080/api"
 export REACT_APP_GOOGLE_CLIENT_ID=
+export REACT_APP_GA_MEASUREMENT_ID=
+export REACT_APP_CARTO_API_KEY=   # free key: https://carto.com/basemaps/apikey (empty = OSM tiles fallback)
 ```  
 then use direnv [^3] run `direnv allow` which looks like  
 ```

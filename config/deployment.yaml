@@ -38,5 +38,7 @@ spec:
           value: "<GOOGLE_CLIENT_ID>"
         - name: REACT_APP_GA_MEASUREMENT_ID
           value: "<GA_MEASUREMENT_ID>"
+        - name: REACT_APP_CARTO_API_KEY
+          value: "<CARTO_API_KEY>"
         - name: MESSAGE
           value: "Hello from Lightning Everywhere Deployment!"

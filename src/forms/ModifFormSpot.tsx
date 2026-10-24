@@ -23,6 +23,7 @@ import { IMerchantTile } from "../ts/IMerchant";
 import ISocial from "../ts/ISocial";
 // Utils
 import { getBackendImageUrl } from "../utils/image";
+import { MAP_TILE_URL, MAP_TILE_ATTRIBUTION } from "../utils/mapTiles";
 import imageCompression from "browser-image-compression"; // <-- add this
 
 const tagsAll = ["Food & Drinks", "Shops", "Services"];
@@ -494,8 +495,8 @@ const ModifFormSpot: React.FC<ModifFormSpotProps> = ({FuncCancel, edit = false, 
                 <Typography variant="h2" component="h5">Pin merchant on map!</Typography>
                 <MapContainer center={[latitude, longitude]} zoom={13} ref={mapRef2} style={{ height: "22vh", width: "100%" }}>
                     <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+                        attribution={MAP_TILE_ATTRIBUTION}
+                        url={MAP_TILE_URL}
                     />
                     <Marker
                         position={position}

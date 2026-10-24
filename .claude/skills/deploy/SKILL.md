@@ -20,7 +20,7 @@ gh run list --workflow=build-push-deploy.yaml --limit 3
 gh run watch <run-id>
 ```
 
-The image tag is the first 7 chars of the commit SHA. Secrets used: `REACT_APP_BLOG`, `REACT_APP_API_BASE_URL`, `REACT_APP_GOOGLE_CLIENT_ID`, `REACT_APP_GA_MEASUREMENT_ID`, `DOCKER_USERNAME`, `DOCKER_PASSWORD`, `DIGITALOCEAN_ACCESS_TOKEN`, `CLUSTER_NAME`.
+The image tag is the first 7 chars of the commit SHA. Secrets used: `REACT_APP_BLOG`, `REACT_APP_API_BASE_URL`, `REACT_APP_GOOGLE_CLIENT_ID`, `REACT_APP_GA_MEASUREMENT_ID`, `REACT_APP_CARTO_API_KEY`, `DOCKER_USERNAME`, `DOCKER_PASSWORD`, `DIGITALOCEAN_ACCESS_TOKEN`, `CLUSTER_NAME`.
 
 ## Local image (manual, from README)
 
@@ -30,6 +30,7 @@ docker build \
   --build-arg REACT_APP_API_BASE_URL=https://lightningeverywhere.com/api \
   --build-arg REACT_APP_GOOGLE_CLIENT_ID=... \
   --build-arg REACT_APP_GA_MEASUREMENT_ID=... \
+  --build-arg REACT_APP_CARTO_API_KEY=... \
   -t stepanklos/lightningeverywhere:<tag> .
 docker run --rm -p 8080:8080 stepanklos/lightningeverywhere:<tag>   # smoke test at http://localhost:8080
 ```

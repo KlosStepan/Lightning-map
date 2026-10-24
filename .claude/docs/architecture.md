@@ -66,7 +66,7 @@ state.mapFiltering.selected
 likes → Map<entityId,count> (local state, optimistic +/-1 via FuncDrillIncrDecrLike)
 ```
 
-Map defaults to Prague (50.0755, 14.4378), zoom 13, CARTO `light_all` tiles.
+Map defaults to Prague (50.0755, 14.4378), zoom 13, CARTO `light_all` tiles when `REACT_APP_CARTO_API_KEY` is set (keyless CARTO requests get "API KEY REQUIRED" watermark tiles), otherwise OSM standard tiles.
 
 ## Add/Edit entity flow
 

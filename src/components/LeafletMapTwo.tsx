@@ -5,6 +5,7 @@ import L from "leaflet";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux-rtk/store";
 import IMerchant  from "../ts/IMerchant";
+import { MAP_TILE_URL, MAP_TILE_ATTRIBUTION } from "../utils/mapTiles";
 
 import group10 from "../icons/group10.png";
 import group13 from "../icons/group13.png";
@@ -60,8 +61,8 @@ const LeafletMapTwo: React.FC<LeafletMapTwoProps> = ({ data, onMerchantSelect, w
   return (
     <MapContainer center={[latitude, longitude]} zoom={13} ref={mapRef} style={{ height: h, width: w }}>
       <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+        attribution={MAP_TILE_ATTRIBUTION}
+        url={MAP_TILE_URL}
       />
       {data?.map((merchant, index) => (
         <Marker
