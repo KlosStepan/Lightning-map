@@ -27,18 +27,18 @@ const WhyLightning = () => {
   const tiles = [
     {
       image: transactionspeed,
-      title: "Transaction Speed",
-      paragraph: "Bitcoin Lightning enables instant microtransactions off the main Bitcoin blockchain. This means users can make payments practically instantly, which is much faster than traditional blockchain transactions that can take several minutes to hours.",
+      title: "Pay in a second",
+      paragraph: "Lightning Network payments go through in about a second, just as fast as tapping a card. No waiting at the checkout.",
     },
     {
       image: lowfees,
-      title: "Low Fees",
-      paragraph: "Transaction fees with Bitcoin Lightning are typically much lower than with traditional on-chain transactions. This means that even when conducting frequent and small transactions, you can save on fees.",
+      title: "Fees in cents (or less)",
+      paragraph: "Paying usually costs less than a cent, so even small everyday purchases make sense, for you and the shop.",
     },
     {
       image: privacyanddecentralization,
-      title: "Privacy and Decentralization",
-      paragraph: "Bitcoin Lightning enhances privacy and decentralization by allowing users to make more anonymous payments off the main blockchain. This boosts security and trust while reducing reliance on central authorities, making it more resistant to censorship and manipulation.",
+      title: "No bank in the middle",
+      paragraph: "You pay the shop directly over Bitcoin's interoperable Lightning Network (layer 2). No bank, no card network, no chargebacks.",
     },
   ];
 

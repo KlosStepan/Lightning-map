@@ -33,7 +33,7 @@ const MiddleOfHomepage: React.FC = () => {
                   <CardMedia
                     component="img"
                     image={img1_magnet}
-                    alt="Magnet Image"
+                    alt=""
                     style={{
                       width: '90px',
                       height: '90px',
@@ -45,7 +45,7 @@ const MiddleOfHomepage: React.FC = () => {
                   <CardMedia
                     component="img"
                     image={imgs2Overlap2}
-                    alt="Image 147"
+                    alt=""
                     style={{
                       width: '199px',
                       height: '308px',
@@ -64,7 +64,7 @@ const MiddleOfHomepage: React.FC = () => {
                   <CardMedia
                     component="img"
                     image={imgs2Overlap1}
-                    alt="Image 145"
+                    alt=""
                     style={{
                       width: '242px',
                       height: '385px',
@@ -82,7 +82,7 @@ const MiddleOfHomepage: React.FC = () => {
                     <CardMedia
                       component="img"
                       image={img3Comeback}
-                      alt="Comeback Image"
+                      alt=""
                       style={{
                         width: '90px',
                         height: '90px',
@@ -124,7 +124,7 @@ const MiddleOfHomepage: React.FC = () => {
                   <CardMedia
                     component="img"
                     image={img1_magnet}
-                    alt="Magnet Image"
+                    alt=""
                     style={{
                       width: '90px',
                       height: '90px',
@@ -141,7 +141,7 @@ const MiddleOfHomepage: React.FC = () => {
                   <CardMedia
                     component="img"
                     image={imgs2Overlap1}
-                    alt="Image 145"
+                    alt=""
                     style={{
                       width: '242px',
                       height: '385px',
@@ -155,7 +155,7 @@ const MiddleOfHomepage: React.FC = () => {
                   <CardMedia
                     component="img"
                     image={imgs2Overlap2}
-                    alt="Image 147"
+                    alt=""
                     style={{
                       width: '199px',
                       height: '308px',
@@ -185,7 +185,7 @@ const MiddleOfHomepage: React.FC = () => {
                   <CardMedia
                     component="img"
                     image={img3Comeback}
-                    alt="Comeback Image"
+                    alt=""
                     style={{
                       width: '90px',
                       height: '90px',

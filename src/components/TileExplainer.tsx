@@ -23,7 +23,7 @@ const containerInnerStyle = {
 type TilePitchProps = {
   image?: string;
   title: string;
-  paragraph: string;
+  paragraph: React.ReactNode; // plain text, or richer content such as a list
   breakImageAndTitle?: boolean; // New prop to control the layout
 };
 
@@ -44,7 +44,7 @@ const TileExplainer: React.FC<TilePitchProps> = ({
                 <CardMedia
                   component="img"
                   image={image}
-                  alt="Transaction Speed"
+                  alt=""
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </div>
@@ -60,7 +60,7 @@ const TileExplainer: React.FC<TilePitchProps> = ({
                 <CardMedia
                   component="img"
                   image={image}
-                  alt="Transaction Speed"
+                  alt=""
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </div>
@@ -70,7 +70,7 @@ const TileExplainer: React.FC<TilePitchProps> = ({
             </Typography>
           </div>
         )}
-        <p>{paragraph}</p>
+        {typeof paragraph === 'string' ? <p>{paragraph}</p> : paragraph}
       </Box>
     </Container>
   );
